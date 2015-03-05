@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaskSystem", "ConsoleApplication2\MaskSystem.csproj", "{2CE6FAE1-C7D0-4A11-9883-4FEA03D8A3F6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RelationSystem", "RelationSystem\RelationSystem.csproj", "{2CE6FAE1-C7D0-4A11-9883-4FEA03D8A3F6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

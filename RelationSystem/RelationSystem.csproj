@@ -43,7 +43,7 @@
   <ItemGroup>
     <Compile Include="Calculator.cs" />
     <Compile Include="CustomTypes.cs" />
-    <Compile Include="MaskSystem.cs" />
+    <Compile Include="RelationSystem.cs" />
     <Compile Include="PersonContainer.cs" />
     <Compile Include="MaskContainer.cs" />
     <Compile Include="MAction.cs" />
