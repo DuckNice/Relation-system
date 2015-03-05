@@ -49,7 +49,6 @@ namespace NRelationSystem
 
 
 
-        public actionAndStrength CalculateActionToUse(List<MAction> possibleActions, float rat, float mor, float imp, float abi, float maskInfl, List<float> foci)
 
         public int FindRole(string roleName) 
         {
@@ -57,8 +56,8 @@ namespace NRelationSystem
         }
 
 
-        public actionAndStrength CalculateActionToUse(List<MAction> possibleActions, float rat, float mor, float imp, float maskInfl)
 
+        public actionAndStrength CalculateActionToUse(List<MAction> possibleActions, float rat, float mor, float imp, float abi, float maskInfl, List<float> foci)
         {
             actionAndStrength chosenAction = new actionAndStrength();
             chosenAction.chosenAction = new MAction("Empty", 0.0f);

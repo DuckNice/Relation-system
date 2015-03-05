@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Being.cs" />
     <Compile Include="Calculator.cs" />
     <Compile Include="CustomTypes.cs" />
     <Compile Include="RelationSystem.cs" />
