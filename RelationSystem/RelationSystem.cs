@@ -48,16 +48,18 @@ namespace NRelationSystem
             traits.Add(new Trait(traitTypes.NiceNasty, 0.2f, true));
             traits.Add(new Trait(traitTypes.ShyBolsterous, 0.2f, true));
 
-            peopleAndMasks.CreateNewMask("BillTerese", typeMask.selfPerception, new Overlay(traits));
-            peopleAndMasks.AddRuleToMask("BillTerese", "Married", 0, new Rule("Married", posActions["Greet"], 0.7f, new List<Rule>(), "Bunce"));
+            peopleAndMasks.CreateNewMask("BillTerese", typeMask.interPersonal, new Overlay(traits));
+            peopleAndMasks.AddRoleToMask("BillTerese", "Married");
+            peopleAndMasks.AddRuleToMask("BillTerese", "Married", peopleAndMasks.GetMaskRoleIndex("BillTerese", "Married"), new Rule("Married", posActions["Greet"], 0.7f, new List<Rule>(), "Married"));
 
 
             traits = new List<Trait>();
             traits.Add(new Trait(traitTypes.NiceNasty, 0.2f, true));
             traits.Add(new Trait(traitTypes.ShyBolsterous, 0.2f, true));
 
-            peopleAndMasks.CreateNewMask("TereseBill", typeMask.selfPerception, new Overlay(traits));
-            peopleAndMasks.AddRuleToMask("TereseBill", "Married", 0, new Rule("Married", posActions["Greet"], 0.7f, new List<Rule>(), "Buncess"));
+            peopleAndMasks.CreateNewMask("TereseBill", typeMask.interPersonal, new Overlay(traits));
+            peopleAndMasks.AddRoleToMask("TereseBill", "Married");
+            peopleAndMasks.AddRuleToMask("TereseBill", "Married", peopleAndMasks.GetMaskRoleIndex("TereseBill", "Married"), new Rule("Married", posActions["Greet"], 0.7f, new List<Rule>(), "Married"));
 
         }
 

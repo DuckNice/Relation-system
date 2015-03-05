@@ -49,7 +49,7 @@ namespace NRelationSystem
             }
             else
             {
-                //Log warning that the role did not exist and no rule was created.
+                Console.WriteLine("Error: role did not exist, choose other role.");
             }
         }
 
@@ -73,6 +73,11 @@ namespace NRelationSystem
             {
                 return null;
             }
+        }
+
+        public int GetMaskRoleIndex(string maskName, string roleName)
+        {
+            return instMasks[maskName].FindRole(roleName);
         }
     }
 }

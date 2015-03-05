@@ -48,7 +48,17 @@ namespace NRelationSystem
         }
 
 
+
         public actionAndStrength CalculateActionToUse(List<MAction> possibleActions, float rat, float mor, float imp, float abi, float maskInfl, List<float> foci)
+
+        public int FindRole(string roleName) 
+        {
+            return roles.FindIndex(x => x == roleName);
+        }
+
+
+        public actionAndStrength CalculateActionToUse(List<MAction> possibleActions, float rat, float mor, float imp, float maskInfl)
+
         {
             actionAndStrength chosenAction = new actionAndStrength();
             chosenAction.chosenAction = new MAction("Empty", 0.0f);
@@ -57,7 +67,7 @@ namespace NRelationSystem
             foreach (MAction curAction in possibleActions)
             {
                 List<Rule> rulesForAction = new List<Rule>();
-
+                
                 foreach(KeyValuePair<string, Rule> rule in rules)
                 {
                     if(rule.Value.actionToTrigger.Equals(curAction))
