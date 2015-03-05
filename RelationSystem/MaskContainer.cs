@@ -19,7 +19,19 @@ namespace NRelationSystem
         {
             Mask newMask = new Mask(_maskType, _maskOverlay);
 
-            instMasks.Add(name, newMask);
+            if(newMask != null && !(instMasks.ContainsKey(name)))
+            {
+                instMasks.Add(name, newMask);
+            }
+            else if (newMask != null)
+            {
+                Console.WriteLine("Error: Mask with name '" + name + "' Already Exists.");
+            }
+            else
+            {
+                Console.WriteLine("Error: Mask not created with CreateNewMask.");
+            }
+
         }
 
 
@@ -33,7 +45,7 @@ namespace NRelationSystem
             }
             catch
             {
-                Console.WriteLine("Error: mask '" + maskName + "' not found in list of instantiated masks. Returning null.");
+                Console.WriteLine("Error: Mask '" + maskName + "' not found in list of instantiated masks. Returning null.");
                 return null;
             }
 

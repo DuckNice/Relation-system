@@ -28,6 +28,7 @@ namespace NRelationSystem
 
             peopleAndMasks.AddRoleToMask("Bungary", "Bunce");
             peopleAndMasks.AddRoleToMask("Bungary", "Buncess");
+            peopleAndMasks.AddRoleToMask("Bungary", "Bunsant");
 
             traits = new List<Trait>();
             traits.Add(new Trait(traitTypes.NiceNasty, 0.2f, false));
@@ -40,26 +41,27 @@ namespace NRelationSystem
             traits.Add(new Trait(traitTypes.NiceNasty, 0.2f, false));
             traits.Add(new Trait(traitTypes.ShyBolsterous, -0.3f, false));
 
-            peopleAndMasks.CreateNewMask("Terese", typeMask.selfPerception, new Overlay(traits));
+            peopleAndMasks.CreateNewMask("Therese", typeMask.selfPerception, new Overlay(traits));
 
-
-
-            traits = new List<Trait>();
-            traits.Add(new Trait(traitTypes.NiceNasty, 0.2f, true));
-            traits.Add(new Trait(traitTypes.ShyBolsterous, 0.2f, true));
-
-            peopleAndMasks.CreateNewMask("BillTerese", typeMask.interPersonal, new Overlay(traits));
-            peopleAndMasks.AddRoleToMask("BillTerese", "Married");
-            peopleAndMasks.AddRuleToMask("BillTerese", "Married", peopleAndMasks.GetMaskRoleIndex("BillTerese", "Married"), new Rule("Married", posActions["Greet"], 0.7f, new List<Rule>(), "Married"));
+            peopleAndMasks.CreateNewMask("John", typeMask.selfPerception, new Overlay(traits));
 
 
             traits = new List<Trait>();
             traits.Add(new Trait(traitTypes.NiceNasty, 0.2f, true));
             traits.Add(new Trait(traitTypes.ShyBolsterous, 0.2f, true));
 
-            peopleAndMasks.CreateNewMask("TereseBill", typeMask.interPersonal, new Overlay(traits));
-            peopleAndMasks.AddRoleToMask("TereseBill", "Married");
-            peopleAndMasks.AddRuleToMask("TereseBill", "Married", peopleAndMasks.GetMaskRoleIndex("TereseBill", "Married"), new Rule("Married", posActions["Greet"], 0.7f, new List<Rule>(), "Married"));
+            peopleAndMasks.CreateNewMask("BillTherese", typeMask.interPersonal, new Overlay(traits));
+            peopleAndMasks.AddRoleToMask("BillTherese", "Married");
+            peopleAndMasks.AddRuleToMask("BillTherese", "Married", peopleAndMasks.GetMaskRoleIndex("BillTherese", "Married"), new Rule("Married", posActions["Greet"], 0.7f, new List<Rule>(), "Married"));
+
+
+            traits = new List<Trait>();
+            traits.Add(new Trait(traitTypes.NiceNasty, 0.2f, true));
+            traits.Add(new Trait(traitTypes.ShyBolsterous, 0.2f, true));
+
+            peopleAndMasks.CreateNewMask("ThereseBill", typeMask.interPersonal, new Overlay(traits));
+            peopleAndMasks.AddRoleToMask("ThereseBill", "Married");
+            peopleAndMasks.AddRuleToMask("ThereseBill", "Married", peopleAndMasks.GetMaskRoleIndex("ThereseBill", "Married"), new Rule("Married", posActions["Greet"], 0.7f, new List<Rule>(), "Married"));
 
         }
 
@@ -83,7 +85,7 @@ namespace NRelationSystem
 
 
             #region AddingTerese
-                selfPersMask = new Link("Self", new List<Person>(), peopleAndMasks.GetMask("Terese"), 0.4f);
+                selfPersMask = new Link("Self", new List<Person>(), peopleAndMasks.GetMask("Therese"), 0.4f);
 
                 interPerson = new List<Link>();
 
@@ -92,18 +94,32 @@ namespace NRelationSystem
 
                 person = new Person(selfPersMask, interPerson, culture, 0.2f, 0.2f, 0.2f);
 
-                peopleAndMasks.CreateNewPerson("Terese", person);
+                peopleAndMasks.CreateNewPerson("Therese", person);
             #endregion AddingTerese
+
+
+            #region AddingJohn
+                selfPersMask = new Link("Self", new List<Person>(), peopleAndMasks.GetMask("John"), 0.4f);
+
+                interPerson = new List<Link>();
+
+                culture = new List<Link>();
+                culture.Add(new Link("Bunsant", new List<Person>(), peopleAndMasks.GetMask("Bungary"), 0.4f));
+
+                person = new Person(selfPersMask, interPerson, culture, 0.2f, 0.2f, 0.2f);
+
+                peopleAndMasks.CreateNewPerson("John", person);
+            #endregion AddingJohn
 
 
             #region InsertInterPeople
                 List<Person> peopleRelated = new List<Person>();
-                peopleRelated.Add(peopleAndMasks.GetPerson("Terese"));
-                peopleAndMasks.GetPerson("Bill").AddLink(typeMask.interPersonal, new Link("BillTerese", peopleRelated, peopleAndMasks.GetMask("BillTerese"), 0.4f));
+                peopleRelated.Add(peopleAndMasks.GetPerson("Therese"));
+                peopleAndMasks.GetPerson("Bill").AddLink(typeMask.interPersonal, new Link("BillTherese", peopleRelated, peopleAndMasks.GetMask("BillTherese"), 0.4f));
 
                 peopleRelated = new List<Person>();
                 peopleRelated.Add(peopleAndMasks.GetPerson("Bill"));
-                peopleAndMasks.GetPerson("Terese").AddLink(typeMask.interPersonal, new Link("TereseBill", new List<Person>(), peopleAndMasks.GetMask("TereseBill"), 0.4f));
+                peopleAndMasks.GetPerson("Therese").AddLink(typeMask.interPersonal, new Link("ThereseBill", new List<Person>(), peopleAndMasks.GetMask("ThereseBill"), 0.4f));
             #endregion InsertInterPeople
         }
 

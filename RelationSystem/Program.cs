@@ -124,7 +124,10 @@ namespace ConsoleApplication2
 
         void NPCActions() 
         {
-
+            foreach(Being being in beings)
+            {
+                being.NPCAction();
+            }
             //MAction action = maskSystem.peopleAndMasks.GetPerson("Bill").GetAction(maskSystem.posActions.Values.ToList());
 
           //  Console.WriteLine("Doing action:");
