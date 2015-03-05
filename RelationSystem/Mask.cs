@@ -57,38 +57,27 @@ namespace NRelationSystem
 
 
 
-        public actionAndStrength CalculateActionToUse(List<MAction> possibleActions, float rat, float mor, float imp, float abi, float maskInfl, List<float> foci)
+        public actionAndStrength CalculateActionToUse(List<MAction> notPosActions, float rat, float mor, float imp, float abi, float maskInfl, List<float> foci, string role)
         {
             actionAndStrength chosenAction = new actionAndStrength();
             chosenAction.chosenAction = new MAction("Empty", 0.0f);
             chosenAction.strengthOfAction = 0.0f;
 
-            foreach (MAction curAction in possibleActions)
+            foreach(Rule rule in rules.Values.ToList())
             {
-                List<Rule> rulesForAction = new List<Rule>();
-                
-                foreach(KeyValuePair<string, Rule> rule in rules)
+                if(!notPosActions.Contains(rule.actionToTrigger) && rule.role == role)
                 {
-                    if(rule.Value.actionToTrigger.Equals(curAction))
-                    {
-                        rulesForAction.Add(rule.Value);
-                    }
-                }
-
-                foreach(Rule rule in rulesForAction)
-                {
-                    float newActionStrength = Calculator.CalculateRule(rat, mor, imp, abi, rule, curAction.affectedRules, maskInfl,foci);
+                    float newActionStrength = Calculator.CalculateRule(rat, mor, imp, abi, rule, rule.actionToTrigger.affectedRules, maskInfl, foci);
 
                     if (newActionStrength > chosenAction.strengthOfAction)
                     {
                         chosenAction.strengthOfAction = newActionStrength;
 
-                        chosenAction.chosenAction = curAction;
+                        chosenAction.chosenAction = rule.actionToTrigger;
                     }
                 }
             }
 
-            
 
             return chosenAction;
         }

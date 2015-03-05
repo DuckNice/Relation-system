@@ -105,7 +105,7 @@ namespace NRelationSystem
 
                 culture = new List<Link>();
                 culture.Add(new Link("Bunsant", new List<Person>(), peopleAndMasks.GetMask("Bungary"), 0.4f));
-
+            
                 person = new Person(selfPersMask, interPerson, culture, 0.2f, 0.2f, 0.2f);
 
                 peopleAndMasks.CreateNewPerson("John", person);
@@ -115,18 +115,18 @@ namespace NRelationSystem
             #region InsertInterPeople
                 List<Person> peopleRelated = new List<Person>();
                 peopleRelated.Add(peopleAndMasks.GetPerson("Therese"));
-                peopleAndMasks.GetPerson("Bill").AddLink(typeMask.interPersonal, new Link("BillTherese", peopleRelated, peopleAndMasks.GetMask("BillTherese"), 0.4f));
+                peopleAndMasks.GetPerson("Bill").AddLink(typeMask.interPersonal, new Link("Married", peopleRelated, peopleAndMasks.GetMask("BillTherese"), 0.4f));
 
                 peopleRelated = new List<Person>();
                 peopleRelated.Add(peopleAndMasks.GetPerson("Bill"));
-                peopleAndMasks.GetPerson("Therese").AddLink(typeMask.interPersonal, new Link("ThereseBill", new List<Person>(), peopleAndMasks.GetMask("ThereseBill"), 0.4f));
+                peopleAndMasks.GetPerson("Therese").AddLink(typeMask.interPersonal, new Link("Married", new List<Person>(), peopleAndMasks.GetMask("ThereseBill"), 0.4f));
             #endregion InsertInterPeople
         }
 
 
         void SetupActions()
         {
-            ActionInvoker myET = (j, x, y, z) => 
+            ActionInvoker myET = (subject, verb, direct, indirect) => 
             {
                 Console.WriteLine("This Is Lambda");
             };

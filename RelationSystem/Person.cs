@@ -64,15 +64,15 @@ namespace NRelationSystem
         }
 
 
-        public MAction GetAction(List<MAction> possibleActions, List<float> foci) 
+        public MAction GetAction(List<MAction> notPosActions, List<float> foci) 
         {
 
-            actionAndStrength chosenAction = selfPerception.actionForLink(possibleActions, rationality, morality, impulsivity, ability, foci);
+            actionAndStrength chosenAction = selfPerception.actionForLink(notPosActions, rationality, morality, impulsivity, ability, foci);
 
 
             foreach(Link curLink in interPersonal)
             {
-				actionAndStrength curAction = curLink.actionForLink(possibleActions, rationality, morality, impulsivity, ability, foci);
+				actionAndStrength curAction = curLink.actionForLink(notPosActions, rationality, morality, impulsivity, ability, foci);
 
                 if(curAction.strengthOfAction > chosenAction.strengthOfAction)
                 {
@@ -82,7 +82,7 @@ namespace NRelationSystem
 
             foreach (Link curLink in culture)
             {
-				actionAndStrength curAction = curLink.actionForLink(possibleActions, rationality, morality, impulsivity, ability, foci);
+				actionAndStrength curAction = curLink.actionForLink(notPosActions, rationality, morality, impulsivity, ability, foci);
 
                 if (curAction.strengthOfAction > chosenAction.strengthOfAction)
                 {
