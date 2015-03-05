@@ -14,6 +14,7 @@ namespace NRelationSystem
         float rationality;
         float morality;
         float impulsivity;
+		float ability; // JUST A BAD ESTIMATE OF A PERSON'S ABILITY TO DO STUFF
 
 
         public Person(Link _selfPer, List<Link> _interperson, List<Link> _culture, float _ratio, float _moral, float _impulse)
@@ -63,15 +64,15 @@ namespace NRelationSystem
         }
 
 
-        public MAction GetAction(List<MAction> possibleActions) 
+        public MAction GetAction(List<MAction> possibleActions, List<float> foci) 
         {
 
-            actionAndStrength chosenAction = selfPerception.actionForLink(possibleActions, rationality, morality, impulsivity);
+            actionAndStrength chosenAction = selfPerception.actionForLink(possibleActions, rationality, morality, impulsivity, ability, foci);
 
 
             foreach(Link curLink in interPersonal)
             {
-                actionAndStrength curAction = curLink.actionForLink(possibleActions, rationality, morality, impulsivity);
+				actionAndStrength curAction = curLink.actionForLink(possibleActions, rationality, morality, impulsivity, ability, foci);
 
                 if(curAction.strengthOfAction > chosenAction.strengthOfAction)
                 {
@@ -81,7 +82,7 @@ namespace NRelationSystem
 
             foreach (Link curLink in culture)
             {
-                actionAndStrength curAction = curLink.actionForLink(possibleActions, rationality, morality, impulsivity);
+				actionAndStrength curAction = curLink.actionForLink(possibleActions, rationality, morality, impulsivity, ability, foci);
 
                 if (curAction.strengthOfAction > chosenAction.strengthOfAction)
                 {

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{72A6075C-AE55-45EA-8EAC-D5576BE17A20}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>relationsystembjarke</RootNamespace>
+    <AssemblyName>relationsystem-bjarke</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <Externalconsole>True</Externalconsole>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>none</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <Externalconsole>True</Externalconsole>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="..\..\RelationSystem\Calculator.cs" />
+    <Compile Include="..\..\RelationSystem\CustomTypes.cs" />
+    <Compile Include="..\..\RelationSystem\Link.cs" />
+    <Compile Include="..\..\RelationSystem\MAction.cs" />
+    <Compile Include="..\..\RelationSystem\Mask.cs" />
+    <Compile Include="..\..\RelationSystem\MaskContainer.cs" />
+    <Compile Include="..\..\RelationSystem\Overlay.cs" />
+    <Compile Include="..\..\RelationSystem\Person.cs" />
+    <Compile Include="..\..\RelationSystem\PersonContainer.cs" />
+    <Compile Include="..\..\RelationSystem\Program.cs" />
+    <Compile Include="..\..\RelationSystem\RelationSystem.cs" />
+    <Compile Include="..\..\RelationSystem\Rule.cs" />
+    <Compile Include="..\..\RelationSystem\Trait.cs" />
+    <Compile Include="..\..\RelationSystem\Being.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="RelationSystem\" />
+  </ItemGroup>
+</Project>

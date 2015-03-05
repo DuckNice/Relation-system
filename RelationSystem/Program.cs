@@ -12,11 +12,30 @@ namespace ConsoleApplication2
     class Program
     {
         RelationSystem maskSystem = new RelationSystem();
+		List<Being> beings  = new List<Being>();
+
+		public Program(){
+			Being Bill = new Being ("Bill", maskSystem);
+			Being Therese = new Being ("Therese", maskSystem);
+			Being John = new Being ("John", maskSystem);
+			
+			beings.Add (Bill);
+			beings.Add (Therese);
+			beings.Add (John);
+			Bill.FindFocusToAll (beings);
+			Console.WriteLine (beings[0].focus[Therese]);
+			Bill.SetFocusToOther (Therese,1);
+			Console.WriteLine (beings[0].focus[Therese]);
+
+		}
 
         static void Main(string[] args)
         {
-            Program main = new Program();
+			Program main = new Program();
+            
 
+			//adding new beings for testing
+		
             main.Update();
         }
 
@@ -101,11 +120,12 @@ namespace ConsoleApplication2
 
         void NPCActions() 
         {
-            MAction action = maskSystem.peopleAndMasks.GetPerson("Bill").GetAction(maskSystem.posActions.Values.ToList());
 
-            Console.WriteLine("Doing action:");
+            //MAction action = maskSystem.peopleAndMasks.GetPerson("Bill").GetAction(maskSystem.posActions.Values.ToList());
 
-            Console.WriteLine(action.name);
+          //  Console.WriteLine("Doing action:");
+
+          //  Console.WriteLine(action.name);
         }
     }
 }

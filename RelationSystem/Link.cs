@@ -26,12 +26,12 @@ namespace NRelationSystem
             roleRef.Add(_roleRef);
         }
 
-        public actionAndStrength actionForLink(List<MAction> possibleActions, float rat, float mor, float imp) 
+        public actionAndStrength actionForLink(List<MAction> possibleActions, float rat, float mor, float imp, float abi, List<float> foci) 
         {
             actionAndStrength actionToSend;
             try
             {
-                actionToSend = roleMask.CalculateActionToUse(possibleActions, rat, mor, imp, levelOfInfluence);
+				actionToSend = roleMask.CalculateActionToUse(possibleActions, rat, mor, imp, abi, levelOfInfluence,foci);
             }
             catch
             {

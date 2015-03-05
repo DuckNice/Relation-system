@@ -8,25 +8,16 @@ namespace NRelationSystem
 {
     public class Calculator
     {
-        public static float calculateEgo(float impulsivity, float ability, Rule curRule, List<Rule> rulesThatWillTrigger, List<float> foci)
+        public static float calculateEgo(float impulsivity, Rule curRule, List<Rule> rulesThatWillTrigger)
         {
             float tempEgo = 1.0f;
 
             if (rulesThatWillTrigger != null)
             {
-				float visibility = new float();
-				foreach(float f in foci){
-					visibility += f;
-				}
-				visibility /= foci.Count;
-
                 foreach (Rule r in rulesThatWillTrigger)
                 {
-
-					tempEgo += r.strength * r.actionToTrigger.EstimationOfSuccess(ability) * visibility;
-
+                    tempEgo += r.strength * r.actionToTrigger.EstimationOfSuccess(0.1f);   //MISSING visibility,
                     //probability is just r.strength for now. let's leave it like that for simplicity
-					//right now it just check visibility for all people in world, not just the people involved in the action considered.
                 }
             }
 
@@ -59,9 +50,9 @@ namespace NRelationSystem
         }
 
 
-        public static float CalculateRule(float rationality, float morality, float impulsivity, float ability, Rule rule, List<Rule> rulesThatWillTrigger, float maskInfl, List<float> foci)
+        public static float CalculateRule(float rationality, float morality, float impulsivity, Rule rule, List<Rule> rulesThatWillTrigger, float maskInfl)
         {
-            return (calculateEgo(impulsivity, ability, rule, rulesThatWillTrigger, foci) * rationality)
+            return (calculateEgo(impulsivity, rule, rulesThatWillTrigger) * rationality)
                  + (calculateSuperEgo(rule, rulesThatWillTrigger, maskInfl) * morality);
         }
 
