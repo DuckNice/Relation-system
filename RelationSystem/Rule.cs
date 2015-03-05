@@ -29,10 +29,13 @@ namespace NRelationSystem
         { //Tests if the rule belongs to the role of the character. input person role as argument.
             if (roleToTest == role)
             {
+                Console.WriteLine("RightRole");
+
                 return true;
             }
             else
             {
+                Console.WriteLine("WrongRole");
                 return false;
             }
         }
@@ -40,7 +43,7 @@ namespace NRelationSystem
         public bool Condition()
         { // Tests if rule conditions are fulfilled. Make delegates.
             //IFCONDITION IS FULFILLED 
-
+            Console.WriteLine("ConditionTrue");
             return true;
         }
     }

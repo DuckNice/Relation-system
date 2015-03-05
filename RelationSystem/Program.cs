@@ -79,6 +79,10 @@ namespace ConsoleApplication2
                         Console.WriteLine("Error: 'do' keyword recognized, but second parameter not found.");
                     }
                 }
+                else if(sepInput[0] == "help")
+                {
+                    Console.WriteLine("No help to get.");
+                }
                 else
                 {
                     Console.WriteLine("Error: No command '" + sepInput[0] + "' recognized.\nWrite 'help' for list of commands.");
@@ -91,7 +95,7 @@ namespace ConsoleApplication2
 
             Thread.Sleep(1000);
         }
-
+        
 
         void PerformAction()
         {
