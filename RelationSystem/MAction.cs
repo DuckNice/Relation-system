@@ -10,6 +10,17 @@ namespace NRelationSystem
         public float gain;
         public string name;
         public List<Rule> affectedRules;
+        ActionInvoker actionInvoker;
+
+
+        public MAction(string _efDesc, float _gain, ActionInvoker _actionInvoker)
+        {
+            gain = _gain;
+            name = _efDesc;
+            affectedRules = new List<Rule>();
+            actionInvoker = _actionInvoker;
+        }
+
 
         public MAction(string _efDesc, float _gain)
         {
@@ -18,11 +29,19 @@ namespace NRelationSystem
             affectedRules = new List<Rule>();
         }
 
-        public void DoAction()
+
+        public void DoAction(object subject, string verb, object direct, object indirect)
         { //SUBJECT, VERB, OBB, DIROBJ    Setup
-            Console.WriteLine("Did action: " + name);
-            
+            if(actionInvoker != null)
+            {
+                actionInvoker(subject, verb, direct, indirect);
+                 Console.WriteLine("Did action: " + name);
+            }
+            else{
+                Console.WriteLine("No action to do in action '" + name + "'.");
+            }
         }
+
 
         public float EstimationOfSuccess(float ability)
         {

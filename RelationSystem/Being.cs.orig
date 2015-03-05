@@ -37,8 +37,14 @@ namespace ConsoleApplication2
 
 
 
+<<<<<<< HEAD
+        public void NPCAction()
+        {
+            MAction action = maskSystem.peopleAndMasks.GetPerson(name).GetAction(maskSystem.posActions.Values.ToList(), focus.Values.ToList());
+=======
 		public void NPCAction(){
 			MAction action = maskSystem.peopleAndMasks.GetPerson(name).GetAction(maskSystem.posActions.Values.ToList(), focus.Values.ToList());
+>>>>>>> 386d9c59bdd8db6b7b3d4b732df3adb873a10026
 
             Console.WriteLine("Doing action '" + action.name + "' from " + name);
 

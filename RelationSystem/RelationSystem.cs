@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace NRelationSystem
 {
@@ -62,7 +63,6 @@ namespace NRelationSystem
             peopleAndMasks.CreateNewMask("ThereseBill", typeMask.interPersonal, new Overlay(traits));
             peopleAndMasks.AddRoleToMask("ThereseBill", "Married");
             peopleAndMasks.AddRuleToMask("ThereseBill", "Married", peopleAndMasks.GetMaskRoleIndex("ThereseBill", "Married"), new Rule("Married", posActions["Greet"], 0.7f, new List<Rule>(), "Married"));
-
         }
 
 
@@ -126,7 +126,12 @@ namespace NRelationSystem
 
         void SetupActions()
         {
-            AddAction(new MAction("Greet", 0.5f));
+            ActionInvoker myET = (j, x, y, z) => 
+            {
+                Console.WriteLine("This Is Lambda");
+            };
+
+            AddAction(new MAction("Greet", 0.5f, myET));
         }
 
 

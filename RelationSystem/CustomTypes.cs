@@ -1,6 +1,5 @@
 ﻿using System;
 
-
 namespace NRelationSystem
 {
     public enum typeMask
@@ -22,4 +21,5 @@ namespace NRelationSystem
         ShyBolsterous
     }
 
+    public delegate void ActionInvoker(object subject, string verb, object direct, object indirect);
 }

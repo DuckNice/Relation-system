@@ -1,0 +1,20 @@
+diff a/RelationSystem/Being.cs b/RelationSystem/Being.cs	(rejected hunks)
+@@ -38,15 +38,11 @@
+ 
+ 
+ 
+-		void NPCAction(){
+-			maskSystem.peopleAndMasks.GetPerson(name).GetAction(posActions.Values.ToList(), focus.Values.ToList());
+-
+-			Console.WriteLine ("Doing action from " + name);
++		public void NPCAction(){
++			MAction action = maskSystem.peopleAndMasks.GetPerson(name).GetAction(posActions.Values.ToList(), focus.Values.ToList());
+ 
++			Console.WriteLine ("Doing action '" + action.name + "' from " + name);
+ 		}
+-
+-
+-
+ 	}
+ }
+ 
