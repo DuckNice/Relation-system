@@ -12,15 +12,16 @@ namespace ConsoleApplication2
 		public string name;
 		public Dictionary<Being, float> focus;
 		RelationSystem maskSystem;
-		Dictionary<string, MAction> posActions;
+		Dictionary<string, MAction> notPossibleActions;
 
 
 		public Being (string _name, RelationSystem relsys)
 		{
 			name = _name;
 			focus = new Dictionary<Being,float > ();
-			posActions = new Dictionary<string, MAction> ();
+			notPossibleActions = new Dictionary<string, MAction> ();
 			maskSystem = relsys;
+
 
 		}
 
