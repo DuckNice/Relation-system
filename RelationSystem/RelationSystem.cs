@@ -50,7 +50,7 @@ namespace NRelationSystem
 
                 if(i < _traits.Length && _traits[i] >= -1.0f && _traits[i] <= 1.0f)
                     insertTrait = _traits[i];
-                if(relatives.Length < i)
+                if(relatives.Length > i)
                     insertRelative = relatives[i];
 
                 traits.Add(new Trait((traitTypes)i, insertTrait, insertRelative));
