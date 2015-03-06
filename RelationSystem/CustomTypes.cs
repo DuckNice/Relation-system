@@ -22,14 +22,14 @@ namespace NRelationSystem
         ShyBolsterous
     }
 
-    public struct maskAdds
+    public struct MaskAdds
     {
         public string role;
         public string mask;
         public float levelOfInfluence;
         public List<Person> linkPpl;
 
-        public maskAdds(string _role, string _mask, float _lvlOIf, List<Person> _linkPeople)
+        public MaskAdds(string _role, string _mask, float _lvlOIf, List<Person> _linkPeople)
         {
             role = _role;
             mask = _mask;
