@@ -21,15 +21,10 @@ namespace NRelationSystem
 
         void CreateFirstMasks()
         {
-            List<Trait> traits = new List<Trait>();
-            traits.Add(new Trait(traitTypes.NiceNasty, 0.2f, true));
-            traits.Add(new Trait(traitTypes.ShyBolsterous, -0.3f, true));
+            CreateNewMask("Bungary", new float[]{0.2f, -0.3f}, new bool[]{false, false}, typeMask.culture, new string[]{"Bunce", "Buncess", "Bunsant"});
 
-            peopleAndMasks.CreateNewMask("Bungary", typeMask.culture, new Overlay(traits));
-
-            peopleAndMasks.AddRoleToMask("Bungary", "Bunce");
-            peopleAndMasks.AddRoleToMask("Bungary", "Buncess");
-            peopleAndMasks.AddRoleToMask("Bungary", "Bunsant");
+            List<Trait> traits;
+            
 
             traits = new List<Trait>();
             traits.Add(new Trait(traitTypes.NiceNasty, 0.2f, false));
@@ -63,6 +58,43 @@ namespace NRelationSystem
             peopleAndMasks.CreateNewMask("ThereseBill", typeMask.interPersonal, new Overlay(traits));
             peopleAndMasks.AddRoleToMask("ThereseBill", "Married");
             peopleAndMasks.AddRuleToMask("ThereseBill", "Married", peopleAndMasks.GetMaskRoleIndex("ThereseBill", "Married"), new Rule("Married", posActions["Greet"], 0.7f, new List<Rule>(), "Married"));
+        }
+
+
+        public void CreateNewMask(string nameOfMask, float[] _traits = null, bool[] relatives = null, typeMask maskType = typeMask.interPersonal, string[] roles = null) 
+        { 
+            List<Trait> traits = new List<Trait>();
+            
+            for(int i = 0; i < Enum.GetNames(typeof(traitTypes)).Length; i++)
+            {
+                float insertTrait = 0.0f;
+                bool insertRelative = true;
+
+                if(i < _traits.Length && _traits[i] >= -1.0f && _traits[i] <= 1.0f)
+                    insertTrait = _traits[i];
+                if(relatives.Length < i)
+                    insertRelative = relatives[i];
+
+                traits.Add(new Trait((traitTypes)i, insertTrait, insertRelative));
+            }
+
+            peopleAndMasks.CreateNewMask(nameOfMask, maskType, new Overlay(traits));
+
+            if(roles != null)
+            {
+                foreach(string role in roles)
+                {
+                    if(role != "")
+                    {
+                        peopleAndMasks.AddRoleToMask(nameOfMask, role);
+                    }
+                }
+            }
+        }
+
+        public void AddTraitToMask()
+        {
+
         }
 
 
