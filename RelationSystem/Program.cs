@@ -19,7 +19,7 @@ namespace ConsoleApplication2
 
 			SetupActions ();
 			CreateFirstMasks();
-			maskSystem.CreateFirstPeople();
+			CreateFirstPeople();
 
 			Being Bill = new Being ("Bill", maskSystem);
 			Being Therese = new Being ("Therese", maskSystem);
@@ -29,10 +29,7 @@ namespace ConsoleApplication2
 			beings.Add (Therese);
 			beings.Add (John);
 			Bill.FindFocusToAll (beings);
-			Console.WriteLine (beings[0].focus[Therese]);
 			Bill.SetFocusToOther (Therese,1);
-			Console.WriteLine (beings[0].focus[Therese]);
-
 		}
 
         static void Main(string[] args)
@@ -139,6 +136,41 @@ namespace ConsoleApplication2
             maskSystem.CreateNewMask("ThereseBill", new float[] { 0.2f, 0.2f }, new bool[] { }, typeMask.interPers, new string[] { "Married" });
 
             maskSystem.AddRuleToMask("ThereseBill", "Married", "Greet", 0.7f, new List<Rule>());
+        }
+
+        public void CreateFirstPeople()
+        {
+            #region AddingBill
+                MaskAdds selfPersMask = new MaskAdds("Self", "Bill", 0.4f, new List<Person>());
+
+                List<MaskAdds> culture = new List<MaskAdds>();
+                culture.Add(new MaskAdds("Bunce", "Bungary", 0.4f, new List<Person>()));
+
+                maskSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.2f, 0.2f, 0.2f);
+            #endregion AddingBill
+
+            #region AddingTerese
+                selfPersMask = new MaskAdds("Self", "Therese", 0.4f, new List<Person>());
+
+                culture = new List<MaskAdds>();
+                culture.Add(new MaskAdds("Buncess", "Bungary", 0.4f, new List<Person>()));
+
+                maskSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.2f, 0.2f, 0.2f);
+            #endregion AddingTerese
+
+            #region AddingJohn
+                selfPersMask = new MaskAdds("Self", "John", 0.4f, new List<Person>());
+
+                culture = new List<MaskAdds>();
+                culture.Add(new MaskAdds("Bunsant", "Bungary", 0.4f, new List<Person>()));
+
+                maskSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.2f, 0.2f, 0.2f);
+            #endregion AddingJohn
+
+            #region InterPeople
+                maskSystem.AddLinkToPerson("Bill", new string[] { "Therese" }, typeMask.interPers, "Married", "BillTherese", 0.4f);
+                maskSystem.AddLinkToPerson("Therese", new string[] { "Bill" }, typeMask.interPers, "Married", "ThereseBill", 0.4f);
+            #endregion InterPeople
         }
 
 

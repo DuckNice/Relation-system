@@ -66,50 +66,16 @@ namespace NRelationSystem
         }
 
 
-        public void CreateFirstPeople()
+        public void AddLinkToPerson(string personName, string[] linkRelations, typeMask maskType, string role, string mask, float str)
         {
-            #region AddingBill
-                MaskAdds selfPersMask = new MaskAdds("Self", "Bill", 0.4f, new List<Person>());
+            List<Person> peopleRelated = new List<Person>();
 
-                List<MaskAdds> culture = new List<MaskAdds>();
-                culture.Add(new MaskAdds("Bunce", "Bungary", 0.4f, new List<Person>()));
+            foreach(string linkRelation in linkRelations)
+            {
+                 peopleRelated.Add(pplAndMasks.GetPerson(linkRelation));
+            }
 
-                CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.2f, 0.2f, 0.2f);
-            #endregion AddingBill
-
-            #region AddingTerese
-                selfPersMask = new MaskAdds("Self", "Therese", 0.4f, new List<Person>());
-
-                culture = new List<MaskAdds>();
-                culture.Add(new MaskAdds("Buncess", "Bungary", 0.4f, new List<Person>()));
-
-                CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.2f, 0.2f, 0.2f);
-            #endregion AddingTerese
-
-            #region AddingJohn
-                selfPersMask = new MaskAdds("Self", "John", 0.4f, new List<Person>());
-
-                culture = new List<MaskAdds>();
-                culture.Add(new MaskAdds("Bunsant", "Bungary", 0.4f, new List<Person>()));
-
-                CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.2f, 0.2f, 0.2f);
-            #endregion AddingJohn
-
-
-            #region InsertInterPeople
-                List<Person> peopleRelated = new List<Person>();
-                peopleRelated.Add(pplAndMasks.GetPerson("Therese"));
-                pplAndMasks.GetPerson("Bill").AddLink(typeMask.interPers, new Link("Married", peopleRelated, pplAndMasks.GetMask("BillTherese"), 0.4f));
-
-                peopleRelated = new List<Person>();
-                peopleRelated.Add(pplAndMasks.GetPerson("Bill"));
-                pplAndMasks.GetPerson("Therese").AddLink(typeMask.interPers, new Link("Married", new List<Person>(), pplAndMasks.GetMask("ThereseBill"), 0.4f));
-            #endregion InsertInterPeople
-        }
-
-        public void AddLinkToPerson()
-        {
-
+            pplAndMasks.GetPerson(personName).AddLink(maskType, new Link(role, peopleRelated, pplAndMasks.GetMask(mask), str));
         }
 
 
