@@ -53,8 +53,10 @@ namespace NRelationSystem
         }
 
 
-        public void AddRuleToMask(string maskName, string newRuleName, int roleIndex, Rule newRule)
+        public void AddRuleToMask(string maskName, string newRuleName, Rule newRule)
         {
+            int roleIndex = GetMaskRoleIndex(maskName, newRuleName);
+
             if(instMasks[maskName].roles.Count > roleIndex)
             {
                 instMasks[maskName].AddRule(newRuleName, newRule, roleIndex);

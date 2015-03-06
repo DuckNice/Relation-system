@@ -23,6 +23,12 @@ namespace NRelationSystem
         }
 
 
+        public void AddRuleToMask(string maskName, string roleName, string actionName, float str, List<Rule> possibleRules)
+        {
+            peopleAndMasks.AddRuleToMask(maskName, roleName, new Rule(roleName, posActions[actionName], str, possibleRules, roleName));
+        }
+
+
         public void AddAction(MAction action)
         {
             posActions.Add(action.name, action);
