@@ -150,7 +150,6 @@ namespace ConsoleApplication2
 				Person sub = (Person)subject;
 
 				Console.WriteLine(sub);
-				(
 				
 			};
 			
