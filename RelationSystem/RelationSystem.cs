@@ -70,21 +70,6 @@ namespace NRelationSystem
             }
         }
 
-        struct maskAdds
-        {
-            public string role;
-            public string mask;
-            public float levelOfInfluence;
-            public List<Person> linkPpl;
-
-            public maskAdds(string _role, string _mask, float _lvlOIf, List<Person> _linkPeople)
-            {
-                role = _role;
-                mask = _mask;
-                levelOfInfluence = _lvlOIf;
-                linkPpl = _linkPeople;
-            }
-        };
 
         public void CreateNewPerson(maskAdds selfMask, List<maskAdds> _cults, List<maskAdds> _intPpl, float rational, float moral, float impulse)
         {
@@ -112,45 +97,31 @@ namespace NRelationSystem
 
         public void CreateFirstPeople()
         {
-
-
             #region AddingBill
                 maskAdds selfPersMask = new maskAdds("Self", "Bill", 0.4f, new List<Person>());
 
-                List<maskAdds> interPerson = new List<maskAdds>();
-                
                 List<maskAdds> culture = new List<maskAdds>();
-                culture.Add(new maskAdds("Bunce", "Bungary", 0.4f, new List<Person>());
+                culture.Add(new maskAdds("Bunce", "Bungary", 0.4f, new List<Person>()));
 
-                CreateNewPerson(selfPersMask, culture, interPerson, 0.2f, 0.2f, 0.2f);
+                CreateNewPerson(selfPersMask, culture, new List<maskAdds>(), 0.2f, 0.2f, 0.2f);
             #endregion AddingBill
 
-
             #region AddingTerese
-                selfPersMask = new Link("Self", new List<Person>(), pplAndMasks.GetMask("Therese"), 0.4f);
+                selfPersMask = new maskAdds("Self", "Therese", 0.4f, new List<Person>());
 
-                interPerson = new List<Link>();
+                culture = new List<maskAdds>();
+                culture.Add(new maskAdds("Buncess", "Bungary", 0.4f, new List<Person>()));
 
-                culture = new List<Link>();
-                culture.Add(new Link("Buncess", new List<Person>(), pplAndMasks.GetMask("Bungary"), 0.4f));
-
-                person = new Person("Therese", selfPersMask, interPerson, culture, 0.2f, 0.2f, 0.2f);
-
-                pplAndMasks.CreateNewPerson("Therese", person);
+                CreateNewPerson(selfPersMask, culture, new List<maskAdds>(), 0.2f, 0.2f, 0.2f);
             #endregion AddingTerese
 
-
             #region AddingJohn
-                selfPersMask = new Link("Self", new List<Person>(), pplAndMasks.GetMask("John"), 0.4f);
+                selfPersMask = new maskAdds("Self", "John", 0.4f, new List<Person>());
 
-                interPerson = new List<Link>();
+                culture = new List<maskAdds>();
+                culture.Add(new maskAdds("Bunsant", "Bungary", 0.4f, new List<Person>()));
 
-                culture = new List<Link>();
-                culture.Add(new Link("Bunsant", new List<Person>(), pplAndMasks.GetMask("Bungary"), 0.4f));
-            
-                person = new Person("John", selfPersMask, interPerson, culture, 0.2f, 0.2f, 0.2f);
-
-                pplAndMasks.CreateNewPerson("John", person);
+                CreateNewPerson(selfPersMask, culture, new List<maskAdds>(), 0.2f, 0.2f, 0.2f);
             #endregion AddingJohn
 
 
@@ -164,7 +135,6 @@ namespace NRelationSystem
                 pplAndMasks.GetPerson("Therese").AddLink(typeMask.interPers, new Link("Married", new List<Person>(), pplAndMasks.GetMask("ThereseBill"), 0.4f));
             #endregion InsertInterPeople
         }
-
 
 
         public void PrintPersonStatus()
