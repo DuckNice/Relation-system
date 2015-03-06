@@ -18,7 +18,7 @@ namespace ConsoleApplication2
 
 
 			SetupActions ();
-			maskSystem.CreateFirstMasks();
+			CreateFirstMasks();
 			maskSystem.CreateFirstPeople();
 
 			Being Bill = new Being ("Bill", maskSystem);
@@ -120,7 +120,27 @@ namespace ConsoleApplication2
 
             Thread.Sleep(1000);
         }
-        
+
+
+        public void CreateFirstMasks()
+        {
+            maskSystem.CreateNewMask("Bungary", new float[] { 0.2f, -0.3f }, new bool[] { }, typeMask.culture, new string[] { "Bunce", "Buncess", "Bunsant" });
+
+            maskSystem.CreateNewMask("Bill", new float[] { 0.2f, -0.3f }, new bool[] { }, typeMask.selfPerc, new string[] { "" });
+
+            maskSystem.CreateNewMask("Therese", new float[] { 0.2f, -0.3f }, new bool[] { }, typeMask.selfPerc, new string[] { "" });
+
+            maskSystem.CreateNewMask("John", new float[] { 0.2f, -0.3f }, new bool[] { }, typeMask.selfPerc, new string[] { "" });
+
+            maskSystem.CreateNewMask("BillTherese", new float[] { 0.2f, 0.2f }, new bool[] { }, typeMask.interPers, new string[] { "Married" });
+
+            maskSystem.AddRuleToMask("BillTherese", "Married", "Greet", 0.7f, new List<Rule>());
+
+            maskSystem.CreateNewMask("ThereseBill", new float[] { 0.2f, 0.2f }, new bool[] { }, typeMask.interPers, new string[] { "Married" });
+
+            maskSystem.AddRuleToMask("ThereseBill", "Married", "Greet", 0.7f, new List<Rule>());
+        }
+
 
         void PerformAction()
         {

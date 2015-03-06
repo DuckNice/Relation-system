@@ -7,36 +7,7 @@ namespace NRelationSystem
     public partial class RelationSystem
     {
         public PersCont pplAndMasks = new PersCont();
-
         public Dictionary<string, MAction> posActions = new Dictionary<string, MAction>();
-
-
-        public RelationSystem()
-        {
-           // SetupActions();
-
-        }
-
-
-        public void CreateFirstMasks()
-        {
-            CreateNewMask("Bungary", new float[]{0.2f, -0.3f}, new bool[]{}, typeMask.culture, new string[]{"Bunce", "Buncess", "Bunsant"});
-
-            CreateNewMask("Bill", new float[]{0.2f, -0.3f}, new bool[]{}, typeMask.selfPerc, new string[]{""});
-
-            CreateNewMask("Therese", new float[] {0.2f, -0.3f}, new bool[] {}, typeMask.selfPerc, new string[] {""});
-
-            CreateNewMask("John", new float[] { 0.2f, -0.3f }, new bool[] {}, typeMask.selfPerc, new string[] {""});
-
-            CreateNewMask("BillTherese", new float[] {0.2f, 0.2f}, new bool[]{}, typeMask.interPers, new string[]{"Married"});
-
-            AddRuleToMask("BillTherese", "Married", "Greet", 0.7f, new List<Rule>());
-
-            CreateNewMask("ThereseBill", new float[] { 0.2f, 0.2f }, new bool[] { }, typeMask.interPers, new string[]{"Married"});
-
-            AddRuleToMask("ThereseBill", "Married", "Greet", 0.7f, new List<Rule>());
-
-        }
 
 
         public void CreateNewMask(string nameOfMask, float[] _traits = null, bool[] relatives = null, typeMask maskType = typeMask.interPers, string[] roles = null) 
