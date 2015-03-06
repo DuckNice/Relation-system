@@ -46,5 +46,18 @@ namespace NRelationSystem
             Console.WriteLine("ConditionTrue");
             return true;
         }
+
+		public void DoAction(object subject, string verb, object dirObject, object indiObject){
+			if (indiObject == null) {
+				if (dirObject == null) {
+					actionToTrigger.DoAction (subject, " ");
+				} else {
+					actionToTrigger.DoAction (subject, " ", dirObject);
+				}
+			} else {
+				actionToTrigger.DoAction(subject, " ", dirObject, indiObject);
+			}
+		}
+
     }
 }

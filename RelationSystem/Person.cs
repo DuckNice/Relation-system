@@ -11,7 +11,7 @@ namespace NRelationSystem
         List<Link> interPersonal;
         List<Link> culture;
         Overlay absTraits;
-        string name;
+        public string name;
 
         float rationality;
         float morality;
@@ -67,15 +67,15 @@ namespace NRelationSystem
         }
 
 
-        public MAction GetAction(List<MAction> notPosActions, List<float> foci) 
+        public Rule GetAction(List<MAction> notPosActions, List<float> foci) 
         {
 
-            actionAndStrength chosenAction = selfPerception.actionForLink(notPosActions, rationality, morality, impulsivity, ability, foci);
+            RuleAndStrength chosenAction = selfPerception.actionForLink(notPosActions, rationality, morality, impulsivity, ability, foci);
 
 
             foreach(Link curLink in interPersonal)
             {
-				actionAndStrength curAction = curLink.actionForLink(notPosActions, rationality, morality, impulsivity, ability, foci);
+				RuleAndStrength curAction = curLink.actionForLink(notPosActions, rationality, morality, impulsivity, ability, foci);
 
                 if(curAction.strengthOfAction > chosenAction.strengthOfAction)
                 {
@@ -85,7 +85,7 @@ namespace NRelationSystem
 
             foreach (Link curLink in culture)
             {
-				actionAndStrength curAction = curLink.actionForLink(notPosActions, rationality, morality, impulsivity, ability, foci);
+				RuleAndStrength curAction = curLink.actionForLink(notPosActions, rationality, morality, impulsivity, ability, foci);
 
                 if (curAction.strengthOfAction > chosenAction.strengthOfAction)
                 {
@@ -93,7 +93,7 @@ namespace NRelationSystem
                 }
             }
 
-            return chosenAction.chosenAction;
+			return chosenAction.chosenRule;
         }
     }
 }

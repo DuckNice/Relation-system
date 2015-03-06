@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-
 namespace NRelationSystem
 {
+  
     public class Mask
     {
         typeMask maskType;
         Dictionary<string, Rule> rules;
         public List<string> roles;
         Overlay maskOverlay;
-
 
         public Mask(typeMask _maskType, Overlay _maskOverlay)
         {
@@ -49,16 +48,19 @@ namespace NRelationSystem
         }
 
 
+
+
         public int FindRole(string roleName) 
         {
             return roles.FindIndex(x => x == roleName);
         }
 
 
-        public actionAndStrength CalculateActionToUse(List<MAction> notPosActions, float rat, float mor, float imp, float abi, float maskInfl, List<float> foci, string role)
+
+        public RuleAndStrength CalculateActionToUse(List<MAction> notPosActions, float rat, float mor, float imp, float abi, float maskInfl, List<float> foci, string role)
         {
-            actionAndStrength chosenAction = new actionAndStrength();
-            chosenAction.chosenAction = new MAction("Empty", 0.0f);
+            RuleAndStrength chosenAction = new RuleAndStrength();
+			chosenAction.chosenRule = new Rule("Empty", new MAction("Empty",0.0f),0.0f,null,"Empty");
             chosenAction.strengthOfAction = 0.0f;
 
             foreach(Rule rule in rules.Values.ToList())
@@ -71,10 +73,11 @@ namespace NRelationSystem
                     {
                         chosenAction.strengthOfAction = newActionStrength;
 
-                        chosenAction.chosenAction = rule.actionToTrigger;
+                        chosenAction.chosenRule = rule;
                     }
                 }
             }
+
 
             return chosenAction;
         }

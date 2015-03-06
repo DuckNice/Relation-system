@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,6 +7,7 @@ namespace NRelationSystem
 {
     public class Link
     {
+
         string roleName;
         List<Person> roleRef;
         Mask roleMask;
@@ -26,9 +27,9 @@ namespace NRelationSystem
             roleRef.Add(_roleRef);
         }
 
-        public actionAndStrength actionForLink(List<MAction> notPosActions, float rat, float mor, float imp, float abi, List<float> foci) 
+        public RuleAndStrength actionForLink(List<MAction> notPosActions, float rat, float mor, float imp, float abi, List<float> foci) 
         {
-            actionAndStrength actionToSend;
+            RuleAndStrength actionToSend;
             try
             {
 				actionToSend = roleMask.CalculateActionToUse(notPosActions, rat, mor, imp, abi, levelOfInfluence,foci, roleName);
@@ -36,8 +37,8 @@ namespace NRelationSystem
             }
             catch
             {
-                actionToSend = new actionAndStrength();
-                actionToSend.chosenAction = new MAction("Empty", 0.0f);
+                actionToSend = new RuleAndStrength();
+                actionToSend.chosenRule = new Rule("Empty", new MAction("Empty",0.0f),0.0f,null,"Empty");
                 actionToSend.strengthOfAction = 0.0f;
             }
 

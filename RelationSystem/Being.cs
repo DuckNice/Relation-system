@@ -11,7 +11,7 @@ namespace ConsoleApplication2
 	{
 		public string name;
 		public Dictionary<Being, float> focus;
-		RelationSystem maskSystem;
+		public RelationSystem maskSystem;
 		Dictionary<string, MAction> notPossibleActions;
 
 
@@ -38,11 +38,23 @@ namespace ConsoleApplication2
 
 
 		public void NPCAction(){
-			MAction action = maskSystem.peopleAndMasks.GetPerson(name).GetAction(notPossibleActions.Values.ToList(), focus.Values.ToList());
+			Rule rule = maskSystem.peopleAndMasks.GetPerson(name).GetAction(notPossibleActions.Values.ToList(), focus.Values.ToList());
 
-            Console.WriteLine("Doing action '" + action.name + "' from " + name);
+            Console.WriteLine("Doing action '" + rule.actionToTrigger.name + "' from " + name);
 
-            action.DoAction(new object(), " ", new object(), new object());
+			rule.DoAction (new object()," ",null, null);
+
+			/*if (indiObject == null) {
+				if (dirObject == null) {
+					rule.DoAction (maskSystem.peopleAndMasks.GetPerson (name), " ");
+				} else {
+					rule.DoAction (maskSystem.peopleAndMasks.GetPerson (name), " ", dirObject);
+				}
+			} else {
+				rule.DoAction(maskSystem.peopleAndMasks.GetPerson(name), " ", dirObject, indiObject);
+			}
+*/
+
         }
 	}
 }

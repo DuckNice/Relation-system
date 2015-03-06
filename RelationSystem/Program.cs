@@ -132,7 +132,7 @@ namespace ConsoleApplication2
         {
             foreach(Being being in beings)
             {
-                being.NPCAction();
+				being.NPCAction();
             }
             //MAction action = maskSystem.peopleAndMasks.GetPerson("Bill").GetAction(maskSystem.posActions.Values.ToList());
 
@@ -141,15 +141,18 @@ namespace ConsoleApplication2
           //  Console.WriteLine(action.name);
         }
 
-
-
 		void SetupActions()
 		{
-			ActionInvoker myET = (subject, verb, direct, indirect) => 
+			ActionInvoker greet = (subject, verb, direct, indirect) => 
 			{
-				Console.WriteLine("This Is Lambda");
+				Person sub = (Person)subject;
+
+
+				Console.WriteLine(sub.name+" is greeting ");
 				
 			};
+			maskSystem.AddAction(new MAction("Greet", 0.1f, greet));
+
 			
 			ActionInvoker ask_about_day = (subject, verb, direct, indirect) => 
 			{
@@ -158,9 +161,7 @@ namespace ConsoleApplication2
 				Console.WriteLine(sub);
 				
 			};
-			
-			maskSystem.AddAction(new MAction("Greet", 0.5f, myET));
-		//	maskSystem.AddAction(new MAction("Ask_about_day", 0.3f, ask_about_day));
+			maskSystem.AddAction(new MAction("Ask_about_day", 0.3f, ask_about_day));
 		}
 
     }

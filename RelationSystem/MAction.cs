@@ -41,6 +41,26 @@ namespace NRelationSystem
                 Console.WriteLine("No action to do in action '" + name + "'.");
             }
         }
+		public void DoAction(object subject, string verb){ //non-interpersonal stuff
+			if(actionInvoker != null)
+			{
+				actionInvoker(subject, verb, new object(), new object());
+				Console.WriteLine("Did action: " + name);
+			}
+			else{
+				Console.WriteLine("No action to do in action '" + name + "'.");
+			}
+		}
+		public void DoAction(object subject, string verb, object direct){ //no indirect object - usually direct conversations, or the like
+			if(actionInvoker != null)
+			{
+				actionInvoker(subject, verb, direct, new object());
+				Console.WriteLine("Did action: " + name);
+			}
+			else{
+				Console.WriteLine("No action to do in action '" + name + "'.");
+			}
+		}
 
 
         public float EstimationOfSuccess(float ability)

@@ -9,9 +9,9 @@ namespace NRelationSystem
         culture
     };
 
-    public struct actionAndStrength
+    public struct RuleAndStrength
     {
-        public MAction chosenAction;
+        public Rule chosenRule;
         public float strengthOfAction;
     };
 
