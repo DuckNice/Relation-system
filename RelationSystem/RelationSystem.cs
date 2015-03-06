@@ -14,12 +14,11 @@ namespace NRelationSystem
         public RelationSystem()
         {
            // SetupActions();
-            CreateFirstMasks();
-            CreateFirstPeople();
+
         }
 
 
-        void CreateFirstMasks()
+        public void CreateFirstMasks()
         {
             CreateNewMask("Bungary", new float[]{0.2f, -0.3f}, new bool[]{false, false}, typeMask.culture, new string[]{"Bunce", "Buncess", "Bunsant"});
 
@@ -93,7 +92,7 @@ namespace NRelationSystem
         }
 
 
-        void CreateFirstPeople()
+        public void CreateFirstPeople()
         {
             #region AddingBill
                 Person person;

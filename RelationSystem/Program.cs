@@ -11,10 +11,16 @@ namespace ConsoleApplication2
 {
     class Program
     {
-        RelationSystem maskSystem = new RelationSystem();
+		RelationSystem maskSystem = new RelationSystem ();
 		List<Being> beings  = new List<Being>();
 
 		public Program(){
+
+
+			SetupActions ();
+			maskSystem.CreateFirstMasks();
+			maskSystem.CreateFirstPeople();
+
 			Being Bill = new Being ("Bill", maskSystem);
 			Being Therese = new Being ("Therese", maskSystem);
 			Being John = new Being ("John", maskSystem);
@@ -154,7 +160,7 @@ namespace ConsoleApplication2
 			};
 			
 			maskSystem.AddAction(new MAction("Greet", 0.5f, myET));
-			maskSystem.AddAction(new MAction("Ask_about_day", 0.3, ask_about_day));
+		//	maskSystem.AddAction(new MAction("Ask_about_day", 0.3f, ask_about_day));
 		}
 
     }
