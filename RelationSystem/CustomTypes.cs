@@ -4,8 +4,8 @@ namespace NRelationSystem
 {
     public enum typeMask
     {
-        selfPerception,
-        interPersonal,
+        selfPerc,
+        interPers,
         culture
     };
 

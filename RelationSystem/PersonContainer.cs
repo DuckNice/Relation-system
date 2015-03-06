@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace NRelationSystem
 {
-    public class PersonContainer:MaskContainer
+    public class PersCont:MaskCont
     {
         protected Dictionary<string, Person> people = new Dictionary<string, Person>();
         protected List<string> peopleNames = new List<string>();
 
         public void CreateNewPerson(string personName, Person person)
         {
-            if ((person.GetLinks(typeMask.selfPerception))[0] != null)
+            if ((person.GetLinks(typeMask.selfPerc))[0] != null)
             {
                 people.Add(personName, person);
                 peopleNames.Add(personName);

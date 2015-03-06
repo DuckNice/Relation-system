@@ -6,7 +6,7 @@ namespace NRelationSystem
 {
     public partial class RelationSystem
     {
-        public PersonContainer peopleAndMasks = new PersonContainer();
+        public PersCont pplAndMasks = new PersCont();
 
         public Dictionary<string, MAction> posActions = new Dictionary<string, MAction>();
 
@@ -22,24 +22,24 @@ namespace NRelationSystem
         {
             CreateNewMask("Bungary", new float[]{0.2f, -0.3f}, new bool[]{}, typeMask.culture, new string[]{"Bunce", "Buncess", "Bunsant"});
 
-            CreateNewMask("Bill", new float[]{0.2f, -0.3f}, new bool[]{}, typeMask.selfPerception, new string[]{""});
+            CreateNewMask("Bill", new float[]{0.2f, -0.3f}, new bool[]{}, typeMask.selfPerc, new string[]{""});
 
-            CreateNewMask("Therese", new float[] {0.2f, -0.3f}, new bool[] {}, typeMask.selfPerception, new string[] {""});
+            CreateNewMask("Therese", new float[] {0.2f, -0.3f}, new bool[] {}, typeMask.selfPerc, new string[] {""});
 
-            CreateNewMask("John", new float[] { 0.2f, -0.3f }, new bool[] {}, typeMask.selfPerception, new string[] {""});
+            CreateNewMask("John", new float[] { 0.2f, -0.3f }, new bool[] {}, typeMask.selfPerc, new string[] {""});
 
-            CreateNewMask("BillTherese", new float[] {0.2f, 0.2f}, new bool[]{}, typeMask.interPersonal, new string[]{"Married"});
+            CreateNewMask("BillTherese", new float[] {0.2f, 0.2f}, new bool[]{}, typeMask.interPers, new string[]{"Married"});
 
             AddRuleToMask("BillTherese", "Married", "Greet", 0.7f, new List<Rule>());
 
-            CreateNewMask("ThereseBill", new float[] { 0.2f, 0.2f }, new bool[] { }, typeMask.interPersonal, new string[]{"Married"});
+            CreateNewMask("ThereseBill", new float[] { 0.2f, 0.2f }, new bool[] { }, typeMask.interPers, new string[]{"Married"});
 
             AddRuleToMask("ThereseBill", "Married", "Greet", 0.7f, new List<Rule>());
 
         }
 
 
-        public void CreateNewMask(string nameOfMask, float[] _traits = null, bool[] relatives = null, typeMask maskType = typeMask.interPersonal, string[] roles = null) 
+        public void CreateNewMask(string nameOfMask, float[] _traits = null, bool[] relatives = null, typeMask maskType = typeMask.interPers, string[] roles = null) 
         { 
             List<Trait> traits = new List<Trait>();
             
@@ -56,7 +56,7 @@ namespace NRelationSystem
                 traits.Add(new Trait((traitTypes)i, insertTrait, insertRelative));
             }
 
-            peopleAndMasks.CreateNewMask(nameOfMask, maskType, new Overlay(traits));
+            pplAndMasks.CreateNewMask(nameOfMask, maskType, new Overlay(traits));
 
             if(roles != null)
             {
@@ -64,67 +64,104 @@ namespace NRelationSystem
                 {
                     if(role != "")
                     {
-                        peopleAndMasks.AddRoleToMask(nameOfMask, role);
+                        pplAndMasks.AddRoleToMask(nameOfMask, role);
                     }
                 }
             }
         }
 
+        struct maskAdds
+        {
+            public string role;
+            public string mask;
+            public float levelOfInfluence;
+            public List<Person> linkPpl;
+
+            public maskAdds(string _role, string _mask, float _lvlOIf, List<Person> _linkPeople)
+            {
+                role = _role;
+                mask = _mask;
+                levelOfInfluence = _lvlOIf;
+                linkPpl = _linkPeople;
+            }
+        };
+
+        public void CreateNewPerson(maskAdds selfMask, List<maskAdds> _cults, List<maskAdds> _intPpl, float rational, float moral, float impulse)
+        {
+            Link selfPersMask = new Link(selfMask.role, selfMask.linkPpl, pplAndMasks.GetMask(selfMask.mask), selfMask.levelOfInfluence);
+
+            List<Link> cults = new List<Link>();
+
+            foreach(maskAdds cult in _cults)
+            {
+                cults.Add(new Link(cult.role, cult.linkPpl, pplAndMasks.GetMask(cult.mask), cult.levelOfInfluence));
+            }
+
+            List<Link> intPpl = new List<Link>();
+
+            foreach(maskAdds intPers in _intPpl)
+            {
+                intPpl.Add(new Link(intPers.role, intPers.linkPpl, pplAndMasks.GetMask(intPers.mask), intPers.levelOfInfluence));
+            }
+
+            Person person = new Person(selfMask.mask, selfPersMask, intPpl, cults, rational, moral, impulse);
+
+            pplAndMasks.CreateNewPerson(selfMask.mask, person);
+        }
+
 
         public void CreateFirstPeople()
         {
+
+
             #region AddingBill
-                Person person;
+                maskAdds selfPersMask = new maskAdds("Self", "Bill", 0.4f, new List<Person>());
 
-                Link selfPersMask = new Link("Self", new List<Person>(), peopleAndMasks.GetMask("Bill"), 0.4f);
-
-                List<Link> interPerson = new List<Link>();
+                List<maskAdds> interPerson = new List<maskAdds>();
                 
-                List<Link> culture = new List<Link>();
-                culture.Add(new Link("Bunce", new List<Person>(), peopleAndMasks.GetMask("Bungary"), 0.4f));
+                List<maskAdds> culture = new List<maskAdds>();
+                culture.Add(new maskAdds("Bunce", "Bungary", 0.4f, new List<Person>());
 
-                person = new Person("Bill", selfPersMask, interPerson, culture, 0.2f, 0.2f, 0.2f);
-
-                peopleAndMasks.CreateNewPerson("Bill", person);
+                CreateNewPerson(selfPersMask, culture, interPerson, 0.2f, 0.2f, 0.2f);
             #endregion AddingBill
 
 
             #region AddingTerese
-                selfPersMask = new Link("Self", new List<Person>(), peopleAndMasks.GetMask("Therese"), 0.4f);
+                selfPersMask = new Link("Self", new List<Person>(), pplAndMasks.GetMask("Therese"), 0.4f);
 
                 interPerson = new List<Link>();
 
                 culture = new List<Link>();
-                culture.Add(new Link("Buncess", new List<Person>(), peopleAndMasks.GetMask("Bungary"), 0.4f));
+                culture.Add(new Link("Buncess", new List<Person>(), pplAndMasks.GetMask("Bungary"), 0.4f));
 
                 person = new Person("Therese", selfPersMask, interPerson, culture, 0.2f, 0.2f, 0.2f);
 
-                peopleAndMasks.CreateNewPerson("Therese", person);
+                pplAndMasks.CreateNewPerson("Therese", person);
             #endregion AddingTerese
 
 
             #region AddingJohn
-                selfPersMask = new Link("Self", new List<Person>(), peopleAndMasks.GetMask("John"), 0.4f);
+                selfPersMask = new Link("Self", new List<Person>(), pplAndMasks.GetMask("John"), 0.4f);
 
                 interPerson = new List<Link>();
 
                 culture = new List<Link>();
-                culture.Add(new Link("Bunsant", new List<Person>(), peopleAndMasks.GetMask("Bungary"), 0.4f));
+                culture.Add(new Link("Bunsant", new List<Person>(), pplAndMasks.GetMask("Bungary"), 0.4f));
             
                 person = new Person("John", selfPersMask, interPerson, culture, 0.2f, 0.2f, 0.2f);
 
-                peopleAndMasks.CreateNewPerson("John", person);
+                pplAndMasks.CreateNewPerson("John", person);
             #endregion AddingJohn
 
 
             #region InsertInterPeople
                 List<Person> peopleRelated = new List<Person>();
-                peopleRelated.Add(peopleAndMasks.GetPerson("Therese"));
-                peopleAndMasks.GetPerson("Bill").AddLink(typeMask.interPersonal, new Link("Married", peopleRelated, peopleAndMasks.GetMask("BillTherese"), 0.4f));
+                peopleRelated.Add(pplAndMasks.GetPerson("Therese"));
+                pplAndMasks.GetPerson("Bill").AddLink(typeMask.interPers, new Link("Married", peopleRelated, pplAndMasks.GetMask("BillTherese"), 0.4f));
 
                 peopleRelated = new List<Person>();
-                peopleRelated.Add(peopleAndMasks.GetPerson("Bill"));
-                peopleAndMasks.GetPerson("Therese").AddLink(typeMask.interPersonal, new Link("Married", new List<Person>(), peopleAndMasks.GetMask("ThereseBill"), 0.4f));
+                peopleRelated.Add(pplAndMasks.GetPerson("Bill"));
+                pplAndMasks.GetPerson("Therese").AddLink(typeMask.interPers, new Link("Married", new List<Person>(), pplAndMasks.GetMask("ThereseBill"), 0.4f));
             #endregion InsertInterPeople
         }
 
@@ -132,9 +169,9 @@ namespace NRelationSystem
 
         public void PrintPersonStatus()
         {
-            Person personToPrint = peopleAndMasks.GetPerson("Bill");
+            Person personToPrint = pplAndMasks.GetPerson("Bill");
 
-            foreach (Link thisLink in personToPrint.GetLinks(typeMask.selfPerception))
+            foreach (Link thisLink in personToPrint.GetLinks(typeMask.selfPerc))
             {
                 Console.WriteLine("Bill -> Link With " + "");
             }
