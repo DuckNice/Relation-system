@@ -13,7 +13,7 @@ namespace NRelationSystem
 
         public RelationSystem()
         {
-            SetupActions();
+           // SetupActions();
             CreateFirstMasks();
             CreateFirstPeople();
         }
@@ -150,16 +150,6 @@ namespace NRelationSystem
             #endregion InsertInterPeople
         }
 
-
-        void SetupActions()
-        {
-            ActionInvoker myET = (subject, verb, direct, indirect) => 
-            {
-                Console.WriteLine("This Is Lambda");
-            };
-
-            AddAction(new MAction("Greet", 0.5f, myET));
-        }
 
 
         public void PrintPersonStatus()

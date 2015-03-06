@@ -134,5 +134,29 @@ namespace ConsoleApplication2
 
           //  Console.WriteLine(action.name);
         }
+
+
+
+		void SetupActions()
+		{
+			ActionInvoker myET = (subject, verb, direct, indirect) => 
+			{
+				Console.WriteLine("This Is Lambda");
+				
+			};
+			
+			ActionInvoker ask_about_day = (subject, verb, direct, indirect) => 
+			{
+				Person sub = (Person)subject;
+
+				Console.WriteLine(sub);
+				(
+				
+			};
+			
+			maskSystem.AddAction(new MAction("Greet", 0.5f, myET));
+			maskSystem.AddAction(new MAction("Ask_about_day", 0.3, ask_about_day));
+		}
+
     }
 }
