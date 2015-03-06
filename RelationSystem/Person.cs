@@ -10,6 +10,8 @@ namespace NRelationSystem
         Link selfPerception;
         List<Link> interPersonal;
         List<Link> culture;
+        Overlay absTraits;
+        string name;
 
         float rationality;
         float morality;
@@ -17,8 +19,9 @@ namespace NRelationSystem
 		float ability; // JUST A BAD ESTIMATE OF A PERSON'S ABILITY TO DO STUFF
 
 
-        public Person(Link _selfPer, List<Link> _interperson, List<Link> _culture, float _ratio, float _moral, float _impulse)
+        public Person(string _name, Link _selfPer, List<Link> _interperson, List<Link> _culture, float _ratio, float _moral, float _impulse)
         {
+            name = _name;
             selfPerception = _selfPer;
             interPersonal = _interperson;
             culture = _culture;

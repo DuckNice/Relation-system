@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 
 namespace NRelationSystem
 {
-    public class RelationSystem
+    public partial class RelationSystem
     {
         public PersonContainer peopleAndMasks = new PersonContainer();
 
@@ -92,11 +92,6 @@ namespace NRelationSystem
             }
         }
 
-        public void AddTraitToMask()
-        {
-
-        }
-
 
         void CreateFirstPeople()
         {
@@ -110,7 +105,7 @@ namespace NRelationSystem
                 List<Link> culture = new List<Link>();
                 culture.Add(new Link("Bunce", new List<Person>(), peopleAndMasks.GetMask("Bungary"), 0.4f));
 
-                person = new Person(selfPersMask, interPerson, culture, 0.2f, 0.2f, 0.2f);
+                person = new Person("Bill", selfPersMask, interPerson, culture, 0.2f, 0.2f, 0.2f);
 
                 peopleAndMasks.CreateNewPerson("Bill", person);
             #endregion AddingBill
@@ -124,7 +119,7 @@ namespace NRelationSystem
                 culture = new List<Link>();
                 culture.Add(new Link("Buncess", new List<Person>(), peopleAndMasks.GetMask("Bungary"), 0.4f));
 
-                person = new Person(selfPersMask, interPerson, culture, 0.2f, 0.2f, 0.2f);
+                person = new Person("Therese", selfPersMask, interPerson, culture, 0.2f, 0.2f, 0.2f);
 
                 peopleAndMasks.CreateNewPerson("Therese", person);
             #endregion AddingTerese
@@ -138,7 +133,7 @@ namespace NRelationSystem
                 culture = new List<Link>();
                 culture.Add(new Link("Bunsant", new List<Person>(), peopleAndMasks.GetMask("Bungary"), 0.4f));
             
-                person = new Person(selfPersMask, interPerson, culture, 0.2f, 0.2f, 0.2f);
+                person = new Person("John", selfPersMask, interPerson, culture, 0.2f, 0.2f, 0.2f);
 
                 peopleAndMasks.CreateNewPerson("John", person);
             #endregion AddingJohn
@@ -164,12 +159,6 @@ namespace NRelationSystem
             };
 
             AddAction(new MAction("Greet", 0.5f, myET));
-        }
-
-
-        public void AddAction(MAction action) 
-        {
-            posActions.Add(action.name, action);
         }
 
 
