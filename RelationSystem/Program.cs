@@ -138,6 +138,7 @@ namespace ConsoleApplication2
             maskSystem.AddRuleToMask("ThereseBill", "Married", "Greet", 0.7f, new List<Rule>());
         }
 
+
         public void CreateFirstPeople()
         {
             #region AddingBill
