@@ -66,19 +66,6 @@ namespace NRelationSystem
         }
 
 
-        public void AddLinkToPerson(string personName, string[] linkRelations, typeMask maskType, string role, string mask, float str)
-        {
-            List<Person> peopleRelated = new List<Person>();
-
-            foreach(string linkRelation in linkRelations)
-            {
-                 peopleRelated.Add(pplAndMasks.GetPerson(linkRelation));
-            }
-
-            pplAndMasks.GetPerson(personName).AddLink(maskType, new Link(role, peopleRelated, pplAndMasks.GetMask(mask), str));
-        }
-
-
         public void PrintPersonStatus()
         {
             Person personToPrint = pplAndMasks.GetPerson("Bill");
