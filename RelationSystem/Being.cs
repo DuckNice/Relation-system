@@ -38,7 +38,7 @@ namespace ConsoleApplication2
 
 
 		public void NPCAction(){
-			Rule rule = maskSystem.peopleAndMasks.GetPerson(name).GetAction(notPossibleActions.Values.ToList(), focus.Values.ToList());
+			Rule rule = maskSystem.pplAndMasks.GetPerson(name).GetAction(notPossibleActions.Values.ToList(), focus.Values.ToList());
 
             Console.WriteLine("Doing action '" + rule.actionToTrigger.name + "' from " + name);
 

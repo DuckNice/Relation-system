@@ -37,7 +37,7 @@ namespace NRelationSystem
             {
                 return culture;
             }
-            else if(type == typeMask.interPersonal)
+            else if(type == typeMask.interPers)
             {
                 return interPersonal;
             }
@@ -52,11 +52,11 @@ namespace NRelationSystem
 
         public void AddLink(typeMask type, Link newLink) 
         {
-            if(type == typeMask.selfPerception && selfPerception != null)
+            if(type == typeMask.selfPerc && selfPerception != null)
             {
                 Console.WriteLine("Error: selfPersonMask already exists. Not adding Mask.");
             }
-            else if(type == typeMask.interPersonal)
+            else if(type == typeMask.interPers)
             {
                 interPersonal.Add(newLink);
             }

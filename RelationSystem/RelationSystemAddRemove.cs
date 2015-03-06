@@ -16,7 +16,7 @@ namespace NRelationSystem
                 {
                     if (role != "")
                     {
-                        peopleAndMasks.AddRoleToMask(maskName, role);
+                        pplAndMasks.AddRoleToMask(maskName, role);
                     }
                 }
             }
@@ -25,7 +25,7 @@ namespace NRelationSystem
 
         public void AddRuleToMask(string maskName, string roleName, string actionName, float str, List<Rule> possibleRules)
         {
-            peopleAndMasks.AddRuleToMask(maskName, roleName, new Rule(roleName, posActions[actionName], str, possibleRules, roleName));
+            pplAndMasks.AddRuleToMask(maskName, roleName, new Rule(roleName, posActions[actionName], str, possibleRules, roleName));
         }
 
 

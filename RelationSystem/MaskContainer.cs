@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace NRelationSystem
 {
-    public class MaskContainer
+    public class MaskCont
     {
         Dictionary<string, Mask> instMasks = new Dictionary<string, Mask>();
 
-        public MaskContainer()
+        public MaskCont()
         {
 
         }
