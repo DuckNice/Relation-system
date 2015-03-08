@@ -8,10 +8,7 @@ namespace NRelationSystem
     public class Link
     {
 
-		struct roleStruct{
-			string roleName;
-			Person person;
-		};
+		
 
 		//use this struct. pass them into rule (or make rule get it somehow)
 		//Rule needs to get access to all these, which it can get through the list of roles in the Mask (RIGHT?)
@@ -53,7 +50,7 @@ namespace NRelationSystem
             catch
             {
                 actionToSend = new RuleAndStrength();
-                actionToSend.chosenRule = new Rule("Empty", new MAction("Empty",0.0f),0.0f,null,"Empty");
+                actionToSend.chosenRule = new Rule("Empty", new MAction("Empty",0.0f),0.0f,null, "Empty", null, null);
                 actionToSend.strengthOfAction = 0.0f;
             }
 

@@ -38,5 +38,5 @@ namespace NRelationSystem
         }
     };
 
-    public delegate void ActionInvoker(object subject, string verb, object direct, object indirect);
+    public delegate void ActionInvoker(Person subject, Person direct);
 }

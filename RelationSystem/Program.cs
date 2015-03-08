@@ -131,11 +131,7 @@ namespace ConsoleApplication2
 
             maskSystem.CreateNewMask("BillTherese", new float[] { 0.2f, 0.2f }, new bool[] { }, typeMask.interPers, new string[] { "Married" });
 
-            maskSystem.AddRuleToMask("BillTherese", "Married", "Greet", 0.7f, new List<Rule>());
-
             maskSystem.CreateNewMask("ThereseBill", new float[] { 0.2f, 0.2f }, new bool[] { }, typeMask.interPers, new string[] { "Married" });
-
-            maskSystem.AddRuleToMask("ThereseBill", "Married", "Greet", 0.7f, new List<Rule>());
         }
 
 
@@ -169,6 +165,9 @@ namespace ConsoleApplication2
             #endregion AddingJohn
 
             #region InterPeople
+                maskSystem.AddRuleToMask("BillTherese", "Married", maskSystem.pplAndMasks.GetPerson("Bill"), maskSystem.pplAndMasks.GetPerson("Therese"), "Greet", 0.7f, new List<Rule>());
+                maskSystem.AddRuleToMask("ThereseBill", "Married", maskSystem.pplAndMasks.GetPerson("Therese"), maskSystem.pplAndMasks.GetPerson("Bill"), "Greet", 0.7f, new List<Rule>());
+
                 maskSystem.AddLinkToPerson("Bill", new string[] { "Therese" }, typeMask.interPers, "Married", "BillTherese", 0.4f);
                 maskSystem.AddLinkToPerson("Therese", new string[] { "Bill" }, typeMask.interPers, "Married", "ThereseBill", 0.4f);
             #endregion InterPeople
@@ -196,26 +195,19 @@ namespace ConsoleApplication2
 
 		void SetupActions()
 		{
-			ActionInvoker greet = (subject, verb, direct, indirect) => 
+			ActionInvoker greet = (subject, direct) => 
 			{
-				Person sub = (Person)subject;
-
-
-				Console.WriteLine(sub.name+" is greeting ");
-				
+				Console.WriteLine(subject.name + " is greeting ");
 			};
+
 			maskSystem.AddAction(new MAction("Greet", 0.1f, greet));
 
-			
-			ActionInvoker ask_about_day = (subject, verb, direct, indirect) => 
+			ActionInvoker ask_about_day = (subject, direct) => 
 			{
-				Person sub = (Person)subject;
-
-				Console.WriteLine(sub);
-				
+				Console.WriteLine(subject.name + "Is asking" + direct.name + "About the time of day.");
 			};
+
 			maskSystem.AddAction(new MAction("Ask_about_day", 0.3f, ask_about_day));
 		}
-
     }
 }

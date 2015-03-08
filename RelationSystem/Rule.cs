@@ -15,14 +15,18 @@ namespace NRelationSystem
         public List<Rule> rulesThatMightHappen;
         public float strength;
         public string role;
+        public Person self;
+        public Person other;
 
-        public Rule(string _ruleName, MAction act, float _str, List<Rule> _rulesThatMightHappen, string _role)
+        public Rule(string _ruleName, MAction act, float _str, List<Rule> _rulesThatMightHappen, string _role, Person _self, Person _other)
         {
             ruleName = _ruleName;
             actionToTrigger = act;
             strength = _str;
             rulesThatMightHappen = _rulesThatMightHappen;
             role = _role;
+            self = _self;
+            other = _other;
         }
 
         public bool RoleTest(string roleToTest)
@@ -47,16 +51,8 @@ namespace NRelationSystem
             return true;
         }
 
-		public void DoAction(object subject, string verb, object dirObject, object indiObject){
-			if (indiObject == null) {
-				if (dirObject == null) {
-					actionToTrigger.DoAction (subject, " ");
-				} else {
-					actionToTrigger.DoAction (subject, " ", dirObject);
-				}
-			} else {
-				actionToTrigger.DoAction(subject, " ", dirObject, indiObject);
-			}
+		public void DoAction(Person subject, Person dirObject){
+			actionToTrigger.DoAction (subject, dirObject);
 		}
 
     }

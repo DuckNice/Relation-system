@@ -7,3 +7,9 @@ D:\Users\Kasper\Documents\Relation system\RelationSystem\obj\Debug\ConsoleApplic
 D:\Users\Kasper\Documents\Relation system\RelationSystem\bin\Debug\ConsoleApplication2.exe
 D:\Users\Kasper\Documents\Relation system\RelationSystem\bin\Debug\ConsoleApplication2.pdb
 D:\Users\Kasper\Documents\Relation system\RelationSystem\obj\Debug\RelationSystem.csprojResolveAssemblyReference.cache
+C:\Users\Kasper\Documents\Relation-system\RelationSystem\bin\Debug\ConsoleApplication2.exe.config
+C:\Users\Kasper\Documents\Relation-system\RelationSystem\obj\Debug\ConsoleApplication2.exe
+C:\Users\Kasper\Documents\Relation-system\RelationSystem\obj\Debug\ConsoleApplication2.pdb
+C:\Users\Kasper\Documents\Relation-system\RelationSystem\bin\Debug\ConsoleApplication2.exe
+C:\Users\Kasper\Documents\Relation-system\RelationSystem\bin\Debug\ConsoleApplication2.pdb
+C:\Users\Kasper\Documents\Relation-system\RelationSystem\obj\Debug\RelationSystem.csprojResolveAssemblyReference.cache

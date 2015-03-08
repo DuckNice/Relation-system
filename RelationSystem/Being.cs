@@ -42,7 +42,7 @@ namespace ConsoleApplication2
 
             Console.WriteLine("Doing action '" + rule.actionToTrigger.name + "' from " + name);
 
-			rule.DoAction (new object()," ",null, null);
+			rule.DoAction (rule.self, rule.other);
 
 			/*if (indiObject == null) {
 				if (dirObject == null) {
