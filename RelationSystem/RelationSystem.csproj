@@ -44,7 +44,7 @@
     <Compile Include="Being.cs" />
     <Compile Include="Calculator.cs" />
     <Compile Include="CustomTypes.cs" />
-    <Compile Include="Program2.cs" />
+    <Compile Include="ProgramNPCThread.cs" />
     <Compile Include="RelationSystem.cs" />
     <Compile Include="PersonContainer.cs" />
     <Compile Include="MaskContainer.cs" />

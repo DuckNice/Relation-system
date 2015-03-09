@@ -10,12 +10,14 @@ namespace RelationSystemProgram
 {
     partial class Program
     {
-		RelationSystem maskSystem = new RelationSystem ();
-		List<Being> beings  = new List<Being>();
+		volatile RelationSystem maskSystem = new RelationSystem ();
+        
+            //Threading work.
+        Thread NPCThread;
+        private volatile bool stopNPCLoop = false;
 
-		public Program(){
-
-
+		public Program()
+        {
 			SetupActions ();
 			CreateFirstMasks();
 			CreateFirstPeople();
@@ -29,7 +31,22 @@ namespace RelationSystemProgram
 			beings.Add (John);
 			Bill.FindFocusToAll (beings);
 			Bill.SetFocusToOther (Therese,1);
+
+
+            NPCThread = new Thread(new ThreadStart(NPCThreadFunc));
+            NPCThread.Start();
+
+            while (!NPCThread.IsAlive);
 		}
+
+
+        public void Close() 
+        {
+            stopNPCLoop = true;
+
+            while (NPCThread.ThreadState != ThreadState.Stopped);
+        }
+
 
         static void Main(string[] args)
         {
@@ -39,6 +56,8 @@ namespace RelationSystemProgram
 			//adding new beings for testing
 		
             main.Update();
+
+            main.Close();
         }
 
 
