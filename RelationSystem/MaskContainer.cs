@@ -1,21 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace NRelationSystem
 {
     public class MaskCont
     {
-        Dictionary<string, Mask> instMasks = new Dictionary<string, Mask>();
+        protected Dictionary<string, Mask> instMasks = new Dictionary<string, Mask>();
 
-        public MaskCont()
-        {
 
-        }
-
-        public void CreateNewMask(string name, typeMask _maskType, Overlay _maskOverlay) 
+        public void CreateNewMask(string name, TypeMask _maskType, Overlay _maskOverlay) 
         {
             Mask newMask = new Mask(_maskType, _maskOverlay);
 
@@ -67,27 +61,31 @@ namespace NRelationSystem
             }
         }
 
+
         public void removeRuleFromMask(string maskName, string ruleName)
         {
             instMasks[maskName].RemoveRule(ruleName);
         }
+
 
         public void AddRoleToMask(string maskName, string newRoleName)
         {
             instMasks[maskName].AddRole(newRoleName);
         }
 
-        public string GetMaskRole(string maskNames, int index)
+
+        public string GetMaskRole(string maskName, int index)
         {
-            if(index < instMasks[maskNames].roles.Count)
+            if(index < instMasks[maskName].roles.Count)
             {
-                return instMasks[maskNames].roles[index];
+                return instMasks[maskName].roles[index];
             }
             else
             {
                 return null;
             }
         }
+
 
         public int GetMaskRoleIndex(string maskName, string roleName)
         {

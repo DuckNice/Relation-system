@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 
-    //namespaces
+    //Namespaces
 using NRelationSystem;
 
-namespace ConsoleApplication2
+
+namespace RelationSystemProgram
 {
-    class Program
+    partial class Program
     {
 		RelationSystem maskSystem = new RelationSystem ();
 		List<Being> beings  = new List<Being>();
@@ -121,17 +120,17 @@ namespace ConsoleApplication2
 
         public void CreateFirstMasks()
         {
-            maskSystem.CreateNewMask("Bungary", new float[] { 0.2f, -0.3f }, new bool[] { }, typeMask.culture, new string[] { "Bunce", "Buncess", "Bunsant" });
+            maskSystem.CreateNewMask("Bungary", new float[] { 0.2f, -0.3f }, new bool[] { }, TypeMask.culture, new string[] { "Bunce", "Buncess", "Bunsant" });
 
-            maskSystem.CreateNewMask("Bill", new float[] { 0.2f, -0.3f }, new bool[] { }, typeMask.selfPerc, new string[] { "" });
+            maskSystem.CreateNewMask("Bill", new float[] { 0.2f, -0.3f }, new bool[] { }, TypeMask.selfPerc, new string[] { "" });
 
-            maskSystem.CreateNewMask("Therese", new float[] { 0.2f, -0.3f }, new bool[] { }, typeMask.selfPerc, new string[] { "" });
+            maskSystem.CreateNewMask("Therese", new float[] { 0.2f, -0.3f }, new bool[] { }, TypeMask.selfPerc, new string[] { "" });
 
-            maskSystem.CreateNewMask("John", new float[] { 0.2f, -0.3f }, new bool[] { }, typeMask.selfPerc, new string[] { "" });
+            maskSystem.CreateNewMask("John", new float[] { 0.2f, -0.3f }, new bool[] { }, TypeMask.selfPerc, new string[] { "" });
 
-            maskSystem.CreateNewMask("BillTherese", new float[] { 0.2f, 0.2f }, new bool[] { }, typeMask.interPers, new string[] { "Married" });
+            maskSystem.CreateNewMask("BillTherese", new float[] { 0.2f, 0.2f }, new bool[] { }, TypeMask.interPers, new string[] { "Married" });
 
-            maskSystem.CreateNewMask("ThereseBill", new float[] { 0.2f, 0.2f }, new bool[] { }, typeMask.interPers, new string[] { "Married" });
+            maskSystem.CreateNewMask("ThereseBill", new float[] { 0.2f, 0.2f }, new bool[] { }, TypeMask.interPers, new string[] { "Married" });
         }
 
 
@@ -168,8 +167,8 @@ namespace ConsoleApplication2
                 maskSystem.AddRuleToMask("BillTherese", "Married", maskSystem.pplAndMasks.GetPerson("Bill"), maskSystem.pplAndMasks.GetPerson("Therese"), "Greet", 0.7f, new List<Rule>());
                 maskSystem.AddRuleToMask("ThereseBill", "Married", maskSystem.pplAndMasks.GetPerson("Therese"), maskSystem.pplAndMasks.GetPerson("Bill"), "Greet", 0.7f, new List<Rule>());
 
-                maskSystem.AddLinkToPerson("Bill", new string[] { "Therese" }, typeMask.interPers, "Married", "BillTherese", 0.4f);
-                maskSystem.AddLinkToPerson("Therese", new string[] { "Bill" }, typeMask.interPers, "Married", "ThereseBill", 0.4f);
+                maskSystem.AddLinkToPerson("Bill", new string[] { "Therese" }, TypeMask.interPers, "Married", "BillTherese", 0.4f);
+                maskSystem.AddLinkToPerson("Therese", new string[] { "Bill" }, TypeMask.interPers, "Married", "ThereseBill", 0.4f);
             #endregion InterPeople
         }
 

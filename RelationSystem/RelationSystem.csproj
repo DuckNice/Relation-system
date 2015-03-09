@@ -7,7 +7,7 @@
     <ProjectGuid>{2CE6FAE1-C7D0-4A11-9883-4FEA03D8A3F6}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ConsoleApplication2</RootNamespace>
+    <RootNamespace>RelationSystemProgram</RootNamespace>
     <AssemblyName>ConsoleApplication2</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -44,6 +44,7 @@
     <Compile Include="Being.cs" />
     <Compile Include="Calculator.cs" />
     <Compile Include="CustomTypes.cs" />
+    <Compile Include="Program2.cs" />
     <Compile Include="RelationSystem.cs" />
     <Compile Include="PersonContainer.cs" />
     <Compile Include="MaskContainer.cs" />

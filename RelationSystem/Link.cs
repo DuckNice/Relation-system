@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
 
 namespace NRelationSystem
 {
@@ -19,18 +18,18 @@ namespace NRelationSystem
 		//when the action actually happens, because of this struct, we can pass that out to the Persons.
 
 		//this means that we, when we create the link, have to pass the person into the struct.
-
+        
         string roleName;
         List<Person> roleRef;
         Mask roleMask;
-        float levelOfInfluence;
+        float lvlOfInfl;
 
-        public Link(string _roleName, List<Person> _roleRef, Mask _roleMask, float _levelOfInfluence) 
+        public Link(string _roleName, List<Person> _roleRef, Mask _roleMask, float _lvlOfInfl) 
         {
             roleName = _roleName;
             roleRef = _roleRef;
             roleMask = _roleMask;
-            levelOfInfluence = _levelOfInfluence;
+            lvlOfInfl = _lvlOfInfl;
         }
 
 
@@ -39,19 +38,19 @@ namespace NRelationSystem
             roleRef.Add(_roleRef);
         }
 
-        public RuleAndStrength actionForLink(List<MAction> notPosActions, float rat, float mor, float imp, float abi, List<float> foci) 
+        public RuleAndStr actionForLink(List<MAction> notPosActions, float rat, float mor, float imp, float abi, List<float> foci) 
         {
-            RuleAndStrength actionToSend;
+            RuleAndStr actionToSend;
             try
             {
-				actionToSend = roleMask.CalculateActionToUse(notPosActions, rat, mor, imp, abi, levelOfInfluence,foci, roleName);
+				actionToSend = roleMask.CalculateActionToUse(notPosActions, rat, mor, imp, abi, lvlOfInfl,foci, roleName);
                 
             }
             catch
             {
-                actionToSend = new RuleAndStrength();
+                actionToSend = new RuleAndStr();
                 actionToSend.chosenRule = new Rule("Empty", new MAction("Empty",0.0f),0.0f,null, "Empty", null, null);
-                actionToSend.strengthOfAction = 0.0f;
+                actionToSend.strOfAct = 0.0f;
             }
 
             return actionToSend;

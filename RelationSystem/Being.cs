@@ -1,11 +1,12 @@
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
+    //Namespaces
 using NRelationSystem;
 
-namespace ConsoleApplication2
+
+namespace RelationSystemProgram
 {
 	public class Being
 	{

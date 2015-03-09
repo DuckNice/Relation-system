@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 
 namespace NRelationSystem
 {
     public class Mask
     {
-        typeMask maskType;
+        TypeMask maskType;
         Dictionary<string, Rule> rules;
         public List<string> roles;
         Overlay maskOverlay;
 
 
-        public Mask(typeMask _maskType, Overlay _maskOverlay)
+        public Mask(TypeMask _maskType, Overlay _maskOverlay)
         {
             maskType = _maskType;
             roles = new List<string>();
@@ -55,11 +54,11 @@ namespace NRelationSystem
         }
         
 
-        public RuleAndStrength CalculateActionToUse(List<MAction> notPosActions, float rat, float mor, float imp, float abi, float maskInfl, List<float> foci, string role)
+        public RuleAndStr CalculateActionToUse(List<MAction> notPosActions, float rat, float mor, float imp, float abi, float maskInfl, List<float> foci, string role)
         {
-            RuleAndStrength chosenAction = new RuleAndStrength();
+            RuleAndStr chosenAction = new RuleAndStr();
 			chosenAction.chosenRule = new Rule("Empty", new MAction("Empty",0.0f),0.0f,null, "Empty", null, null);
-            chosenAction.strengthOfAction = 0.0f;
+            chosenAction.strOfAct = 0.0f;
 
             foreach(Rule rule in rules.Values.ToList())
             {
@@ -67,9 +66,9 @@ namespace NRelationSystem
                 {
                     float newActionStrength = Calculator.CalculateRule(rat, mor, imp, abi, rule, rule.actionToTrigger.affectedRules, maskInfl, foci);
 
-                    if (newActionStrength > chosenAction.strengthOfAction)
+                    if (newActionStrength > chosenAction.strOfAct)
                     {
-                        chosenAction.strengthOfAction = newActionStrength;
+                        chosenAction.strOfAct = newActionStrength;
 
                         chosenAction.chosenRule = rule;
                     }

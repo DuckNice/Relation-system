@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace NRelationSystem
 {
@@ -13,7 +11,7 @@ namespace NRelationSystem
 
         public void CreateNewPerson(string personName, Person person)
         {
-            if ((person.GetLinks(typeMask.selfPerc))[0] != null)
+            if ((person.GetLinks(TypeMask.selfPerc))[0] != null)
             {
                 people.Add(personName, person);
                 peopleNames.Add(personName);

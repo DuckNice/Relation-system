@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace NRelationSystem
 {
@@ -23,22 +21,22 @@ namespace NRelationSystem
         }
 
 
-        public void AddRuleToMask(string maskName, string roleName, Person self, Person other, string actionName, float str, List<Rule> possibleRules)
+        public void AddRuleToMask(string maskName, string roleName, Person self, Person other, string actName, float str, List<Rule> posRules)
         {
-            pplAndMasks.AddRuleToMask(maskName, roleName, new Rule(roleName, posActions[actionName], str, possibleRules, roleName, self, other));
+            pplAndMasks.AddRuleToMask(maskName, roleName, new Rule(roleName, posActions[actName], str, posRules, roleName, self, other));
         }
 
 
-        public void AddLinkToPerson(string personName, string[] linkRelations, typeMask maskType, string role, string mask, float str)
+        public void AddLinkToPerson(string persName, string[] linkRel, TypeMask maskType, string role, string mask, float str)
         {
             List<Person> peopleRelated = new List<Person>();
 
-            foreach (string linkRelation in linkRelations)
+            foreach (string linkRelation in linkRel)
             {
                 peopleRelated.Add(pplAndMasks.GetPerson(linkRelation));
             }
 
-            pplAndMasks.GetPerson(personName).AddLink(maskType, new Link(role, peopleRelated, pplAndMasks.GetMask(mask), str));
+            pplAndMasks.GetPerson(persName).AddLink(maskType, new Link(role, peopleRelated, pplAndMasks.GetMask(mask), str));
         }
 
 
