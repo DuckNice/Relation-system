@@ -44,5 +44,27 @@ namespace NRelationSystem
     };
 
 
+    public struct HistoryItem
+    {
+        private MAction action;
+        private Person subject;
+        private Person direct;
+        private float time;
+
+        public HistoryItem(MAction _action, Person _subject, Person _direct, float _time)
+        {
+            action = _action;
+            subject = _subject;
+            direct = _direct;
+            time = _time;
+        }
+
+        public MAction GetAction() { return action; }
+        public Person GetSubject() { return subject; }
+        public Person GetDirect() { return direct; }
+        public float GetTime() { return time; }
+    };
+
+
     public delegate void ActionInvoker(Person subject, Person direct);
 }

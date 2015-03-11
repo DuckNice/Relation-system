@@ -10,6 +10,9 @@ namespace NRelationSystem
         public Dictionary<string, MAction> posActions = new Dictionary<string, MAction>();
 
 
+        public List<HistoryItem> historyBook = new List<HistoryItem>();
+
+
         public void CreateNewMask(string nameOfMask, float[] _traits = null, bool[] relatives = null, TypeMask maskType = TypeMask.interPers, string[] roles = null) 
         { 
             List<Trait> traits = new List<Trait>();
@@ -42,6 +45,9 @@ namespace NRelationSystem
         }
 
 
+
+
+
         public void CreateNewPerson(MaskAdds selfMask, List<MaskAdds> _cults, List<MaskAdds> _intPpl, float rational, float moral, float impulse)
         {
             Link selfPersMask = new Link(selfMask.role, selfMask.linkPpl, pplAndMasks.GetMask(selfMask.mask), selfMask.lvlOfInfl);
@@ -66,13 +72,19 @@ namespace NRelationSystem
         }
 
 
+        public void DidAction(MAction action, Person subject, Person direct)
+        {
+            historyBook.Add(new HistoryItem(action, subject, direct, 0.0f));
+        }
+
+
         public void PrintPersonStatus()
         {
             Person personToPrint = pplAndMasks.GetPerson("Bill");
 
             foreach (Link thisLink in personToPrint.GetLinks(TypeMask.selfPerc))
             {
-                Console.WriteLine("Bill -> Link With " + "");
+                Console.WriteLine("Nothing here yet.");
             }
         }
     }

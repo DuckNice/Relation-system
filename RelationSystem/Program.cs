@@ -239,14 +239,14 @@ namespace RelationSystemProgram
 				Console.WriteLine(subject.name + " is greeting ");
 			};
 
-			maskSystem.AddAction(new MAction("Greet", 0.1f, greet));
+			maskSystem.AddAction(new MAction("Greet", 0.1f, greet, maskSystem));
 
 			ActionInvoker ask_about_day = (subject, direct) => 
 			{
 				Console.WriteLine(subject.name + " Is asking " + direct.name + " About the time of day.");
 			};
 
-			maskSystem.AddAction(new MAction("Ask_about_day", 0.3f, ask_about_day));
+			maskSystem.AddAction(new MAction("Ask_about_day", 0.3f, ask_about_day, maskSystem));
 		}
     }
 }
