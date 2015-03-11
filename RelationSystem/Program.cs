@@ -203,6 +203,15 @@ namespace RelationSystemProgram
 
         public void CreateFirstPeople()
         {
+			#region adding Conditions
+			RuleConditioner emptyCondition = delegate { Console.WriteLine("PassedCorrectly"); return false; };
+
+
+
+			#endregion adding Conditions
+
+
+
             #region AddingPlayer
                 MaskAdds selfPersMask = new MaskAdds("Self", "Player", 0.4f, new List<Person>());
 
@@ -215,6 +224,7 @@ namespace RelationSystemProgram
                 List<MaskAdds>  culture = new List<MaskAdds>();
                 culture.Add(new MaskAdds("Bunce", "Bungary", 0.4f, new List<Person>()));
 
+
                 relationSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.2f, 0.2f, 0.2f);
             #endregion AddingBill
 
@@ -224,7 +234,9 @@ namespace RelationSystemProgram
                 culture = new List<MaskAdds>();
                 culture.Add(new MaskAdds("Buncess", "Bungary", 0.4f, new List<Person>()));
 
+
                 relationSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.2f, 0.2f, 0.2f);
+
             #endregion AddingTerese
 
             #region AddingJohn
@@ -237,25 +249,30 @@ namespace RelationSystemProgram
             #endregion AddingJohn
 
             #region InterPeople
-                RuleConditioner emptyCondition = delegate { Console.WriteLine("PassedCorrectly"); return false; };
 
-                relationSystem.AddRuleToMask("BillTherese", "Married", relationSystem.pplAndMasks.GetPerson("Bill"), relationSystem.pplAndMasks.GetPerson("Therese"), "Greet", 0.4f, new List<Rule>(), emptyCondition);
-                relationSystem.AddRuleToMask("ThereseBill", "Married", relationSystem.pplAndMasks.GetPerson("Therese"), relationSystem.pplAndMasks.GetPerson("Bill"), "Greet", 0.4f, new List<Rule>(), emptyCondition);
+            
 
-                relationSystem.AddRuleToMask("BillTherese", "Married", relationSystem.pplAndMasks.GetPerson("Bill"), relationSystem.pplAndMasks.GetPerson("Therese"), "Compliment", 0.7f, new List<Rule>(), emptyCondition);
-                relationSystem.AddRuleToMask("ThereseBill", "Married", relationSystem.pplAndMasks.GetPerson("Therese"), relationSystem.pplAndMasks.GetPerson("Bill"), "Compliment", 0.5f, new List<Rule>(), emptyCondition);
+			relationSystem.AddRuleToMask("BillTherese", "Married", relationSystem.pplAndMasks.GetPerson("Bill"), relationSystem.pplAndMasks.GetPerson("Therese"), "GreetSpouse","Greet", 0.4f, new List<Rule>(), emptyCondition);
+			relationSystem.AddRuleToMask("ThereseBill", "Married", relationSystem.pplAndMasks.GetPerson("Therese"), relationSystem.pplAndMasks.GetPerson("Bill"), "GreetSpouse","Greet", 0.4f, new List<Rule>(), emptyCondition);
 
-                relationSystem.AddRuleToMask("BillTherese", "Married", relationSystem.pplAndMasks.GetPerson("Bill"), relationSystem.pplAndMasks.GetPerson("Therese"), "Threaten", -0.4f, new List<Rule>(), emptyCondition);
-                relationSystem.AddRuleToMask("ThereseBill", "Married", relationSystem.pplAndMasks.GetPerson("Therese"), relationSystem.pplAndMasks.GetPerson("Bill"), "Threaten", -0.4f, new List<Rule>(), emptyCondition);    
+			relationSystem.AddRuleToMask("BillTherese", "Married", relationSystem.pplAndMasks.GetPerson("Bill"), relationSystem.pplAndMasks.GetPerson("Therese"), "ComplimentSpouse","Compliment", 0.7f, new List<Rule>(), emptyCondition);
+            relationSystem.AddRuleToMask("ThereseBill", "Married", relationSystem.pplAndMasks.GetPerson("Therese"), relationSystem.pplAndMasks.GetPerson("Bill"), "ComplimentSpouse","Compliment", 0.5f, new List<Rule>(), emptyCondition);
 
-			
+			relationSystem.AddRuleToMask("BillTherese", "Married", relationSystem.pplAndMasks.GetPerson("Bill"), relationSystem.pplAndMasks.GetPerson("Therese"), "ThreatenSpouse", "Threaten", -0.4f, new List<Rule>(), emptyCondition);
+			relationSystem.AddRuleToMask("ThereseBill", "Married", relationSystem.pplAndMasks.GetPerson("Therese"), relationSystem.pplAndMasks.GetPerson("Bill"), "ThreatenSpouse", "Threaten", -0.4f, new List<Rule>(), emptyCondition);    
+
 			relationSystem.AddLinkToPerson("Bill", new string[] { "Therese" }, TypeMask.interPers, "Married", "BillTherese", 0.4f);
                 relationSystem.AddLinkToPerson("Therese", new string[] { "Bill" }, TypeMask.interPers, "Married", "ThereseBill", 0.4f);
             #endregion InterPeople
 
 
 			#region Rules in social masks
-                relationSystem.AddRuleToMask("Bungary", "Bunce", relationSystem.pplAndMasks.GetPerson("Bill"), relationSystem.pplAndMasks.GetPerson("John"), "Order", 0.4f, new List<Rule>(), emptyCondition);
+
+			relationSystem.AddRuleToMask("Bungary", "Bunce", relationSystem.pplAndMasks.GetPerson("Bill"), relationSystem.pplAndMasks.GetPerson("John"),"OrderJohn", "Order", 0.4f, new List<Rule>(), emptyCondition);
+			relationSystem.AddRuleToMask("Bungary", "Bunce", relationSystem.pplAndMasks.GetPerson("Bill"), relationSystem.pplAndMasks.GetPerson("John"),"LieToJohn", "Lie", 0.0f, new List<Rule>(), emptyCondition);
+			relationSystem.AddRuleToMask("Bungary", "Bunce", relationSystem.pplAndMasks.GetPerson("Bill"), relationSystem.pplAndMasks.GetPerson("Therese"),"LieToTherese", "Lie", -0.6f, new List<Rule>(), emptyCondition);
+            relationSystem.AddRuleToMask("Bungary", "Bunce", relationSystem.pplAndMasks.GetPerson("Bill"), relationSystem.pplAndMasks.GetPerson("John"),"OrderPeasant", "Order", 0.4f, new List<Rule>(), emptyCondition);
+
 			#endregion Rules in social masks
         }
 
@@ -279,6 +296,10 @@ namespace RelationSystemProgram
 
 		void SetupActions()
 		{
+
+
+
+
 	// ---------- INTERPERSONAL ACTIONS
 			ActionInvoker greet = (subject, direct) => 
 			{
@@ -303,13 +324,6 @@ namespace RelationSystemProgram
 
 
 
-			/*	ActionInvoker ask_about_day = (subject, direct) => 
-			{
-				Console.WriteLine(subject.name + " Is asking " + direct.name + " About the time of day.");
-			};
-
-			maskSystem.AddAction(new MAction("Ask_about_day", 0.3f, ask_about_day));
-
 */
 	// ---------- INTERPERSONAL ACTIONS
 
@@ -317,8 +331,16 @@ namespace RelationSystemProgram
 			{
 				Console.WriteLine(subject.name + " is ordering "+direct.name+" to go away.");
 			};
-			
+
 			relationSystem.AddAction(new MAction("Order", 0.1f, order, relationSystem));
+
+			ActionInvoker lie = (subject, direct) => 
+			{
+				Console.WriteLine(subject.name + " is lying to "+direct.name+" about his own might");
+			};
+			
+			relationSystem.AddAction(new MAction("Lie", 0.2f, lie, relationSystem));
+
 		}
     }
 }
