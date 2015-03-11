@@ -200,7 +200,7 @@ namespace RelationSystemProgram
                 selfPersMask = new MaskAdds("Self", "John", 0.4f, new List<Person>());
 
                 culture = new List<MaskAdds>();
-                culture.Add(new MaskAdds("Bunsant", "Bungary", 0.4f, new List<Person>()));
+                culture.Add(new MaskAdds("Bunsant", "Bungary", 0.9f, new List<Person>()));
 
                 maskSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.2f, 0.2f, 0.2f);
             #endregion AddingJohn
@@ -209,11 +209,23 @@ namespace RelationSystemProgram
                 maskSystem.AddRuleToMask("BillTherese", "Married", maskSystem.pplAndMasks.GetPerson("Bill"), maskSystem.pplAndMasks.GetPerson("Therese"), "Greet", 0.4f, new List<Rule>());
                 maskSystem.AddRuleToMask("ThereseBill", "Married", maskSystem.pplAndMasks.GetPerson("Therese"), maskSystem.pplAndMasks.GetPerson("Bill"), "Greet", 0.4f, new List<Rule>());
 				
-			//    maskSystem.AddRuleToMask("Bungary", "Bunce", maskSystem.pplAndMasks.GetPerson("Bill"), maskSystem.pplAndMasks.GetPerson("Therese"), "Compliment", 0.7f, new List<Rule>());
+			    maskSystem.AddRuleToMask("BillTherese", "Married", maskSystem.pplAndMasks.GetPerson("Bill"), maskSystem.pplAndMasks.GetPerson("Therese"), "Compliment", 0.7f, new List<Rule>());
+		    	maskSystem.AddRuleToMask("ThereseBill", "Married", maskSystem.pplAndMasks.GetPerson("Therese"), maskSystem.pplAndMasks.GetPerson("Bill"), "Compliment", 0.5f, new List<Rule>());    
 
-                maskSystem.AddLinkToPerson("Bill", new string[] { "Therese" }, TypeMask.interPers, "Married", "BillTherese", 0.4f);
+				maskSystem.AddRuleToMask("BillTherese", "Married", maskSystem.pplAndMasks.GetPerson("Bill"), maskSystem.pplAndMasks.GetPerson("Therese"), "Threaten", -0.4f, new List<Rule>());
+				maskSystem.AddRuleToMask("ThereseBill", "Married", maskSystem.pplAndMasks.GetPerson("Therese"), maskSystem.pplAndMasks.GetPerson("Bill"), "Threaten", -0.4f, new List<Rule>());    
+
+			
+			maskSystem.AddLinkToPerson("Bill", new string[] { "Therese" }, TypeMask.interPers, "Married", "BillTherese", 0.4f);
                 maskSystem.AddLinkToPerson("Therese", new string[] { "Bill" }, TypeMask.interPers, "Married", "ThereseBill", 0.4f);
             #endregion InterPeople
+
+
+			#region Rules in social masks
+
+			maskSystem.AddRuleToMask("Bungary", "Bunce", maskSystem.pplAndMasks.GetPerson("Bill"), maskSystem.pplAndMasks.GetPerson("John"), "Order", 0.4f, new List<Rule>());
+
+			#endregion Rules in social masks
         }
 
 
@@ -238,7 +250,7 @@ namespace RelationSystemProgram
 		{
 
 
-		//INTERPERSONAL ACTIONS
+	// ---------- INTERPERSONAL ACTIONS
 			ActionInvoker greet = (subject, direct) => 
 			{
 				Console.WriteLine(subject.name + " is greeting "+direct.name);
@@ -246,20 +258,38 @@ namespace RelationSystemProgram
 
 			maskSystem.AddAction(new MAction("Greet", 0.1f, greet));
 
-			ActionInvoker ask_about_day = (subject, direct) => 
-			{
-				Console.WriteLine(subject.name + " Is asking " + direct.name + " About the time of day.");
-			};
-
-			maskSystem.AddAction(new MAction("Ask_about_day", 0.3f, ask_about_day));
-
-
 			ActionInvoker compliment = (subject, direct) => 
 			{
 				Console.WriteLine(subject.name + " is complimenting "+direct.name);
 			};
 			
 			maskSystem.AddAction(new MAction("Compliment", 0.0f, compliment));
+
+			ActionInvoker threaten = (subject, direct) => 
+			{
+				Console.WriteLine(subject.name + " is threatening "+direct.name);
+			};
+			
+			maskSystem.AddAction(new MAction("Threaten", 0.0f, threaten));
+
+
+
+			/*	ActionInvoker ask_about_day = (subject, direct) => 
+			{
+				Console.WriteLine(subject.name + " Is asking " + direct.name + " About the time of day.");
+			};
+
+			maskSystem.AddAction(new MAction("Ask_about_day", 0.3f, ask_about_day));
+
+*/
+	// ---------- INTERPERSONAL ACTIONS
+
+			ActionInvoker order = (subject, direct) => 
+			{
+				Console.WriteLine(subject.name + " is ordering "+direct.name+" to go away.");
+			};
+			
+			maskSystem.AddAction(new MAction("Order", 0.1f, order));
 
 
 		}
