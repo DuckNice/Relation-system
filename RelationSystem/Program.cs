@@ -10,7 +10,7 @@ namespace RelationSystemProgram
 {
     partial class Program
     {
-		volatile RelationSystem maskSystem = new RelationSystem ();
+		volatile RelationSystem relationSystem = new RelationSystem ();
         
             //Threading work.
         Thread NPCThread;
@@ -22,9 +22,9 @@ namespace RelationSystemProgram
 			CreateFirstMasks();
 			CreateFirstPeople();
 
-			Being Bill = new Being ("Bill", maskSystem);
-			Being Therese = new Being ("Therese", maskSystem);
-			Being John = new Being ("John", maskSystem);
+			Being Bill = new Being ("Bill", relationSystem);
+			Being Therese = new Being ("Therese", relationSystem);
+			Being John = new Being ("John", relationSystem);
 			
 			beings.Add (Bill);
 			beings.Add (Therese);
@@ -79,7 +79,7 @@ namespace RelationSystemProgram
 
                 if(sepInput[0] == "display")
                 {
-                    maskSystem.PrintPersonStatus();
+                    relationSystem.PrintPersonStatus();
                 }
                 else if(sepInput[0] == "close" || input == "exit")
                 {
@@ -89,15 +89,15 @@ namespace RelationSystemProgram
                 {
                     if(sepInput.Length > 1)
                     {
-                        Person target = maskSystem.pplAndMasks.GetPerson(sepInput[1]);
+                        Person target = relationSystem.pplAndMasks.GetPerson(sepInput[1]);
 
                         if(target != null)
                         {
                             if(sepInput.Length > 2)
                             {
-                                if (maskSystem.posActions.ContainsKey(sepInput[2]))
+                                if (relationSystem.posActions.ContainsKey(sepInput[2]))
                                 {
-                                    MAction actionToDo = maskSystem.posActions[sepInput[2]];
+                                    MAction actionToDo = relationSystem.posActions[sepInput[2]];
 
                                     PerformAction(target, actionToDo);
                                 }
@@ -125,7 +125,7 @@ namespace RelationSystemProgram
                             case "actions":
                                 Console.WriteLine("List of actions:\n");
 
-                                foreach(string actionNames in maskSystem.posActions.Keys)
+                                foreach(string actionNames in relationSystem.posActions.Keys)
                                     Console.WriteLine("  " + actionNames + ".");
 
                                 break;
@@ -135,8 +135,13 @@ namespace RelationSystemProgram
                     {
                         Console.WriteLine("'display <person>': Get information about character.");
                         Console.WriteLine("'do <person> <action>': Perform the mentioned <action> interacting with the stated <person>");
+                        Console.WriteLine("'history': Show the history log.");
                         Console.WriteLine("'exit' or 'close': Properly close the application and all related threads.");
                     }
+                }
+                else if(sepInput[0] == "history")
+                {
+                    Console.WriteLine("");
                 }
                 else
                 {
@@ -154,19 +159,19 @@ namespace RelationSystemProgram
 
         public void CreateFirstMasks()
         {
-            maskSystem.CreateNewMask("Player", new float[]{}, new bool[]{}, TypeMask.selfPerc, new string[]{});
+            relationSystem.CreateNewMask("Player", new float[]{}, new bool[]{}, TypeMask.selfPerc, new string[]{});
 
-            maskSystem.CreateNewMask("Bungary", new float[] { 0.2f, -0.3f }, new bool[] { }, TypeMask.culture, new string[] { "Bunce", "Buncess", "Bunsant" });
+            relationSystem.CreateNewMask("Bungary", new float[] { 0.2f, -0.3f }, new bool[] { }, TypeMask.culture, new string[] { "Bunce", "Buncess", "Bunsant" });
 
-            maskSystem.CreateNewMask("Bill", new float[] { 0.2f, -0.3f }, new bool[] { }, TypeMask.selfPerc, new string[] { "" });
+            relationSystem.CreateNewMask("Bill", new float[] { 0.2f, -0.3f }, new bool[] { }, TypeMask.selfPerc, new string[] { "" });
 
-            maskSystem.CreateNewMask("Therese", new float[] { 0.2f, -0.3f }, new bool[] { }, TypeMask.selfPerc, new string[] { "" });
+            relationSystem.CreateNewMask("Therese", new float[] { 0.2f, -0.3f }, new bool[] { }, TypeMask.selfPerc, new string[] { "" });
 
-            maskSystem.CreateNewMask("John", new float[] { 0.2f, -0.3f }, new bool[] { }, TypeMask.selfPerc, new string[] { "" });
+            relationSystem.CreateNewMask("John", new float[] { 0.2f, -0.3f }, new bool[] { }, TypeMask.selfPerc, new string[] { "" });
 
-            maskSystem.CreateNewMask("BillTherese", new float[] { 0.2f, 0.2f }, new bool[] { }, TypeMask.interPers, new string[] { "Married" });
+            relationSystem.CreateNewMask("BillTherese", new float[] { 0.2f, 0.2f }, new bool[] { }, TypeMask.interPers, new string[] { "Married" });
 
-            maskSystem.CreateNewMask("ThereseBill", new float[] { 0.2f, 0.2f }, new bool[] { }, TypeMask.interPers, new string[] { "Married" });
+            relationSystem.CreateNewMask("ThereseBill", new float[] { 0.2f, 0.2f }, new bool[] { }, TypeMask.interPers, new string[] { "Married" });
         }
 
 
@@ -175,7 +180,7 @@ namespace RelationSystemProgram
             #region AddingPlayer
                 MaskAdds selfPersMask = new MaskAdds("Self", "Player", 0.4f, new List<Person>());
 
-                maskSystem.CreateNewPerson(selfPersMask, new List<MaskAdds>(), new List<MaskAdds>(), 0.2f, 0.2f, 0.2f);
+                relationSystem.CreateNewPerson(selfPersMask, new List<MaskAdds>(), new List<MaskAdds>(), 0.2f, 0.2f, 0.2f);
             #endregion AddingPlayer
 
             #region AddingBill
@@ -184,7 +189,7 @@ namespace RelationSystemProgram
                 List<MaskAdds>  culture = new List<MaskAdds>();
                 culture.Add(new MaskAdds("Bunce", "Bungary", 0.4f, new List<Person>()));
 
-                maskSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.2f, 0.2f, 0.2f);
+                relationSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.2f, 0.2f, 0.2f);
             #endregion AddingBill
 
             #region AddingTerese
@@ -193,7 +198,7 @@ namespace RelationSystemProgram
                 culture = new List<MaskAdds>();
                 culture.Add(new MaskAdds("Buncess", "Bungary", 0.4f, new List<Person>()));
 
-                maskSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.2f, 0.2f, 0.2f);
+                relationSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.2f, 0.2f, 0.2f);
             #endregion AddingTerese
 
             #region AddingJohn
@@ -202,36 +207,34 @@ namespace RelationSystemProgram
                 culture = new List<MaskAdds>();
                 culture.Add(new MaskAdds("Bunsant", "Bungary", 0.9f, new List<Person>()));
 
-                maskSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.2f, 0.2f, 0.2f);
+                relationSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.2f, 0.2f, 0.2f);
             #endregion AddingJohn
 
             #region InterPeople
-                maskSystem.AddRuleToMask("BillTherese", "Married", maskSystem.pplAndMasks.GetPerson("Bill"), maskSystem.pplAndMasks.GetPerson("Therese"), "Greet", 0.4f, new List<Rule>());
-                maskSystem.AddRuleToMask("ThereseBill", "Married", maskSystem.pplAndMasks.GetPerson("Therese"), maskSystem.pplAndMasks.GetPerson("Bill"), "Greet", 0.4f, new List<Rule>());
+                relationSystem.AddRuleToMask("BillTherese", "Married", relationSystem.pplAndMasks.GetPerson("Bill"), relationSystem.pplAndMasks.GetPerson("Therese"), "Greet", 0.4f, new List<Rule>());
+                relationSystem.AddRuleToMask("ThereseBill", "Married", relationSystem.pplAndMasks.GetPerson("Therese"), relationSystem.pplAndMasks.GetPerson("Bill"), "Greet", 0.4f, new List<Rule>());
 				
-			    maskSystem.AddRuleToMask("BillTherese", "Married", maskSystem.pplAndMasks.GetPerson("Bill"), maskSystem.pplAndMasks.GetPerson("Therese"), "Compliment", 0.7f, new List<Rule>());
-		    	maskSystem.AddRuleToMask("ThereseBill", "Married", maskSystem.pplAndMasks.GetPerson("Therese"), maskSystem.pplAndMasks.GetPerson("Bill"), "Compliment", 0.5f, new List<Rule>());    
+			    relationSystem.AddRuleToMask("BillTherese", "Married", relationSystem.pplAndMasks.GetPerson("Bill"), relationSystem.pplAndMasks.GetPerson("Therese"), "Compliment", 0.7f, new List<Rule>());
+		    	relationSystem.AddRuleToMask("ThereseBill", "Married", relationSystem.pplAndMasks.GetPerson("Therese"), relationSystem.pplAndMasks.GetPerson("Bill"), "Compliment", 0.5f, new List<Rule>());    
 
-				maskSystem.AddRuleToMask("BillTherese", "Married", maskSystem.pplAndMasks.GetPerson("Bill"), maskSystem.pplAndMasks.GetPerson("Therese"), "Threaten", -0.4f, new List<Rule>());
-				maskSystem.AddRuleToMask("ThereseBill", "Married", maskSystem.pplAndMasks.GetPerson("Therese"), maskSystem.pplAndMasks.GetPerson("Bill"), "Threaten", -0.4f, new List<Rule>());    
+				relationSystem.AddRuleToMask("BillTherese", "Married", relationSystem.pplAndMasks.GetPerson("Bill"), relationSystem.pplAndMasks.GetPerson("Therese"), "Threaten", -0.4f, new List<Rule>());
+				relationSystem.AddRuleToMask("ThereseBill", "Married", relationSystem.pplAndMasks.GetPerson("Therese"), relationSystem.pplAndMasks.GetPerson("Bill"), "Threaten", -0.4f, new List<Rule>());    
 
 			
-			maskSystem.AddLinkToPerson("Bill", new string[] { "Therese" }, TypeMask.interPers, "Married", "BillTherese", 0.4f);
-                maskSystem.AddLinkToPerson("Therese", new string[] { "Bill" }, TypeMask.interPers, "Married", "ThereseBill", 0.4f);
+			relationSystem.AddLinkToPerson("Bill", new string[] { "Therese" }, TypeMask.interPers, "Married", "BillTherese", 0.4f);
+                relationSystem.AddLinkToPerson("Therese", new string[] { "Bill" }, TypeMask.interPers, "Married", "ThereseBill", 0.4f);
             #endregion InterPeople
 
 
 			#region Rules in social masks
-
-			maskSystem.AddRuleToMask("Bungary", "Bunce", maskSystem.pplAndMasks.GetPerson("Bill"), maskSystem.pplAndMasks.GetPerson("John"), "Order", 0.4f, new List<Rule>());
-
+			    relationSystem.AddRuleToMask("Bungary", "Bunce", relationSystem.pplAndMasks.GetPerson("Bill"), relationSystem.pplAndMasks.GetPerson("John"), "Order", 0.4f, new List<Rule>());
 			#endregion Rules in social masks
         }
 
 
         void PerformAction(Person target, MAction action)
         {
-            action.DoAction(maskSystem.pplAndMasks.GetPerson("Player"), target);
+            action.DoAction(relationSystem.pplAndMasks.GetPerson("Player"), target);
 
             NPCActions();
         }
@@ -248,29 +251,27 @@ namespace RelationSystemProgram
 
 		void SetupActions()
 		{
-
-
 	// ---------- INTERPERSONAL ACTIONS
 			ActionInvoker greet = (subject, direct) => 
 			{
 				Console.WriteLine(subject.name + " is greeting "+direct.name);
 			};
 
-			maskSystem.AddAction(new MAction("Greet", 0.1f, greet, maskSystem));
+			relationSystem.AddAction(new MAction("Greet", 0.1f, greet, relationSystem));
 
 			ActionInvoker compliment = (subject, direct) => 
 			{
 				Console.WriteLine(subject.name + " is complimenting "+direct.name);
 			};
 			
-			maskSystem.AddAction(new MAction("Compliment", 0.0f, compliment, maskSystem));
+			relationSystem.AddAction(new MAction("Compliment", 0.0f, compliment, relationSystem));
 
 			ActionInvoker threaten = (subject, direct) => 
 			{
 				Console.WriteLine(subject.name + " is threatening "+direct.name);
 			};
 			
-			maskSystem.AddAction(new MAction("Threaten", 0.0f, threaten, maskSystem));
+			relationSystem.AddAction(new MAction("Threaten", 0.0f, threaten, relationSystem));
 
 
 
@@ -289,9 +290,7 @@ namespace RelationSystemProgram
 				Console.WriteLine(subject.name + " is ordering "+direct.name+" to go away.");
 			};
 			
-			maskSystem.AddAction(new MAction("Order", 0.1f, order, maskSystem));
-
-
+			relationSystem.AddAction(new MAction("Order", 0.1f, order, relationSystem));
 		}
     }
 }
