@@ -45,4 +45,6 @@ namespace NRelationSystem
 
 
     public delegate void ActionInvoker(Person subject, Person direct);
+
+	public delegate bool RuleConditioner(); //ADD HISTORY THING
 }
