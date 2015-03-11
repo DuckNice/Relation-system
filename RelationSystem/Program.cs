@@ -184,7 +184,7 @@ namespace RelationSystemProgram
                 List<MaskAdds>  culture = new List<MaskAdds>();
                 culture.Add(new MaskAdds("Bunce", "Bungary", 0.4f, new List<Person>()));
 
-                maskSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.2f, 0.2f, 0.2f);
+                maskSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.8f, 0.2f, 0.5f);
             #endregion AddingBill
 
             #region AddingTerese
@@ -193,7 +193,7 @@ namespace RelationSystemProgram
                 culture = new List<MaskAdds>();
                 culture.Add(new MaskAdds("Buncess", "Bungary", 0.4f, new List<Person>()));
 
-                maskSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.2f, 0.2f, 0.2f);
+                maskSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.4f, 0.6f, 0.3f);
             #endregion AddingTerese
 
             #region AddingJohn
@@ -206,14 +206,14 @@ namespace RelationSystemProgram
             #endregion AddingJohn
 
             #region InterPeople
-                maskSystem.AddRuleToMask("BillTherese", "Married", maskSystem.pplAndMasks.GetPerson("Bill"), maskSystem.pplAndMasks.GetPerson("Therese"), "Greet", 0.4f, new List<Rule>());
-                maskSystem.AddRuleToMask("ThereseBill", "Married", maskSystem.pplAndMasks.GetPerson("Therese"), maskSystem.pplAndMasks.GetPerson("Bill"), "Greet", 0.4f, new List<Rule>());
+                maskSystem.AddRuleToMask("BillTherese", "Married", maskSystem.pplAndMasks.GetPerson("Bill"), maskSystem.pplAndMasks.GetPerson("Therese"),"GreetSpouse", "Greet", 0.4f, new List<Rule>());
+				maskSystem.AddRuleToMask("ThereseBill", "Married", maskSystem.pplAndMasks.GetPerson("Therese"), maskSystem.pplAndMasks.GetPerson("Bill"),"GreetSpouse", "Greet", 0.4f, new List<Rule>());
 				
-			    maskSystem.AddRuleToMask("BillTherese", "Married", maskSystem.pplAndMasks.GetPerson("Bill"), maskSystem.pplAndMasks.GetPerson("Therese"), "Compliment", 0.7f, new List<Rule>());
-		    	maskSystem.AddRuleToMask("ThereseBill", "Married", maskSystem.pplAndMasks.GetPerson("Therese"), maskSystem.pplAndMasks.GetPerson("Bill"), "Compliment", 0.5f, new List<Rule>());    
+			    maskSystem.AddRuleToMask("BillTherese", "Married", maskSystem.pplAndMasks.GetPerson("Bill"), maskSystem.pplAndMasks.GetPerson("Therese"),"ComplimentSpouse", "Compliment", 0.6f, new List<Rule>());
+		    	maskSystem.AddRuleToMask("ThereseBill", "Married", maskSystem.pplAndMasks.GetPerson("Therese"), maskSystem.pplAndMasks.GetPerson("Bill"),"ComplimentSpouse", "Compliment", 0.6f, new List<Rule>());    
 
-				maskSystem.AddRuleToMask("BillTherese", "Married", maskSystem.pplAndMasks.GetPerson("Bill"), maskSystem.pplAndMasks.GetPerson("Therese"), "Threaten", -0.4f, new List<Rule>());
-				maskSystem.AddRuleToMask("ThereseBill", "Married", maskSystem.pplAndMasks.GetPerson("Therese"), maskSystem.pplAndMasks.GetPerson("Bill"), "Threaten", -0.4f, new List<Rule>());    
+				maskSystem.AddRuleToMask("BillTherese", "Married", maskSystem.pplAndMasks.GetPerson("Bill"), maskSystem.pplAndMasks.GetPerson("Therese"),"ThreatenSpouse", "Threaten", -0.4f, new List<Rule>());
+				maskSystem.AddRuleToMask("ThereseBill", "Married", maskSystem.pplAndMasks.GetPerson("Therese"), maskSystem.pplAndMasks.GetPerson("Bill"),"ThreatenSpouse", "Threaten", -0.4f, new List<Rule>());    
 
 			
 			maskSystem.AddLinkToPerson("Bill", new string[] { "Therese" }, TypeMask.interPers, "Married", "BillTherese", 0.4f);
@@ -223,7 +223,9 @@ namespace RelationSystemProgram
 
 			#region Rules in social masks
 
-			maskSystem.AddRuleToMask("Bungary", "Bunce", maskSystem.pplAndMasks.GetPerson("Bill"), maskSystem.pplAndMasks.GetPerson("John"), "Order", 0.4f, new List<Rule>());
+			maskSystem.AddRuleToMask("Bungary", "Bunce", maskSystem.pplAndMasks.GetPerson("Bill"), maskSystem.pplAndMasks.GetPerson("John"),"OrderJohn", "Order", 0.4f, new List<Rule>());
+			maskSystem.AddRuleToMask("Bungary", "Bunce", maskSystem.pplAndMasks.GetPerson("Bill"), maskSystem.pplAndMasks.GetPerson("John"),"LieToJohn", "Lie", 0.0f, new List<Rule>());
+			maskSystem.AddRuleToMask("Bungary", "Bunce", maskSystem.pplAndMasks.GetPerson("Bill"), maskSystem.pplAndMasks.GetPerson("Therese"),"LieToTherese", "Lie", -0.6f, new List<Rule>());
 
 			#endregion Rules in social masks
         }
@@ -289,9 +291,15 @@ namespace RelationSystemProgram
 				Console.WriteLine(subject.name + " is ordering "+direct.name+" to go away.");
 			};
 			
-			maskSystem.AddAction(new MAction("Order", 0.1f, order));
+			maskSystem.AddAction(new MAction("Order", 0.3f, order));
 
 
+			ActionInvoker lie = (subject, direct) => 
+			{
+				Console.WriteLine(subject.name + " is lying to "+direct.name+" about his own might");
+			};
+			
+			maskSystem.AddAction(new MAction("Lie", 0.2f, lie));
 		}
     }
 }
