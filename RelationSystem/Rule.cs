@@ -14,8 +14,9 @@ namespace NRelationSystem
         public string role;
         public Person self;
         public Person other;
+        public RuleConditioner ruleCondition;
 
-        public Rule(string _ruleName, MAction act, float _str, List<Rule> _rulesThatMightHappen, string _role, Person _self, Person _other)
+        public Rule(string _ruleName, MAction act, float _str, List<Rule> _rulesThatMightHappen, string _role, Person _self, Person _other, RuleConditioner _ruleCondition)
         {
             ruleName = _ruleName;
             actionToTrigger = act;
@@ -24,6 +25,7 @@ namespace NRelationSystem
             role = _role;
             self = _self;
             other = _other;
+            ruleCondition = _ruleCondition;
         }
 
         public bool RoleTest(string roleToTest)

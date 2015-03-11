@@ -36,7 +36,33 @@ namespace RelationSystemProgram
             NPCThread = new Thread(new ThreadStart(NPCThreadFunc));
             NPCThread.Start();
 
-            while (!NPCThread.IsAlive);
+            int i = 1;
+
+            while (!NPCThread.IsAlive)
+            {
+                switch (i)
+                {
+                    case 1:
+                        Console.WriteLine("Thread starting.");
+                        break;
+                    case 2:
+                        Console.WriteLine("Thread starting..");
+                        break;
+                    case 3:
+                        Console.WriteLine("Thread starting...");
+                        break;
+                    default:
+                        Console.WriteLine("Thread starting....");
+                        break;
+                }
+
+
+                i++;
+
+
+                if (i > 3)
+                    i = 1;
+            }
 		}
 
 
@@ -211,14 +237,16 @@ namespace RelationSystemProgram
             #endregion AddingJohn
 
             #region InterPeople
-                relationSystem.AddRuleToMask("BillTherese", "Married", relationSystem.pplAndMasks.GetPerson("Bill"), relationSystem.pplAndMasks.GetPerson("Therese"), "Greet", 0.4f, new List<Rule>());
-                relationSystem.AddRuleToMask("ThereseBill", "Married", relationSystem.pplAndMasks.GetPerson("Therese"), relationSystem.pplAndMasks.GetPerson("Bill"), "Greet", 0.4f, new List<Rule>());
-				
-			    relationSystem.AddRuleToMask("BillTherese", "Married", relationSystem.pplAndMasks.GetPerson("Bill"), relationSystem.pplAndMasks.GetPerson("Therese"), "Compliment", 0.7f, new List<Rule>());
-		    	relationSystem.AddRuleToMask("ThereseBill", "Married", relationSystem.pplAndMasks.GetPerson("Therese"), relationSystem.pplAndMasks.GetPerson("Bill"), "Compliment", 0.5f, new List<Rule>());    
+                RuleConditioner emptyCondition = delegate { return false; };
 
-				relationSystem.AddRuleToMask("BillTherese", "Married", relationSystem.pplAndMasks.GetPerson("Bill"), relationSystem.pplAndMasks.GetPerson("Therese"), "Threaten", -0.4f, new List<Rule>());
-				relationSystem.AddRuleToMask("ThereseBill", "Married", relationSystem.pplAndMasks.GetPerson("Therese"), relationSystem.pplAndMasks.GetPerson("Bill"), "Threaten", -0.4f, new List<Rule>());    
+                relationSystem.AddRuleToMask("BillTherese", "Married", relationSystem.pplAndMasks.GetPerson("Bill"), relationSystem.pplAndMasks.GetPerson("Therese"), "Greet", 0.4f, new List<Rule>(), emptyCondition);
+                relationSystem.AddRuleToMask("ThereseBill", "Married", relationSystem.pplAndMasks.GetPerson("Therese"), relationSystem.pplAndMasks.GetPerson("Bill"), "Greet", 0.4f, new List<Rule>(), emptyCondition);
+
+                relationSystem.AddRuleToMask("BillTherese", "Married", relationSystem.pplAndMasks.GetPerson("Bill"), relationSystem.pplAndMasks.GetPerson("Therese"), "Compliment", 0.7f, new List<Rule>(), emptyCondition);
+                relationSystem.AddRuleToMask("ThereseBill", "Married", relationSystem.pplAndMasks.GetPerson("Therese"), relationSystem.pplAndMasks.GetPerson("Bill"), "Compliment", 0.5f, new List<Rule>(), emptyCondition);
+
+                relationSystem.AddRuleToMask("BillTherese", "Married", relationSystem.pplAndMasks.GetPerson("Bill"), relationSystem.pplAndMasks.GetPerson("Therese"), "Threaten", -0.4f, new List<Rule>(), emptyCondition);
+                relationSystem.AddRuleToMask("ThereseBill", "Married", relationSystem.pplAndMasks.GetPerson("Therese"), relationSystem.pplAndMasks.GetPerson("Bill"), "Threaten", -0.4f, new List<Rule>(), emptyCondition);    
 
 			
 			relationSystem.AddLinkToPerson("Bill", new string[] { "Therese" }, TypeMask.interPers, "Married", "BillTherese", 0.4f);
@@ -227,7 +255,7 @@ namespace RelationSystemProgram
 
 
 			#region Rules in social masks
-			    relationSystem.AddRuleToMask("Bungary", "Bunce", relationSystem.pplAndMasks.GetPerson("Bill"), relationSystem.pplAndMasks.GetPerson("John"), "Order", 0.4f, new List<Rule>());
+                relationSystem.AddRuleToMask("Bungary", "Bunce", relationSystem.pplAndMasks.GetPerson("Bill"), relationSystem.pplAndMasks.GetPerson("John"), "Order", 0.4f, new List<Rule>(), emptyCondition);
 			#endregion Rules in social masks
         }
 

@@ -31,12 +31,11 @@ namespace NRelationSystem
             try
             {
 				actionToSend = roleMask.CalculateActionToUse(notPosActions, rat, mor, imp, abi, lvlOfInfl,foci, roleName);
-                
             }
             catch
             {
                 actionToSend = new RuleAndStr();
-                actionToSend.chosenRule = new Rule("Empty", new MAction("Empty",0.0f),0.0f,null, "Empty", null, null);
+                actionToSend.chosenRule = new Rule("Empty", new MAction("Empty", 0.0f), 0.0f, null, "Empty", null, null, delegate { return false; });
                 actionToSend.strOfAct = 0.0f;
             }
 
