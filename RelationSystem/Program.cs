@@ -40,6 +40,7 @@ namespace RelationSystemProgram
 
             while (!NPCThread.IsAlive)
             {
+                Console.Clear();
                 switch (i)
                 {
                     case 1:
@@ -56,12 +57,11 @@ namespace RelationSystemProgram
                         break;
                 }
 
-
                 i++;
-
 
                 if (i > 3)
                     i = 1;
+                Thread.Sleep(200);
             }
 		}
 
