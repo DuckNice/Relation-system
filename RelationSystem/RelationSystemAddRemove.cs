@@ -23,7 +23,7 @@ namespace NRelationSystem
 
         public void AddRuleToMask(string maskName, string roleName, Person self, Person other, string actName, float str, List<Rule> posRules)
         {
-            pplAndMasks.AddRuleToMask(maskName, roleName, new Rule(roleName, posActions[actName], str, posRules, roleName, self, other));
+            pplAndMasks.AddRuleToMask(maskName, roleName, new Rule(roleName, posActions[actName.ToLower()], str, posRules, roleName, self, other));
         }
 
 
@@ -42,7 +42,15 @@ namespace NRelationSystem
 
         public void AddAction(MAction action)
         {
-            posActions.Add(action.name, action);
+            if(!posActions.ContainsKey(action.name.ToLower()))
+            {
+                posActions.Add(action.name.ToLower(), action);
+            }
+            else
+            {
+                Console.WriteLine("Warning: Action with name: '" + action.name + "' already exists. Please note that action names are not case sensitive.");
+            }
+            
         }
     }
 }

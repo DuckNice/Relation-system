@@ -13,6 +13,7 @@ namespace NRelationSystem
         {
             if ((person.GetLinks(TypeMask.selfPerc))[0] != null)
             {
+                personName = personName.ToLower();
                 people.Add(personName, person);
                 peopleNames.Add(personName);
             }
@@ -25,7 +26,16 @@ namespace NRelationSystem
 
         public Person GetPerson(string name)
         {
-            return people[name];
+            name = name.ToLower();
+
+            if (people.ContainsKey(name))
+            {
+                return people[name];
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

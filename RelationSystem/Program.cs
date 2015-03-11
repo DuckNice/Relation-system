@@ -89,39 +89,54 @@ namespace RelationSystemProgram
                 {
                     if(sepInput.Length > 1)
                     {
-                        if(sepInput[1] == "bill")
+                        Person target = maskSystem.pplAndMasks.GetPerson(sepInput[1]);
+
+                        if(target != null)
                         {
                             if(sepInput.Length > 2)
                             {
-                                if (sepInput[2] == "bill")
+                                if (maskSystem.posActions.ContainsKey(sepInput[2]))
                                 {
-                                    PerformAction();
-                                }
-                            }
-                        }
-                        else if (sepInput[1] == "terese")
-                        {
-                            if (sepInput.Length > 2)
-                            {
-                                if (sepInput[2] == "bill")
-                                {
-                                    PerformAction();
+                                    MAction actionToDo = maskSystem.posActions[sepInput[2]];
+
+                                    PerformAction(target, actionToDo);
                                 }
                             }
                         }
                         else
                         {
-                            Console.WriteLine("Error: 'do' keyword recognized, but second parameter not recognized.");
+                            Console.WriteLine("Error: 'do' recognized, but second parameter not found in list of people.");
                         }
                     }
                     else
                     {
-                        Console.WriteLine("Error: 'do' keyword recognized, but second parameter not found.");
+                        Console.WriteLine("Error: 'do' what?");
                     }
                 }
                 else if(sepInput[0] == "help")
                 {
-                    Console.WriteLine("No help to get.");
+                    if(sepInput.Length > 1)
+                    {
+                        switch(sepInput[1])
+                        {
+                            case "do":
+                                Console.WriteLine("Nothing here yet");
+                                break;
+                            case "actions":
+                                Console.WriteLine("List of actions:\n");
+
+                                foreach(string actionNames in maskSystem.posActions.Keys)
+                                    Console.WriteLine("  " + actionNames + ".");
+
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("'display <person>': Get information about character.");
+                        Console.WriteLine("'do <person> <action>': Perform the mentioned <action> interacting with the stated <person>");
+                        Console.WriteLine("'exit' or 'close': Properly close the application and all related threads.");
+                    }
                 }
                 else
                 {
@@ -155,10 +170,16 @@ namespace RelationSystemProgram
 
         public void CreateFirstPeople()
         {
-            #region AddingBill
-                MaskAdds selfPersMask = new MaskAdds("Self", "Bill", 0.4f, new List<Person>());
+            #region AddingPlayer
+                MaskAdds selfPersMask = new MaskAdds("Self", "Player", 0.4f, new List<Person>());
 
-                List<MaskAdds> culture = new List<MaskAdds>();
+                maskSystem.CreateNewPerson(selfPersMask, new List<MaskAdds>(), new List<MaskAdds>(), 0.2f, 0.2f, 0.2f);
+            #endregion AddingPlayer
+
+            #region AddingBill
+                selfPersMask = new MaskAdds("Self", "Bill", 0.4f, new List<Person>());
+
+                List<MaskAdds>  culture = new List<MaskAdds>();
                 culture.Add(new MaskAdds("Bunce", "Bungary", 0.4f, new List<Person>()));
 
                 maskSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.2f, 0.2f, 0.2f);
@@ -192,8 +213,10 @@ namespace RelationSystemProgram
         }
 
 
-        void PerformAction()
+        void PerformAction(Person target, MAction action)
         {
+            action.DoAction(maskSystem.pplAndMasks.GetPerson("Player"), target);
+
             NPCActions();
         }
 
@@ -204,12 +227,8 @@ namespace RelationSystemProgram
             {
 				being.NPCAction();
             }
-            //MAction action = maskSystem.peopleAndMasks.GetPerson("Bill").GetAction(maskSystem.posActions.Values.ToList());
-
-          //  Console.WriteLine("Doing action:");
-
-          //  Console.WriteLine(action.name);
         }
+
 
 		void SetupActions()
 		{
@@ -222,7 +241,7 @@ namespace RelationSystemProgram
 
 			ActionInvoker ask_about_day = (subject, direct) => 
 			{
-				Console.WriteLine(subject.name + "Is asking" + direct.name + "About the time of day.");
+				Console.WriteLine(subject.name + " Is asking " + direct.name + " About the time of day.");
 			};
 
 			maskSystem.AddAction(new MAction("Ask_about_day", 0.3f, ask_about_day));
