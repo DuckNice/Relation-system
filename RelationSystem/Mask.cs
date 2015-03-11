@@ -64,6 +64,7 @@ namespace NRelationSystem
             {
                 if(!notPosActions.Contains(rule.actionToTrigger) && rule.role.Equals(role))
                 {
+					Console.WriteLine("calculating "+rule.actionToTrigger.name);
                     float newActionStrength = Calculator.CalculateRule(rat, mor, imp, abi, rule, rule.actionToTrigger.affectedRules, maskInfl, foci);
 
                     if (newActionStrength > chosenAction.strOfAct)

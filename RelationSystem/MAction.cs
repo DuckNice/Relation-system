@@ -34,7 +34,7 @@ namespace NRelationSystem
             if(actionInvoker != null)
             {
                 actionInvoker(subject, direct);
-                 Console.WriteLine("Did action: " + name);
+                 //Console.WriteLine("Did action: " + name);
             }
             else{
                 Console.WriteLine("No action to do in action '" + name + "'.");
