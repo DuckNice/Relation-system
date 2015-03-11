@@ -154,6 +154,8 @@ namespace RelationSystemProgram
 
         public void CreateFirstMasks()
         {
+            maskSystem.CreateNewMask("Player", new float[]{}, new bool[]{}, TypeMask.selfPerc, new string[]{});
+
             maskSystem.CreateNewMask("Bungary", new float[] { 0.2f, -0.3f }, new bool[] { }, TypeMask.culture, new string[] { "Bunce", "Buncess", "Bunsant" });
 
             maskSystem.CreateNewMask("Bill", new float[] { 0.2f, -0.3f }, new bool[] { }, TypeMask.selfPerc, new string[] { "" });
