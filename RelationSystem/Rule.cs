@@ -14,7 +14,8 @@ namespace NRelationSystem
         public string role;
         public Person self;
         public Person other;
-        public RuleConditioner ruleCondition;
+        private RuleConditioner ruleCondition;
+
 
         public Rule(string _ruleName, MAction act, float _str, List<Rule> _rulesThatMightHappen, string _role, Person _self, Person _other, RuleConditioner _ruleCondition)
         {
@@ -28,27 +29,12 @@ namespace NRelationSystem
             ruleCondition = _ruleCondition;
         }
 
-        public bool RoleTest(string roleToTest)
-        { //Tests if the rule belongs to the role of the character. input person role as argument.
-            if (roleToTest == role)
-            {
-                Console.WriteLine("RightRole");
-
-                return true;
-            }
-            else
-            {
-                Console.WriteLine("WrongRole");
-                return false;
-            }
-        }
 
         public bool Condition()
-        { // Tests if rule conditions are fulfilled. Make delegates.
-            //IFCONDITION IS FULFILLED 
-            Console.WriteLine("ConditionTrue");
-            return true;
+        {
+            return ruleCondition();
         }
+
 
 		public void DoAction(Person subject, Person dirObject){
 			actionToTrigger.DoAction (subject, dirObject);

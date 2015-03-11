@@ -237,7 +237,7 @@ namespace RelationSystemProgram
             #endregion AddingJohn
 
             #region InterPeople
-                RuleConditioner emptyCondition = delegate { return false; };
+                RuleConditioner emptyCondition = delegate { Console.WriteLine("PassedCorrectly"); return false; };
 
                 relationSystem.AddRuleToMask("BillTherese", "Married", relationSystem.pplAndMasks.GetPerson("Bill"), relationSystem.pplAndMasks.GetPerson("Therese"), "Greet", 0.4f, new List<Rule>(), emptyCondition);
                 relationSystem.AddRuleToMask("ThereseBill", "Married", relationSystem.pplAndMasks.GetPerson("Therese"), relationSystem.pplAndMasks.GetPerson("Bill"), "Greet", 0.4f, new List<Rule>(), emptyCondition);
