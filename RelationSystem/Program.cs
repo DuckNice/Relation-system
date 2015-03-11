@@ -256,21 +256,21 @@ namespace RelationSystemProgram
 				Console.WriteLine(subject.name + " is greeting "+direct.name);
 			};
 
-			maskSystem.AddAction(new MAction("Greet", 0.1f, greet));
+			maskSystem.AddAction(new MAction("Greet", 0.1f, greet, maskSystem));
 
 			ActionInvoker compliment = (subject, direct) => 
 			{
 				Console.WriteLine(subject.name + " is complimenting "+direct.name);
 			};
 			
-			maskSystem.AddAction(new MAction("Compliment", 0.0f, compliment));
+			maskSystem.AddAction(new MAction("Compliment", 0.0f, compliment, maskSystem));
 
 			ActionInvoker threaten = (subject, direct) => 
 			{
 				Console.WriteLine(subject.name + " is threatening "+direct.name);
 			};
 			
-			maskSystem.AddAction(new MAction("Threaten", 0.0f, threaten));
+			maskSystem.AddAction(new MAction("Threaten", 0.0f, threaten, maskSystem));
 
 
 
@@ -289,7 +289,7 @@ namespace RelationSystemProgram
 				Console.WriteLine(subject.name + " is ordering "+direct.name+" to go away.");
 			};
 			
-			maskSystem.AddAction(new MAction("Order", 0.1f, order));
+			maskSystem.AddAction(new MAction("Order", 0.1f, order, maskSystem));
 
 
 		}
