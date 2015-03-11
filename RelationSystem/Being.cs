@@ -37,26 +37,12 @@ namespace RelationSystemProgram
 		}
 
 
-
 		public void NPCAction(){
 			Rule rule = maskSystem.pplAndMasks.GetPerson(name).GetAction(notPossibleActions.Values.ToList(), focus.Values.ToList());
 
             Console.WriteLine("Doing action '" + rule.actionToTrigger.name + "' from " + name);
 
 			rule.DoAction (rule.self, rule.other);
-
-			/*if (indiObject == null) {
-				if (dirObject == null) {
-					rule.DoAction (maskSystem.peopleAndMasks.GetPerson (name), " ");
-				} else {
-					rule.DoAction (maskSystem.peopleAndMasks.GetPerson (name), " ", dirObject);
-				}
-			} else {
-				rule.DoAction(maskSystem.peopleAndMasks.GetPerson(name), " ", dirObject, indiObject);
-			}
-*/
-
         }
 	}
 }
-
