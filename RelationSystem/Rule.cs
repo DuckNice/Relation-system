@@ -30,9 +30,9 @@ namespace NRelationSystem
         }
 
 
-        public bool Condition()
+        public bool Condition(Person pers)
         {
-            return ruleCondition();
+            return ruleCondition(pers);
         }
 
 

@@ -9,7 +9,7 @@ namespace NRelationSystem
         Link selfPerception;
         List<Link> interPersonal;
         List<Link> culture;
-        Overlay absTraits;
+        public Overlay absTraits;
         public string name;
 
         float rationality;

@@ -64,7 +64,7 @@ namespace NRelationSystem
 
             foreach(Rule rule in rules.Values.ToList())
             {
-                if(!notPosActions.Contains(rule.actionToTrigger) && rule.role.Equals(role) && rule.Condition())
+                if(!notPosActions.Contains(rule.actionToTrigger) && rule.role.Equals(role) && rule.Condition(rule.self))
                 {
 					//Console.WriteLine("calculating "+rule.actionToTrigger.name);
                     float newActionStrength = Calculator.CalculateRule(rat, mor, imp, abi, rule, rule.actionToTrigger.affectedRules, maskInfl, foci);

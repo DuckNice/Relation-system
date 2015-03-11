@@ -6,7 +6,7 @@ namespace NRelationSystem
     public class Trait
     {
         public TraitTypes name;
-        float value;
+        public float value;
             //True: The trait is relative. False: the trait is absolute.
         bool relative;
 

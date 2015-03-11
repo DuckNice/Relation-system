@@ -48,9 +48,23 @@ namespace NRelationSystem
 
 
 
-        public void CreateNewPerson(MaskAdds selfMask, List<MaskAdds> _cults, List<MaskAdds> _intPpl, float rational, float moral, float impulse)
-        {
-            Link selfPersMask = new Link(selfMask.role, selfMask.linkPpl, pplAndMasks.GetMask(selfMask.mask), selfMask.lvlOfInfl);
+		public void CreateNewPerson(MaskAdds selfMask, List<MaskAdds> _cults, List<MaskAdds> _intPpl, float rational, float moral, float impulse, float[] _traits = null)
+		{
+			List<Trait> traits = new List<Trait>();
+			
+			for(int i = 0; i < Enum.GetNames(typeof(TraitTypes)).Length; i++)
+			{
+				float insertTrait = 0.0f;
+				bool insertRelative = true;
+				
+				if(i < _traits.Length && _traits[i] >= -1.0f && _traits[i] <= 1.0f)
+					insertTrait = _traits[i];
+				
+				traits.Add(new Trait((TraitTypes)i, insertTrait, insertRelative));
+			}
+			
+			
+			Link selfPersMask = new Link(selfMask.role, selfMask.linkPpl, pplAndMasks.GetMask(selfMask.mask), selfMask.lvlOfInfl);
 
             List<Link> cults = new List<Link>();
 
@@ -67,8 +81,11 @@ namespace NRelationSystem
             }
 
             Person person = new Person(selfMask.mask, selfPersMask, intPpl, cults, rational, moral, impulse);
+			Overlay persOverlay = new Overlay (traits);
+			person.absTraits = persOverlay;
 
             pplAndMasks.CreateNewPerson(selfMask.mask, person);
+
         }
 
 

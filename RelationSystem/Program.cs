@@ -204,8 +204,10 @@ namespace RelationSystemProgram
         public void CreateFirstPeople()
         {
 			#region adding Conditions
-			RuleConditioner emptyCondition = delegate { Console.WriteLine("PassedCorrectly"); return false; };
-
+			RuleConditioner emptyCondition = pers => { 
+				Console.WriteLine("PassedCorrectly ");
+				Console.WriteLine(pers.absTraits.traits[TraitTypes.NiceNasty].value );
+				return false; };
 
 
 			#endregion adding Conditions
@@ -215,8 +217,8 @@ namespace RelationSystemProgram
             #region AddingPlayer
                 MaskAdds selfPersMask = new MaskAdds("Self", "Player", 0.4f, new List<Person>());
 
-                relationSystem.CreateNewPerson(selfPersMask, new List<MaskAdds>(), new List<MaskAdds>(), 0.2f, 0.2f, 0.2f);
-            #endregion AddingPlayer
+				relationSystem.CreateNewPerson(selfPersMask, new List<MaskAdds>(), new List<MaskAdds>(), 0f, 0f, 0f, new float[] { 0f, 0f, 0f });
+			#endregion AddingPlayer
 
             #region AddingBill
                 selfPersMask = new MaskAdds("Self", "Bill", 0.4f, new List<Person>());
@@ -225,8 +227,8 @@ namespace RelationSystemProgram
                 culture.Add(new MaskAdds("Bunce", "Bungary", 0.4f, new List<Person>()));
 
 
-                relationSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.2f, 0.2f, 0.2f);
-            #endregion AddingBill
+				relationSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.2f, 0.2f, 0.2f, new float[] { -0.2f, 0.5f, 0.1f });
+			#endregion AddingBill
 
             #region AddingTerese
                 selfPersMask = new MaskAdds("Self", "Therese", 0.4f, new List<Person>());
@@ -235,9 +237,9 @@ namespace RelationSystemProgram
                 culture.Add(new MaskAdds("Buncess", "Bungary", 0.4f, new List<Person>()));
 
 
-                relationSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.2f, 0.2f, 0.2f);
-
-            #endregion AddingTerese
+				relationSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.2f, 0.2f, 0.2f, new float[] { 0.6f, -0.5f, 0.6f });
+			
+			#endregion AddingTerese
 
             #region AddingJohn
                 selfPersMask = new MaskAdds("Self", "John", 0.4f, new List<Person>());
@@ -245,8 +247,8 @@ namespace RelationSystemProgram
                 culture = new List<MaskAdds>();
                 culture.Add(new MaskAdds("Bunsant", "Bungary", 0.9f, new List<Person>()));
 
-                relationSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.2f, 0.2f, 0.2f);
-            #endregion AddingJohn
+				relationSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.2f, 0.2f, 0.2f, new float[] { 0.3f, 0.8f, -0.4f });
+			#endregion AddingJohn
 
             #region InterPeople
 
@@ -324,7 +326,6 @@ namespace RelationSystemProgram
 
 
 
-*/
 	// ---------- INTERPERSONAL ACTIONS
 
 			ActionInvoker order = (subject, direct) => 

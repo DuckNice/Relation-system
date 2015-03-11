@@ -6,7 +6,7 @@ namespace NRelationSystem
 {
     public class Overlay
     {
-        Dictionary<TraitTypes, Trait> traits = new Dictionary<TraitTypes, Trait>();
+        public Dictionary<TraitTypes, Trait> traits = new Dictionary<TraitTypes, Trait>();
 
         public Overlay(List<Trait> _traits)
         {
