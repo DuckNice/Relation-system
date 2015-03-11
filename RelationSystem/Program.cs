@@ -206,8 +206,10 @@ namespace RelationSystemProgram
             #endregion AddingJohn
 
             #region InterPeople
-                maskSystem.AddRuleToMask("BillTherese", "Married", maskSystem.pplAndMasks.GetPerson("Bill"), maskSystem.pplAndMasks.GetPerson("Therese"), "Greet", 0.7f, new List<Rule>());
-                maskSystem.AddRuleToMask("ThereseBill", "Married", maskSystem.pplAndMasks.GetPerson("Therese"), maskSystem.pplAndMasks.GetPerson("Bill"), "Greet", 0.7f, new List<Rule>());
+                maskSystem.AddRuleToMask("BillTherese", "Married", maskSystem.pplAndMasks.GetPerson("Bill"), maskSystem.pplAndMasks.GetPerson("Therese"), "Greet", 0.4f, new List<Rule>());
+                maskSystem.AddRuleToMask("ThereseBill", "Married", maskSystem.pplAndMasks.GetPerson("Therese"), maskSystem.pplAndMasks.GetPerson("Bill"), "Greet", 0.4f, new List<Rule>());
+				
+			//    maskSystem.AddRuleToMask("Bungary", "Bunce", maskSystem.pplAndMasks.GetPerson("Bill"), maskSystem.pplAndMasks.GetPerson("Therese"), "Compliment", 0.7f, new List<Rule>());
 
                 maskSystem.AddLinkToPerson("Bill", new string[] { "Therese" }, TypeMask.interPers, "Married", "BillTherese", 0.4f);
                 maskSystem.AddLinkToPerson("Therese", new string[] { "Bill" }, TypeMask.interPers, "Married", "ThereseBill", 0.4f);
@@ -234,19 +236,32 @@ namespace RelationSystemProgram
 
 		void SetupActions()
 		{
+
+
+		//INTERPERSONAL ACTIONS
 			ActionInvoker greet = (subject, direct) => 
 			{
-				Console.WriteLine(subject.name + " is greeting ");
+				Console.WriteLine(subject.name + " is greeting "+direct.name);
 			};
 
-			maskSystem.AddAction(new MAction("Greet", 0.1f, greet, maskSystem));
+			maskSystem.AddAction(new MAction("Greet", 0.1f, greet));
 
 			ActionInvoker ask_about_day = (subject, direct) => 
 			{
 				Console.WriteLine(subject.name + " Is asking " + direct.name + " About the time of day.");
 			};
 
-			maskSystem.AddAction(new MAction("Ask_about_day", 0.3f, ask_about_day, maskSystem));
+			maskSystem.AddAction(new MAction("Ask_about_day", 0.3f, ask_about_day));
+
+
+			ActionInvoker compliment = (subject, direct) => 
+			{
+				Console.WriteLine(subject.name + " is complimenting "+direct.name);
+			};
+			
+			maskSystem.AddAction(new MAction("Compliment", 0.0f, compliment));
+
+
 		}
     }
 }

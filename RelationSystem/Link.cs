@@ -6,19 +6,6 @@ namespace NRelationSystem
 {
     public class Link
     {
-
-		
-
-		//use this struct. pass them into rule (or make rule get it somehow)
-		//Rule needs to get access to all these, which it can get through the list of roles in the Mask (RIGHT?)
-		//then, in rule, the rules happen on roles, meaning that fx a greet action is defined as role x greets role y
-		//this is then purely defined in the masks. so if an action only involves one person it's just role x does whatever
-		//interpersonal actions are then solely in the interpersonal masks, since these have access to the links.
-
-		//when the action actually happens, because of this struct, we can pass that out to the Persons.
-
-		//this means that we, when we create the link, have to pass the person into the struct.
-        
         string roleName;
         List<Person> roleRef;
         Mask roleMask;

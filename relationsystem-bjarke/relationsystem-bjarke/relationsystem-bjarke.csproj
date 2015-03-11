@@ -51,6 +51,7 @@
     <Compile Include="..\..\RelationSystem\Trait.cs" />
     <Compile Include="..\..\RelationSystem\Being.cs" />
     <Compile Include="..\..\RelationSystem\RelationSystemAddRemove.cs" />
+    <Compile Include="..\..\RelationSystem\ProgramNPCThread.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
