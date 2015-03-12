@@ -79,7 +79,7 @@ namespace NRelationSystem
         }
 
 
-        float unboundAdd(float unboundedNumber, float curValue)
+        public static float unboundAdd(float unboundedNumber, float curValue)
         {
             if (curValue > 0)
             {

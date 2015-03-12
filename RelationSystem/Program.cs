@@ -187,17 +187,21 @@ namespace RelationSystemProgram
         {
             relationSystem.CreateNewMask("Player", new float[]{}, new bool[]{}, TypeMask.selfPerc, new string[]{});
 
-            relationSystem.CreateNewMask("Bungary", new float[] { 0.2f, -0.3f }, new bool[] { }, TypeMask.culture, new string[] { "Bunce", "Buncess", "Bunsant" });
+            relationSystem.CreateNewMask("Bungary", new float[] { 0.0f, -0.2f }, new bool[] { }, TypeMask.culture, new string[] { "Bunce", "Buncess", "Bunsant" });
 
-            relationSystem.CreateNewMask("Bill", new float[] { 0.2f, -0.3f }, new bool[] { }, TypeMask.selfPerc, new string[] { "" });
+            relationSystem.CreateNewMask("Bill", new float[] { 0.0f, 0.0f }, new bool[] { }, TypeMask.selfPerc, new string[] { "" });
 
-            relationSystem.CreateNewMask("Therese", new float[] { 0.2f, -0.3f }, new bool[] { }, TypeMask.selfPerc, new string[] { "" });
+            relationSystem.CreateNewMask("Therese", new float[] { 0.0f, 0.0f }, new bool[] { }, TypeMask.selfPerc, new string[] { "" });
 
-            relationSystem.CreateNewMask("John", new float[] { 0.2f, -0.3f }, new bool[] { }, TypeMask.selfPerc, new string[] { "" });
+            relationSystem.CreateNewMask("John", new float[] { 0.0f, 0.0f }, new bool[] { }, TypeMask.selfPerc, new string[] { "" });
 
-            relationSystem.CreateNewMask("BillTherese", new float[] { 0.2f, 0.2f }, new bool[] { }, TypeMask.interPers, new string[] { "Married" });
+            relationSystem.CreateNewMask("BillTherese", new float[] { 0.2f, -0.2f }, new bool[] { }, TypeMask.interPers, new string[] { "Married" });
 
-            relationSystem.CreateNewMask("ThereseBill", new float[] { 0.2f, 0.2f }, new bool[] { }, TypeMask.interPers, new string[] { "Married" });
+            relationSystem.CreateNewMask("ThereseBill", new float[] { 0.3f, 0.2f }, new bool[] { }, TypeMask.interPers, new string[] { "Married" });
+
+			relationSystem.CreateNewMask("BillJohn", new float[] { -0.2f, -0.2f }, new bool[] { }, TypeMask.interPers, new string[] { "Noble" });
+
+			relationSystem.CreateNewMask("JohnBill", new float[] { -0.2f, -0.2f }, new bool[] { }, TypeMask.interPers, new string[] { "Convicted" });
         }
 
 
@@ -205,9 +209,45 @@ namespace RelationSystemProgram
         {
 			#region adding Conditions
 			RuleConditioner emptyCondition = pers => { 
-				Console.WriteLine("PassedCorrectly ");
-				Console.WriteLine(pers.absTraits.traits[TraitTypes.NiceNasty].value );
-				return false; };
+				//Console.WriteLine("PassedCorrectly ");
+				return true;
+			};
+
+			RuleConditioner GreetCondition = pers => {
+				if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["greet"] && x.GetSubject()==pers)){
+					return false;
+				}
+				return true;
+			};
+
+			RuleConditioner blameCondition = pers =>{
+				//Console.WriteLine( relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["compliment"]) );
+				if(pers.absTraits.traits[TraitTypes.NiceNasty].value < 0.0){ return true; }
+				else 
+					return false; 
+			};
+
+			RuleConditioner pleadCondition = pers =>{
+				if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["blame"] && x.GetDirect()==pers) ) //if blame me
+					{ return true; }
+				else
+					return false;
+			};
+
+			RuleConditioner punchCondition = pers => {
+				if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["plead"] && x.GetDirect()==pers) ){
+
+					if(pers.absTraits.traits[TraitTypes.NiceNasty].value < -0.2f){
+						return true;
+					}
+				} //if plead to me
+
+				return false;
+			};
+
+		//	RuleConditioner shriekCondition = pers => {
+
+		//	};
 
 
 			#endregion adding Conditions
@@ -253,27 +293,36 @@ namespace RelationSystemProgram
             #region InterPeople
 
             
+		//BILL THERESE RULES
+			relationSystem.AddRuleToMask("BillTherese", "Married", relationSystem.pplAndMasks.GetPerson("Bill"), relationSystem.pplAndMasks.GetPerson("Therese"), "GreetSpouse","Greet", 0.4f, new List<Rule>(), GreetCondition);
+			relationSystem.AddRuleToMask("ThereseBill", "Married", relationSystem.pplAndMasks.GetPerson("Therese"), relationSystem.pplAndMasks.GetPerson("Bill"), "GreetSpouse","Greet", 0.4f, new List<Rule>(), GreetCondition);
 
-			relationSystem.AddRuleToMask("BillTherese", "Married", relationSystem.pplAndMasks.GetPerson("Bill"), relationSystem.pplAndMasks.GetPerson("Therese"), "GreetSpouse","Greet", 0.4f, new List<Rule>(), emptyCondition);
-			relationSystem.AddRuleToMask("ThereseBill", "Married", relationSystem.pplAndMasks.GetPerson("Therese"), relationSystem.pplAndMasks.GetPerson("Bill"), "GreetSpouse","Greet", 0.4f, new List<Rule>(), emptyCondition);
-
-			relationSystem.AddRuleToMask("BillTherese", "Married", relationSystem.pplAndMasks.GetPerson("Bill"), relationSystem.pplAndMasks.GetPerson("Therese"), "ComplimentSpouse","Compliment", 0.7f, new List<Rule>(), emptyCondition);
-            relationSystem.AddRuleToMask("ThereseBill", "Married", relationSystem.pplAndMasks.GetPerson("Therese"), relationSystem.pplAndMasks.GetPerson("Bill"), "ComplimentSpouse","Compliment", 0.5f, new List<Rule>(), emptyCondition);
+	//		relationSystem.AddRuleToMask("BillTherese", "Married", relationSystem.pplAndMasks.GetPerson("Bill"), relationSystem.pplAndMasks.GetPerson("Therese"), "ComplimentSpouse","Compliment", 0.3f, new List<Rule>(), emptyCondition);
+          relationSystem.AddRuleToMask("ThereseBill", "Married", relationSystem.pplAndMasks.GetPerson("Therese"), relationSystem.pplAndMasks.GetPerson("Bill"), "ComplimentSpouse","Compliment", 0.3f, new List<Rule>(), emptyCondition);
 
 			relationSystem.AddRuleToMask("BillTherese", "Married", relationSystem.pplAndMasks.GetPerson("Bill"), relationSystem.pplAndMasks.GetPerson("Therese"), "ThreatenSpouse", "Threaten", -0.4f, new List<Rule>(), emptyCondition);
 			relationSystem.AddRuleToMask("ThereseBill", "Married", relationSystem.pplAndMasks.GetPerson("Therese"), relationSystem.pplAndMasks.GetPerson("Bill"), "ThreatenSpouse", "Threaten", -0.4f, new List<Rule>(), emptyCondition);    
+		
+		//BILL JOHN RULES
+			relationSystem.AddRuleToMask("BillJohn", "Noble", relationSystem.pplAndMasks.GetPerson("Bill"), relationSystem.pplAndMasks.GetPerson("John"), "BlameJohn", "Blame", 0.4f, new List<Rule>(), blameCondition);    
+			relationSystem.AddRuleToMask("JohnBill", "Convicted", relationSystem.pplAndMasks.GetPerson("John"), relationSystem.pplAndMasks.GetPerson("Bill"), "ThreatenBill", "Threaten", 0.4f, new List<Rule>(), blameCondition);    
 
-			relationSystem.AddLinkToPerson("Bill", new string[] { "Therese" }, TypeMask.interPers, "Married", "BillTherese", 0.4f);
-                relationSystem.AddLinkToPerson("Therese", new string[] { "Bill" }, TypeMask.interPers, "Married", "ThereseBill", 0.4f);
+
+			relationSystem.AddLinkToPerson("Bill", new string[] { "Therese" }, TypeMask.interPers, "Married", "BillTherese", 0.6f);
+            relationSystem.AddLinkToPerson("Therese", new string[] { "Bill" }, TypeMask.interPers, "Married", "ThereseBill", 0.4f);
+			relationSystem.AddLinkToPerson("John", new string[] { "Bill" }, TypeMask.interPers, "Convicted", "JohnBill", 0.7f);
+			relationSystem.AddLinkToPerson("Bill", new string[] { "John" }, TypeMask.interPers, "Noble", "BillJohn", 0.2f);
             #endregion InterPeople
 
 
 			#region Rules in social masks
 
-			relationSystem.AddRuleToMask("Bungary", "Bunce", relationSystem.pplAndMasks.GetPerson("Bill"), relationSystem.pplAndMasks.GetPerson("John"),"OrderJohn", "Order", 0.4f, new List<Rule>(), emptyCondition);
+		//	relationSystem.AddRuleToMask("Bungary", "Bunce", relationSystem.pplAndMasks.GetPerson("Bill"), relationSystem.pplAndMasks.GetPerson("John"),"OrderJohn", "Order", 0.4f, new List<Rule>(), emptyCondition);
 			relationSystem.AddRuleToMask("Bungary", "Bunce", relationSystem.pplAndMasks.GetPerson("Bill"), relationSystem.pplAndMasks.GetPerson("John"),"LieToJohn", "Lie", 0.0f, new List<Rule>(), emptyCondition);
 			relationSystem.AddRuleToMask("Bungary", "Bunce", relationSystem.pplAndMasks.GetPerson("Bill"), relationSystem.pplAndMasks.GetPerson("Therese"),"LieToTherese", "Lie", -0.6f, new List<Rule>(), emptyCondition);
-            relationSystem.AddRuleToMask("Bungary", "Bunce", relationSystem.pplAndMasks.GetPerson("Bill"), relationSystem.pplAndMasks.GetPerson("John"),"OrderPeasant", "Order", 0.4f, new List<Rule>(), emptyCondition);
+			relationSystem.AddRuleToMask("Bungary", "Bunsant", relationSystem.pplAndMasks.GetPerson("John"), relationSystem.pplAndMasks.GetPerson("Bill"),"PleadToJohn", "Plead", 0.4f, new List<Rule>(), pleadCondition);
+			relationSystem.AddRuleToMask("Bungary", "Bunce", relationSystem.pplAndMasks.GetPerson("Bill"), relationSystem.pplAndMasks.GetPerson("John"),"PunchJohn", "punch", 1.0f, new List<Rule>(), punchCondition);			
+			relationSystem.AddRuleToMask("Bungary", "Bunce", relationSystem.pplAndMasks.GetPerson("Bill"), relationSystem.pplAndMasks.GetPerson("Player"),"PunchPlayer", "punch", 1.0f, new List<Rule>(), punchCondition);	
 
 			#endregion Rules in social masks
         }
@@ -307,40 +356,55 @@ namespace RelationSystemProgram
 			{
 				Console.WriteLine(subject.name + " is greeting "+direct.name);
 			};
-
 			relationSystem.AddAction(new MAction("Greet", 0.1f, greet, relationSystem));
 
 			ActionInvoker compliment = (subject, direct) => 
 			{
 				Console.WriteLine(subject.name + " is complimenting "+direct.name);
 			};
-			
 			relationSystem.AddAction(new MAction("Compliment", 0.0f, compliment, relationSystem));
 
 			ActionInvoker threaten = (subject, direct) => 
 			{
 				Console.WriteLine(subject.name + " is threatening "+direct.name);
 			};
-			
 			relationSystem.AddAction(new MAction("Threaten", 0.0f, threaten, relationSystem));
 
+			ActionInvoker blame = (subject, direct) => 
+			{
+				Console.WriteLine(subject.name + " is blaming "+direct.name+" of heinous crimes!");
+			};
+			relationSystem.AddAction(new MAction("Blame", 0.0f, blame, relationSystem));
 
 
-	// ---------- INTERPERSONAL ACTIONS
+
+	// ---------- CULTURAL ACTIONS
 
 			ActionInvoker order = (subject, direct) => 
 			{
 				Console.WriteLine(subject.name + " is ordering "+direct.name+" to go away.");
 			};
-
 			relationSystem.AddAction(new MAction("Order", 0.1f, order, relationSystem));
 
 			ActionInvoker lie = (subject, direct) => 
 			{
 				Console.WriteLine(subject.name + " is lying to "+direct.name+" about his own might");
 			};
-			
 			relationSystem.AddAction(new MAction("Lie", 0.2f, lie, relationSystem));
+
+			ActionInvoker plead_innocence = (subject, direct) => 
+			{
+				Console.WriteLine(subject.name + " is pleading innocence to "+direct.name);
+				direct.absTraits.traits[TraitTypes.NiceNasty].value += Calculator.unboundAdd(-0.2f,direct.absTraits.traits[TraitTypes.NiceNasty].value);
+			};
+			relationSystem.AddAction(new MAction("Plead", 0.5f, plead_innocence, relationSystem));
+
+			ActionInvoker punch = (subject, direct) => 
+			{
+				Console.WriteLine(subject.name + " is PUNCHING "+direct.name+"!! OUCH");
+			};
+			relationSystem.AddAction(new MAction("punch", 1.0f, punch, relationSystem));
+
 
 		}
     }
