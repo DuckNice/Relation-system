@@ -10,7 +10,7 @@ namespace NRelationSystem
         public string name;
         public List<Rule> affectedRules;
         ActionInvoker actionInvoker;
-        private RelationSystem relationSystem;
+        public RelationSystem relationSystem;
 
         public MAction(string _efDesc, float _gain, ActionInvoker _actionInvoker, RelationSystem _relationSystem)
         {

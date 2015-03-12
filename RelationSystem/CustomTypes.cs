@@ -68,5 +68,5 @@ namespace NRelationSystem
 
     public delegate void ActionInvoker(Person subject, Person direct);
 
-	public delegate bool RuleConditioner(Person pers);
+	public delegate bool RuleConditioner(Person self, Person other);
 }

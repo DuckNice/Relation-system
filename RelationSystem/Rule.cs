@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 
 namespace NRelationSystem
@@ -12,27 +13,39 @@ namespace NRelationSystem
         public List<Rule> rulesThatMightHappen;
         public float strength;
         public string role;
-        public Person self;
-        public Person other;
+        public Dictionary<Person, Person> selfOther = new Dictionary<Person,Person>();
         private RuleConditioner ruleCondition;
 
 
-        public Rule(string _ruleName, MAction act, float _str, List<Rule> _rulesThatMightHappen, string _role, Person _self, Person _other, RuleConditioner _ruleCondition)
+        public Rule(string _ruleName, MAction act, float _str, List<Rule> _rulesThatMightHappen, string _role, RuleConditioner _ruleCondition)
         {
             ruleName = _ruleName;
             actionToTrigger = act;
             strength = _str;
             rulesThatMightHappen = _rulesThatMightHappen;
             role = _role;
-            self = _self;
-            other = _other;
             ruleCondition = _ruleCondition;
         }
 
 
-        public bool Condition(Person pers)
+        public bool Condition(Person self)
         {
-            return ruleCondition(pers);
+            if (selfOther.ContainsKey(self)) 
+                selfOther.Remove(self);
+
+            List<Person> people = actionToTrigger.relationSystem.pplAndMasks.people.Values.ToList();
+
+            foreach(Person other in people)
+            {
+                if (ruleCondition(self, other))
+                {
+                    selfOther.Add(self, other);
+
+                    return true;
+                }
+            }
+
+            return false;
         }
 
 

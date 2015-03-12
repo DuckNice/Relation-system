@@ -32,17 +32,22 @@ namespace RelationSystemProgram
 			}
 		}
 
+
 		public void SetFocusToOther(Being otherPerson, float f){
 			focus [otherPerson] = f;
 		}
 
 
 		public void NPCAction(){
-			Rule rule = maskSystem.pplAndMasks.GetPerson(name).GetAction(notPossibleActions.Values.ToList(), focus.Values.ToList());
+            Person self = maskSystem.pplAndMasks.GetPerson(name);
+			Rule rule = self.GetAction(notPossibleActions.Values.ToList(), focus.Values.ToList());
 
             Console.WriteLine("Doing action '" + rule.actionToTrigger.name + "' from " + name);
 
-			rule.DoAction (rule.self, rule.other);
+            if (rule.actionToTrigger.name.ToLower() != "empty")
+            {
+			    rule.DoAction (self, rule.selfOther[self]);
+            }
         }
 	}
 }

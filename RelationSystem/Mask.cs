@@ -54,26 +54,24 @@ namespace NRelationSystem
         }
         
 
-        public RuleAndStr CalculateActionToUse(List<MAction> notPosActions, float rat, float mor, float imp, float abi, float maskInfl, List<float> foci, string role)
+        public RuleAndStr CalculateActionToUse(List<MAction> notPosActions, Person self, float rat, float mor, float imp, float abi, float maskInfl, List<float> foci, string role)
         {
             RuleAndStr chosenAction = new RuleAndStr();
             RuleConditioner empty = delegate { return false; };
 
-			chosenAction.chosenRule = new Rule("Empty", new MAction("Empty",0.0f),0.0f,null, "Empty", null, null, empty);
+			chosenAction.chosenRule = new Rule("Empty", new MAction("Empty", 0.0f), 0.0f, null, "Empty", empty);
             chosenAction.strOfAct = 0.0f;
 
             foreach(Rule rule in rules.Values.ToList())
             {
 				Console.Write("check "+rule.actionToTrigger.name+"   ");
-                if(!notPosActions.Contains(rule.actionToTrigger) && rule.role.Equals(role) && rule.Condition(rule.self))
+                if(!notPosActions.Contains(rule.actionToTrigger) && rule.role.Equals(role) && rule.Condition(self))
                 {
-					//Console.Write("calculating "+rule.actionToTrigger.name+"   ");
                     float newActionStrength = Calculator.CalculateRule(rat, mor, imp, abi, rule, rule.actionToTrigger.affectedRules, maskInfl, foci);
 
                     if (newActionStrength > chosenAction.strOfAct)
                     {
                         chosenAction.strOfAct = newActionStrength;
-
                         chosenAction.chosenRule = rule;
                     }
                 }

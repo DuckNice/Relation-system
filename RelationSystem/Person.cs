@@ -70,12 +70,12 @@ namespace NRelationSystem
         {
 			Console.WriteLine (name + " ACTION    " );
 
-            RuleAndStr chosenAction = selfPerception.actionForLink(notPosActions, rationality, morality, impulsivity, ability, foci);
+            RuleAndStr chosenAction = selfPerception.actionForLink(notPosActions, this, rationality, morality, impulsivity, ability, foci);
 
 
             foreach(Link curLink in interPersonal)
             {
-				RuleAndStr curAction = curLink.actionForLink(notPosActions, rationality, morality, impulsivity, ability, foci);
+				RuleAndStr curAction = curLink.actionForLink(notPosActions, this, rationality, morality, impulsivity, ability, foci);
 
                 if(curAction.strOfAct > chosenAction.strOfAct)
                 {
@@ -85,7 +85,7 @@ namespace NRelationSystem
 
             foreach (Link curLink in culture)
             {
-				RuleAndStr curAction = curLink.actionForLink(notPosActions, rationality, morality, impulsivity, ability, foci);
+				RuleAndStr curAction = curLink.actionForLink(notPosActions, this, rationality, morality, impulsivity, ability, foci);
 
                 if (curAction.strOfAct > chosenAction.strOfAct)
                 {

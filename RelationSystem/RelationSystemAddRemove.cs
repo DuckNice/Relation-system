@@ -22,9 +22,9 @@ namespace NRelationSystem
 
 
 
-        public void AddRuleToMask(string maskName, string roleName, Person self, Person other, string ruleName, string actName, float str, List<Rule> posRules, RuleConditioner ruleCondition)
+        public void AddRuleToMask(string maskName, string roleName, string ruleName, string actName, float str, List<Rule> posRules, RuleConditioner ruleCondition)
         {
-				pplAndMasks.AddRuleToMask(maskName, ruleName.ToLower(), new Rule(ruleName.ToLower(), posActions[actName.ToLower()], str, posRules, roleName, self, other, ruleCondition));
+				pplAndMasks.AddRuleToMask(maskName, ruleName.ToLower(), new Rule(ruleName.ToLower(), posActions[actName.ToLower()], str, posRules, roleName, ruleCondition));
         }
 
 

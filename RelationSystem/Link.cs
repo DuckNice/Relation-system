@@ -11,6 +11,7 @@ namespace NRelationSystem
         Mask roleMask;
         float lvlOfInfl;
 
+
         public Link(string _roleName, List<Person> _roleRef, Mask _roleMask, float _lvlOfInfl) 
         {
             roleName = _roleName;
@@ -25,17 +26,18 @@ namespace NRelationSystem
             roleRef.Add(_roleRef);
         }
 
-        public RuleAndStr actionForLink(List<MAction> notPosActions, float rat, float mor, float imp, float abi, List<float> foci) 
+
+        public RuleAndStr actionForLink(List<MAction> notPosActions, Person self, float rat, float mor, float imp, float abi, List<float> foci) 
         {
             RuleAndStr actionToSend;
             try
             {
-				actionToSend = roleMask.CalculateActionToUse(notPosActions, rat, mor, imp, abi, lvlOfInfl,foci, roleName);
+				actionToSend = roleMask.CalculateActionToUse(notPosActions, self, rat, mor, imp, abi, lvlOfInfl,foci, roleName);
             }
             catch
             {
                 actionToSend = new RuleAndStr();
-                actionToSend.chosenRule = new Rule("Empty", new MAction("Empty", 0.0f), 0.0f, null, "Empty", null, null, delegate { return false; });
+                actionToSend.chosenRule = new Rule("Empty", new MAction("Empty", 0.0f), 0.0f, null, "Empty", delegate { return false; });
                 actionToSend.strOfAct = 0.0f;
             }
 
