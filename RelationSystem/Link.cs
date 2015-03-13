@@ -32,15 +32,19 @@ namespace NRelationSystem
             RuleAndStr actionToSend;
             try
             {
+
 				actionToSend = roleMask.CalculateActionToUse(notPosActions, self, rat, mor, imp, abi, lvlOfInfl,foci, roleName);
+				//Console.WriteLine ("Trying from link "+actionToSend.chosenRule.ruleName);
             }
             catch
             {
+				//Console.WriteLine ("Catching");
                 actionToSend = new RuleAndStr();
                 actionToSend.chosenRule = new Rule("Empty", new MAction("Empty", 0.0f), 0.0f, null, "Empty", delegate { return false; });
                 actionToSend.strOfAct = 0.0f;
             }
 
+			//Console.WriteLine ("From LINK from "+roleName+" ::: " + actionToSend.chosenRule.ruleName);
             return actionToSend;
         }
     }

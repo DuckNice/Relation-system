@@ -75,8 +75,10 @@ namespace NRelationSystem
                         chosenAction.chosenRule = rule;
                     }
                 }
+				Console.WriteLine(" ");
             }
             
+			//Console.WriteLine ("SENDING OUT FROM MASK: " + chosenAction.chosenRule.ruleName);
             return chosenAction;
         }
     }

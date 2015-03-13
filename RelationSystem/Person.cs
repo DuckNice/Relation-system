@@ -68,7 +68,8 @@ namespace NRelationSystem
 
         public Rule GetAction(List<MAction> notPosActions, List<float> foci) 
         {
-			Console.WriteLine (name + " ACTION    " );
+			Console.WriteLine ("");
+			Console.WriteLine (name + " ACTION TURN   " );
 
             RuleAndStr chosenAction = selfPerception.actionForLink(notPosActions, this, rationality, morality, impulsivity, ability, foci);
 
@@ -92,7 +93,6 @@ namespace NRelationSystem
                     chosenAction = curAction;
                 }
             }
-
 			return chosenAction.chosenRule;
         }
     }

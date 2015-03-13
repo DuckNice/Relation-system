@@ -287,9 +287,9 @@ namespace RelationSystemProgram
 
             RuleConditioner accuseCondition = (self, other) =>
             {
-				//Console.WriteLine( relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["compliment"]) );
-			//	if(self.absTraits.traits[TraitTypes.NiceNasty].value < 0.0f && relationSystem.historyBook.Exists(x=>x. )
-			//	{ return true; }
+				//Console.WriteLine("accuse? "+ relationSystem.historyBook.Exists(x=>x.GetRule().ruleName));
+				if(self.absTraits.traits[TraitTypes.NiceNasty].value < 0.0f && relationSystem.historyBook.Exists(x=>x.GetRule().strength < 0.0f)){
+				 return true; }
 					return false; 
 			};
 
@@ -303,15 +303,13 @@ namespace RelationSystemProgram
 
             RuleConditioner punchCondition = (self, other) =>
             {	
-				Console.Write("checking punch condition "+other.name+" ");
+				//Console.Write("checking punch condition "+other.name+" ");
 				if(other.culture != null){
 					if(other.culture[0].roleRef[0].name == "Bunce" && self.culture[0].roleRef[0].name == "Bunsant"){
 						Console.Write("He's a bunce and I'm a bunsant!");
 						return true;
 					}
 				}
-
-
 				if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["threaten"] && x.GetDirect()==self) ){  //if plead to me
 
 					if(self.absTraits.traits[TraitTypes.NiceNasty].value < -0.2f){
@@ -393,23 +391,24 @@ namespace RelationSystemProgram
 			relationSystem.AddRuleToMask("ThereseBill", "Married", "ThreatenSpouse", "Threaten", -0.4f, new List<Rule>(), threatenCondition);    
 			
 		//BILL JOHN RULES
-			relationSystem.AddRuleToMask("BillJohn", "Noble", "accuseJohn", "accuse", 0.4f, new List<Rule>(), accuseCondition);    
-		//	relationSystem.AddRuleToMask("JohnBill", "Convicted", "ThreatenBill", "Threaten", 0.4f, new List<Rule>(), emptyCondition);    
-
+			relationSystem.AddRuleToMask("BillJohn", "Noble", "accusefBill", "accuse", 0.4f, new List<Rule>(), accuseCondition);    
+			relationSystem.AddRuleToMask("JohnBill", "Convicted", "ThreatenBill", "Threaten", -0.4f, new List<Rule>(), threatenCondition);    
+			relationSystem.AddRuleToMask("JohnBill", "Convicted", "accusefJohn", "accuse", 0.4f, new List<Rule>(), accuseCondition);
 
 
 			relationSystem.AddLinkToPerson("Bill", new string[] { "Therese" }, TypeMask.interPers, "Married", "BillTherese", 0.6f);
             relationSystem.AddLinkToPerson("Therese", new string[] { "Bill" }, TypeMask.interPers, "Married", "ThereseBill", 0.4f);
 			relationSystem.AddLinkToPerson("John", new string[] { "Bill" }, TypeMask.interPers, "Convicted", "JohnBill", 0.7f);
 			relationSystem.AddLinkToPerson("Bill", new string[] { "John" }, TypeMask.interPers, "Noble", "BillJohn", 0.2f);
+
             #endregion InterPeople
 
 
 			#region Rules in social masks
 
-		//	relationSystem.AddRuleToMask("Bungary", "Bunce", relationSystem.pplAndMasks.GetPerson("Bill"), relationSystem.pplAndMasks.GetPerson("John"),"OrderJohn", "Order", 0.4f, new List<Rule>(), emptyCondition);
+	//		relationSystem.AddRuleToMask("Bungary", "Bunce", relationSystem.pplAndMasks.GetPerson("Bill"), relationSystem.pplAndMasks.GetPerson("John"),"OrderJohn", "Order", 0.4f, new List<Rule>(), emptyCondition);
 			relationSystem.AddRuleToMask("Bungary", "Bunce", "Lie", "Lie", -0.6f, new List<Rule>(), emptyCondition);
-		//	relationSystem.AddRuleToMask("Bungary", "Bunsant", "Plead", "Plead", 0.4f, new List<Rule>(), pleadCondition);
+			relationSystem.AddRuleToMask("Bungary", "Bunsant", "Plead", "Plead", 0.4f, new List<Rule>(), pleadCondition);
 			relationSystem.AddRuleToMask("Bungary", "Bunce", "punchPeasant", "punch", 1.0f, new List<Rule>(), punchCondition);	
 			relationSystem.AddRuleToMask("Bungary", "Bunsant", "punchPrince", "punch", 1.0f, new List<Rule>(), punchCondition);	
 			relationSystem.AddRuleToMask("Bungary", "Bunce", "ConvictfBill", "convict", -0.0f, new List<Rule>(), convictCondition);    
@@ -423,15 +422,8 @@ namespace RelationSystemProgram
 
         void PerformAction(Person target, MAction action)
         {
-			Rule ruleToSend = null;
-			foreach(Rule r in relationSystem.pplAndMasks.GetPerson("Player").selfPerception.roleMask.rules.Values ){ //finding the rule for the current action
-				if(r.actionToTrigger == action){
-					ruleToSend = r;
-					break;
-				}
-			}
-			action.DoAction(relationSystem.pplAndMasks.GetPerson("Player"), target,ruleToSend);
-
+			action.DoAction(relationSystem.pplAndMasks.GetPerson("Player"), target,new Rule("Empty", new MAction("Empty", 0.0f), 0.0f, null, "Empty",null));
+			 //passing empty rule because I don't know how to pass rules from player.
             NPCActions();
         }
 

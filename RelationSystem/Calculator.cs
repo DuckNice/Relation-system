@@ -60,7 +60,7 @@ namespace NRelationSystem
         public static float CalculateRule(float rationality, float morality, float impulsivity, float ability, Rule rule, List<Rule> rulesThatWillTrigger, float maskInfl, List<float> foci)
         {
 			float returner = (calculateEgo(impulsivity, ability, rule, rulesThatWillTrigger, foci) * rationality) + (calculateSuperEgo(rule, rulesThatWillTrigger, maskInfl) * morality);
-			Console.WriteLine(", L: "+returner);
+			Console.Write(", L: "+returner);
 			return returner;
         }
 
