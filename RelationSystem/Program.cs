@@ -69,15 +69,11 @@ namespace RelationSystemProgram
                     i = 1;
                 Thread.Sleep(200);
             }
-
-            UpdateProgram();
-
-            CloseProgram();
 		}
 
 
         
-        public void CloseProgram() 
+        public void Close() 
         {
             stopNPCLoop = true;
 
@@ -88,12 +84,18 @@ namespace RelationSystemProgram
         static void Main(string[] args)
         {
             Program main = new Program();
-            Application.EnableVisualStyles();
+
+          //  Application.EnableVisualStyles();
             Application.Run(main);
+            
+		
+            main.Update();
+
+            main.Close();
         }
 
 
-        void UpdateProgram()
+        void Update()
         {
             Console.WriteLine("Welcome to Mask\n\n");
 
