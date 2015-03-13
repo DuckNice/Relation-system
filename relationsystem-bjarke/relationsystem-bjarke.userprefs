@@ -1,17 +1,17 @@
-﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="../RelationSystem/Being.cs">
+﻿<Properties StartupItem="relationsystem-bjarke/relationsystem-bjarke.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="../RelationSystem/Program.cs">
     <Files>
-      <File FileName="../RelationSystem/Calculator.cs" Line="22" Column="5" />
-      <File FileName="../RelationSystem/Program.cs" Line="138" Column="2" />
-      <File FileName="../RelationSystem/Link.cs" Line="29" Column="139" />
-      <File FileName="../RelationSystem/Person.cs" Line="70" Column="141" />
-      <File FileName="../RelationSystem/Being.cs" Line="41" Column="84" />
-      <File FileName="../RelationSystem/Mask.cs" Line="97" Column="3" />
-      <File FileName="../RelationSystem/Rule.cs" Line="50" Column="2" />
-      <File FileName="../RelationSystem/MAction.cs" Line="28" Column="10" />
-      <File FileName="../RelationSystem/RelationSystem.cs" Line="10" Column="54" />
-      <File FileName="../RelationSystem/PersonContainer.cs" Line="10" Column="6" />
+      <File FileName="../RelationSystem/Calculator.cs" Line="1" Column="1" />
+      <File FileName="../RelationSystem/Program.cs" Line="3" Column="3" />
+      <File FileName="../RelationSystem/Link.cs" Line="1" Column="1" />
+      <File FileName="../RelationSystem/Person.cs" Line="1" Column="1" />
+      <File FileName="../RelationSystem/Being.cs" Line="1" Column="1" />
+      <File FileName="../RelationSystem/Mask.cs" Line="1" Column="1" />
+      <File FileName="../RelationSystem/Rule.cs" Line="1" Column="1" />
+      <File FileName="../RelationSystem/MAction.cs" Line="1" Column="1" />
+      <File FileName="../RelationSystem/RelationSystem.cs" Line="1" Column="1" />
+      <File FileName="../RelationSystem/PersonContainer.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

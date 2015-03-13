@@ -50,7 +50,7 @@ namespace NRelationSystem
 
 
 		public void DoAction(Person subject, Person dirObject){
-			actionToTrigger.DoAction (subject, dirObject);
+			actionToTrigger.DoAction (subject, dirObject,this);
 		}
 
     }

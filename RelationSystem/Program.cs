@@ -36,7 +36,7 @@ namespace RelationSystemProgram
 			beings.Add (Therese);
 			beings.Add (John);
 			Bill.FindFocusToAll (beings);
-			Bill.SetFocusToOther (Therese,1);
+			//Bill.SetFocusToOther (Therese,1);
 
 
             NPCThread = new Thread(new ThreadStart(NPCThreadFunc));
@@ -369,7 +369,14 @@ namespace RelationSystemProgram
 
         void PerformAction(Person target, MAction action)
         {
-            action.DoAction(relationSystem.pplAndMasks.GetPerson("Player"), target);
+			Rule ruleToSend = null;
+			foreach(Rule r in relationSystem.pplAndMasks.GetPerson("Player").selfPerception.roleMask.rules.Values ){ //finding the rule for the current action
+				if(r.actionToTrigger == action){
+					ruleToSend = r;
+					break;
+				}
+			}
+			action.DoAction(relationSystem.pplAndMasks.GetPerson("Player"), target,ruleToSend);
 
             NPCActions();
         }

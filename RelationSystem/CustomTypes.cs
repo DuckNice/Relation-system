@@ -50,20 +50,22 @@ namespace NRelationSystem
         private Person subject;
         private Person direct;
         private float time;
-		//private Rule rule;
+		private Rule rule;
 
-        public HistoryItem(MAction _action, Person _subject, Person _direct, float _time)
+        public HistoryItem(MAction _action, Person _subject, Person _direct, float _time, Rule _rule)
         {
             action = _action;
             subject = _subject;
             direct = _direct;
             time = _time;
+			rule = _rule;
         }
 
         public MAction GetAction() { return action; }
         public Person GetSubject() { return subject; }
         public Person GetDirect() { return direct; }
         public float GetTime() { return time; }
+		public Rule GetRule() { return rule; }
     };
 
 

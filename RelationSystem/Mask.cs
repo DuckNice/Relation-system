@@ -8,7 +8,7 @@ namespace NRelationSystem
     public class Mask
     {
         TypeMask maskType;
-        Dictionary<string, Rule> rules;
+        public Dictionary<string, Rule> rules;
         public List<string> roles;
         Overlay maskOverlay;
 
