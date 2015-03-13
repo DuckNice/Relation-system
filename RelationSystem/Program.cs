@@ -86,7 +86,8 @@ namespace RelationSystemProgram
             Program main = new Program();
 
           //  Application.EnableVisualStyles();
-            Application.Run(main);
+            if(Environment.OSVersion.Platform != PlatformID.MacOSX)
+                Application.Run(main);
             
 		
             main.Update();
