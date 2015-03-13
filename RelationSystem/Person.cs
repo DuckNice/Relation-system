@@ -6,9 +6,9 @@ namespace NRelationSystem
 {
     public class Person
     {
-        Link selfPerception;
-        List<Link> interPersonal;
-        List<Link> culture;
+        public Link selfPerception;
+        public List<Link> interPersonal;
+        public List<Link> culture;
         public Overlay absTraits;
         public string name;
 

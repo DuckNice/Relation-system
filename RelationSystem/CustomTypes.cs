@@ -50,6 +50,7 @@ namespace NRelationSystem
         private Person subject;
         private Person direct;
         private float time;
+		//private Rule rule;
 
         public HistoryItem(MAction _action, Person _subject, Person _direct, float _time)
         {

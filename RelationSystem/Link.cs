@@ -7,7 +7,7 @@ namespace NRelationSystem
     public class Link
     {
         string roleName;
-        List<Person> roleRef;
+        public List<Person> roleRef;
         Mask roleMask;
         float lvlOfInfl;
 
