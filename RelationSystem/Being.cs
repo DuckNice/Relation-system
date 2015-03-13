@@ -42,11 +42,12 @@ namespace RelationSystemProgram
             Person self = maskSystem.pplAndMasks.GetPerson(name);
 			Rule rule = self.GetAction(notPossibleActions.Values.ToList(), focus.Values.ToList());
 
+			Console.WriteLine ("");
             Console.WriteLine("Doing action '" + rule.actionToTrigger.name + "' from " + name);
 
             if (rule.actionToTrigger.name.ToLower() != "empty")
             {
-			    rule.DoAction (self, rule.selfOther[self]);
+			    rule.DoAction (self, rule.selfOther[self], rule);
             }
         }
 	}

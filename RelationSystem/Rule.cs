@@ -56,8 +56,8 @@ namespace NRelationSystem
         }
 
 
-		public void DoAction(Person subject, Person dirObject){
-			actionToTrigger.DoAction (subject, dirObject,this);
+		public void DoAction(Person subject, Person dirObject, Rule _rule){
+			actionToTrigger.DoAction (subject, dirObject,_rule);
 		}
 
     }
