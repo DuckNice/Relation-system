@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{009DA71E-AB40-4FFE-BE8C-E9F9AAFE6EBE}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>relationsystem_Xamarin</RootNamespace>
+    <AssemblyName>relationsystem_Xamarin</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Externalconsole>true</Externalconsole>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Externalconsole>true</Externalconsole>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Drawing" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="..\..\RelationSystem\Being.cs">
+      <Link>Being.cs</Link>
+    </Compile>
+    <Compile Include="..\..\RelationSystem\Calculator.cs">
+      <Link>Calculator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\RelationSystem\CustomTypes.cs">
+      <Link>CustomTypes.cs</Link>
+    </Compile>
+    <Compile Include="..\..\RelationSystem\Link.cs">
+      <Link>Link.cs</Link>
+    </Compile>
+    <Compile Include="..\..\RelationSystem\MAction.cs">
+      <Link>MAction.cs</Link>
+    </Compile>
+    <Compile Include="..\..\RelationSystem\Mask.cs">
+      <Link>Mask.cs</Link>
+    </Compile>
+    <Compile Include="..\..\RelationSystem\MaskContainer.cs">
+      <Link>MaskContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\RelationSystem\Overlay.cs">
+      <Link>Overlay.cs</Link>
+    </Compile>
+    <Compile Include="..\..\RelationSystem\Person.cs">
+      <Link>Person.cs</Link>
+    </Compile>
+    <Compile Include="..\..\RelationSystem\PersonContainer.cs">
+      <Link>PersonContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\RelationSystem\ProgramNPCThread.cs">
+      <Link>ProgramNPCThread.cs</Link>
+    </Compile>
+    <Compile Include="..\..\RelationSystem\RelationSystem.cs">
+      <Link>RelationSystem.cs</Link>
+    </Compile>
+    <Compile Include="..\..\RelationSystem\RelationSystemAddRemove.cs">
+      <Link>RelationSystemAddRemove.cs</Link>
+    </Compile>
+    <Compile Include="..\..\RelationSystem\Rule.cs">
+      <Link>Rule.cs</Link>
+    </Compile>
+    <Compile Include="..\..\RelationSystem\Trait.cs">
+      <Link>Trait.cs</Link>
+    </Compile>
+    <Compile Include="..\..\RelationSystem\Program.cs">
+      <Link>Program.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>

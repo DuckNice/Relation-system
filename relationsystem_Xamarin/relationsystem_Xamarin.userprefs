@@ -1,0 +1,13 @@
+﻿<Properties StartupItem="relationsystem_Xamarin/relationsystem_Xamarin.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="../RelationSystem/Program.cs">
+    <Files>
+      <File FileName="../RelationSystem/Program.cs" Line="3" Column="3" />
+      <File FileName="../RelationSystem/RelationSystem.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

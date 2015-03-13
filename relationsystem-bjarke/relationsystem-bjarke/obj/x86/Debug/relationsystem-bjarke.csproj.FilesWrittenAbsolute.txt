@@ -1,0 +1,5 @@
+/Users/bjarkelarsen/Documents/Relation-system/relationsystem-bjarke/relationsystem-bjarke/obj/x86/Debug/.NETFramework,Version=v4.0.AssemblyAttribute.cs
+/Users/bjarkelarsen/Documents/Relation-system/relationsystem-bjarke/relationsystem-bjarke/bin/Debug/relationsystem-bjarke.exe.mdb
+/Users/bjarkelarsen/Documents/Relation-system/relationsystem-bjarke/relationsystem-bjarke/bin/Debug/relationsystem-bjarke.exe
+/Users/bjarkelarsen/Documents/Relation-system/relationsystem-bjarke/relationsystem-bjarke/obj/x86/Debug/relationsystem-bjarke.exe
+/Users/bjarkelarsen/Documents/Relation-system/relationsystem-bjarke/relationsystem-bjarke/obj/x86/Debug/relationsystem-bjarke.exe.mdb
