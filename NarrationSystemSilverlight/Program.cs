@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using System.Windows;
 
 
     //Namespaces
@@ -11,18 +10,12 @@ using NRelationSystem;
 namespace RelationSystemProgram
 {
     partial class Program
-    {
+    {   
         volatile RelationSystem relationSystem = new RelationSystem ();
         
             //Threading work.
         Thread NPCThread;
         private volatile bool stopNPCLoop = false;
-
-
-        public void Canvas_Loaded(object sender, EventArgs e)
-        {
-            Console.WriteLine("Hello");
-        }
 
 
 		public Program()

@@ -37,18 +37,11 @@ namespace NRelationSystem
 
             foreach(Person other in people)
             {
-                try
+                if (ruleCondition(self, other))
                 {
-                    if (ruleCondition(self, other))
-                    {
-                        selfOther.Add(self, other);
+                    selfOther.Add(self, other);
 
-                        return true;
-                    }
-                }
-                    catch
-                {
-                    Console.WriteLine("Warning: ruleCondition for " + other.name + " in " + ruleName + " returned and error. Skipping condition.");
+                    return true;
                 }
             }
 

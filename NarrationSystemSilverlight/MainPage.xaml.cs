@@ -1,16 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Linq;
+using System.Net;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Shapes;
 
 
-    //Namespaces
 using NRelationSystem;
 
 
-namespace RelationSystemProgram
+namespace NarrationSystemSilverlight
 {
-    partial class Program
+    public partial class MainPage : UserControl
     {
         volatile RelationSystem relationSystem = new RelationSystem ();
         
@@ -19,13 +26,7 @@ namespace RelationSystemProgram
         private volatile bool stopNPCLoop = false;
 
 
-        public void Canvas_Loaded(object sender, EventArgs e)
-        {
-            Console.WriteLine("Hello");
-        }
-
-
-		public Program()
+		public MainPage()
         {
 			SetupActions ();
 			CreateFirstMasks();
@@ -48,7 +49,7 @@ namespace RelationSystemProgram
 
             while (!NPCThread.IsAlive)
             {
-                Console.Clear();
+               // Console.Clear();
                 switch (i)
                 {
                     case 1:
@@ -86,14 +87,14 @@ namespace RelationSystemProgram
         static void Main(string[] args)
         {
             Thread programThread = new Thread(programThreadFunc);
-            programThread.SetApartmentState(ApartmentState.STA);
+          //  programThread.SetApartmentState(ApartmentState.STA);
 
             programThread.Start();
         }
 
         static void programThreadFunc()
         {
-            Program main = new Program();
+            MainPage main = new MainPage();
 
             main.Update();
 

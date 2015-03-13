@@ -10,8 +10,6 @@ C:\Users\Kasper\Documents\Relation-system\RelationSystem\bin\Debug\ConsoleApplic
 C:\Users\Kasper\Documents\Relation-system\RelationSystem\obj\Debug\RelationSystem.csprojResolveAssemblyReference.cache
 D:\Users\Kasper\Documents\Relation system\RelationSystem\bin\Debug\RelationSystem.exe.config
 D:\Users\Kasper\Documents\Relation system\RelationSystem\obj\Debug\RelationSystem_MarkupCompile.cache
-D:\Users\Kasper\Documents\Relation system\RelationSystem\obj\Debug\Window.baml
-D:\Users\Kasper\Documents\Relation system\RelationSystem\obj\Debug\Window.g.cs
 D:\Users\Kasper\Documents\Relation system\RelationSystem\obj\Debug\RelationSystem.g.resources
 D:\Users\Kasper\Documents\Relation system\RelationSystem\obj\Debug\RelationSystemProgram.Properties.Resources.resources
 D:\Users\Kasper\Documents\Relation system\RelationSystem\obj\Debug\RelationSystem.csproj.GenerateResource.Cache
@@ -19,3 +17,5 @@ D:\Users\Kasper\Documents\Relation system\RelationSystem\bin\Debug\RelationSyste
 D:\Users\Kasper\Documents\Relation system\RelationSystem\bin\Debug\RelationSystem.pdb
 D:\Users\Kasper\Documents\Relation system\RelationSystem\obj\Debug\RelationSystem.exe
 D:\Users\Kasper\Documents\Relation system\RelationSystem\obj\Debug\RelationSystem.pdb
+D:\Users\Kasper\Documents\Relation system\RelationSystem\obj\Debug\Program.baml
+D:\Users\Kasper\Documents\Relation system\RelationSystem\obj\Debug\Program.g.cs
