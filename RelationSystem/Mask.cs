@@ -78,8 +78,7 @@ namespace NRelationSystem
 				Console.WriteLine(" ");
             }
             
-			//Console.WriteLine ("SENDING OUT FROM MASK: " + chosenAction.chosenRule.ruleName);
-            return chosenAction;
+			return chosenAction;
         }
     }
 }

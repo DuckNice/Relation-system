@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
+//using System.Windows.Controls;
+//using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
-
+//using System.Windows.Media.Animation;
+//using System.Windows.Shapes;
 
     //Namespaces
 using NRelationSystem;
@@ -16,7 +15,7 @@ using NRelationSystem;
 
 namespace RelationSystemProgram
 {
-    partial class Program:UserControl
+    partial class Program
     {   
     
     
@@ -73,7 +72,7 @@ namespace RelationSystemProgram
 
 		public Program()
         {
-            InitializeComponent();  
+        //    InitializeComponent();  
 
 			SetupActions ();
 			CreateFirstMasks();
@@ -305,16 +304,22 @@ namespace RelationSystemProgram
             {	
 				//Console.Write("checking punch condition "+other.name+" ");
 				if(other.culture != null){
-					if(other.culture[0].roleRef[0].name == "Bunce" && self.culture[0].roleRef[0].name == "Bunsant"){
-						Console.Write("He's a bunce and I'm a bunsant!");
+					if(other.culture.Exists(x=>x.roleName == "Bunsant") && self.culture.Exists(x=>x.roleName == "Bunce")){
+						//Console.Write("He's a bunsant and I'm a Bunce!");
 						return true;
 					}
 				}
-				if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["threaten"] && x.GetDirect()==self) ){  //if plead to me
-
-					if(self.absTraits.traits[TraitTypes.NiceNasty].value < -0.2f){
+				if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["threaten"] && x.GetDirect()==self) ){
+					if(self.absTraits.traits[TraitTypes.NiceNasty].value < -0.3f){
 						return true; }
-				} return false; };
+				} 
+				if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["punch"] && x.GetDirect()==self && x.GetSubject()==other
+				) ){
+					//if(self.absTraits.traits[TraitTypes.NiceNasty].value < -0.1f){
+						return true; //}
+				} 
+
+				return false; };
 
 			RuleConditioner convictCondition = (self, other) =>
 			{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["punch"] && x.GetSubject()==self) ){
@@ -377,13 +382,12 @@ namespace RelationSystemProgram
 			#endregion AddingJohn
 
             #region InterPeople
-
             
 		//BILL THERESE RULES
 		//	relationSystem.AddRuleToMask("BillTherese", "Married", "GreetfBill","Greet", 0.2f, new List<Rule>(), GreetCondition);
 		//	relationSystem.AddRuleToMask("ThereseBill", "Married", "GreetfTherese","Greet", 0.2f, new List<Rule>(), GreetCondition);
 		//	relationSystem.AddRuleToMask("John", "Self", "GreetfJohn","Greet", 0.0f, new List<Rule>(), GreetCondition);
-
+		
 		//	relationSystem.AddRuleToMask("BillTherese", "Married", "ComplimentSpouse","Compliment", 0.3f, new List<Rule>(), emptyCondition);
         //  relationSystem.AddRuleToMask("ThereseBill", "Married",  "ComplimentSpouse","Compliment", 0.3f, new List<Rule>(), emptyCondition);
 
@@ -395,28 +399,29 @@ namespace RelationSystemProgram
 			relationSystem.AddRuleToMask("JohnBill", "Convicted", "ThreatenBill", "Threaten", -0.4f, new List<Rule>(), threatenCondition);    
 			relationSystem.AddRuleToMask("JohnBill", "Convicted", "accusefJohn", "accuse", 0.4f, new List<Rule>(), accuseCondition);
 
-
-			relationSystem.AddLinkToPerson("Bill", new string[] { "Therese" }, TypeMask.interPers, "Married", "BillTherese", 0.6f);
-            relationSystem.AddLinkToPerson("Therese", new string[] { "Bill" }, TypeMask.interPers, "Married", "ThereseBill", 0.4f);
-			relationSystem.AddLinkToPerson("John", new string[] { "Bill" }, TypeMask.interPers, "Convicted", "JohnBill", 0.7f);
-			relationSystem.AddLinkToPerson("Bill", new string[] { "John" }, TypeMask.interPers, "Noble", "BillJohn", 0.2f);
-
             #endregion InterPeople
-
-
 			#region Rules in social masks
 
-	//		relationSystem.AddRuleToMask("Bungary", "Bunce", relationSystem.pplAndMasks.GetPerson("Bill"), relationSystem.pplAndMasks.GetPerson("John"),"OrderJohn", "Order", 0.4f, new List<Rule>(), emptyCondition);
 			relationSystem.AddRuleToMask("Bungary", "Bunce", "Lie", "Lie", -0.6f, new List<Rule>(), emptyCondition);
 			relationSystem.AddRuleToMask("Bungary", "Bunsant", "Plead", "Plead", 0.4f, new List<Rule>(), pleadCondition);
-			relationSystem.AddRuleToMask("Bungary", "Bunce", "punchPeasant", "punch", 1.0f, new List<Rule>(), punchCondition);	
-			relationSystem.AddRuleToMask("Bungary", "Bunsant", "punchPrince", "punch", 1.0f, new List<Rule>(), punchCondition);	
+			relationSystem.AddRuleToMask("Bungary", "Bunce", "punchfBunce", "punch", 0.0f, new List<Rule>(), punchCondition);	
+			relationSystem.AddRuleToMask("Bungary", "Bunsant", "punchfPeasant", "punch", -0.3f, new List<Rule>(), punchCondition);	
 			relationSystem.AddRuleToMask("Bungary", "Bunce", "ConvictfBill", "convict", -0.0f, new List<Rule>(), convictCondition);    
 			relationSystem.AddRuleToMask("Bungary", "Bunsant", "flee", "flee", -0.0f, new List<Rule>(), fleeCondition);    
 			relationSystem.AddRuleToMask("Bungary", "Bunsant", "fightback", "fightback", -0.0f, new List<Rule>(), fightBackCondition);    
 
-
 			#endregion Rules in social masks
+
+
+
+			#region LINKS
+			relationSystem.AddLinkToPerson("Bill", new string[] { "Therese" }, TypeMask.interPers, "Married", "BillTherese", 0.6f);
+			relationSystem.AddLinkToPerson("Therese", new string[] { "Bill" }, TypeMask.interPers, "Married", "ThereseBill", 0.4f);
+			relationSystem.AddLinkToPerson("John", new string[] { "Bill" }, TypeMask.interPers, "Convicted", "JohnBill", 0.7f);
+			relationSystem.AddLinkToPerson("Bill", new string[] { "John" }, TypeMask.interPers, "Noble", "BillJohn", 0.2f);
+			#endregion LINKS 
+
+
         }
 
 
@@ -495,7 +500,7 @@ namespace RelationSystemProgram
 			{
 				Console.WriteLine(subject.name + " is PUNCHING "+direct.name+"!! OUCH");
 			};
-			relationSystem.AddAction(new MAction("punch", 1.0f, punch, relationSystem));
+			relationSystem.AddAction(new MAction("punch", 0.1f, punch, relationSystem));
 
 			ActionInvoker convict = (subject, direct) => 
 			{
