@@ -10,7 +10,7 @@ using NRelationSystem;
 
 namespace RelationSystemProgram
 {
-    partial class Program:Form
+    partial class Program
     {
 		volatile RelationSystem relationSystem = new RelationSystem ();
         
@@ -85,9 +85,8 @@ namespace RelationSystemProgram
         {
             Program main = new Program();
 
-          //  Application.EnableVisualStyles();
-            if(Environment.OSVersion.Platform != PlatformID.MacOSX)
-                Application.Run(main);
+          //  if(Environment.OSVersion.Platform != PlatformID.MacOSX)
+           //     Application.Run(main);
             
 		
             main.Update();
