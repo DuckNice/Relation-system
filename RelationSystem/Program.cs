@@ -2,9 +2,6 @@
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Threading;
-using System.Runtime.InteropServices;
-using System.IO;
-using System.Text;
 
 
     //Namespaces
@@ -13,7 +10,7 @@ using NRelationSystem;
 
 namespace RelationSystemProgram
 {
-    partial class Program
+    partial class Program:Form
     {
 		volatile RelationSystem relationSystem = new RelationSystem ();
         
@@ -72,10 +69,15 @@ namespace RelationSystemProgram
                     i = 1;
                 Thread.Sleep(200);
             }
+
+            UpdateProgram();
+
+            CloseProgram();
 		}
 
 
-        public void Close() 
+        
+        public void CloseProgram() 
         {
             stopNPCLoop = true;
 
@@ -85,18 +87,13 @@ namespace RelationSystemProgram
 
         static void Main(string[] args)
         {
-			Program main = new Program();
-            
-
-			//adding new beings for testing
-		
-            main.Update();
-
-            main.Close();
+            Program main = new Program();
+            Application.EnableVisualStyles();
+            Application.Run(main);
         }
 
 
-        void Update()
+        void UpdateProgram()
         {
             Console.WriteLine("Welcome to Mask\n\n");
 
