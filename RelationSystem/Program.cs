@@ -45,7 +45,7 @@ namespace RelationSystemProgram
 
 		public Program()
         {
-            AllocConsole();
+        //    AllocConsole();
             IntPtr stdHandle = GetStdHandle(STD_OUTPUT_HANDLE);
             SafeFileHandle safeFileHandle = new SafeFileHandle(stdHandle, true);
             FileStream fileStream = new FileStream(safeFileHandle, FileAccess.Write);
@@ -400,7 +400,14 @@ namespace RelationSystemProgram
 
         void PerformAction(Person target, MAction action)
         {
-            action.DoAction(relationSystem.pplAndMasks.GetPerson("Player"), target);
+			Rule ruleToSend = null;
+			foreach(Rule r in relationSystem.pplAndMasks.GetPerson("Player").selfPerception.roleMask.rules.Values ){ //finding the rule for the current action
+				if(r.actionToTrigger == action){
+					ruleToSend = r;
+					break;
+				}
+			}
+			action.DoAction(relationSystem.pplAndMasks.GetPerson("Player"), target,ruleToSend);
 
             NPCActions();
         }

@@ -89,12 +89,12 @@ namespace NRelationSystem
         }
 
 
-        public void DidAction(MAction action, Person subject, Person direct)
+        public void DidAction(MAction action, Person subject, Person direct, Rule _rule)
         {
-            historyBook.Add(new HistoryItem(action, subject, direct, 0.0f));
-        }
-
-
+			historyBook.Add(new HistoryItem(action, subject, direct, 0.0f,_rule));
+		}
+		
+		
         public void PrintPersonStatus()
         {
             Person personToPrint = pplAndMasks.GetPerson("Bill");

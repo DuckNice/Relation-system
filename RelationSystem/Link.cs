@@ -8,7 +8,7 @@ namespace NRelationSystem
     {
         string roleName;
         public List<Person> roleRef;
-        Mask roleMask;
+        public Mask roleMask;
         float lvlOfInfl;
 
 
