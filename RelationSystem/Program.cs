@@ -10,9 +10,9 @@ using NRelationSystem;
 namespace RelationSystemProgram
 {
     partial class Program
-    {
+    {       
         volatile RelationSystem relationSystem = new RelationSystem ();
-        
+     
             //Threading work.
         Thread NPCThread;
         private volatile bool stopNPCLoop = false;
