@@ -7,4 +7,4 @@
             <UserControl x:Name="VolumeMeter"></UserControl>
         </StackPanel>
     </Canvas>
-</UserControl> 
+</UserControl>

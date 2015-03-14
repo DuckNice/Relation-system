@@ -19,3 +19,13 @@ D:\Users\Kasper\Documents\Relation system\RelationSystem\obj\Debug\RelationSyste
 D:\Users\Kasper\Documents\Relation system\RelationSystem\obj\Debug\RelationSystem.pdb
 D:\Users\Kasper\Documents\Relation system\RelationSystem\obj\Debug\Program.baml
 D:\Users\Kasper\Documents\Relation system\RelationSystem\obj\Debug\Program.g.cs
+C:\Users\Bjarke\Documents\Relation-system\RelationSystem\bin\Debug\RelationSystem.exe.config
+C:\Users\Bjarke\Documents\Relation-system\RelationSystem\obj\Debug\RelationSystem.exe
+C:\Users\Bjarke\Documents\Relation-system\RelationSystem\obj\Debug\RelationSystem.pdb
+C:\Users\Bjarke\Documents\Relation-system\RelationSystem\obj\Debug\RelationSystem.csprojResolveAssemblyReference.cache
+C:\Users\Bjarke\Documents\Relation-system\RelationSystem\obj\Debug\Program.baml
+C:\Users\Bjarke\Documents\Relation-system\RelationSystem\obj\Debug\Program.g.cs
+C:\Users\Bjarke\Documents\Relation-system\RelationSystem\obj\Debug\RelationSystem_MarkupCompile.cache
+C:\Users\Bjarke\Documents\Relation-system\RelationSystem\obj\Debug\RelationSystem.g.resources
+C:\Users\Bjarke\Documents\Relation-system\RelationSystem\obj\Debug\RelationSystemProgram.Properties.Resources.resources
+C:\Users\Bjarke\Documents\Relation-system\RelationSystem\obj\Debug\RelationSystem.csproj.GenerateResource.Cache
