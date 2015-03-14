@@ -1,21 +1,12 @@
-D:\Users\Kasper\Documents\Relation system\ConsoleApplication2\bin\Debug\ConsoleApplication2.exe.config
-D:\Users\Kasper\Documents\Relation system\ConsoleApplication2\obj\Debug\ConsoleApplication2.exe
-D:\Users\Kasper\Documents\Relation system\ConsoleApplication2\obj\Debug\ConsoleApplication2.pdb
-D:\Users\Kasper\Documents\Relation system\RelationSystem\obj\Debug\RelationSystem.csprojResolveAssemblyReference.cache
-C:\Users\Kasper\Documents\Relation-system\RelationSystem\bin\Debug\ConsoleApplication2.exe.config
-C:\Users\Kasper\Documents\Relation-system\RelationSystem\obj\Debug\ConsoleApplication2.exe
-C:\Users\Kasper\Documents\Relation-system\RelationSystem\obj\Debug\ConsoleApplication2.pdb
-C:\Users\Kasper\Documents\Relation-system\RelationSystem\bin\Debug\ConsoleApplication2.exe
-C:\Users\Kasper\Documents\Relation-system\RelationSystem\bin\Debug\ConsoleApplication2.pdb
+C:\Users\Kasper\Documents\Relation-system\RelationSystem\bin\Debug\RelationSystem.exe.config
+C:\Users\Kasper\Documents\Relation-system\RelationSystem\bin\Debug\RelationSystem.exe
+C:\Users\Kasper\Documents\Relation-system\RelationSystem\bin\Debug\RelationSystem.pdb
 C:\Users\Kasper\Documents\Relation-system\RelationSystem\obj\Debug\RelationSystem.csprojResolveAssemblyReference.cache
-D:\Users\Kasper\Documents\Relation system\RelationSystem\bin\Debug\RelationSystem.exe.config
-D:\Users\Kasper\Documents\Relation system\RelationSystem\obj\Debug\RelationSystem_MarkupCompile.cache
-D:\Users\Kasper\Documents\Relation system\RelationSystem\obj\Debug\RelationSystem.g.resources
-D:\Users\Kasper\Documents\Relation system\RelationSystem\obj\Debug\RelationSystemProgram.Properties.Resources.resources
-D:\Users\Kasper\Documents\Relation system\RelationSystem\obj\Debug\RelationSystem.csproj.GenerateResource.Cache
-D:\Users\Kasper\Documents\Relation system\RelationSystem\bin\Debug\RelationSystem.exe
-D:\Users\Kasper\Documents\Relation system\RelationSystem\bin\Debug\RelationSystem.pdb
-D:\Users\Kasper\Documents\Relation system\RelationSystem\obj\Debug\RelationSystem.exe
-D:\Users\Kasper\Documents\Relation system\RelationSystem\obj\Debug\RelationSystem.pdb
-D:\Users\Kasper\Documents\Relation system\RelationSystem\obj\Debug\Program.baml
-D:\Users\Kasper\Documents\Relation system\RelationSystem\obj\Debug\Program.g.cs
+C:\Users\Kasper\Documents\Relation-system\RelationSystem\obj\Debug\Program.baml
+C:\Users\Kasper\Documents\Relation-system\RelationSystem\obj\Debug\Program.g.cs
+C:\Users\Kasper\Documents\Relation-system\RelationSystem\obj\Debug\RelationSystem_MarkupCompile.cache
+C:\Users\Kasper\Documents\Relation-system\RelationSystem\obj\Debug\RelationSystem.g.resources
+C:\Users\Kasper\Documents\Relation-system\RelationSystem\obj\Debug\RelationSystemProgram.Properties.Resources.resources
+C:\Users\Kasper\Documents\Relation-system\RelationSystem\obj\Debug\RelationSystem.csproj.GenerateResource.Cache
+C:\Users\Kasper\Documents\Relation-system\RelationSystem\obj\Debug\RelationSystem.exe
+C:\Users\Kasper\Documents\Relation-system\RelationSystem\obj\Debug\RelationSystem.pdb
