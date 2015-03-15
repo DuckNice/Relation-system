@@ -1,0 +1,2 @@
+RelationSystem/bin/*
+RelationSystem/obj/*
