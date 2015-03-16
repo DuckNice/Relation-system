@@ -8,6 +8,8 @@ namespace NRelationSystem
     {
         protected Dictionary<string, Mask> instMasks = new Dictionary<string, Mask>();
 
+        protected Dictionary<string, Rule> instRules = new Dictionary<string, Rule>();
+
 
         public void CreateNewMask(string name, TypeMask _maskType, Overlay _maskOverlay) 
         {
@@ -25,7 +27,6 @@ namespace NRelationSystem
             {
                 Console.WriteLine("Error: Mask not created with CreateNewMask.");
             }
-
         }
 
 
@@ -46,6 +47,10 @@ namespace NRelationSystem
             return instMask;
         }
 
+        public void CreateNewRule()
+        {
+
+        }
 
         public void AddRuleToMask(string maskName, string newRuleName, Rule newRule)
         {
