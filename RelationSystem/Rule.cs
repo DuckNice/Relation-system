@@ -10,20 +10,17 @@ namespace NRelationSystem
         public string ruleName;
         //	public Dictionary<string, MAction> actionsByRoles; 
         public MAction actionToTrigger;
-        public List<Rule> rulesThatMightHappen;
-        public float strength;
-        public string role;
+        public List<Rule> rulesThatMightHappen = new List<Rule>();
+        public float strength = 0.0f;
+        public string role = "none";
         public Dictionary<Person, Person> selfOther = new Dictionary<Person,Person>();
         private RuleConditioner ruleCondition;
 
 
-        public Rule(string _ruleName, MAction act, float _str, List<Rule> _rulesThatMightHappen, string _role, RuleConditioner _ruleCondition)
+        public Rule(string _ruleName, MAction act, RuleConditioner _ruleCondition)
         {
             ruleName = _ruleName;
             actionToTrigger = act;
-            strength = _str;
-            rulesThatMightHappen = _rulesThatMightHappen;
-            role = _role;
             ruleCondition = _ruleCondition;
         }
 

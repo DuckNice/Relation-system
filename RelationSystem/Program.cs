@@ -350,44 +350,75 @@ namespace RelationSystemProgram
 
             #region Rules
             
-		//BILL THERESE RULES
-		//	relationSystem.AddRuleToMask("BillTherese", "Married", "GreetfBill","Greet", 0.2f, new List<Rule>(), GreetCondition);
-		//	relationSystem.AddRuleToMask("ThereseBill", "Married", "GreetfTherese","Greet", 0.2f, new List<Rule>(), GreetCondition);
-		//	relationSystem.AddRuleToMask("John", "Self", "GreetfJohn","Greet", 0.0f, new List<Rule>(), GreetCondition);
+		    //BILL THERESE RULES
+		    //	relationSystem.AddRuleToMask("BillTherese", "Married", "GreetfBill","Greet", 0.2f, new List<Rule>(), GreetCondition);
+		    //	relationSystem.AddRuleToMask("ThereseBill", "Married", "GreetfTherese","Greet", 0.2f, new List<Rule>(), GreetCondition);
+		    //	relationSystem.AddRuleToMask("John", "Self", "GreetfJohn","Greet", 0.0f, new List<Rule>(), GreetCondition);
 		
-		//	relationSystem.AddRuleToMask("BillTherese", "Married", "ComplimentSpouse","Compliment", 0.3f, new List<Rule>(), emptyCondition);
-        //  relationSystem.AddRuleToMask("ThereseBill", "Married",  "ComplimentSpouse","Compliment", 0.3f, new List<Rule>(), emptyCondition);
+		    //	relationSystem.AddRuleToMask("BillTherese", "Married", "ComplimentSpouse","Compliment", 0.3f, new List<Rule>(), emptyCondition);
+            //  relationSystem.AddRuleToMask("ThereseBill", "Married",  "ComplimentSpouse","Compliment", 0.3f, new List<Rule>(), emptyCondition);
+                relationSystem.CreateNewRule("ThreatenSpouse", "Threaten", threatenCondition);
+			    relationSystem.AddRuleToMask("BillTherese", "Married", "ThreatenSpouse", -0.4f);
 
-			relationSystem.AddRuleToMask("BillTherese", "Married", "ThreatenSpouse", "Threaten", -0.4f, new List<Rule>(), threatenCondition);
-			relationSystem.AddRuleToMask("ThereseBill", "Married", "ThreatenSpouse", "Threaten", -0.4f, new List<Rule>(), threatenCondition);
-            relationSystem.AddRuleToMask("ThereseBill", "Married", "KissfTherese", "kiss", 0.4f, new List<Rule>(), kissCondition);
-            relationSystem.AddRuleToMask("BillTherese", "Married", "KissfBill", "kiss", 0.4f, new List<Rule>(), kissCondition);    
+			    relationSystem.AddRuleToMask("ThereseBill", "Married", "ThreatenSpouse", -0.4f);
+
+                relationSystem.CreateNewRule("KissfTherese", "kiss", kissCondition);
+                relationSystem.AddRuleToMask("ThereseBill", "Married", "KissfTherese", 0.4f);
+
+                relationSystem.CreateNewRule("KissfBill", "kiss", kissCondition);
+                relationSystem.AddRuleToMask("BillTherese", "Married", "KissfBill", 0.4f);    
 			
-		//BILL JOHN RULES
-			relationSystem.AddRuleToMask("BillJohn", "Noble", "accusefBill", "accuse", 0.4f, new List<Rule>(), accuseCondition);    
-			relationSystem.AddRuleToMask("JohnBill", "Convicted", "ThreatenfJohn", "Threaten", -0.1f, new List<Rule>(), threatenCondition);    
-			relationSystem.AddRuleToMask("JohnBill", "Convicted", "accusefJohn", "accuse", -0.2f, new List<Rule>(), accuseCondition);
+		    //BILL JOHN RULES
+                relationSystem.CreateNewRule("accusefBill", "accuse", accuseCondition);
+			    relationSystem.AddRuleToMask("BillJohn", "Noble", "accusefBill", 0.4f);
 
-        //THERESE JOHN RULES
+                relationSystem.CreateNewRule("ThreatenfJohn", "Threaten", threatenCondition);
+			    relationSystem.AddRuleToMask("JohnBill", "Convicted", "ThreatenfJohn", -0.1f);
 
-            relationSystem.AddRuleToMask("JohnTherese", "Peasant", "KissfJohn", "kiss", -0.6f, new List<Rule>(), kissCondition);
-            relationSystem.AddRuleToMask("ThereseJohn", "Princess", "accusefJohn", "accuse", 0.1f, new List<Rule>(), accuseCondition);
+                relationSystem.CreateNewRule("accusefJohn", "accuse", accuseCondition);
+			    relationSystem.AddRuleToMask("JohnBill", "Convicted", "accusefJohn", -0.2f);
 
-        // CULTURAL RULES
-			relationSystem.AddRuleToMask("Bungary", "Bunce", "Lie", "Lie", -0.6f, new List<Rule>(), emptyCondition);
-			relationSystem.AddRuleToMask("Bungary", "Bunsant", "Plead", "Plead", 0.4f, new List<Rule>(), pleadCondition);
-			relationSystem.AddRuleToMask("Bungary", "Bunce", "punchfBunce", "punch", 0.0f, new List<Rule>(), punchCondition);	
-			relationSystem.AddRuleToMask("Bungary", "Bunsant", "punchfPeasant", "punch", -0.3f, new List<Rule>(), punchCondition);	
-			relationSystem.AddRuleToMask("Bungary", "Bunce", "ConvictfBill", "convict", -0.0f, new List<Rule>(), convictCondition);    
-			relationSystem.AddRuleToMask("Bungary", "Bunsant", "flee", "flee", 0.2f, new List<Rule>(), fleeCondition);    
-			relationSystem.AddRuleToMask("Bungary", "Bunsant", "fightback", "fightback", 0.1f, new List<Rule>(), fightBackCondition);
-			relationSystem.AddRuleToMask("Bungary", "Bunsant", "bribe", "bribe", 0.3f, new List<Rule>(), bribeCondition);
+            //THERESE JOHN RULES
+                relationSystem.CreateNewRule("KissfJohn", "kiss", kissCondition);
+                relationSystem.AddRuleToMask("JohnTherese", "Peasant", "KissfJohn", -0.6f);
+
+                relationSystem.AddRuleToMask("ThereseJohn", "Princess", "accusefJohn", 0.1f);
+
+            // CULTURAL RULES
+                relationSystem.CreateNewRule("Lie", "Lie", emptyCondition);
+			    relationSystem.AddRuleToMask("Bungary", "Bunce", "Lie", -0.6f);
+
+                relationSystem.CreateNewRule("Plead", "Plead", pleadCondition);
+			    relationSystem.AddRuleToMask("Bungary", "Bunsant", "Plead", 0.4f);
+
+                relationSystem.CreateNewRule("punchfBunce", "punch", punchCondition);
+			    relationSystem.AddRuleToMask("Bungary", "Bunce", "punchfBunce", 0.0f);
+
+                relationSystem.CreateNewRule("punchfPeasant", "punch", punchCondition);
+			    relationSystem.AddRuleToMask("Bungary", "Bunsant", "punchfPeasant", -0.3f);
+
+                relationSystem.CreateNewRule("ConvictfBill", "convict",  convictCondition);
+			    relationSystem.AddRuleToMask("Bungary", "Bunce", "ConvictfBill", -0.0f);
+
+                relationSystem.CreateNewRule("flee", "flee", fleeCondition);
+			    relationSystem.AddRuleToMask("Bungary", "Bunsant", "flee", 0.2f);
+
+                relationSystem.CreateNewRule("fightback", "fightback", fightBackCondition);
+			    relationSystem.AddRuleToMask("Bungary", "Bunsant", "fightback", 0.1f);
+
+                relationSystem.CreateNewRule("bribe", "bribe", bribeCondition);
+			    relationSystem.AddRuleToMask("Bungary", "Bunsant", "bribe", 0.3f);
 
 
-        //SELF RULES
-			relationSystem.AddRuleToMask("John", "Self", "doNothingfSant", "doNothing", 0.0f, new List<Rule>(), emptyCondition);
-			relationSystem.AddRuleToMask("Therese", "Self", "doNothingfcess", "doNothing", 0.0f, new List<Rule>(), emptyCondition);
-			relationSystem.AddRuleToMask("Bill", "Self", "doNothingfbuncce", "doNothing", 0.0f, new List<Rule>(), emptyCondition);
+            //SELF RULES
+                relationSystem.CreateNewRule("doNothingfSant", "doNothing", emptyCondition);
+			    relationSystem.AddRuleToMask("John", "Self", "doNothingfSant", 0.0f);
+
+                relationSystem.CreateNewRule("doNothingfcess", "doNothing", emptyCondition);
+			    relationSystem.AddRuleToMask("Therese", "Self", "doNothingfcess", 0.0f);
+
+                relationSystem.CreateNewRule("doNothingfbuncce", "doNothing", emptyCondition);
+			    relationSystem.AddRuleToMask("Bill", "Self", "doNothingfbuncce", 0.0f);
 
 			#endregion Rules
 
@@ -406,7 +437,7 @@ namespace RelationSystemProgram
 
         void PerformAction(Person target, MAction action)
         {
-			action.DoAction(relationSystem.pplAndMasks.GetPerson("Player"), target,new Rule("Empty", new MAction("Empty", 0.0f), 0.0f, null, "Empty",null));
+			action.DoAction(relationSystem.pplAndMasks.GetPerson("Player"), target,new Rule("Empty", new MAction("Empty", 0.0f), null));
 			 //passing empty rule because I don't know how to pass rules from player.
             NPCActions();
         }

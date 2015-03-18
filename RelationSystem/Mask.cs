@@ -57,9 +57,8 @@ namespace NRelationSystem
         public RuleAndStr CalculateActionToUse(List<MAction> notPosActions, Person self, float rat, float mor, float imp, float abi, float maskInfl, List<float> foci, string role)
         {
             RuleAndStr chosenAction = new RuleAndStr();
-            RuleConditioner empty = delegate { return false; };
 
-			chosenAction.chosenRule = new Rule("Empty", new MAction("Empty", 0.0f), 0.0f, null, "Empty", empty);
+			chosenAction.chosenRule = new Rule("Empty", new MAction("Empty", 0.0f), null);
             chosenAction.strOfAct = 0.0f;
 
             foreach(Rule rule in rules.Values.ToList())

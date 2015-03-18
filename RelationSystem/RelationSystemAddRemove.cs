@@ -21,12 +21,15 @@ namespace NRelationSystem
         }
 
 
-
-        public void AddRuleToMask(string maskName, string roleName, string ruleName, string actName, float str, List<Rule> posRules, RuleConditioner ruleCondition)
+        public void AddRuleToMask(string maskName, string roleName, string ruleName, float str, List<Rule> possibleRules = null)
         {
-				pplAndMasks.AddRuleToMask(maskName, ruleName.ToLower(), new Rule(ruleName.ToLower(), posActions[actName.ToLower()], str, posRules, roleName, ruleCondition));
+			pplAndMasks.AddRuleToMask(maskName, ruleName, roleName, str, possibleRules);
         }
 
+        public void AddPossibleRulesToRule(string ruleName, List<Rule> possibleRules)
+        {
+            pplAndMasks.AddPossibleRulesToRule(ruleName, possibleRules);
+        }
 
         public void AddLinkToPerson(string persName, string[] linkRel, TypeMask maskType, string role, string mask, float str)
         {

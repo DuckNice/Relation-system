@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 
 namespace NRelationSystem
@@ -9,7 +10,6 @@ namespace NRelationSystem
         protected Dictionary<string, Mask> instMasks = new Dictionary<string, Mask>();
 
         protected Dictionary<string, Rule> instRules = new Dictionary<string, Rule>();
-
 
         public void CreateNewMask(string name, TypeMask _maskType, Overlay _maskOverlay) 
         {
@@ -47,18 +47,62 @@ namespace NRelationSystem
             return instMask;
         }
 
-        public void CreateNewRule()
-        {
 
+        public void CreateNewRule(string ruleName, MAction posAction, RuleConditioner ruleCondition)
+        {
+            ruleName = ruleName.ToLower();
+
+            if (!instRules.Keys.Contains(ruleName))
+            {
+                instRules.Add(ruleName, new Rule(ruleName.ToLower(), posAction, ruleCondition));
+            }
+            else
+            {
+                Console.WriteLine("Warning: Rule with name '" + ruleName + "' Already exists. Not adding rule.");
+            }
         }
 
-        public void AddRuleToMask(string maskName, string newRuleName, Rule newRule)
+
+        public Rule FindRule(string ruleName)
         {
-            int roleIndex = GetMaskRoleIndex(maskName, newRuleName);
+            if (instRules.Keys.Contains(ruleName))
+            {
+                return instRules[ruleName];
+            }
+
+            return null;
+        }
+
+
+        public void AddPossibleRulesToRule(string ruleName, List<Rule> possibleRules)
+        {
+            instRules[ruleName].rulesThatMightHappen.AddRange(possibleRules);
+        }
+
+
+        public void AddRuleToMask(string maskName, string ruleName, string roleName, float strength, List<Rule> possibleRules = null)
+        {
+            int roleIndex = GetMaskRoleIndex(maskName, roleName);
 
             if(instMasks[maskName].roles.Count > roleIndex)
             {
-                instMasks[maskName].AddRule(newRuleName, newRule);
+                Rule rule = FindRule(ruleName);
+
+                if(rule != null)
+                {
+                    rule.role = roleName;
+                    rule.strength = strength;
+
+                    if(possibleRules != null)
+                    {
+                        foreach(Rule possibleRule in possibleRules)
+                        {
+                            rule.rulesThatMightHappen.Add(possibleRule);
+                        }
+                    }
+
+                    instMasks[maskName].AddRule(ruleName, rule);
+                }
             }
             else
             {

@@ -40,7 +40,7 @@ namespace NRelationSystem
             {
 				//Console.WriteLine ("Catching");
                 actionToSend = new RuleAndStr();
-                actionToSend.chosenRule = new Rule("Empty", new MAction("Empty", 0.0f), 0.0f, null, "Empty", delegate { return false; });
+                actionToSend.chosenRule = new Rule("Empty", new MAction("Empty", 0.0f), null);
                 actionToSend.strOfAct = 0.0f;
             }
 

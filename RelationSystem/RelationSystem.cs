@@ -45,7 +45,16 @@ namespace NRelationSystem
         }
 
 
-
+        public void CreateNewRule(string ruleName, string actName, RuleConditioner ruleCondition)
+        {
+           if(pplAndMasks.FindRule(ruleName) == null){
+                pplAndMasks.CreateNewRule(ruleName, posActions[actName.ToLower()], ruleCondition);
+           }
+           else
+           {
+               Console.WriteLine("Warning: Rule with name '" + ruleName + "' Already exists. Not adding rule.");
+           }
+        }
 
 
 		public void CreateNewPerson(MaskAdds selfMask, List<MaskAdds> _cults, List<MaskAdds> _intPpl, float rational, float moral, float impulse, float[] _traits = null)
