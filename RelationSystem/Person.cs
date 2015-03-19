@@ -10,6 +10,7 @@ namespace NRelationSystem
         public List<Link> interPersonal;
         public List<Link> culture;
         public Overlay absTraits;
+        public Dictionary<MoodTypes, float> moods = new Dictionary<MoodTypes, float>();
         public string name;
 
         float rationality;

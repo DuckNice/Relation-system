@@ -10,6 +10,14 @@ namespace NRelationSystem
         interPers,
         culture
     }
+
+    public enum MoodTypes
+    {
+        hapSad,
+        arousDisgus,
+        angryfear,
+        energTired
+    }
     
 
     public struct RuleAndStr

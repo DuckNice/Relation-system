@@ -315,7 +315,7 @@ namespace RelationSystemProgram
             #region AddingPlayer
                 MaskAdds selfPersMask = new MaskAdds("Self", "Player", 0.0f, new List<Person>());
 
-				relationSystem.CreateNewPerson(selfPersMask, new List<MaskAdds>(), new List<MaskAdds>(), 0f, 0f, 0f, new float[] { 0f, 0f, 0f });
+				relationSystem.CreateNewPerson(selfPersMask, new List<MaskAdds>(), new List<MaskAdds>(), 0f, 0f, 0f);
 			#endregion AddingPlayer
 
             #region AddingBill
@@ -323,7 +323,6 @@ namespace RelationSystemProgram
 
                 List<MaskAdds>  culture = new List<MaskAdds>();
                 culture.Add(new MaskAdds("Bunce", "Bungary", 0.4f, new List<Person>()));
-
 
 				relationSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.6f, 0.4f, 0.7f, new float[] { -0.2f, 0.5f, 0.1f });
 			#endregion AddingBill
@@ -333,7 +332,6 @@ namespace RelationSystemProgram
 
                 culture = new List<MaskAdds>();
                 culture.Add(new MaskAdds("Buncess", "Bungary", 0.4f, new List<Person>()));
-
 
 				relationSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.3f, 0.7f, 0.2f, new float[] { 0.6f, -0.5f, 0.6f });
 			
@@ -423,15 +421,12 @@ namespace RelationSystemProgram
 			#endregion Rules
 
 
-
 			#region LINKS
 			relationSystem.AddLinkToPerson("Bill", new string[] { "Therese" }, TypeMask.interPers, "Married", "BillTherese", 0.6f);
 			relationSystem.AddLinkToPerson("Therese", new string[] { "Bill" }, TypeMask.interPers, "Married", "ThereseBill", 0.4f);
 			relationSystem.AddLinkToPerson("John", new string[] { "Bill" }, TypeMask.interPers, "Convicted", "JohnBill", 0.7f);
 			relationSystem.AddLinkToPerson("Bill", new string[] { "John" }, TypeMask.interPers, "Noble", "BillJohn", 0.2f);
 			#endregion LINKS 
-
-
         }
 
 
@@ -454,10 +449,6 @@ namespace RelationSystemProgram
 
 		void SetupActions()
 		{
-
-
-
-
 	// ---------- INTERPERSONAL ACTIONS
 			ActionInvoker greet = (subject, direct) => 
 			{
@@ -490,9 +481,7 @@ namespace RelationSystemProgram
             relationSystem.AddAction(new MAction("kiss", 0.5f, kiss, relationSystem));
 
 
-
 	// ---------- CULTURAL ACTIONS
-
 			ActionInvoker doNothing = (subject, direct) => 
 			{
 				Console.WriteLine(subject.name + " is doing absolutely nothing. What a bore.");
