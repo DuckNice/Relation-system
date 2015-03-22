@@ -6,27 +6,24 @@ using System.Threading;
 using NRelationSystem;
 
 
-namespace RelationSystemProgram
+public partial class Program
 {
-    partial class Program
+    List<Being> beings = new List<Being>();
+
+
+    void NPCThreadFunc()
     {
-        List<Being> beings = new List<Being>();
-
-
-        void NPCThreadFunc()
+        while (stopNPCLoop)
         {
-            while (stopNPCLoop)
-            {
-                Thread.Sleep(1);
-            }
-
-            StopNPCThread();
+            Thread.Sleep(1);
         }
 
+        StopNPCThread();
+    }
 
-        void StopNPCThread()
-        {
 
-        }
+    void StopNPCThread()
+    {
+
     }
 }

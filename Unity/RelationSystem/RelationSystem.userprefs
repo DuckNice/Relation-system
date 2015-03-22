@@ -1,6 +1,14 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Program.cs">
+    <Files>
+      <File FileName="Assets\UI\UIFunctions.cs" Line="29" Column="1" />
+      <File FileName="Assets\UI\debug.cs" Line="9" Column="2" />
+      <File FileName="Assets\Program.cs" Line="83" Column="10" />
+      <File FileName="Assets\ProgramNPCThread.cs" Line="9" Column="8" />
+      <File FileName="Assets\Being.cs" Line="51" Column="2" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
