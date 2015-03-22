@@ -127,7 +127,7 @@ public partial class Program:MonoBehaviour
             }
             else
             {
-				UIFunctions.WritePlayerLine("'display <person>': Get information about character.");
+				UIFunctions.WritePlayerLine((string)"'display <person>': Get information about character.");
 				UIFunctions.WritePlayerLine("'do <person> <action>': Perform the mentioned <action> interacting with the stated <person>");
 				UIFunctions.WritePlayerLine("'history': Show the history log.");
             }
