@@ -91,7 +91,7 @@ namespace NRelationSystem
                 if(rule != null)
                 {
                     rule.role = roleName;
-                    rule.strength = strength;
+                    rule.SetRuleStrength(strength);
 
                     if(possibleRules != null)
                     {

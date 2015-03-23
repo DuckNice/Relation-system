@@ -47,5 +47,13 @@ namespace NRelationSystem
 			//Console.WriteLine ("From LINK from "+roleName+" ::: " + actionToSend.chosenRule.ruleName);
             return actionToSend;
         }
+
+
+		public float GetlvlOfInfl(){ return lvlOfInfl; }
+
+		public void SetlvlOfInfl(float inp){ lvlOfInfl = inp; }
+
+		public void AddLvlOfInfl(float inp){ lvlOfInfl += inp; }
+
     }
 }

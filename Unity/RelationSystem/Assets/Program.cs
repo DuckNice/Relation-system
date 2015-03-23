@@ -183,7 +183,7 @@ public partial class Program:MonoBehaviour
 			return true; };
 
 		RuleConditioner threatenCondition = (self, other) =>
-		{ 	if(self.absTraits.traits[TraitTypes.NiceNasty].value < -0.1f){ return true; }
+		{ 	if(self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() < -0.1f){ return true; }
 			if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["threaten"] && x.GetDirect()==self && x.GetDirect()==other))
 				{return true; }
 			return false; };
@@ -191,7 +191,7 @@ public partial class Program:MonoBehaviour
         RuleConditioner accuseCondition = (self, other) =>
         {
 			//UIFunctions.WriteGameLine("accuse? "+ relationSystem.historyBook.Exists(x=>x.GetRule().ruleName));
-			if(self.absTraits.traits[TraitTypes.NiceNasty].value < 0.0f && relationSystem.historyBook.Exists(x=>x.GetRule().strength < 0.0f && x.GetSubject()==other)){
+			if(self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() < 0.0f && relationSystem.historyBook.Exists(x=>x.GetRule().GetRuleStrength() < 0.0f && x.GetSubject()==other)){
 			 return true; }
 				return false; 
 		};
@@ -214,7 +214,7 @@ public partial class Program:MonoBehaviour
 				}
 			}
 			if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["threaten"] && x.GetDirect()==self) ){
-				if(self.absTraits.traits[TraitTypes.NiceNasty].value < -0.3f){
+				if(self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() < -0.3f){
 					return true; }
 			} 
 			if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["punch"] && x.GetDirect()==self && x.GetSubject()==other
@@ -232,7 +232,7 @@ public partial class Program:MonoBehaviour
 		RuleConditioner fleeCondition = (self, other) =>
 		{	
 			if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["convict"] && x.GetDirect()==self) ){
-				if(self.absTraits.traits[TraitTypes.NiceNasty].value >= 0.0){
+				if(self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() >= 0.0){
 
 					return true; 
 				}
@@ -241,7 +241,7 @@ public partial class Program:MonoBehaviour
 
 		RuleConditioner fightBackCondition = (self, other) =>
 		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["convict"] && x.GetDirect()==self && x.GetSubject()==other) ){
-				if(self.absTraits.traits[TraitTypes.NiceNasty].value < 0.0){
+				if(self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() < 0.0){
 					return true; 
 				}
 			}
@@ -468,7 +468,7 @@ public partial class Program:MonoBehaviour
 		ActionInvoker plead_innocence = (subject, direct) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is pleading innocence to "+direct.name);
-			direct.absTraits.traits[TraitTypes.NiceNasty].value += Calculator.unboundAdd(-0.2f,direct.absTraits.traits[TraitTypes.NiceNasty].value);
+			direct.absTraits.traits[TraitTypes.NiceNasty].AddToTraitValue(Calculator.unboundAdd(-0.2f,direct.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue()));
 		};
 		relationSystem.AddAction(new MAction("Plead", 0.5f, plead_innocence, relationSystem));
 
@@ -481,8 +481,8 @@ public partial class Program:MonoBehaviour
 		ActionInvoker convict = (subject, direct) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is convicting "+direct.name+" of commiting a crime. To Jail with him!");
-			direct.absTraits.traits[TraitTypes.ShyBolsterous].value += Calculator.unboundAdd(-0.2f,direct.absTraits.traits[TraitTypes.ShyBolsterous].value);
-			direct.absTraits.traits[TraitTypes.NiceNasty].value += Calculator.unboundAdd(-0.4f,direct.absTraits.traits[TraitTypes.NiceNasty].value);
+			direct.absTraits.traits[TraitTypes.ShyBolsterous].AddToTraitValue(Calculator.unboundAdd(-0.2f,direct.absTraits.traits[TraitTypes.ShyBolsterous].GetTraitValue()));
+			direct.absTraits.traits[TraitTypes.NiceNasty].AddToTraitValue(Calculator.unboundAdd(-0.4f,direct.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue()));
 		};
 		relationSystem.AddAction(new MAction("convict", 0.7f, convict, relationSystem));
 

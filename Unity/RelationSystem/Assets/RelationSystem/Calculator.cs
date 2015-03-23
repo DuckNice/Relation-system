@@ -21,7 +21,7 @@ namespace NRelationSystem
                 foreach (Rule r in rulesThatWillTrigger)
                 {
 
-					tempEgo += r.strength * r.actionToTrigger.EstimationOfSuccess(ability) * visibility;
+					tempEgo += r.GetRuleStrength() * r.actionToTrigger.EstimationOfSuccess(ability) * visibility;
 
                     //probability is just r.strength for now. let's leave it like that for simplicity
 					//right now it just check visibility for all people in world, not just the people involved in the action considered.
@@ -42,14 +42,14 @@ namespace NRelationSystem
             float superEgo = 1.0f;
 
                 //own rules morality:
-            superEgo += rule.strength * maskInfl;
+            superEgo += rule.GetRuleStrength() * maskInfl;
 
                 //consequent rules morality:
             if (rules != null)
             {
                 foreach (Rule r in rules)
                 {
-                    superEgo += r.strength * maskInfl;
+                    superEgo += r.GetRuleStrength() * maskInfl;
                 }
             }
             Console.Write(", SuperEgo: " + superEgo);
@@ -67,7 +67,7 @@ namespace NRelationSystem
 
         public static float CalculateGain(Rule rule)
         {
-            return rule.actionToTrigger.gain;
+            return rule.actionToTrigger.GetGain();
         }
 
 

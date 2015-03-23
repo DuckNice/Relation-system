@@ -95,5 +95,22 @@ namespace NRelationSystem
             }
 			return chosenAction.chosenRule;
         }
+
+		public float GetRationality(){ return rationality; }
+		public void SetRationality(float inp){ rationality = inp; }
+		public void AddToRationality(float inp){ rationality += inp; }
+
+		public float GetMorality(){ return morality; }
+		public void SetMorality(float inp){ morality = inp; }
+		public void AddToMorality(float inp){ morality += inp; }
+
+		public float GetImpulsivity(){ return impulsivity; }
+		public void SetImpulsivity(float inp){ impulsivity = inp; }
+		public void AddToImpulsivity(float inp){ impulsivity += inp; }
+
+		public float GetAbilityy(){ return ability; }
+		public void SetAbility(float inp){ ability = inp; }
+		public void AddToAbility(float inp){ ability += inp; }
+
     }
 }

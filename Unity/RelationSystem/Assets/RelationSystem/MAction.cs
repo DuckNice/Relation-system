@@ -6,7 +6,7 @@ namespace NRelationSystem
 {
     public class MAction
     {
-        public float gain;
+        float gain;
         public string name;
         public List<Rule> affectedRules;
         ActionInvoker actionInvoker;
@@ -47,5 +47,11 @@ namespace NRelationSystem
         {
             return ability; //RIGHT now, just ability
         }
+
+
+		public float GetGain(){ return gain; }
+		public void SetGain(float inp){ gain = inp; }
+		public void AddToGain(float inp){ gain += inp; }
+
     }
 }

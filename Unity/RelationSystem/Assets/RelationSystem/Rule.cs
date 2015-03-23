@@ -11,7 +11,7 @@ namespace NRelationSystem
         //	public Dictionary<string, MAction> actionsByRoles; 
         public MAction actionToTrigger;
         public List<Rule> rulesThatMightHappen = new List<Rule>();
-        public float strength = 0.0f;
+        float strength = 0.0f;
         public string role = "none";
         public Dictionary<Person, Person> selfOther = new Dictionary<Person,Person>();
         private RuleConditioner ruleCondition;
@@ -56,6 +56,10 @@ namespace NRelationSystem
 		public void DoAction(Person subject, Person dirObject, Rule _rule){
 			actionToTrigger.DoAction (subject, dirObject,_rule);
 		}
+
+		public float GetRuleStrength(){ return strength; }
+		public void SetRuleStrength(float inp){ strength = inp; }
+		public void AddToRuleStrength(float inp){ strength += inp; }
 
     }
 }
