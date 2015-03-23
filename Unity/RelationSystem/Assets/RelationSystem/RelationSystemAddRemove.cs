@@ -52,7 +52,7 @@ namespace NRelationSystem
             }
             else
             {
-                Console.WriteLine("Warning: Action with name: '" + action.name + "' already exists. Please note that action names are not case sensitive.");
+                debug.Write("Warning: Action with name: '" + action.name + "' already exists. Please note that action names are not case sensitive.");
             }
             
         }

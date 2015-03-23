@@ -19,7 +19,7 @@ namespace NRelationSystem
             }
             else
             {
-                Console.WriteLine("Error: person '" + personName + "' to be inserted has no selfPernality Link. Aborting insert.");
+                debug.Write("Error: person '" + personName + "' to be inserted has no selfPersonality Link. Aborting insert.");
                 return;
             }
         }
