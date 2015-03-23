@@ -12,4 +12,10 @@ public class debug : MonoBehaviour {
 		if(instance == null)
 			instance = this;
 	}
+
+
+	public static void Write(string input)
+	{
+		Debug.Log (input);
+	}
 }

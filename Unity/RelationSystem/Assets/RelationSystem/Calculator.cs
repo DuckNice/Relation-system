@@ -13,9 +13,11 @@ namespace NRelationSystem
             if (rulesThatWillTrigger != null)
             {
 				float visibility = new float();
+
 				foreach(float f in foci){
 					visibility += f;
 				}
+
 				visibility /= foci.Count;
 
                 foreach (Rule r in rulesThatWillTrigger)
@@ -31,7 +33,9 @@ namespace NRelationSystem
             tempEgo *= (1 - impulsivity);
 
             float ego = impulsivity * CalculateGain(curRule) + tempEgo;
-            Console.Write("Ego: " + ego);
+
+			if(debug.Toggle)
+            	debug.Write("Ego: " + ego);
 
             return ego;
         }
@@ -52,7 +56,10 @@ namespace NRelationSystem
                     superEgo += r.GetRuleStrength() * maskInfl;
                 }
             }
-            Console.Write(", SuperEgo: " + superEgo);
+
+			if(debug.Toggle)
+            	debug.Write(", SuperEgo: " + superEgo);
+
             return superEgo;
         }
 
@@ -60,7 +67,10 @@ namespace NRelationSystem
         public static float CalculateRule(float rationality, float morality, float impulsivity, float ability, Rule rule, List<Rule> rulesThatWillTrigger, float maskInfl, List<float> foci)
         {
 			float returner = (calculateEgo(impulsivity, ability, rule, rulesThatWillTrigger, foci) * rationality) + (calculateSuperEgo(rule, rulesThatWillTrigger, maskInfl) * morality);
-			Console.Write(", L: "+returner);
+
+			if(debug.Toggle)
+				debug.Write(", L: "+returner);
+
 			return returner;
         }
 
@@ -75,6 +85,7 @@ namespace NRelationSystem
         {
             float uWeightingFactor = 1 - ((1 - WeightingFactor) / 2);
             float blend = y * uWeightingFactor + x * (1 - uWeightingFactor);
+
             return blend;
         }
 
@@ -92,6 +103,7 @@ namespace NRelationSystem
                 {
                     dist = Math.Abs((-1) - curValue);
                 }
+
                 return unboundedNumber * (float)dist;
             }
             else
@@ -105,6 +117,7 @@ namespace NRelationSystem
                 {
                     dist = Math.Abs((-1) - curValue);
                 }
+
                 return unboundedNumber * (float)dist;
             }
         }

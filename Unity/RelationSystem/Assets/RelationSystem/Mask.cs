@@ -63,7 +63,9 @@ namespace NRelationSystem
 
             foreach(Rule rule in rules.Values.ToList())
             {
-				Console.Write("check "+rule.actionToTrigger.name+"   ");
+				if(debug.Toggle)
+					debug.Write("check "+rule.actionToTrigger.name+"   ");
+
                 if(!notPosActions.Contains(rule.actionToTrigger) && rule.role.Equals(role) && rule.Condition(self))
                 {
                     float newActionStrength = Calculator.CalculateRule(rat, mor, imp, abi, rule, rule.actionToTrigger.affectedRules, maskInfl, foci);
@@ -74,7 +76,6 @@ namespace NRelationSystem
                         chosenAction.chosenRule = rule;
                     }
                 }
-				Console.WriteLine(" ");
             }
             
 			return chosenAction;

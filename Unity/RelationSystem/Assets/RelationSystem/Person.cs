@@ -15,7 +15,7 @@ namespace NRelationSystem
         float rationality;
         float morality;
         float impulsivity;
-		float ability; // JUST A BAD ESTIMATE OF A PERSON'S ABILITY TO DO STUFF
+		float ability; 
 
 
         public Person(string _name, Link _selfPer, List<Link> _interpers, List<Link> _culture, float _ratio, float _moral, float _impulse)
@@ -28,6 +28,11 @@ namespace NRelationSystem
             morality = _moral;
             impulsivity = _impulse;
         }
+
+		public float calculateRelation(Person person)
+		{
+			return 0;
+		}
 
 
         public List<Link> GetLinks(TypeMask type)
@@ -44,6 +49,7 @@ namespace NRelationSystem
             {
                 List<Link> go = new List<Link>();
                 go.Add(selfPerception);
+
                 return go;
             }
         }
@@ -53,7 +59,7 @@ namespace NRelationSystem
         {
             if(type == TypeMask.selfPerc && selfPerception != null)
             {
-                Console.WriteLine("Error: selfPersonMask already exists. Not adding Mask.");
+				debug.Write("Error: selfPersonMask already exists. Not adding Mask.");
             }
             else if(type == TypeMask.interPers)
             {
@@ -68,11 +74,12 @@ namespace NRelationSystem
 
         public Rule GetAction(List<MAction> notPosActions, List<float> foci) 
         {
-			Console.WriteLine ("");
-			Console.WriteLine (name + " ACTION TURN   " );
+			if (debug.Toggle) {
+				debug.Write ("");
+				debug.Write (name + " ACTION TURN   ");
+			}
 
             RuleAndStr chosenAction = selfPerception.actionForLink(notPosActions, this, rationality, morality, impulsivity, ability, foci);
-
 
             foreach(Link curLink in interPersonal)
             {
@@ -93,6 +100,7 @@ namespace NRelationSystem
                     chosenAction = curAction;
                 }
             }
+
 			return chosenAction.chosenRule;
         }
 

@@ -1,17 +1,18 @@
 ﻿<Properties StartupItem="relationsystem-bjarke/relationsystem-bjarke.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="../RelationSystem/Program.cs">
+  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workbench ActiveDocument="../Unity/RelationSystem/Assets/RelationSystem/Mask.cs">
     <Files>
-      <File FileName="../RelationSystem/Calculator.cs" Line="1" Column="1" />
-      <File FileName="../RelationSystem/Program.cs" Line="3" Column="3" />
-      <File FileName="../RelationSystem/Link.cs" Line="1" Column="1" />
-      <File FileName="../RelationSystem/Person.cs" Line="1" Column="1" />
-      <File FileName="../RelationSystem/Being.cs" Line="1" Column="1" />
-      <File FileName="../RelationSystem/Mask.cs" Line="1" Column="1" />
-      <File FileName="../RelationSystem/Rule.cs" Line="1" Column="1" />
-      <File FileName="../RelationSystem/MAction.cs" Line="1" Column="1" />
-      <File FileName="../RelationSystem/RelationSystem.cs" Line="1" Column="1" />
-      <File FileName="../RelationSystem/PersonContainer.cs" Line="1" Column="1" />
+      <File FileName="../Unity/RelationSystem/Assets/Program.cs" Line="485" Column="157" />
+      <File FileName="../Unity/RelationSystem/Assets/RelationSystem/Trait.cs" Line="11" Column="23" />
+      <File FileName="../Unity/RelationSystem/Assets/RelationSystem/Rule.cs" Line="14" Column="31" />
+      <File FileName="../Unity/RelationSystem/Assets/RelationSystem/MAction.cs" Line="9" Column="9" />
+      <File FileName="../Unity/RelationSystem/Assets/RelationSystem/Mask.cs" Line="65" Column="14" />
+      <File FileName="../Unity/RelationSystem/Assets/RelationSystem/MaskContainer.cs" Line="94" Column="51" />
+      <File FileName="../Unity/RelationSystem/Assets/RelationSystem/Overlay.cs" Line="1" Column="1" />
+      <File FileName="../Unity/RelationSystem/Assets/RelationSystem/Person.cs" Line="13" Column="28" />
+      <File FileName="../Unity/RelationSystem/Assets/RelationSystem/PersonContainer.cs" Line="1" Column="1" />
+      <File FileName="../Unity/RelationSystem/Assets/RelationSystem/RelationSystem.cs" Line="1" Column="1" />
+      <File FileName="../Unity/RelationSystem/Assets/RelationSystem/RelationSystemAddRemove.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

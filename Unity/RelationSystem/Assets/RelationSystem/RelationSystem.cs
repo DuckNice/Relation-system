@@ -52,7 +52,7 @@ namespace NRelationSystem
            }
            else
            {
-               Console.WriteLine("Warning: Rule with name '" + ruleName + "' Already exists. Not adding rule.");
+               debug.Write("Warning: Rule with name '" + ruleName + "' Already exists. Not adding rule.");
            }
         }
 
@@ -110,7 +110,7 @@ namespace NRelationSystem
 
             foreach (Link thisLink in personToPrint.GetLinks(TypeMask.selfPerc))
             {
-                Console.WriteLine("Nothing here yet.");
+                debug.Write("Nothing here yet.");
             }
         }
     }

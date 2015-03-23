@@ -30,16 +30,16 @@ namespace NRelationSystem
         }
 
 
-        public void DoAction(Person subject, Person direct, Rule _rule)
+        public void DoAction(Person subject, Person direct, Rule _rule, Person[] indPpl = null, object[] misc = null)
         { //SUBJECT, VERB, OBB, DIROBJ    Setup
             if(actionInvoker != null)
             {
-                actionInvoker(subject, direct);
+                actionInvoker(subject, direct, indPpl, misc);
 				relationSystem.DidAction(this, subject, direct, _rule);
 			}
 			else
             {
-                Console.WriteLine("No action to do in action '" + name + "'.");
+                debug.Write("No action to do in action '" + name + "'.");
             }
         }
 

@@ -21,11 +21,11 @@ namespace NRelationSystem
             }
             else if (newMask != null)
             {
-                Console.WriteLine("Error: Mask with name '" + name + "' Already Exists.");
+                debug.Write("Error: Mask with name '" + name + "' Already Exists.");
             }
             else
             {
-                Console.WriteLine("Error: Mask not created with CreateNewMask.");
+                debug.Write("Error: Mask not created with CreateNewMask.");
             }
         }
 
@@ -40,7 +40,8 @@ namespace NRelationSystem
             }
             catch
             {
-                Console.WriteLine("Error: Mask '" + maskName + "' not found in list of instantiated masks. Returning null.");
+                debug.Write("Error: Mask '" + maskName + "' not found in list of instantiated masks. Returning null.");
+
                 return null;
             }
 
@@ -58,7 +59,7 @@ namespace NRelationSystem
             }
             else
             {
-                Console.WriteLine("Warning: Rule with name '" + ruleName + "' Already exists. Not adding rule.");
+                debug.Write("Warning: Rule with name '" + ruleName + "' Already exists. Not adding rule.");
             }
         }
 
@@ -106,7 +107,7 @@ namespace NRelationSystem
             }
             else
             {
-                Console.WriteLine("Error: role did not exist, choose other role.");
+                debug.Write("Error: role did not exist, choose other role.");
             }
         }
 

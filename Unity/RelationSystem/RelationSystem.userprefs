@@ -1,12 +1,18 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Program.cs">
+  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/RelationSystem/Mask.cs">
     <Files>
-      <File FileName="Assets\UI\UIFunctions.cs" Line="29" Column="15" />
-      <File FileName="Assets\UI\debug.cs" Line="1" Column="1" />
-      <File FileName="Assets\Program.cs" Line="134" Column="10" />
-      <File FileName="Assets\ProgramNPCThread.cs" Line="1" Column="1" />
-      <File FileName="Assets\Being.cs" Line="1" Column="1" />
+      <File FileName="Assets/Program.cs" Line="485" Column="157" />
+      <File FileName="Assets/RelationSystem/Trait.cs" Line="11" Column="23" />
+      <File FileName="Assets/RelationSystem/Rule.cs" Line="14" Column="31" />
+      <File FileName="Assets/RelationSystem/MAction.cs" Line="9" Column="9" />
+      <File FileName="Assets/RelationSystem/Mask.cs" Line="65" Column="14" />
+      <File FileName="Assets/RelationSystem/MaskContainer.cs" Line="94" Column="51" />
+      <File FileName="Assets/RelationSystem/Overlay.cs" Line="1" Column="1" />
+      <File FileName="Assets/RelationSystem/Person.cs" Line="13" Column="28" />
+      <File FileName="Assets/RelationSystem/PersonContainer.cs" Line="1" Column="1" />
+      <File FileName="Assets/RelationSystem/RelationSystem.cs" Line="1" Column="1" />
+      <File FileName="Assets/RelationSystem/RelationSystemAddRemove.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

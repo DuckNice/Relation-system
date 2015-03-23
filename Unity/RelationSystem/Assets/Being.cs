@@ -11,8 +11,9 @@ public class Being
 	public string name;
 	public Dictionary<Being, float> focus;
 	public RelationSystem maskSystem;
+	public List<Possession> possessions = new List<Possession>();
 	Dictionary<string, MAction> notPossibleActions;
-
+	
 
 	public Being (string _name, RelationSystem relsys)
 	{
@@ -20,6 +21,9 @@ public class Being
 		focus = new Dictionary<Being,float > ();
 		notPossibleActions = new Dictionary<string, MAction> ();
 		maskSystem = relsys;
+
+		possessions.Add (new Money ());
+		possessions.Add (new Axe(1.0f, "Lead", 10.0f, 0.5f));
 	}
 
 
@@ -40,12 +44,12 @@ public class Being
         Person self = maskSystem.pplAndMasks.GetPerson(name);
 		Rule rule = self.GetAction(notPossibleActions.Values.ToList(), focus.Values.ToList());
 
-		Console.WriteLine ("");
-        Console.WriteLine("Doing action '" + rule.actionToTrigger.name + "' from " + name);
+		if (debug.Toggle) 
+			debug.Write ("Doing action '" + rule.actionToTrigger.name + "' from " + name);
 
         if (rule.actionToTrigger.name.ToLower() != "empty")
         {
-		    rule.DoAction (self, rule.selfOther[self], rule);
+		    rule.DoAction (self, rule.selfOther[self], rule, misc:possessions.ToArray());
         }
     }
 }

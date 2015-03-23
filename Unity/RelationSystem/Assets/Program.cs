@@ -172,23 +172,23 @@ public partial class Program:MonoBehaviour
     public void CreateFirstPeople()
     {
 		#region adding Conditions
-		RuleConditioner emptyCondition = (self, other) => { 
+		RuleConditioner emptyCondition = (self, other, indPpl) => { 
 			//UIFunctions.WriteGameLine("PassedCorrectly ");
 			return true;
 		};
 
-        RuleConditioner GreetCondition = (self, other) =>
+		RuleConditioner GreetCondition = (self, other, indPpl) =>
         { if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["greet"] && x.GetSubject()==self && x.GetDirect()==other)){
 				return false; }
 			return true; };
 
-		RuleConditioner threatenCondition = (self, other) =>
+		RuleConditioner threatenCondition = (self, other, indPpl) =>
 		{ 	if(self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() < -0.1f){ return true; }
 			if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["threaten"] && x.GetDirect()==self && x.GetDirect()==other))
 				{return true; }
 			return false; };
 
-        RuleConditioner accuseCondition = (self, other) =>
+		RuleConditioner accuseCondition = (self, other, indPpl) =>
         {
 			//UIFunctions.WriteGameLine("accuse? "+ relationSystem.historyBook.Exists(x=>x.GetRule().ruleName));
 			if(self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() < 0.0f && relationSystem.historyBook.Exists(x=>x.GetRule().GetRuleStrength() < 0.0f && x.GetSubject()==other)){
@@ -196,7 +196,7 @@ public partial class Program:MonoBehaviour
 				return false; 
 		};
 
-        RuleConditioner pleadCondition = (self, other) =>
+		RuleConditioner pleadCondition = (self, other, indPpl) =>
         {
 			if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["accuse"] && x.GetDirect()==self) ) //if accuse me
 				{ return true; }
@@ -204,7 +204,7 @@ public partial class Program:MonoBehaviour
 				return false;
 		};
 
-        RuleConditioner punchCondition = (self, other) =>
+		RuleConditioner punchCondition = (self, other, indPpl) =>
         {	
 			if(other.culture != null){
 
@@ -224,12 +224,12 @@ public partial class Program:MonoBehaviour
 			} 
 			return false; };
 
-		RuleConditioner convictCondition = (self, other) =>
+		RuleConditioner convictCondition = (self, other, indPpl) =>
 		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["punch"] && x.GetDirect()==self && (x.GetSubject()==other && x.GetSubject()!=self)) )
 			{	return true; }
 			return false; };
 
-		RuleConditioner fleeCondition = (self, other) =>
+		RuleConditioner fleeCondition = (self, other, indPpl) =>
 		{	
 			if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["convict"] && x.GetDirect()==self) ){
 				if(self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() >= 0.0){
@@ -239,7 +239,7 @@ public partial class Program:MonoBehaviour
 			}
 			return false; };
 
-		RuleConditioner fightBackCondition = (self, other) =>
+		RuleConditioner fightBackCondition = (self, other, indPpl) =>
 		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["convict"] && x.GetDirect()==self && x.GetSubject()==other) ){
 				if(self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() < 0.0){
 					return true; 
@@ -247,13 +247,13 @@ public partial class Program:MonoBehaviour
 			}
 			return false; };
 
-		RuleConditioner bribeCondition = (self, other) =>
+		RuleConditioner bribeCondition = (self, other, indPpl) =>
 		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["convict"] && x.GetDirect()==self && x.GetSubject()==other) ){
 					return true; 
 			}
 			return false; };
 
-        RuleConditioner kissCondition = (self, other) =>
+		RuleConditioner kissCondition = (self, other, indPpl) =>
         {
             if (self.interPersonal.Exists(x => x.roleName == "Married") && other.interPersonal.Exists(x => x.roleName == "Married"))
               { return true; }
@@ -413,31 +413,31 @@ public partial class Program:MonoBehaviour
 
 
 // ---------- INTERPERSONAL ACTIONS
-		ActionInvoker greet = (subject, direct) => 
+		ActionInvoker greet = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is greeting "+direct.name);
 		};
 		relationSystem.AddAction(new MAction("Greet", 0.1f, greet, relationSystem));
 
-		ActionInvoker compliment = (subject, direct) => 
+		ActionInvoker compliment = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is complimenting "+direct.name);
 		};
 		relationSystem.AddAction(new MAction("Compliment", 0.0f, compliment, relationSystem));
 
-		ActionInvoker threaten = (subject, direct) => 
+		ActionInvoker threaten = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is threatening "+direct.name);
 		};
 		relationSystem.AddAction(new MAction("Threaten", 0.0f, threaten, relationSystem));
 
-		ActionInvoker accuse = (subject, direct) => 
+		ActionInvoker accuse = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is accusing "+direct.name+" of heinous crimes!");
 		};
 		relationSystem.AddAction(new MAction("accuse", 0.0f, accuse, relationSystem));
 
-        ActionInvoker kiss = (subject, direct) =>
+		ActionInvoker kiss = (subject, direct, indPpl, misc) =>
         {
 			UIFunctions.WriteGameLine(subject.name + " is kissing " + direct.name);
         };
@@ -447,38 +447,38 @@ public partial class Program:MonoBehaviour
 
 // ---------- CULTURAL ACTIONS
 
-		ActionInvoker doNothing = (subject, direct) => 
+		ActionInvoker doNothing = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is doing absolutely nothing. What a bore.");
 		};
 		relationSystem.AddAction(new MAction("doNothing", -1.0f, doNothing, relationSystem));
 
-		ActionInvoker order = (subject, direct) => 
+		ActionInvoker order = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is ordering "+direct.name+" to go away.");
 		};
 		relationSystem.AddAction(new MAction("Order", 0.1f, order, relationSystem));
 
-		ActionInvoker lie = (subject, direct) => 
+		ActionInvoker lie = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is lying to "+direct.name+" about his own might");
 		};
 		relationSystem.AddAction(new MAction("Lie", 0.2f, lie, relationSystem));
 
-		ActionInvoker plead_innocence = (subject, direct) => 
+		ActionInvoker plead_innocence = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is pleading innocence to "+direct.name);
 			direct.absTraits.traits[TraitTypes.NiceNasty].AddToTraitValue(Calculator.unboundAdd(-0.2f,direct.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue()));
 		};
 		relationSystem.AddAction(new MAction("Plead", 0.5f, plead_innocence, relationSystem));
 
-		ActionInvoker punch = (subject, direct) => 
+		ActionInvoker punch = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is PUNCHING "+direct.name+"!! OUCH");
 		};
 		relationSystem.AddAction(new MAction("punch", 0.4f, punch, relationSystem));
 
-		ActionInvoker convict = (subject, direct) => 
+		ActionInvoker convict = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is convicting "+direct.name+" of commiting a crime. To Jail with him!");
 			direct.absTraits.traits[TraitTypes.ShyBolsterous].AddToTraitValue(Calculator.unboundAdd(-0.2f,direct.absTraits.traits[TraitTypes.ShyBolsterous].GetTraitValue()));
@@ -486,19 +486,19 @@ public partial class Program:MonoBehaviour
 		};
 		relationSystem.AddAction(new MAction("convict", 0.7f, convict, relationSystem));
 
-		ActionInvoker flee = (subject, direct) => 
+		ActionInvoker flee = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is attempting to flee the scene!");
 		};
 		relationSystem.AddAction(new MAction("flee", 1.0f, flee, relationSystem));
 
-		ActionInvoker fightBack = (subject, direct) => 
+		ActionInvoker fightBack = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is attempting to fight back against "+direct.name);
 		};
 		relationSystem.AddAction(new MAction("fightBack", 1.0f, fightBack, relationSystem));
 
-		ActionInvoker bribe = (subject, direct) => 
+		ActionInvoker bribe = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is attempting to bribe "+direct.name);
 		};

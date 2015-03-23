@@ -45,7 +45,7 @@ namespace NRelationSystem
                 }
                     catch
                 {
-                    Console.WriteLine("Warning: ruleCondition for " + other.name + " in " + ruleName + " returned and error. Skipping condition.");
+                    debug.Write("Warning: ruleCondition for " + other.name + " in " + ruleName + " returned and error. Skipping condition.");
                 }
             }
 
@@ -53,8 +53,8 @@ namespace NRelationSystem
         }
 
 
-		public void DoAction(Person subject, Person dirObject, Rule _rule){
-			actionToTrigger.DoAction (subject, dirObject,_rule);
+		public void DoAction(Person subject, Person dirObject, Rule _rule, Person[] indPpl = null, object[] misc = null){
+			actionToTrigger.DoAction (subject, dirObject,_rule, indPpl, misc);
 		}
 
 		public float GetRuleStrength(){ return strength; }

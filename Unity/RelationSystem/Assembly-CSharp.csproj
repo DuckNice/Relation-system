@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Being.cs" />
+     <Compile Include="Assets\Possession.cs" />
      <Compile Include="Assets\Program.cs" />
      <Compile Include="Assets\ProgramNPCThread.cs" />
      <Compile Include="Assets\RelationSystem\Calculator.cs" />
