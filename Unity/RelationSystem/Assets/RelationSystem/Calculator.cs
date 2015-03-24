@@ -34,8 +34,7 @@ namespace NRelationSystem
 
             float ego = impulsivity * CalculateGain(curRule) + tempEgo;
 
-			if(debug.Toggle)
-            	debug.Write("Ego: " + ego);
+            debug.Write("Ego: " + ego);
 
             return ego;
         }
@@ -57,8 +56,7 @@ namespace NRelationSystem
                 }
             }
 
-			if(debug.Toggle)
-            	debug.Write(", SuperEgo: " + superEgo);
+            debug.Write("SuperEgo: " + superEgo);
 
             return superEgo;
         }
@@ -68,8 +66,7 @@ namespace NRelationSystem
         {
 			float returner = (calculateEgo(impulsivity, ability, rule, rulesThatWillTrigger, foci) * rationality) + (calculateSuperEgo(rule, rulesThatWillTrigger, maskInfl) * morality);
 
-			if(debug.Toggle)
-				debug.Write(", L: "+returner);
+			debug.Write("L: "+returner);
 
 			return returner;
         }

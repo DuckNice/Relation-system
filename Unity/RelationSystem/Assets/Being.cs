@@ -44,8 +44,7 @@ public class Being
         Person self = maskSystem.pplAndMasks.GetPerson(name);
 		Rule rule = self.GetAction(notPossibleActions.Values.ToList(), focus.Values.ToList());
 
-		if (debug.Toggle) 
-			debug.Write ("Doing action '" + rule.actionToTrigger.name + "' from " + name);
+		UIFunctions.WriteGameLine ("Doing action '" + rule.actionToTrigger.name + "' from " + name);
 
         if (rule.actionToTrigger.name.ToLower() != "empty")
         {

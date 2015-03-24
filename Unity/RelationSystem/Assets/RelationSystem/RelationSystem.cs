@@ -110,7 +110,7 @@ namespace NRelationSystem
 
             foreach (Link thisLink in personToPrint.GetLinks(TypeMask.selfPerc))
             {
-                debug.Write("Nothing here yet.");
+                UIFunctions.WritePlayerLine("Nothing here yet.");
             }
         }
     }

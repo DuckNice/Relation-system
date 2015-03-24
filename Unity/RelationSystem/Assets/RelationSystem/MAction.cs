@@ -39,7 +39,7 @@ namespace NRelationSystem
 			}
 			else
             {
-                debug.Write("No action to do in action '" + name + "'.");
+                debug.Write("Warning: No action to do in action '" + name + "'.");
             }
         }
 

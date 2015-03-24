@@ -63,8 +63,7 @@ namespace NRelationSystem
 
             foreach(Rule rule in rules.Values.ToList())
             {
-				if(debug.Toggle)
-					debug.Write("check "+rule.actionToTrigger.name+"   ");
+				debug.Write("Checking "+rule.actionToTrigger.name);
 
                 if(!notPosActions.Contains(rule.actionToTrigger) && rule.role.Equals(role) && rule.Condition(self))
                 {

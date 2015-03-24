@@ -7,10 +7,9 @@ public class Possession
 	protected string name;
 	public string Name{ get{ return name; } }
 	public float value;
-	public List<object> parameters;
-
-
+	public List<object> parameters = new List<object>();
 }
+
 
 public class Money : Possession
 {
@@ -18,9 +17,11 @@ public class Money : Possession
 	public Money()
 	{
 		name = "money";
-		parameters.Add ((object)0.0);
+		float value = 0.0f;
+		parameters.Add (value);
 	}
 }
+
 
 public class Axe : Possession
 {

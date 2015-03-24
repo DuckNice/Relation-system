@@ -16,6 +16,7 @@ public class debug : MonoBehaviour {
 
 	public static void Write(string input)
 	{
-		Debug.Log (input);
+		if(Toggle)
+			Debug.Log (input);
 	}
 }

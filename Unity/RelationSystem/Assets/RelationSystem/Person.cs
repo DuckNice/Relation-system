@@ -74,10 +74,7 @@ namespace NRelationSystem
 
         public Rule GetAction(List<MAction> notPosActions, List<float> foci) 
         {
-			if (debug.Toggle) {
-				debug.Write ("");
-				debug.Write (name + " ACTION TURN   ");
-			}
+			UIFunctions.WriteGameLine ("It is " + name + " turn to do an action.");
 
             RuleAndStr chosenAction = selfPerception.actionForLink(notPosActions, this, rationality, morality, impulsivity, ability, foci);
 
