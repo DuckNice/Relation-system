@@ -57,7 +57,7 @@ namespace NRelationSystem
         }
 
 
-		public void CreateNewPerson(MaskAdds selfMask, List<MaskAdds> _cults, List<MaskAdds> _intPpl, float rational, float moral, float impulse, float[] _traits = null)
+		public void CreateNewPerson(MaskAdds selfMask, List<MaskAdds> _cults, List<MaskAdds> _intPpl, float rational, float moral, float impulse, float[] _traits = null, float[] _moods = null)
 		{
 			List<Trait> traits = new List<Trait>();
 			
@@ -70,6 +70,19 @@ namespace NRelationSystem
 					insertTrait = _traits[i];
 				
 				traits.Add(new Trait((TraitTypes)i, insertTrait, insertRelative));
+			}
+
+
+			Dictionary<MoodTypes, float> moods = new Dictionary<MoodTypes, float>();
+			
+			for(int i = 0; i < Enum.GetNames(typeof(MoodTypes)).Length; i++)
+			{
+				float insertMood = 0.0f;
+
+				if(i < _moods.Length && _moods[i] >= -1.0f && _moods[i] <= 1.0f)
+					insertMood = _moods[i];
+				
+				moods.Add((MoodTypes)i, insertMood);
 			}
 			
 			
@@ -92,6 +105,7 @@ namespace NRelationSystem
             Person person = new Person(selfMask.mask, selfPersMask, intPpl, cults, rational, moral, impulse);
 			Overlay persOverlay = new Overlay (traits);
 			person.absTraits = persOverlay;
+			person.moods = moods;
 
             pplAndMasks.CreateNewPerson(selfMask.mask, person);
 
