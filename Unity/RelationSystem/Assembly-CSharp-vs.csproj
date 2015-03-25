@@ -64,6 +64,7 @@
      <Compile Include="Assets\RelationSystem\RelationSystemAddRemove.cs" />
      <Compile Include="Assets\RelationSystem\Rule.cs" />
      <Compile Include="Assets\RelationSystem\Trait.cs" />
+     <Compile Include="Assets\RoomManager.cs" />
      <Compile Include="Assets\UI\UIFunctions.cs" />
      <Compile Include="Assets\UI\debug.cs" />
  <Reference Include="UnityEngine.UI">

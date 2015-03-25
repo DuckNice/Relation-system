@@ -108,7 +108,6 @@ namespace NRelationSystem
 			person.moods = moods;
 
             pplAndMasks.CreateNewPerson(selfMask.mask, person);
-
         }
 
 
