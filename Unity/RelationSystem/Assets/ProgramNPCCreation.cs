@@ -73,58 +73,14 @@ public partial class Program : MonoBehaviour {
 				return false; }
 			return true; };
 		
-		RuleConditioner threatenCondition = (self, other, indPpl) =>
-		{ 	if(self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() < -0.1f){ return true; }
-			if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["threaten"] && x.GetDirect()==self && x.GetDirect()==other))
-			{return true; }
-			return false; };
-		
-		RuleConditioner accuseCondition = (self, other, indPpl) =>
-		{
-			//UIFunctions.WriteGameLine("accuse? "+ relationSystem.historyBook.Exists(x=>x.GetRule().ruleName));
-			if(self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() < 0.0f && relationSystem.historyBook.Exists(x=>x.GetRule().GetRuleStrength() < 0.0f && x.GetSubject()==other)){
-				return true; }
-			return false; 
-		};
-		
-		RuleConditioner pleadCondition = (self, other, indPpl) =>
-		{
-			if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["accuse"] && x.GetDirect()==self) ) //if accuse me
-			{ return true; }
-			else
-			return false;
-		};
-		
-		RuleConditioner punchCondition = (self, other, indPpl) =>
-		{	
-			if(other.culture != null){
-				
-				if(other.culture.Exists(x=>x.roleName == "Bunsant") && self.culture.Exists(x=>x.roleName == "Bunce")){
-					//UIFunctions.WriteGameLine("He's a bunsant and I'm a Bunce!");
-					return true;
-				}
-			}
-			if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["threaten"] && x.GetDirect()==self) ){
-				if(self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() < -0.3f){
-					return true; }
-			} 
-			if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["punch"] && x.GetDirect()==self && x.GetSubject()==other
-			                                     ) ){
-				//if(self.absTraits.traits[TraitTypes.NiceNasty].value < -0.1f){
-				return true;
-			} 
-			return false; };
-		
 		RuleConditioner convictCondition = (self, other, indPpl) =>
 		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["punch"] && x.GetDirect()==self && (x.GetSubject()==other && x.GetSubject()!=self)) )
 			{	return true; }
 			return false; };
 		
 		RuleConditioner fleeCondition = (self, other, indPpl) =>
-		{	
-			if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["convict"] && x.GetDirect()==self) ){
+		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["convict"] && x.GetDirect()==self) ){
 				if(self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() >= 0.0){
-					
 					return true; 
 				}
 			}
@@ -145,14 +101,70 @@ public partial class Program : MonoBehaviour {
 			return false; };
 		
 		RuleConditioner kissCondition = (self, other, indPpl) =>
-		{
-			if (self.interPersonal.Exists(x => x.roleName == "Married") && other.interPersonal.Exists(x => x.roleName == "Married"))
+		{	if (self.interPersonal.Exists(x => x.roleName == "Married") && other.interPersonal.Exists(x => x.roleName == "Married"))
 			{ return true; }
 			
 			if (self.interPersonal.Exists(x => x.roleName == "Peasant")) { return true; }
 			
 			return false;
 		};
+
+		RuleConditioner chooseAnotherAsPartnerCondition = (self, other, indPpl) =>
+		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.5)){
+				return true;
+			}
+			return false; };
+
+		RuleConditioner stayAsPartnerCondition = (self, other, indPpl) =>
+		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.5) && self.interPersonal.Exists(x => x.roleName == "Partner") && 
+			     													  other.interPersonal.Exists(x => x.roleName == "Partner")){
+				return true;
+			}
+			return false; };
+
+		RuleConditioner LeavePartnerCondition = (self, other, indPpl) =>
+		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() < 0.5) && self.interPersonal.Exists(x => x.roleName == "Partner") && 
+			   														  other.interPersonal.Exists(x => x.roleName == "Partner")){
+				return true;
+			}
+			return false; };
+
+		RuleConditioner flirtCondition = (self, other, indPpl) =>
+		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.5) && self.interPersonal.Exists(x => x.roleName != "Partner") && 
+			 														  other.interPersonal.Exists(x => x.roleName != "Partner")){
+				return true;
+			}
+			return false; };
+
+		RuleConditioner chatCondition = (self, other, indPpl) =>
+		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.2)){
+				return true;
+			}
+			return false; };
+
+		RuleConditioner giveGiftCondition = (self, other, indPpl) =>
+		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.5f) && (self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name)))){
+				return true;
+			}
+			return false; };
+
+		RuleConditioner poisonCondition = (self, other, indPpl) =>
+		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() < 0.5f) && (self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name)))){
+				return true;
+			}
+			return false; };
+
+		RuleConditioner gossipCondition = (self, other, indPpl) =>
+		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.1f) && (self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name)))){
+				return true;
+			}
+			return false; };
+
+		RuleConditioner argueCondition = (self, other, indPpl) =>
+		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.1f) && (self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name)))){
+				return true;
+			}
+			return false; };
 		
 		
 		#endregion adding Conditions
@@ -202,9 +214,7 @@ public partial class Program : MonoBehaviour {
 		
 		//	relationSystem.AddRuleToMask("BillTherese", "Married", "ComplimentSpouse","Compliment", 0.3f, new List<Rule>(), emptyCondition);
 		//  relationSystem.AddRuleToMask("ThereseBill", "Married",  "ComplimentSpouse","Compliment", 0.3f, new List<Rule>(), emptyCondition);
-		relationSystem.CreateNewRule("ThreatenSpouse", "Threaten", threatenCondition);
-		relationSystem.AddRuleToMask("BillTherese", "Married", "ThreatenSpouse", -0.4f);
-		
+
 		relationSystem.AddRuleToMask("ThereseBill", "Married", "ThreatenSpouse", -0.4f);
 		
 		relationSystem.CreateNewRule("KissfTherese", "kiss", kissCondition);
@@ -214,14 +224,6 @@ public partial class Program : MonoBehaviour {
 		relationSystem.AddRuleToMask("BillTherese", "Married", "KissfBill", 0.4f);    
 		
 		//BILL JOHN RULES
-		relationSystem.CreateNewRule("accusefBill", "accuse", accuseCondition);
-		relationSystem.AddRuleToMask("BillJohn", "Noble", "accusefBill", 0.4f);
-		
-		relationSystem.CreateNewRule("ThreatenfJohn", "Threaten", threatenCondition);
-		relationSystem.AddRuleToMask("JohnBill", "Convicted", "ThreatenfJohn", -0.1f);
-		
-		relationSystem.CreateNewRule("accusefJohn", "accuse", accuseCondition);
-		relationSystem.AddRuleToMask("JohnBill", "Convicted", "accusefJohn", -0.2f);
 		
 		//THERESE JOHN RULES
 		relationSystem.CreateNewRule("KissfJohn", "kiss", kissCondition);
@@ -232,16 +234,7 @@ public partial class Program : MonoBehaviour {
 		// CULTURAL RULES
 		relationSystem.CreateNewRule("Lie", "Lie", emptyCondition);
 		relationSystem.AddRuleToMask("Bungary", "Bunce", "Lie", -0.6f);
-		
-		relationSystem.CreateNewRule("Plead", "Plead", pleadCondition);
-		relationSystem.AddRuleToMask("Bungary", "Bunsant", "Plead", 0.4f);
-		
-		relationSystem.CreateNewRule("punchfBunce", "punch", punchCondition);
-		relationSystem.AddRuleToMask("Bungary", "Bunce", "punchfBunce", 0.0f);
-		
-		relationSystem.CreateNewRule("punchfPeasant", "punch", punchCondition);
-		relationSystem.AddRuleToMask("Bungary", "Bunsant", "punchfPeasant", -0.3f);
-		
+
 		relationSystem.CreateNewRule("ConvictfBill", "convict",  convictCondition);
 		relationSystem.AddRuleToMask("Bungary", "Bunce", "ConvictfBill", -0.0f);
 		
