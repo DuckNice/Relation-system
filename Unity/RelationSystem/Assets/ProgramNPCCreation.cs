@@ -80,7 +80,7 @@ public partial class Program : MonoBehaviour
 	{
 		#region adding Conditions
 
-// --------------------------- INTERPERSONAL ACTIONS
+// --------------------------- INTERPERSONAL RULE CONDITIONS
 		RuleConditioner emptyCondition = (self, other, indPpl) => { 
 			//UIFunctions.WriteGameLine("PassedCorrectly ");
 			return true;
@@ -292,9 +292,9 @@ public partial class Program : MonoBehaviour
 		{	if(true) { return true; }
 			return false; };
 
-
 		#endregion adding Conditions
-		
+
+
 		#region AddingPlayer
 		MaskAdds selfPersMask = new MaskAdds("Self", "Player", 0.0f, new List<Person>());
 		
@@ -339,55 +339,37 @@ public partial class Program : MonoBehaviour
 
 
 		#region Rules
-		
-		//BILL THERESE RULES
-		//	relationSystem.AddRuleToMask("BillTherese", "Married", "GreetfBill","Greet", 0.2f, new List<Rule>(), GreetCondition);
-		//	relationSystem.AddRuleToMask("ThereseBill", "Married", "GreetfTherese","Greet", 0.2f, new List<Rule>(), GreetCondition);
-		//	relationSystem.AddRuleToMask("John", "Self", "GreetfJohn","Greet", 0.0f, new List<Rule>(), GreetCondition);
-		
-		//	relationSystem.AddRuleToMask("BillTherese", "Married", "ComplimentSpouse","Compliment", 0.3f, new List<Rule>(), emptyCondition);
-		//  relationSystem.AddRuleToMask("ThereseBill", "Married",  "ComplimentSpouse","Compliment", 0.3f, new List<Rule>(), emptyCondition);
-
-		
 		relationSystem.CreateNewRule("KissfTherese", "kiss", kissCondition);
-		relationSystem.AddRuleToMask("ThereseBill", "Married", "KissfTherese", 0.4f);
-		
 		relationSystem.CreateNewRule("KissfBill", "kiss", kissCondition);
-		relationSystem.AddRuleToMask("BillTherese", "Married", "KissfBill", 0.4f);    
-		
-		//BILL JOHN RULES
-		
+		 
 		//THERESE JOHN RULES
 		relationSystem.CreateNewRule("KissfJohn", "kiss", kissCondition);
-		relationSystem.AddRuleToMask("JohnTherese", "Peasant", "KissfJohn", -0.6f);
-		
-		relationSystem.AddRuleToMask("ThereseJohn", "Princess", "accusefJohn", 0.1f);
-		
-		// CULTURAL RULES
 
+		// CULTURAL RULES
 		relationSystem.CreateNewRule("ConvictfBill", "convict",  convictCondition);
-		relationSystem.AddRuleToMask("Bungary", "Bunce", "ConvictfBill", -0.0f);
-		
 		relationSystem.CreateNewRule("flee", "flee", fleeCondition);
-		relationSystem.AddRuleToMask("Bungary", "Bunsant", "flee", 0.2f);
-		
 		relationSystem.CreateNewRule("fight", "fight", fightCondition);
-		relationSystem.AddRuleToMask("Bungary", "Bunsant", "fight", 0.1f);
-		
 		relationSystem.CreateNewRule("bribe", "bribe", bribeCondition);
-		relationSystem.AddRuleToMask("Bungary", "Bunsant", "bribe", 0.3f);
-		
-		
+
 		//SELF RULES
-		relationSystem.CreateNewRule("doNothingfSant", "doNothing", emptyCondition);
-		relationSystem.AddRuleToMask("John", "Self", "doNothingfSant", 0.0f);
-		
-		relationSystem.CreateNewRule("doNothingfcess", "doNothing", emptyCondition);
-		relationSystem.AddRuleToMask("Therese", "Self", "doNothingfcess", 0.0f);
-		
-		relationSystem.CreateNewRule("doNothingfbuncce", "doNothing", emptyCondition);
-		relationSystem.AddRuleToMask("Bill", "Self", "doNothingfbuncce", 0.0f);
-		
+		relationSystem.CreateNewRule("doNothing", "doNothing", emptyCondition);
+
+		relationSystem.AddRuleToMask("John", "Self", "doNothing", 0.0f);
+		relationSystem.AddRuleToMask("Therese", "Self", "doNothing", 0.0f);
+		relationSystem.AddRuleToMask("Bill", "Self", "doNothing", 0.0f);
+		relationSystem.AddRuleToMask("Heather", "Self", "doNothing", 0.0f);
+
+
+// -------------- ADDING RULES TO MASKS
+
+		relationSystem.AddRuleToMask("ThereseBill", "Married", "KissfTherese", 0.4f);
+		relationSystem.AddRuleToMask("BillTherese", "Married", "KissfBill", 0.4f);   
+		relationSystem.AddRuleToMask("JohnTherese", "Peasant", "KissfJohn", -0.6f);
+
+		relationSystem.AddRuleToMask("Bungary", "Bunce", "ConvictfBill", -0.0f);
+		relationSystem.AddRuleToMask("Bungary", "Bunsant", "flee", 0.2f);
+		relationSystem.AddRuleToMask("Bungary", "Bunsant", "fight", 0.1f);
+		relationSystem.AddRuleToMask("Bungary", "Bunsant", "bribe", 0.3f);
 		#endregion Rules
 		
 		
