@@ -6,8 +6,8 @@ using System.Collections.Generic;
 	//Namespaces
 using NRelationSystem;
 
-public partial class Program : MonoBehaviour {
-
+public partial class Program : MonoBehaviour 
+{
 	public void CreateFirstRooms()
 	{
 		roomMan = new RoomManager();

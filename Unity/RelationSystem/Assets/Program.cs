@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
-//using System.Windows;
 
     //Namespaces
 using NRelationSystem;
@@ -10,10 +9,10 @@ using NRelationSystem;
 
 public partial class Program : MonoBehaviour
 {       
-    volatile RelationSystem relationSystem = new RelationSystem ();
+    RelationSystem relationSystem = new RelationSystem ();
  
         //Threading work.
-	public void Awake()
+	public void Start()
     {
 		UIFunctions.WriteGameLine ("Welcome to Mask\n\n");
 		CreateFirstRooms ();
@@ -21,6 +20,8 @@ public partial class Program : MonoBehaviour
 		CreateFirstMasks ();
 		CreateFirstPeople ();
 		CreateFirstBeings ();
+
+        StartCoroutine("NPCUpdate");
 	}
 
 

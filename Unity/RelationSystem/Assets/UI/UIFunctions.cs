@@ -23,8 +23,7 @@ public class UIFunctions : MonoBehaviour {
 	{
 		text = input.text;
 
-		if(debug.Toggle)
-			print ("Called text command with " + text);
+		debug.Write ("Called text command with " + text);
 	
 		program.playerInput (text);
 
@@ -38,15 +37,15 @@ public class UIFunctions : MonoBehaviour {
 		{
 			if(instance == null)
 			{
-				Debug.LogError ("Error: No instance referenced in UIFunctions");
+				debug.Write ("Error: No instance referenced in UIFunctions");
 			}
 			else if(instance.PlayerBox == null)
 			{
-				Debug.LogError ("Error: No PlayerBox referenced in UIFunctions");
+				debug.Write ("Error: No PlayerBox referenced in UIFunctions");
 			}
 			else if(instance.PlayerScrollbar == null)
 			{
-				Debug.LogError ("Error: No PlayerScrollbar referenced in UIFunctions");
+				debug.Write ("Error: No PlayerScrollbar referenced in UIFunctions");
 			}
 		}
 
@@ -67,15 +66,15 @@ public class UIFunctions : MonoBehaviour {
 		{
 			if(instance == null)
 			{
-				Debug.LogError ("Error: No instance referenced in UIFunctions");
+				debug.Write ("Error: No instance referenced in UIFunctions");
 			}
 			else if(instance.GameBox == null)
 			{
-				Debug.LogError ("Error: No GameBox referenced in UIFunctions");
+				debug.Write ("Error: No GameBox referenced in UIFunctions");
 			}
 			else if(instance.GameScrollbar == null)
 			{
-				Debug.LogError ("Error: No GameScrollbar referenced in UIFunctions");
+				debug.Write ("Error: No GameScrollbar referenced in UIFunctions");
 			}
 		}
 

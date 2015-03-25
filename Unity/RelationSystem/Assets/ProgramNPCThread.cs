@@ -1,31 +1,42 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using UnityEngine;
 
-//Namespaces
+	//Namespaces
 using NRelationSystem;
 
-public partial class Program
+public partial class Program : MonoBehaviour
 {
+	public UnityEngine.UI.Toggle playToggle;
     List<Being> beings = new List<Being>();
 	bool shouldPlay = false;
 	public RoomManager roomMan;
 	public float timePace;
 
-    void Update()
+
+
+    IEnumerator NPCUpdate()
 	{
-		if(shouldPlay)
-		{
-			foreach (Being being in beings) 
-			{
-				being.NPCAction();
-			}
-		}
+        while (true)
+        {
+            print(shouldPlay);
+            if (shouldPlay)
+            {
+                foreach (Being being in beings)
+                {
+                    being.NPCAction();
+                }
+            }
+
+            yield return new WaitForSeconds(timePace);
+        }
 	}
 
 
-	public void setPlaying(bool _shouldPlay)
+	public void setPlaying()
 	{
-		shouldPlay = _shouldPlay;
+		shouldPlay = playToggle.isOn;
 	}
 }

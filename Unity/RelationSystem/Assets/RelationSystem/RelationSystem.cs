@@ -48,7 +48,7 @@ namespace NRelationSystem
         public void CreateNewRule(string ruleName, string actName, RuleConditioner ruleCondition)
         {
            if(pplAndMasks.FindRule(ruleName) == null){
-                pplAndMasks.CreateNewRule(ruleName, posActions[actName.ToLower()], ruleCondition);
+               pplAndMasks.CreateNewRule(ruleName, posActions[actName.ToLower()], ruleCondition);
            }
            else
            {
