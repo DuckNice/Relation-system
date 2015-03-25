@@ -16,12 +16,10 @@ public partial class Program : MonoBehaviour
 	public float timePace;
 
 
-
     IEnumerator NPCUpdate()
 	{
         while (true)
         {
-            print(shouldPlay);
             if (shouldPlay)
             {
                 foreach (Being being in beings)

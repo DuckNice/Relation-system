@@ -49,6 +49,11 @@ public class UIFunctions : MonoBehaviour {
 			}
 		}
 
+        if (instance.PlayerBox.text.Length > 10000)
+        {
+            instance.PlayerBox.text = instance.PlayerBox.text.Remove(0, 1000);
+        }
+
 		instance.PlayerBox.text += input;
 		instance.PlayerScrollbar.value = 0;
 	}
@@ -77,6 +82,11 @@ public class UIFunctions : MonoBehaviour {
 				debug.Write ("Error: No GameScrollbar referenced in UIFunctions");
 			}
 		}
+
+        if(instance.GameBox.text.Length > 10000)
+        {
+            instance.GameBox.text = instance.GameBox.text.Remove(0, 1000);
+        }
 
 		instance.GameBox.text += input;
 		instance.GameScrollbar.value = 0;
