@@ -36,6 +36,7 @@ namespace NRelationSystem
             {
                 try
                 {
+					//debug.Write("doing ruleCondition for "+ruleName+" "+other.name);
                     if (ruleCondition(self, other))
                     {
                         selfOther.Add(self, other);
@@ -43,7 +44,7 @@ namespace NRelationSystem
                         return true;
                     }
                 }
-                    catch
+                catch
                 {
                     debug.Write("Warning: ruleCondition for " + other.name + " in " + ruleName + " returned and error. Skipping condition.");
                 }

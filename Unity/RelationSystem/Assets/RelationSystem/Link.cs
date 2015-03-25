@@ -32,13 +32,12 @@ namespace NRelationSystem
             RuleAndStr actionToSend;
             try
             {
-
 				actionToSend = roleMask.CalculateActionToUse(notPosActions, self, rat, mor, imp, abi, lvlOfInfl,foci, roleName);
-				//Console.WriteLine ("Trying from link "+actionToSend.chosenRule.ruleName);
+				//	debug.Write ("Trying from link "+actionToSend.chosenRule.ruleName);
             }
             catch
             {
-				//Console.WriteLine ("Catching");
+				debug.Write("Catching actionForLink Error.");
                 actionToSend = new RuleAndStr();
                 actionToSend.chosenRule = new Rule("Empty", new MAction("Empty", 0.0f), null);
                 actionToSend.strOfAct = 0.0f;

@@ -305,23 +305,27 @@ public partial class Program : MonoBehaviour
 		selfPersMask = new MaskAdds("Self", "Bill", 0.0f, new List<Person>());
 		
 		List<MaskAdds>  culture = new List<MaskAdds>();
-		culture.Add(new MaskAdds("Bunce", "Bungary", 0.8f, new List<Person>()));
+		culture.Add(new MaskAdds("Bunce", "Bungary", 0.2f, new List<Person>()));
+		culture.Add(new MaskAdds("Follower", "Cult", 0.4f,new List<Person>()));
+		culture.Add(new MaskAdds("Rich", "MerchantGuild", 0.6f,new List<Person>()));
 		
 		relationSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.6f, 0.4f, 0.7f, new float[] { -0.2f, 0.5f, 0.1f },new float[]{0.0f,0.0f,0.0f});
 		#endregion AddingBill
 		
 		#region AddingTerese
 		selfPersMask = new MaskAdds("Self", "Therese", 0.0f, new List<Person>());
-		
+
 		culture = new List<MaskAdds>();
 		culture.Add(new MaskAdds("Buncess", "Bungary", 0.6f, new List<Person>()));
+		culture.Add(new MaskAdds("Sceptic", "Cult", 0.1f,new List<Person>()));
 
 		relationSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.3f, 0.7f, 0.2f, new float[] { 0.6f, -0.5f, 0.6f },new float[]{0.0f,0.0f,0.0f});
 		#endregion AddingTerese
 		
 		#region AddingJohn
 		selfPersMask = new MaskAdds("Self", "John", 0.0f, new List<Person>());
-		
+		culture.Add(new MaskAdds("Follower", "Cult", 0.4f,new List<Person>()));
+
 		culture = new List<MaskAdds>();
 		culture.Add(new MaskAdds("Bunsant", "Bungary", 0.1f, new List<Person>()));
 		
@@ -333,43 +337,89 @@ public partial class Program : MonoBehaviour
 		
 		culture = new List<MaskAdds>();
 		culture.Add(new MaskAdds("Bunsant", "Bungary", 0.3f, new List<Person>()));
+		culture.Add(new MaskAdds("Leader", "Cult", 0.9f,new List<Person>()));
 		
 		relationSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.2f, 0.8f, 0.8f, new float[] { 0.2f, 0.4f, 0.0f },new float[]{0.0f,0.0f,0.0f});
 		#endregion AddingHeather
 
 
 		#region Rules
-		relationSystem.CreateNewRule("KissfTherese", "kiss", kissCondition);
-		relationSystem.CreateNewRule("KissfBill", "kiss", kissCondition);
-		 
-		//THERESE JOHN RULES
-		relationSystem.CreateNewRule("KissfJohn", "kiss", kissCondition);
+		relationSystem.CreateNewRule("kissfbunce", "kiss", kissCondition);
+		relationSystem.CreateNewRule("kissfcess", "kiss", kissCondition);
+		relationSystem.CreateNewRule("kissfbunsant", "kiss", kissCondition);
 
 		// CULTURAL RULES
-		relationSystem.CreateNewRule("ConvictfBill", "convict",  convictCondition);
-		relationSystem.CreateNewRule("flee", "flee", fleeCondition);
+		relationSystem.CreateNewRule("convictfcess", "convict",  convictCondition);
+		relationSystem.CreateNewRule("convictfbunce", "convict",  convictCondition);
 		relationSystem.CreateNewRule("fight", "fight", fightCondition);
-		relationSystem.CreateNewRule("bribe", "bribe", bribeCondition);
+		relationSystem.CreateNewRule("bribefbunce", "bribe", bribeCondition);
+		relationSystem.CreateNewRule("bribefcess", "bribe", bribeCondition);
+		relationSystem.CreateNewRule("bribefbunsant", "bribe", bribeCondition);
+		relationSystem.CreateNewRule("argueinnocencefbunce", "argueinnocence", argueInnocenceCondition);
+		relationSystem.CreateNewRule("argueinnocencefcess", "argueinnocence", argueInnocenceCondition);
+		relationSystem.CreateNewRule("argueguiltinessfbunce", "argueguiltiness", argueGuiltinessCondition);
+		relationSystem.CreateNewRule("argueguiltinessfcess", "argueguiltiness", argueGuiltinessCondition);
+		relationSystem.CreateNewRule("steal", "steal", stealCondition);
+		relationSystem.CreateNewRule("practicestealing", "practicestealing", practiceStealingCondition);
+		relationSystem.CreateNewRule("askforhelpinillicitactivity", "askforhelpinillicitactivity", askForHelpInIllicitActivityCondition);
+		relationSystem.CreateNewRule("searchforthieffbunce", "searchforthief", searchForThiefCondition);
+		relationSystem.CreateNewRule("searchforthieffcess", "searchforthief", searchForThiefCondition);
+
+		relationSystem.CreateNewRule("praisecultfleader", "praisecult", PraiseCultCondition);
+		relationSystem.CreateNewRule("praisecultffollower", "praisecult", PraiseCultCondition);
+		relationSystem.CreateNewRule("entercult", "entercult", enterCultCondition);
+		relationSystem.CreateNewRule("exitcult", "exitcult", exitCultCondition);
+		relationSystem.CreateNewRule("damncult", "damncult", damnCultCondition);
+		relationSystem.CreateNewRule("excommunicatefromcult", "excommunicatefromcult", excommunicateFromCultCondition);
 
 		//SELF RULES
-		relationSystem.CreateNewRule("doNothing", "doNothing", emptyCondition);
-
-		relationSystem.AddRuleToMask("John", "Self", "doNothing", 0.0f);
-		relationSystem.AddRuleToMask("Therese", "Self", "doNothing", 0.0f);
-		relationSystem.AddRuleToMask("Bill", "Self", "doNothing", 0.0f);
-		relationSystem.AddRuleToMask("Heather", "Self", "doNothing", 0.0f);
+		relationSystem.CreateNewRule("donothing", "donothing", emptyCondition);
+		relationSystem.CreateNewRule("flee", "flee", fleeCondition);
 
 
 // -------------- ADDING RULES TO MASKS
+	
+	// SElF
+		relationSystem.AddRuleToMask("John", "Self", "donothing", 0.0f);
+		relationSystem.AddRuleToMask("Therese", "Self", "donothing", 0.0f);
+		relationSystem.AddRuleToMask("Bill", "Self", "donothing", 0.0f);
+		relationSystem.AddRuleToMask("Heather", "Self", "donothing", 0.0f);
 
-		relationSystem.AddRuleToMask("ThereseBill", "Married", "KissfTherese", 0.4f);
-		relationSystem.AddRuleToMask("BillTherese", "Married", "KissfBill", 0.4f);   
-		relationSystem.AddRuleToMask("JohnTherese", "Peasant", "KissfJohn", -0.6f);
+		relationSystem.AddRuleToMask("John", "Self", "flee", 0.2f);
+		relationSystem.AddRuleToMask("Heather", "Self", "flee", -0.1f);
+	
+		//THESE ARE RIGHT NOW CULTURE, BUT SHOULD PROBABLY BE CHANGED TO INTERPERSONAL
+		relationSystem.AddRuleToMask("Bungary", "Bunce", "kissfbunce", 0.4f);
+		relationSystem.AddRuleToMask("Bungary", "Buncess", "kissfcess", 0.4f);
+		relationSystem.AddRuleToMask("Bungary", "Bunsant", "kissfbunsant", 0.2f);
+	
+	//CULTURE
+		relationSystem.AddRuleToMask("Bungary", "Bunsant", "fight", -0.5f);
+		relationSystem.AddRuleToMask("Bungary", "Bunsant", "bribefbunsant", -0.1f);
+		relationSystem.AddRuleToMask("Bungary", "Bunsant", "steal", -0.5f);
+		relationSystem.AddRuleToMask("Bungary", "Bunsant", "practicestealing", -0.3f);
+		relationSystem.AddRuleToMask("Bungary", "Bunsant", "askforhelpinillicitactivity", -0.1f);
 
-		relationSystem.AddRuleToMask("Bungary", "Bunce", "ConvictfBill", -0.0f);
-		relationSystem.AddRuleToMask("Bungary", "Bunsant", "flee", 0.2f);
-		relationSystem.AddRuleToMask("Bungary", "Bunsant", "fight", 0.1f);
-		relationSystem.AddRuleToMask("Bungary", "Bunsant", "bribe", 0.3f);
+		relationSystem.AddRuleToMask("Bungary", "Bunce", "bribefbunce", 0.3f);
+		relationSystem.AddRuleToMask("Bungary", "Bunce", "convictfbunce", 0.0f);
+		relationSystem.AddRuleToMask("Bungary", "Bunce", "argueinnocencefbunce", 0.0f);
+		relationSystem.AddRuleToMask("Bungary", "Bunce", "argueguiltinessfbunce", 0.0f);
+		relationSystem.AddRuleToMask("Bungary", "Bunce", "searchforthieffbunce", 0.8f);
+
+		relationSystem.AddRuleToMask("Bungary", "Buncess", "bribefcess", 0.3f);
+		relationSystem.AddRuleToMask("Bungary", "Buncess", "convictfcess", 0.0f);
+		relationSystem.AddRuleToMask("Bungary", "Buncess", "argueinnocencefcess", 0.2f);
+		relationSystem.AddRuleToMask("Bungary", "Buncess", "argueguiltinessfcess", -0.1f);
+		relationSystem.AddRuleToMask("Bungary", "Buncess", "searchforthieffcess", 0.3f);
+
+		relationSystem.AddRuleToMask("Cult", "Leader", "praisecultfleader", 0.6f);
+		relationSystem.AddRuleToMask("Cult", "Follower", "praisecultffollower", 0.4f);
+		relationSystem.AddRuleToMask("Cult", "Follower", "entercult", 0.3f);
+		relationSystem.AddRuleToMask("Cult", "Follower", "exitcult", -0.8f);
+		relationSystem.AddRuleToMask("Cult", "Follower", "damncult", -0.4f);
+		relationSystem.AddRuleToMask("Cult", "Leader", "excommunicatefromcult", 0.1f);
+
+
 		#endregion Rules
 		
 		

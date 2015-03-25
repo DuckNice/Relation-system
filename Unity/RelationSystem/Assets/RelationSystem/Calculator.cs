@@ -34,7 +34,7 @@ namespace NRelationSystem
 
             float ego = impulsivity * CalculateGain(curRule) + tempEgo;
 
-            debug.Write("Ego: " + ego);
+            //debug.Write("Ego: " + ego);
 
             return ego;
         }
@@ -56,7 +56,7 @@ namespace NRelationSystem
                 }
             }
 
-            debug.Write("SuperEgo: " + superEgo);
+            //debug.Write("SuperEgo: " + superEgo);
 
             return superEgo;
         }

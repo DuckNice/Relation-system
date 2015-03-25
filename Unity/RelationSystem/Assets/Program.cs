@@ -153,7 +153,7 @@ public partial class Program : MonoBehaviour
 		{
 			UIFunctions.WriteGameLine(subject.name + " has chosen " + direct.name+" as their partner! How romantic.");
 		};
-		relationSystem.AddAction(new MAction("chooseAnotherAsPartner", 0.0f, chooseAnotherAsPartner, relationSystem));
+		relationSystem.AddAction(new MAction("chooseAnotherAsPartner", 0.4f, chooseAnotherAsPartner, relationSystem));
 
 		ActionInvoker stayAsPartner = (subject, direct, indPpl, misc) =>
 		{
@@ -188,19 +188,19 @@ public partial class Program : MonoBehaviour
 				UIFunctions.WriteGameLine(subject.name + " is giving a gift to " + direct.name+".");
 			}
 		};
-		relationSystem.AddAction(new MAction("giveGift", 0.0f, giveGift, relationSystem));
+		relationSystem.AddAction(new MAction("giveGift", 0.2f, giveGift, relationSystem));
 
 		ActionInvoker poison = (subject, direct, indPpl, misc) =>
 		{
 			UIFunctions.WriteGameLine(subject.name + " is poisoning " + direct.name+"! Oh no!");
 		};
-		relationSystem.AddAction(new MAction("poison", -0.7f, poison, relationSystem));
+		relationSystem.AddAction(new MAction("poison", -0.4f, poison, relationSystem));
 
 		ActionInvoker gossip = (subject, direct, indPpl, misc) =>
 		{
 			UIFunctions.WriteGameLine(subject.name + " is gossiping with " + direct.name);
 		};
-		relationSystem.AddAction(new MAction("gossip", -0.1f, gossip, relationSystem));
+		relationSystem.AddAction(new MAction("gossip", 0.1f, gossip, relationSystem));
 
 		ActionInvoker argue = (subject, direct, indPpl, misc) =>
 		{
@@ -221,7 +221,7 @@ public partial class Program : MonoBehaviour
 		{
 			UIFunctions.WriteGameLine(subject.name + " is making a distraction for " + direct.name+"!");
 		};
-		relationSystem.AddAction(new MAction("makeDistraction", -0.2f, makeDistraction, relationSystem));
+		relationSystem.AddAction(new MAction("makeDistraction", 0.2f, makeDistraction, relationSystem));
 
 		ActionInvoker reminisce = (subject, direct, indPpl, misc) =>
 		{
@@ -233,19 +233,19 @@ public partial class Program : MonoBehaviour
 		{
 			UIFunctions.WriteGameLine(subject.name + " is planning something with " + direct.name+". Just look at them scheme over there!");
 		};
-		relationSystem.AddAction(new MAction("planAgainstOthers", -0.1f, planAgainstOthers, relationSystem));
+		relationSystem.AddAction(new MAction("planAgainstOthers", 0.2f, planAgainstOthers, relationSystem));
 
 		ActionInvoker deny = (subject, direct, indPpl, misc) =>
 		{
 			UIFunctions.WriteGameLine(subject.name + " is denying " + direct.name+" their wishes.");
 		};
-		relationSystem.AddAction(new MAction("deny", -0.1f, deny, relationSystem));
+		relationSystem.AddAction(new MAction("deny", 0.4f, deny, relationSystem));
 
 		ActionInvoker enthuseAboutGreatnessofPerson = (subject, direct, indPpl, misc) =>
 		{
 			UIFunctions.WriteGameLine(subject.name + " is saying how great a person " + direct.name+" is!");
 		};
-		relationSystem.AddAction(new MAction("enthuseAboutGreatnessofPerson", 0.1f, enthuseAboutGreatnessofPerson, relationSystem));
+		relationSystem.AddAction(new MAction("enthuseAboutGreatnessofPerson", 0.4f, enthuseAboutGreatnessofPerson, relationSystem));
 
 // ---------- CULTURAL ACTIONS
 
@@ -267,7 +267,7 @@ public partial class Program : MonoBehaviour
 		{
 			UIFunctions.WriteGameLine(subject.name + " is attempting to bribe "+direct.name);
 		};
-		relationSystem.AddAction(new MAction("bribe", 0.2f, bribe, relationSystem));
+		relationSystem.AddAction(new MAction("bribe", 0.6f, bribe, relationSystem));
 
 		ActionInvoker argueInnocence = (subject, direct, indPpl, misc) => 
 		{
@@ -285,25 +285,25 @@ public partial class Program : MonoBehaviour
 		{
 			UIFunctions.WriteGameLine(subject.name + " is stealing from "+direct.name+". Will they get caught?");
 		};
-		relationSystem.AddAction(new MAction("steal", -0.5f, steal, relationSystem));
+		relationSystem.AddAction(new MAction("steal", 0.9f, steal, relationSystem));
 
 		ActionInvoker practiceStealing = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is practicing the arts of stealth. What are they intending!");
 		};
-		relationSystem.AddAction(new MAction("practiceStealing", -0.1f, practiceStealing, relationSystem));
+		relationSystem.AddAction(new MAction("practiceStealing", 0.2f, practiceStealing, relationSystem));
 
 		ActionInvoker askForHelpInIllicitActivity = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is asking "+direct.name+" for help in something... dangerous.");
 		};
-		relationSystem.AddAction(new MAction("askForHelpInIllicitActivity", -0.1f, askForHelpInIllicitActivity, relationSystem));
+		relationSystem.AddAction(new MAction("askForHelpInIllicitActivity", 0.4f, askForHelpInIllicitActivity, relationSystem));
 
 		ActionInvoker searchForThief = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is searching for the thief!");
 		};
-		relationSystem.AddAction(new MAction("searchForThief", 0.8f, searchForThief, relationSystem));
+		relationSystem.AddAction(new MAction("searchForThief", 0.6f, searchForThief, relationSystem));
 
 // ------ CULTURAL (CULT) ACTIONS
 
@@ -311,31 +311,31 @@ public partial class Program : MonoBehaviour
 		{
 			UIFunctions.WriteGameLine(subject.name + " is saying how great this cult is to "+direct.name);
 		};
-		relationSystem.AddAction(new MAction("praiseCult", 0.4f, praiseCult, relationSystem));
+		relationSystem.AddAction(new MAction("praiseCult", 0.1f, praiseCult, relationSystem));
 
 		ActionInvoker enterCult = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is entering the cult.");
 		};
-		relationSystem.AddAction(new MAction("enterCult", 0.6f, enterCult, relationSystem));
+		relationSystem.AddAction(new MAction("enterCult", 0.0f, enterCult, relationSystem));
 
 		ActionInvoker exitCult = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is exiting the cult!");
 		};
-		relationSystem.AddAction(new MAction("exitCult", -0.6f, exitCult, relationSystem));
+		relationSystem.AddAction(new MAction("exitCult", 0.0f, exitCult, relationSystem));
 
 		ActionInvoker damnCult = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is damning the cult!");
 		};
-		relationSystem.AddAction(new MAction("damnCult", -0.3f, damnCult, relationSystem));
+		relationSystem.AddAction(new MAction("damnCult", -0.2f, damnCult, relationSystem));
 
 		ActionInvoker excommunicateFromCult = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is excommunicating "+direct.name+" from the cult");
 		};
-		relationSystem.AddAction(new MAction("excommunicateFromCult", -0.1f, excommunicateFromCult, relationSystem));
+		relationSystem.AddAction(new MAction("excommunicateFromCult", 0.0f, excommunicateFromCult, relationSystem));
 
 // -------- CULTURAL (MERCHANT) ACTIONS
 
@@ -343,19 +343,19 @@ public partial class Program : MonoBehaviour
 		{
 			UIFunctions.WriteGameLine(subject.name + " is making a deal to buy "+direct.name+"'s company");
 		};
-		relationSystem.AddAction(new MAction("buyCompany", 0.3f, buyCompany, relationSystem));
+		relationSystem.AddAction(new MAction("buyCompany", 0.8f, buyCompany, relationSystem));
 
 		ActionInvoker sellCompany = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is making a deal to sell a company");
 		};
-		relationSystem.AddAction(new MAction("sellCompany", 0.1f, sellCompany, relationSystem));
+		relationSystem.AddAction(new MAction("sellCompany", 0.4f, sellCompany, relationSystem));
 
 		ActionInvoker sabotage = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is sabotaging "+direct.name);
 		};
-		relationSystem.AddAction(new MAction("sabotage", -0.5f, sabotage, relationSystem));
+		relationSystem.AddAction(new MAction("sabotage", 0.5f, sabotage, relationSystem));
 
 		ActionInvoker advertise = (subject, direct, indPpl, misc) => 
 		{
@@ -367,31 +367,31 @@ public partial class Program : MonoBehaviour
 		{
 			UIFunctions.WriteGameLine(subject.name + " is convincing "+direct.name+" to leave the merchant's guild!");
 		};
-		relationSystem.AddAction(new MAction("convinceToLeaveGuild", -0.1f, convinceToLeaveGuild, relationSystem));
+		relationSystem.AddAction(new MAction("convinceToLeaveGuild", 0.4f, convinceToLeaveGuild, relationSystem));
 
 		ActionInvoker DemandtoLeaveGuild = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is demanding "+direct.name+" to leave the merchant's guild!");
 		};
-		relationSystem.AddAction(new MAction("DemandtoLeaveGuild", -0.3f, DemandtoLeaveGuild, relationSystem));
+		relationSystem.AddAction(new MAction("DemandtoLeaveGuild", 0.4f, DemandtoLeaveGuild, relationSystem));
 
 		ActionInvoker askForHelp = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is asking "+direct.name+" for help");
 		};
-		relationSystem.AddAction(new MAction("askForHelp", 0.3f, askForHelp, relationSystem));
+		relationSystem.AddAction(new MAction("askForHelp", 0.5f, askForHelp, relationSystem));
 
 		ActionInvoker buyGoods = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is buying goods from "+direct.name);
 		};
-		relationSystem.AddAction(new MAction("buyGoods", 0.3f, buyGoods , relationSystem));
+		relationSystem.AddAction(new MAction("buyGoods", 0.4f, buyGoods , relationSystem));
 
 		ActionInvoker sellGoods = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is selling goods to "+direct.name);
 		};
-		relationSystem.AddAction(new MAction("sellGoods", 0.3f, sellGoods , relationSystem));
+		relationSystem.AddAction(new MAction("sellGoods", 0.7f, sellGoods , relationSystem));
 
 	}
 }
