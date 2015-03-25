@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 
-public class RoomManager : MonoBehaviour {
+public class RoomManager {
 	
 	List<Room> rooms = new List<Room>(); 
 

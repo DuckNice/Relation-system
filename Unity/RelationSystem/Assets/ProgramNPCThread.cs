@@ -5,7 +5,6 @@ using System.Threading;
 //Namespaces
 using NRelationSystem;
 
-
 public partial class Program
 {
     List<Being> beings = new List<Being>();

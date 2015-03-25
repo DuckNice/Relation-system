@@ -8,7 +8,7 @@ using System.Threading;
 using NRelationSystem;
 
 
-public partial class Program:MonoBehaviour
+public partial class Program : MonoBehaviour
 {       
     volatile RelationSystem relationSystem = new RelationSystem ();
  

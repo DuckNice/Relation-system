@@ -10,6 +10,7 @@ public partial class Program : MonoBehaviour {
 
 	public void CreateFirstRooms()
 	{
+		roomMan = new RoomManager();
 		roomMan.NewRoom ("Indgang");
 		roomMan.NewRoom ("Stue");
 		roomMan.NewRoom ("Gang");

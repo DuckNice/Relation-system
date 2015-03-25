@@ -79,7 +79,7 @@ namespace NRelationSystem
 			{
 				float insertMood = 0.0f;
 
-				if(i < _moods.Length && _moods[i] >= -1.0f && _moods[i] <= 1.0f)
+				if(_moods != null && i < _moods.Length && _moods[i] >= -1.0f && _moods[i] <= 1.0f)
 					insertMood = _moods[i];
 				
 				moods.Add((MoodTypes)i, insertMood);
