@@ -23,6 +23,7 @@ public partial class Program : MonoBehaviour
 		Being Bill = new Being ("Bill", relationSystem);
 		Being Therese = new Being ("Therese", relationSystem);
 		Being John = new Being ("John", relationSystem);
+		Being Heather = new Being ("Heather", relationSystem);
 
 		roomMan.EnterRoom ("Indgang", Bill);
 		roomMan.EnterRoom ("Indgang", Therese);
@@ -31,7 +32,8 @@ public partial class Program : MonoBehaviour
 		beings.Add (Bill);
 		beings.Add (Therese);
 		beings.Add (John);
-		Bill.FindFocusToAll (beings);
+		beings.Add (Heather);
+		//Bill.FindFocusToAll (beings);
 	}
 
 
@@ -40,30 +42,45 @@ public partial class Program : MonoBehaviour
 		relationSystem.CreateNewMask("Player", new float[]{}, new bool[]{}, TypeMask.selfPerc, new string[]{});
 
 		relationSystem.CreateNewMask("Bungary", new float[] { 0.0f, -0.2f }, new bool[] { }, TypeMask.culture, new string[] { "Bunce", "Buncess", "Bunsant" });
-		
+		relationSystem.CreateNewMask("Cult", new float[] { 0.0f, -0.2f }, new bool[] { }, TypeMask.culture, new string[] { "Leader", "Follower", "Skeptic" });
+		relationSystem.CreateNewMask("MerchantGuild", new float[] { 0.0f, -0.2f }, new bool[] { }, TypeMask.culture, new string[] { "Leader", "Rich", "Poor" });
+
 		relationSystem.CreateNewMask("Bill", new float[] { 0.0f, 0.0f }, new bool[] { }, TypeMask.selfPerc, new string[] { "" });
-		
 		relationSystem.CreateNewMask("Therese", new float[] { 0.0f, 0.0f }, new bool[] { }, TypeMask.selfPerc, new string[] { "" });
-		
 		relationSystem.CreateNewMask("John", new float[] { 0.0f, 0.0f }, new bool[] { }, TypeMask.selfPerc, new string[] { "" });
+		relationSystem.CreateNewMask("Heather", new float[] { 0.0f, 0.0f }, new bool[] { }, TypeMask.selfPerc, new string[] { "" });
 		
-		relationSystem.CreateNewMask("BillTherese", new float[] { 0.2f, -0.2f }, new bool[] { }, TypeMask.interPers, new string[] { "Married" });
+		relationSystem.CreateNewMask("BillTherese", new float[] { 0.2f, -0.2f }, new bool[] { }, TypeMask.interPers, new string[] { "Partner" });
+		relationSystem.CreateNewMask("ThereseBill", new float[] { 0.3f, 0.2f }, new bool[] { }, TypeMask.interPers, new string[] { "Partner" });
 		
-		relationSystem.CreateNewMask("ThereseBill", new float[] { 0.3f, 0.2f }, new bool[] { }, TypeMask.interPers, new string[] { "Married" });
+		relationSystem.CreateNewMask("BillJohn", new float[] { -0.2f, -0.2f }, new bool[] { }, TypeMask.interPers, new string[] { "Enemy" });
+		relationSystem.CreateNewMask("JohnBill", new float[] { -0.2f, -0.2f }, new bool[] { }, TypeMask.interPers, new string[] { "Enemy" });
 		
-		relationSystem.CreateNewMask("BillJohn", new float[] { -0.2f, -0.2f }, new bool[] { }, TypeMask.interPers, new string[] { "Noble" });
-		
-		relationSystem.CreateNewMask("JohnBill", new float[] { -0.2f, -0.2f }, new bool[] { }, TypeMask.interPers, new string[] { "Convicted" });
-		
-		relationSystem.CreateNewMask("JohnTherese", new float[] { 0.2f, -0.2f }, new bool[] { }, TypeMask.interPers, new string[] { "Peasant" });
-		
-		relationSystem.CreateNewMask("ThereseJohn", new float[] { 0.0f, 0.0f }, new bool[] { }, TypeMask.interPers, new string[] { "Princess" });
+		relationSystem.CreateNewMask("JohnTherese", new float[] { 0.2f, -0.2f }, new bool[] { }, TypeMask.interPers, new string[] { "Enemy" });
+		relationSystem.CreateNewMask("ThereseJohn", new float[] { -0.2f, -0.2f }, new bool[] { }, TypeMask.interPers, new string[] { "Enemy" });
+
+		relationSystem.CreateNewMask("BillHeather", new float[] { 0.4f, 0.4f }, new bool[] { }, TypeMask.interPers, new string[] { "Friend" });
+		relationSystem.CreateNewMask("HeatherBill", new float[] { 0.2f, 0.5f }, new bool[] { }, TypeMask.interPers, new string[] { "Friend" });
+
+		relationSystem.CreateNewMask("HeatherTherese", new float[] { 0.2f, 0.2f }, new bool[] { }, TypeMask.interPers, new string[] { "Friend" });
+		relationSystem.CreateNewMask("ThereseHeather", new float[] { 0.2f, 0.0f }, new bool[] { }, TypeMask.interPers, new string[] { "Friend" });
+
+		relationSystem.CreateNewMask("JohnHeather", new float[] { 0.6f, 0.0f }, new bool[] { }, TypeMask.interPers, new string[] { "Partner" });
+		relationSystem.CreateNewMask("HeatherJohn", new float[] { 0.2f, 0.0f }, new bool[] { }, TypeMask.interPers, new string[] { "Partner" });
+
+		relationSystem.CreateNewMask("BillPlayer", new float[] { -0.4f, 0.0f }, new bool[] { }, TypeMask.interPers, new string[] { "Partner" });
+		relationSystem.CreateNewMask("HeatherPlayer", new float[] { 0.5f, 0.0f }, new bool[] { }, TypeMask.interPers, new string[] { "Enemy" });
+		relationSystem.CreateNewMask("TheresePlayer", new float[] { -0.2f, 0.0f }, new bool[] { }, TypeMask.interPers, new string[] { "Enemy" });
+		relationSystem.CreateNewMask("JohnPlayer", new float[] { 0.2f, 0.0f }, new bool[] { }, TypeMask.interPers, new string[] { "Friend" });
 	}
+
 
 
 	public void CreateFirstPeople()
 	{
 		#region adding Conditions
+
+// --------------------------- INTERPERSONAL ACTIONS
 		RuleConditioner emptyCondition = (self, other, indPpl) => { 
 			//UIFunctions.WriteGameLine("PassedCorrectly ");
 			return true;
@@ -73,12 +90,7 @@ public partial class Program : MonoBehaviour
 		{ if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["greet"] && x.GetSubject()==self && x.GetDirect()==other)){
 				return false; }
 			return true; };
-		
-		RuleConditioner convictCondition = (self, other, indPpl) =>
-		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["punch"] && x.GetDirect()==self && (x.GetSubject()==other && x.GetSubject()!=self)) )
-			{	return true; }
-			return false; };
-		
+
 		RuleConditioner fleeCondition = (self, other, indPpl) =>
 		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["convict"] && x.GetDirect()==self) ){
 				if(self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() >= 0.0){
@@ -86,21 +98,7 @@ public partial class Program : MonoBehaviour
 				}
 			}
 			return false; };
-		
-		RuleConditioner fightBackCondition = (self, other, indPpl) =>
-		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["convict"] && x.GetDirect()==self && x.GetSubject()==other) ){
-				if(self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() < 0.0){
-					return true; 
-				}
-			}
-			return false; };
-		
-		RuleConditioner bribeCondition = (self, other, indPpl) =>
-		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["convict"] && x.GetDirect()==self && x.GetSubject()==other) ){
-				return true; 
-			}
-			return false; };
-		
+
 		RuleConditioner kissCondition = (self, other, indPpl) =>
 		{	if (self.interPersonal.Exists(x => x.roleName == "Married") && other.interPersonal.Exists(x => x.roleName == "Married"))
 			{ return true; }
@@ -166,46 +164,180 @@ public partial class Program : MonoBehaviour
 				return true;
 			}
 			return false; };
+
+		RuleConditioner demandToStopBeingFriendWithCondition = (self, other, indPpl) =>
+		{	foreach(Person p in indPpl){
+				if( p.interPersonal.Exists(x=> x.GetlvlOfInfl() < 0.3) && self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name)))
+				   { return true; }
+			}
+			return false; };
 		
+		RuleConditioner makeDistractionCondition = (self, other, indPpl) =>
+		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["askForHelpInIllicitActivity"] && x.GetSubject() == self))
+				{ return true; }
+			return false; };
+
+		RuleConditioner denyCondition = (self, other, indPpl) =>
+		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() < 0.4f) && (self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name)))) { return true; }
+			return false; };
+
+		RuleConditioner enthuseAboutGreatnessofPersonCondition = (self, other, indPpl) =>
+		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.5f) && (self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name)))) { return true; }
+			return false; };
+
+
+// --------------------------------- CULTURAL CONDITIONS
 		
+		RuleConditioner convictCondition = (self, other, indPpl) =>
+		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["steal"] && x.GetDirect()==self && (x.GetSubject()==other && x.GetSubject()!=self)) )
+			{	return true; }
+			return false; };
+
+		RuleConditioner fightCondition = (self, other, indPpl) =>
+		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["convict"] && x.GetDirect()==self && x.GetSubject()==other) ){
+				if(self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() < 0.0){
+					return true; 
+				}
+			}
+			return false; };
+		
+		RuleConditioner bribeCondition = (self, other, indPpl) =>
+		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["convict"] && x.GetDirect()==self && x.GetSubject()==other) ){
+				return true; 
+			}
+			return false; };
+
+		RuleConditioner argueInnocenceCondition = (self, other, indPpl) =>
+		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["convict"] && x.GetSubject()==other)){ return true; }
+			return false; };
+
+		RuleConditioner argueGuiltinessCondition = (self, other, indPpl) =>
+		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["convict"] && x.GetSubject()==other)){ return true; }
+			return false; };
+
+		RuleConditioner stealCondition = (self, other, indPpl) =>
+		{	if(true){ return true; }
+			return false; };
+
+		RuleConditioner practiceStealingCondition = (self, other, indPpl) =>
+		{	if(true){ return true; }
+			return false; };
+
+		RuleConditioner askForHelpInIllicitActivityCondition = (self, other, indPpl) =>
+		{	if(true){ return true; }
+			return false; };
+
+		RuleConditioner searchForThiefCondition = (self, other, indPpl) =>
+		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["steal"])) { return true; }
+			return false; };
+
+
+// -------------- CULTURAL (CULT) ACTIONS
+
+		RuleConditioner PraiseCultCondition = (self, other, indPpl) =>
+		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["steal"])) { return true; }
+			return false; };
+
+		RuleConditioner enterCultCondition = (self, other, indPpl) =>
+		{	if(self.culture.Exists(x=>x.roleRef.Exists(y=>y.name=="cult") && x.GetlvlOfInfl() > 0.5f)) { return true; }
+			return false; };
+
+		RuleConditioner exitCultCondition = (self, other, indPpl) =>
+		{	if(self.culture.Exists(x=>x.roleRef.Exists(y=>y.name=="cult") && x.GetlvlOfInfl() < 0.1f)) { return true; }
+			return false; };
+
+		RuleConditioner damnCultCondition = (self, other, indPpl) =>
+		{	if(self.culture.Exists(x=>x.roleRef.Exists(y=>y.name=="cult") && x.GetlvlOfInfl() < 0.4f)) { return true; }
+			return false; };
+
+		RuleConditioner excommunicateFromCultCondition = (self, other, indPpl) =>
+		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["damnCult"] && x.GetSubject().name == other.name)) { return true; }
+			return false; };
+
+// --------------- CULTURAL (MERCHANT) ACTIONS
+
+		RuleConditioner buyCompanyCondition = (self, other, indPpl) =>
+		{	if(true) { return true; }
+			return false; };
+
+		RuleConditioner sellCompanyCondition = (self, other, indPpl) =>
+		{	if(true) { return true; }
+			return false; };
+
+		RuleConditioner sabotageCondition = (self, other, indPpl) =>
+		{	if(true) { return true; }
+			return false; };
+
+		RuleConditioner advertiseCondition = (self, other, indPpl) =>
+		{	if(true) { return true; }
+			return false; };
+
+		RuleConditioner convinceToLeaveGuildCondition = (self, other, indPpl) =>
+		{	if(true) { return true; }
+			return false; };
+
+		RuleConditioner DemandtoLeaveGuildCondition = (self, other, indPpl) =>
+		{	if(true) { return true; }
+			return false; };
+
+		RuleConditioner askForHelpCondition = (self, other, indPpl) =>
+		{	if(true) { return true; }
+			return false; };
+
+		RuleConditioner buyGoodsCondition = (self, other, indPpl) =>
+		{	if(true) { return true; }
+			return false; };
+
+		RuleConditioner sellGoodsCondition = (self, other, indPpl) =>
+		{	if(true) { return true; }
+			return false; };
+
+
 		#endregion adding Conditions
 		
 		#region AddingPlayer
 		MaskAdds selfPersMask = new MaskAdds("Self", "Player", 0.0f, new List<Person>());
 		
-		relationSystem.CreateNewPerson(selfPersMask, new List<MaskAdds>(), new List<MaskAdds>(), 0f, 0f, 0f, new float[] { 0f, 0f, 0f });
+		relationSystem.CreateNewPerson(selfPersMask, new List<MaskAdds>(), new List<MaskAdds>(), 0f, 0f, 0f, new float[] { 0f, 0f, 0f },new float[]{0.0f,0.0f,0.0f});
 		#endregion AddingPlayer
 		
 		#region AddingBill
 		selfPersMask = new MaskAdds("Self", "Bill", 0.0f, new List<Person>());
 		
 		List<MaskAdds>  culture = new List<MaskAdds>();
-		culture.Add(new MaskAdds("Bunce", "Bungary", 0.4f, new List<Person>()));
+		culture.Add(new MaskAdds("Bunce", "Bungary", 0.8f, new List<Person>()));
 		
-		
-		relationSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.6f, 0.4f, 0.7f, new float[] { -0.2f, 0.5f, 0.1f });
+		relationSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.6f, 0.4f, 0.7f, new float[] { -0.2f, 0.5f, 0.1f },new float[]{0.0f,0.0f,0.0f});
 		#endregion AddingBill
 		
 		#region AddingTerese
 		selfPersMask = new MaskAdds("Self", "Therese", 0.0f, new List<Person>());
 		
 		culture = new List<MaskAdds>();
-		culture.Add(new MaskAdds("Buncess", "Bungary", 0.4f, new List<Person>()));
-		
-		
-		relationSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.3f, 0.7f, 0.2f, new float[] { 0.6f, -0.5f, 0.6f });
-		
+		culture.Add(new MaskAdds("Buncess", "Bungary", 0.6f, new List<Person>()));
+
+		relationSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.3f, 0.7f, 0.2f, new float[] { 0.6f, -0.5f, 0.6f },new float[]{0.0f,0.0f,0.0f});
 		#endregion AddingTerese
 		
 		#region AddingJohn
 		selfPersMask = new MaskAdds("Self", "John", 0.0f, new List<Person>());
 		
 		culture = new List<MaskAdds>();
-		culture.Add(new MaskAdds("Bunsant", "Bungary", 0.9f, new List<Person>()));
+		culture.Add(new MaskAdds("Bunsant", "Bungary", 0.1f, new List<Person>()));
 		
-		relationSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.5f, 0.5f, 0.4f, new float[] { 0.0f, 0.8f, -0.4f });
+		relationSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.5f, 0.5f, 0.4f, new float[] { 0.0f, 0.8f, -0.4f },new float[]{0.0f,0.0f,0.0f});
 		#endregion AddingJohn
+
+		#region AddingHeather
+		selfPersMask = new MaskAdds("Self", "Heather", 0.0f, new List<Person>());
 		
+		culture = new List<MaskAdds>();
+		culture.Add(new MaskAdds("Bunsant", "Bungary", 0.3f, new List<Person>()));
+		
+		relationSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.2f, 0.8f, 0.8f, new float[] { 0.2f, 0.4f, 0.0f },new float[]{0.0f,0.0f,0.0f});
+		#endregion AddingHeather
+
+
 		#region Rules
 		
 		//BILL THERESE RULES
@@ -216,7 +348,6 @@ public partial class Program : MonoBehaviour
 		//	relationSystem.AddRuleToMask("BillTherese", "Married", "ComplimentSpouse","Compliment", 0.3f, new List<Rule>(), emptyCondition);
 		//  relationSystem.AddRuleToMask("ThereseBill", "Married",  "ComplimentSpouse","Compliment", 0.3f, new List<Rule>(), emptyCondition);
 
-		relationSystem.AddRuleToMask("ThereseBill", "Married", "ThreatenSpouse", -0.4f);
 		
 		relationSystem.CreateNewRule("KissfTherese", "kiss", kissCondition);
 		relationSystem.AddRuleToMask("ThereseBill", "Married", "KissfTherese", 0.4f);
@@ -233,8 +364,6 @@ public partial class Program : MonoBehaviour
 		relationSystem.AddRuleToMask("ThereseJohn", "Princess", "accusefJohn", 0.1f);
 		
 		// CULTURAL RULES
-		relationSystem.CreateNewRule("Lie", "Lie", emptyCondition);
-		relationSystem.AddRuleToMask("Bungary", "Bunce", "Lie", -0.6f);
 
 		relationSystem.CreateNewRule("ConvictfBill", "convict",  convictCondition);
 		relationSystem.AddRuleToMask("Bungary", "Bunce", "ConvictfBill", -0.0f);
@@ -242,8 +371,8 @@ public partial class Program : MonoBehaviour
 		relationSystem.CreateNewRule("flee", "flee", fleeCondition);
 		relationSystem.AddRuleToMask("Bungary", "Bunsant", "flee", 0.2f);
 		
-		relationSystem.CreateNewRule("fightback", "fightback", fightBackCondition);
-		relationSystem.AddRuleToMask("Bungary", "Bunsant", "fightback", 0.1f);
+		relationSystem.CreateNewRule("fight", "fight", fightCondition);
+		relationSystem.AddRuleToMask("Bungary", "Bunsant", "fight", 0.1f);
 		
 		relationSystem.CreateNewRule("bribe", "bribe", bribeCondition);
 		relationSystem.AddRuleToMask("Bungary", "Bunsant", "bribe", 0.3f);
@@ -264,10 +393,25 @@ public partial class Program : MonoBehaviour
 		
 		
 		#region LINKS
-		relationSystem.AddLinkToPerson("Bill", new string[] { "Therese" }, TypeMask.interPers, "Married", "BillTherese", 0.6f);
-		relationSystem.AddLinkToPerson("Therese", new string[] { "Bill" }, TypeMask.interPers, "Married", "ThereseBill", 0.4f);
-		relationSystem.AddLinkToPerson("John", new string[] { "Bill" }, TypeMask.interPers, "Convicted", "JohnBill", 0.7f);
-		relationSystem.AddLinkToPerson("Bill", new string[] { "John" }, TypeMask.interPers, "Noble", "BillJohn", 0.2f);
+		relationSystem.AddLinkToPerson("Bill", new string[] { "Therese" }, TypeMask.interPers, "Partner", "BillTherese", 0.6f);
+		relationSystem.AddLinkToPerson("Bill", new string[] { "John" }, TypeMask.interPers, "Enemy", "BillJohn", 0.2f);
+		relationSystem.AddLinkToPerson("Bill", new string[] { "Heather" }, TypeMask.interPers, "Friend", "BillHeather", 0.2f);
+		relationSystem.AddLinkToPerson("Bill", new string[] { "Player" }, TypeMask.interPers, "Enemy", "BillPlayer", 0.2f);
+
+		relationSystem.AddLinkToPerson("Therese", new string[] { "Bill" }, TypeMask.interPers, "Partner", "ThereseBill", 0.4f);
+		relationSystem.AddLinkToPerson("Therese", new string[] { "John" }, TypeMask.interPers, "Enemy", "ThereseJohn", 0.2f);
+		relationSystem.AddLinkToPerson("Therese", new string[] { "Heather" }, TypeMask.interPers, "Friend", "ThereseHeather", 0.6f);
+		relationSystem.AddLinkToPerson("Therese", new string[] { "Player" }, TypeMask.interPers, "Enemy", "TheresePlayer", 0.3f);
+
+		relationSystem.AddLinkToPerson("John", new string[] { "Bill" }, TypeMask.interPers, "Enemy", "JohnBill", 0.7f);
+		relationSystem.AddLinkToPerson("John", new string[] { "Therese" }, TypeMask.interPers, "Enemy", "JohnTherese", 0.4f);
+		relationSystem.AddLinkToPerson("John", new string[] { "Heather" }, TypeMask.interPers, "Friend", "JohnHeather", 0.8f);
+		relationSystem.AddLinkToPerson("John", new string[] { "Player" }, TypeMask.interPers, "Enemy", "JohnPlayer", 0.5f);
+
+		relationSystem.AddLinkToPerson("Heather", new string[] { "Bill" }, TypeMask.interPers, "Friend", "HeatherBill", 0.4f);
+		relationSystem.AddLinkToPerson("Heather", new string[] { "Therese" }, TypeMask.interPers, "Enemy", "HeatherTherese", 0.6f);
+		relationSystem.AddLinkToPerson("Heather", new string[] { "John" }, TypeMask.interPers, "Partner", "HeatherJohn", 0.5f);
+		relationSystem.AddLinkToPerson("Heather", new string[] { "Player" }, TypeMask.interPers, "Partner", "HeatherPlayer", 0.5f);
 		#endregion LINKS 
 		
 		

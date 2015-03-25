@@ -261,7 +261,7 @@ public partial class Program : MonoBehaviour
 		{
 			UIFunctions.WriteGameLine(subject.name + " is attempting to fight back against "+direct.name);
 		};
-		relationSystem.AddAction(new MAction("fightBack", 1.0f, fight, relationSystem));
+		relationSystem.AddAction(new MAction("fight", 1.0f, fight, relationSystem));
 
 		ActionInvoker bribe = (subject, direct, indPpl, misc) => 
 		{
@@ -307,11 +307,11 @@ public partial class Program : MonoBehaviour
 
 // ------ CULTURAL (CULT) ACTIONS
 
-		ActionInvoker exclaimAboutGreatnessOfCult = (subject, direct, indPpl, misc) => 
+		ActionInvoker praiseCult = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is saying how great this cult is to "+direct.name);
 		};
-		relationSystem.AddAction(new MAction("exclaimAboutGreatnessOfCult", 0.4f, exclaimAboutGreatnessOfCult, relationSystem));
+		relationSystem.AddAction(new MAction("praiseCult", 0.4f, praiseCult, relationSystem));
 
 		ActionInvoker enterCult = (subject, direct, indPpl, misc) => 
 		{
