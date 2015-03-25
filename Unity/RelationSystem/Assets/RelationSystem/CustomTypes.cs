@@ -12,6 +12,15 @@ namespace NRelationSystem
     }
     
 
+	public enum MoodTypes
+	{
+		hapSad,
+		arousDisgus,
+		angryFear,
+		energTired
+	}
+
+
     public struct RuleAndStr
     {
         public Rule chosenRule;
