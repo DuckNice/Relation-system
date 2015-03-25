@@ -10,10 +10,10 @@ public partial class Program : MonoBehaviour {
 
 	public void CreateFirstRooms()
 	{
-		rooms.Add (new Room("Indgang"));
-		rooms.Add (new Room("Stue"));
-		rooms.Add (new Room("gang"));
-		rooms.Add (new Room("Køkken"));
+		roomMan.NewRoom ("Indgang");
+		roomMan.NewRoom ("Stue");
+		roomMan.NewRoom ("Gang");
+		roomMan.NewRoom ("Køkken");
 	}
 
 
@@ -23,11 +23,9 @@ public partial class Program : MonoBehaviour {
 		Being Therese = new Being ("Therese", relationSystem);
 		Being John = new Being ("John", relationSystem);
 
-		Room entRoom = rooms.Find (x => x.name == "Indgang");
-
-		entRoom.AddOccupant (Bill);
-		entRoom.AddOccupant (Therese);
-		entRoom.AddOccupant (John);
+		roomMan.EnterRoom ("Indgang", Bill);
+		roomMan.EnterRoom ("Indgang", Therese);
+		roomMan.EnterRoom ("Indgang", John);
 		
 		beings.Add (Bill);
 		beings.Add (Therese);

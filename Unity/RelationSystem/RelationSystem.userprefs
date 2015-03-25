@@ -1,12 +1,16 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Being.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\ProgramNPCThread.cs">
     <Files>
+      <File FileName="Assets\RelationSystem\Person.cs" Line="17" Column="8" />
       <File FileName="Assets\Program.cs" Line="19" Column="23" />
-      <File FileName="Assets\Possession.cs" Line="12" Column="1" />
-      <File FileName="Assets\ProgramNPCThread.cs" Line="28" Column="29" />
-      <File FileName="Assets\Being.cs" Line="28" Column="2" />
-      <File FileName="Assets\ProgramNPCCreation.cs" Line="11" Column="30" />
+      <File FileName="Assets\Possession.cs" Line="18" Column="3" />
+      <File FileName="Assets\ProgramNPCThread.cs" Line="20" Column="2" />
+      <File FileName="Assets\Being.cs" Line="32" Column="3" />
+      <File FileName="Assets\ProgramNPCCreation.cs" Line="10" Column="2" />
+      <File FileName="Assets\RelationSystem\Mask.cs" Line="11" Column="47" />
+      <File FileName="Assets\RelationSystem\CustomTypes.cs" Line="10" Column="19" />
+      <File FileName="Assets\RelationSystem\RelationSystem.cs" Line="118" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
