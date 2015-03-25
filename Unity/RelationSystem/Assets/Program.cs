@@ -354,43 +354,43 @@ public partial class Program:MonoBehaviour
 		{
 			UIFunctions.WriteGameLine(subject.name + " is sabotaging "+direct.name);
 		};
-		relationSystem.AddAction(new MAction("sabotage", -0.5, sabotage, relationSystem));
+		relationSystem.AddAction(new MAction("sabotage", -0.5f, sabotage, relationSystem));
 
 		ActionInvoker advertise = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is advertising for their wares!");
 		};
-		relationSystem.AddAction(new MAction("advertise", 0.3, advertise, relationSystem));
+		relationSystem.AddAction(new MAction("advertise", 0.3f, advertise, relationSystem));
 
 		ActionInvoker convinceToLeaveGuild = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is convincing "+direct.name+" to leave the merchant's guild!");
 		};
-		relationSystem.AddAction(new MAction("convinceToLeaveGuild", -0.1, convinceToLeaveGuild, relationSystem));
+		relationSystem.AddAction(new MAction("convinceToLeaveGuild", -0.1f, convinceToLeaveGuild, relationSystem));
 
 		ActionInvoker DemandtoLeaveGuild = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is demanding "+direct.name+" to leave the merchant's guild!");
 		};
-		relationSystem.AddAction(new MAction("DemandtoLeaveGuild", -0.3, DemandtoLeaveGuild, relationSystem));
+		relationSystem.AddAction(new MAction("DemandtoLeaveGuild", -0.3f, DemandtoLeaveGuild, relationSystem));
 
 		ActionInvoker askForHelp = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is asking "+direct.name+" for help");
 		};
-		relationSystem.AddAction(new MAction("askForHelp", 0.3, askForHelp, relationSystem));
+		relationSystem.AddAction(new MAction("askForHelp", 0.3f, askForHelp, relationSystem));
 
 		ActionInvoker buyGoods = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is buying goods from "+direct.name);
 		};
-		relationSystem.AddAction(new MAction("buyGoods", 0.3, buyGoods , relationSystem));
+		relationSystem.AddAction(new MAction("buyGoods", 0.3f, buyGoods , relationSystem));
 
 		ActionInvoker sellGoods = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is selling goods to "+direct.name);
 		};
-		relationSystem.AddAction(new MAction("sellGoods", 0.3, sellGoods , relationSystem));
+		relationSystem.AddAction(new MAction("sellGoods", 0.3f, sellGoods , relationSystem));
 
 	}
 }
