@@ -14,7 +14,9 @@ namespace NRelationSystem
 
 
         public void CreateNewMask(string nameOfMask, float[] _traits = null, bool[] relatives = null, TypeMask maskType = TypeMask.interPers, string[] roles = null) 
-        { 
+        {
+            nameOfMask = nameOfMask.ToLower();
+
             List<Trait> traits = new List<Trait>();
             
             for(int i = 0; i < Enum.GetNames(typeof(TraitTypes)).Length; i++)
@@ -47,6 +49,9 @@ namespace NRelationSystem
 
         public void CreateNewRule(string ruleName, string actName, RuleConditioner ruleCondition)
         {
+           ruleName = ruleName.ToLower();
+           actName = actName.ToLower();
+
            if(pplAndMasks.FindRule(ruleName) == null){
                pplAndMasks.CreateNewRule(ruleName, posActions[actName.ToLower()], ruleCondition);
            }
@@ -113,7 +118,7 @@ namespace NRelationSystem
 
         public void DidAction(MAction action, Person subject, Person direct, Rule _rule)
         {
-			historyBook.Add(new HistoryItem(action, subject, direct, 0.0f,_rule));
+			historyBook.Add(new HistoryItem(action, subject, direct, 0.0f, _rule));
 		}
 		
 		

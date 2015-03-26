@@ -7,11 +7,11 @@ namespace NRelationSystem
     public class MAction
     {
         float gain;
-        public string name;
+        private string Name;
+        public string name { get { return Name; } set { Name = value.ToLower(); } }
         public List<Rule> affectedRules;
         ActionInvoker actionInvoker;
         public RelationSystem relationSystem;
-
         public MAction(string _efDesc, float _gain, ActionInvoker _actionInvoker, RelationSystem _relationSystem)
         {
             gain = _gain;

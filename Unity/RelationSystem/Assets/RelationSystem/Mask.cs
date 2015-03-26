@@ -24,12 +24,16 @@ namespace NRelationSystem
 
         public void AddRule(string _ruleRoleName, Rule _rule)
         {
+            _ruleRoleName = _ruleRoleName.ToLower();
+
             rules.Add(_ruleRoleName, _rule);
         }
 
 
         public bool RemoveRule(string _ruleName)
         {
+            _ruleName = _ruleName.ToLower();
+
             if(rules.Remove(_ruleName))
             {
                 return true;
@@ -41,6 +45,8 @@ namespace NRelationSystem
 
         public void AddRole(string name)
         {
+            name = name.ToLower();
+
             if(!roles.Contains(name))
             {
                 roles.Add(name);
@@ -50,6 +56,8 @@ namespace NRelationSystem
 
         public int FindRole(string roleName) 
         {
+            roleName = roleName.ToLower();
+
             return roles.FindIndex(x => x == roleName);
         }
         
