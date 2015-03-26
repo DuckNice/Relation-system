@@ -229,12 +229,6 @@ public partial class Program : MonoBehaviour
 		};
 		relationSystem.AddAction(new MAction("reminisce", 0.1f, reminisce, relationSystem));
 
-		ActionInvoker planAgainstOthers = (subject, direct, indPpl, misc) =>
-		{
-			UIFunctions.WriteGameLine(subject.name + " is planning something with " + direct.name+". Just look at them scheme over there!");
-		};
-		relationSystem.AddAction(new MAction("planAgainstOthers", 0.2f, planAgainstOthers, relationSystem));
-
 		ActionInvoker deny = (subject, direct, indPpl, misc) =>
 		{
 			UIFunctions.WriteGameLine(subject.name + " is denying " + direct.name+" their wishes.");
