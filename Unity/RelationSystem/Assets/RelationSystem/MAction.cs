@@ -13,11 +13,11 @@ namespace NRelationSystem
         ActionInvoker actionInvoker;
         ActionInvoker sustainActionInvoker;
         public RelationSystem relationSystem;
-        float duration = 0.0f;
+        float duration = 1.0f;
         public float Duration { get { return duration; } set { duration = value; } }
 
 
-        public MAction(string _efDesc, float _gain, RelationSystem _relationSystem, ActionInvoker _actionInvoker = null, ActionInvoker _sustainActionInvoker = null)
+		public MAction(string _efDesc, float _gain, RelationSystem _relationSystem,  ActionInvoker _actionInvoker = null, float _duration = 2.0f, ActionInvoker _sustainActionInvoker = null)
         {
             gain = _gain;
             name = _efDesc;
@@ -25,6 +25,7 @@ namespace NRelationSystem
             relationSystem = _relationSystem;
             actionInvoker = _actionInvoker;
             sustainActionInvoker = _sustainActionInvoker;
+			duration = _duration;
         }
 
 

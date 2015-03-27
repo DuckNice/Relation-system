@@ -141,11 +141,7 @@ public partial class Program : MonoBehaviour
 		{
 			UIFunctions.WriteGameLine(subject.name + " is greeting "+direct.name);
 
-			if(debug.Toggle){
-				UIFunctions.WriteGameLine("str: "+subject.GetRule("greet").GetRuleStrength());
-				subject.GetRule("greet").SetRuleStrength(-1.0f);
-				UIFunctions.WriteGameLine("str: "+subject.GetRule("greet").GetRuleStrength());
-			}
+
 		};
         relationSystem.AddAction(new MAction("Greet", 0.1f, relationSystem, greet));
 
@@ -299,6 +295,11 @@ public partial class Program : MonoBehaviour
 		{
 			UIFunctions.WriteGameLine(subject.name + " is saying how great a person " + direct.name+" is!");
 			direct.moods[MoodTypes.hapSad] += Calculator.unboundAdd(0.4f,direct.moods[MoodTypes.hapSad]);
+
+
+			subject.GetRule("enthuseaboutgreatnessofperson").SetRuleStrength(-1.0f);
+
+
 		};
         relationSystem.AddAction(new MAction("enthuseAboutGreatnessofPerson", 0.4f, relationSystem, enthuseAboutGreatnessofPerson));
 
