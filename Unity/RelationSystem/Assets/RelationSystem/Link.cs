@@ -33,7 +33,10 @@ namespace NRelationSystem
             try
             {
 				actionToSend = roleMask.CalculateActionToUse(notPosActions, self, rat, mor, imp, abi, lvlOfInfl,foci, roleName);
-				//	debug.Write ("Trying from link "+actionToSend.chosenRule.ruleName);
+					debug.Write ("Trying from link "+self.name+" Maskname: "+ roleMask.GetMaskName() +" Rolename: "+roleName+"  Roleref: ");
+					foreach(Person p in roleRef){
+						debug.Write(p.name);
+					}
             }
             catch
             {

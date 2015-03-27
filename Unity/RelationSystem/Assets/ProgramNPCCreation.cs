@@ -166,14 +166,14 @@ public partial class Program : MonoBehaviour
 			return false; };
 
 		RuleConditioner demandToStopBeingFriendWithCondition = (self, other, indPpl) =>
-		{	foreach(Person p in indPpl){
-				if( p.interPersonal.Exists(x=> x.GetlvlOfInfl() < 0.3) && self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name)))
-				   { return true; }
-			}
+		{	//foreach(Person p in indPpl){
+			//	if( p.interPersonal.Exists(x=> x.GetlvlOfInfl() < 0.3))
+			//	   { return true; }
+			//}
 			return false; };
 		
 		RuleConditioner makeDistractionCondition = (self, other, indPpl) =>
-		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["askForHelpInIllicitActivity"] && x.GetSubject() == self))
+		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["askforhelpinillicitactivity"] && x.GetSubject()==self && x.GetDirect()==other))
 				{ return true; }
 			return false; };
 
@@ -256,7 +256,7 @@ public partial class Program : MonoBehaviour
 			return false; };
 
 		RuleConditioner excommunicateFromCultCondition = (self, other, indPpl) =>
-		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["damnCult"] && x.GetSubject().name == other.name)) { return true; }
+		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["damncult"] && x.GetSubject() == other)) { return true; }
 			return false; };
 
 // --------------- CULTURAL (MERCHANT) ACTIONS
@@ -366,6 +366,9 @@ public partial class Program : MonoBehaviour
 		relationSystem.CreateNewRule("enthuseaboutgreatnessofperson", "enthuseaboutgreatnessofperson", enthuseAboutGreatnessofPersonCondition);
 
 		// CULTURAL RULES
+		relationSystem.CreateNewRule("greetfbunce", "greet",  GreetCondition);
+		relationSystem.CreateNewRule("greetfcess", "greet",  GreetCondition);
+		relationSystem.CreateNewRule("greetfbunsant", "greet",  GreetCondition);
 		relationSystem.CreateNewRule("convictfcess", "convict",  convictCondition);
 		relationSystem.CreateNewRule("convictfbunce", "convict",  convictCondition);
 		relationSystem.CreateNewRule("fight", "fight", fightCondition);
@@ -605,6 +608,8 @@ public partial class Program : MonoBehaviour
 		relationSystem.AddRuleToMask("Bungary", "Bunsant", "practicestealing", -0.3f);
 		relationSystem.AddRuleToMask("Bungary", "Bunsant", "askforhelpinillicitactivity", -0.1f);
 		relationSystem.AddRuleToMask("Bungary", "Bunsant", "poisonfbunsant", -0.8f);
+		relationSystem.AddRuleToMask("Bungary", "Bunsant", "greetfbunsant", 0.5f);
+
 
 		relationSystem.AddRuleToMask("Bungary", "Bunce", "bribefbunce", 0.3f);
 		relationSystem.AddRuleToMask("Bungary", "Bunce", "convictfbunce", 0.0f);
@@ -612,6 +617,7 @@ public partial class Program : MonoBehaviour
 		relationSystem.AddRuleToMask("Bungary", "Bunce", "argueguiltinessfbunce", 0.0f);
 		relationSystem.AddRuleToMask("Bungary", "Bunce", "searchforthieffbunce", 0.8f);
 		relationSystem.AddRuleToMask("Bungary", "Bunce", "poisonfbunce", -0.8f);
+		relationSystem.AddRuleToMask("Bungary", "Bunsant", "greetfbunce", 1.0f);
 
 		relationSystem.AddRuleToMask("Bungary", "Buncess", "bribefcess", 0.3f);
 		relationSystem.AddRuleToMask("Bungary", "Buncess", "convictfcess", 0.0f);
@@ -619,6 +625,7 @@ public partial class Program : MonoBehaviour
 		relationSystem.AddRuleToMask("Bungary", "Buncess", "argueguiltinessfcess", -0.1f);
 		relationSystem.AddRuleToMask("Bungary", "Buncess", "searchforthieffcess", 0.3f);
 		relationSystem.AddRuleToMask("Bungary", "Buncess", "poisonfcess", -0.8f);
+		relationSystem.AddRuleToMask("Bungary", "Bunsant", "greetfcess", 1.0f);
 
 		relationSystem.AddRuleToMask("Cult", "Leader", "praisecultfleader", 0.6f);
 		relationSystem.AddRuleToMask("Cult", "Follower", "praisecultffollower", 0.4f);

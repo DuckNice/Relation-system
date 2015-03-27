@@ -13,7 +13,7 @@ namespace NRelationSystem
 
         public void CreateNewMask(string name, TypeMask _maskType, Overlay _maskOverlay) 
         {
-            Mask newMask = new Mask(_maskType, _maskOverlay);
+            Mask newMask = new Mask(_maskType, _maskOverlay, name);
 
             if(newMask != null && !(instMasks.ContainsKey(name)))
             {

@@ -121,5 +121,35 @@ namespace NRelationSystem
 		public void SetAbility(float inp){ ability = inp; }
 		public void AddToAbility(float inp){ ability += inp; }
 
+
+		public Rule GetRule(string ruleName) 
+		{ 
+			foreach(Rule r in selfPerception.roleMask.rules.Values){
+				if(r.actionToTrigger.name == ruleName){
+					return r;
+				}
+			}
+
+			foreach(Link curLink in interPersonal)
+			{
+				foreach(Rule r in curLink.roleMask.rules.Values){
+					if(r.actionToTrigger.name == ruleName){
+						return r;
+					}
+				}
+			}
+			
+			foreach (Link curLink in culture)
+			{
+				foreach(Rule r in curLink.roleMask.rules.Values){
+					if(r.actionToTrigger.name == ruleName){
+						return r;
+					}
+				}
+			}
+			debug.Write ("Error in GetRule from Person. Rule not found. Check spelling. Returning Empty.");
+			
+			return new Rule("Empty", new MAction("Empty", 0.0f), null);
+		}
     }
 }

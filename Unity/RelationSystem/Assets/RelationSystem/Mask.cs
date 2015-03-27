@@ -7,14 +7,16 @@ namespace NRelationSystem
 {
     public class Mask
     {
+		string maskName;
         TypeMask maskType;
         public Dictionary<string, Rule> rules;
         public List<string> roles;
         Overlay maskOverlay;
 
 
-        public Mask(TypeMask _maskType, Overlay _maskOverlay)
+        public Mask(TypeMask _maskType, Overlay _maskOverlay, string _name)
         {
+			maskName = _name;
             maskType = _maskType;
             roles = new List<string>();
             rules = new Dictionary<string,Rule>();
@@ -87,5 +89,9 @@ namespace NRelationSystem
             
 			return chosenAction;
         }
+
+		public TypeMask GetMaskType(){ return maskType; }
+		public string GetMaskName(){ return maskName; }
+
     }
 }
