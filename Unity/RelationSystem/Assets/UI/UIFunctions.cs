@@ -10,12 +10,21 @@ public class UIFunctions : MonoBehaviour {
 	public UnityEngine.UI.Text PlayerBox;
 	public UnityEngine.UI.Scrollbar GameScrollbar;
 	public UnityEngine.UI.Scrollbar PlayerScrollbar;
+	public UnityEngine.UI.Text StatText;
 	public Program program;
 
 
 	public void Awake()
 	{
 		instance = this;
+	}
+	public void Start()
+	{
+		if (debug.Toggle) {
+			StatText.transform.parent.gameObject.SetActive (true);
+		} else {
+			StatText.transform.parent.gameObject.SetActive (false);
+		}
 	}
 
 
@@ -97,4 +106,14 @@ public class UIFunctions : MonoBehaviour {
 	{
 		WriteGame (input + "\n");
 	}
+
+
+
+	public static void WriteGameStatsInWindow(string input){
+		instance.StatText.text = input;
+
+	}
+
+
+
 }

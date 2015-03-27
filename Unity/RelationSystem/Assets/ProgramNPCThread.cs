@@ -28,6 +28,12 @@ public partial class Program : MonoBehaviour
                 }
             }
 
+			if(debug.Toggle){
+				UpdateStats();
+				UIFunctions.WriteGameStatsInWindow(statsString);
+			}
+
+
             yield return new WaitForSeconds(timePace);
         }
 	}

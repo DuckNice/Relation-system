@@ -8,6 +8,9 @@ using NRelationSystem;
 
 public partial class Program : MonoBehaviour 
 {
+
+	string statsString;
+
 	public void CreateFirstRooms()
 	{
 		roomMan = new RoomManager();
@@ -93,23 +96,22 @@ public partial class Program : MonoBehaviour
 
 		RuleConditioner fleeCondition = (self, other, indPpl) =>
 		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["convict"] && x.GetDirect()==self) ){
-				if(self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() >= 0.0){
+				if(self.moods[MoodTypes.angryFear] < -0.2f){
 					return true; 
 				}
 			}
 			return false; };
 
 		RuleConditioner kissCondition = (self, other, indPpl) =>
-		{	if (self.interPersonal.Exists(x => x.roleName == "Married") && other.interPersonal.Exists(x => x.roleName == "Married"))
+		{	if (self.interPersonal.Exists(x => x.roleName == "Partner") && other.interPersonal.Exists(x => x.roleName == "Partner"))
 			{ return true; }
 			
-			if (self.interPersonal.Exists(x => x.roleName == "Peasant")) { return true; }
-			
+			if (self.moods[MoodTypes.arousDisgus] > 0.5f) { return true; }
 			return false;
 		};
 
 		RuleConditioner chooseAnotherAsPartnerCondition = (self, other, indPpl) =>
-		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.5)){
+		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.5) && self.moods[MoodTypes.arousDisgus] > 0.3f){
 				return true;
 			}
 			return false; };
@@ -130,25 +132,26 @@ public partial class Program : MonoBehaviour
 
 		RuleConditioner flirtCondition = (self, other, indPpl) =>
 		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.5) && self.interPersonal.Exists(x => x.roleName != "Partner") && 
-			 														  other.interPersonal.Exists(x => x.roleName != "Partner")){
-				return true;
-			}
+			 	other.interPersonal.Exists(x => x.roleName != "Partner") && self.moods[MoodTypes.arousDisgus] > 0.1f)
+				{ return true;}
 			return false; };
 
 		RuleConditioner chatCondition = (self, other, indPpl) =>
-		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.2)){
+		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.2) && self.moods[MoodTypes.hapSad] > 0.0f){
 				return true;
 			}
 			return false; };
 
 		RuleConditioner giveGiftCondition = (self, other, indPpl) =>
-		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.5f) && (self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name)))){
+		{	
+			//AND IF YOU HAVE SOMETHING TO GIVE
+			if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.5f) && (self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name)))){
 				return true;
 			}
 			return false; };
 
 		RuleConditioner poisonCondition = (self, other, indPpl) =>
-		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() < 0.5f) && (self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name)))){
+		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() < 0.5f) && (self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name))) && self.moods[MoodTypes.angryFear] < -0.7f){
 				return true;
 			}
 			return false; };
@@ -160,34 +163,42 @@ public partial class Program : MonoBehaviour
 			return false; };
 
 		RuleConditioner argueCondition = (self, other, indPpl) =>
-		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.1f) && (self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name)))){
+		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.1f) && (self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name))) && self.moods[MoodTypes.angryFear] < -0.1f){
 				return true;
 			}
 			return false; };
 
 		RuleConditioner demandToStopBeingFriendWithCondition = (self, other, indPpl) =>
-		{	//foreach(Person p in indPpl){
-			//	if( p.interPersonal.Exists(x=> x.GetlvlOfInfl() < 0.3))
+		{	
+			//PROBABLY NEED OPINIONS FOR THIS ONE
+			//foreach(Person p in indPpl){
+			//	if( p.interPersonal.Exists(x=>x.GetlvlOfInfl() < 0.3))
 			//	   { return true; }
 			//}
 			return false; };
 		
 		RuleConditioner makeDistractionCondition = (self, other, indPpl) =>
-		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["askforhelpinillicitactivity"] && x.GetSubject()==self && x.GetDirect()==other))
+		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["askforhelpinillicitactivity"] && x.GetSubject()==other && x.GetDirect()==self) 
+			     && self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() < 0.0f)
 				{ return true; }
 			return false; };
 
 		RuleConditioner reminisceCondition = (self, other, indPpl) =>
-		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["chat"] && x.GetSubject() == self))
+		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["chat"] && x.GetSubject() == other))
 			{ return true; }
 			return false; };
 
 		RuleConditioner denyCondition = (self, other, indPpl) =>
-		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() < 0.4f) && (self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name)))) { return true; }
+		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() < 0.4f) && (self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name))) && 
+			     (self.moods[MoodTypes.arousDisgus] < 0.0f ||
+			      self.moods[MoodTypes.hapSad] < 0.0f ||
+			      self.moods[MoodTypes.angryFear] < 0.0f)) 
+				{ return true; }
 			return false; };
 
 		RuleConditioner enthuseAboutGreatnessofPersonCondition = (self, other, indPpl) =>
-		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.5f) && (self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name)))) { return true; }
+		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.5f) && (self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name))) && self.moods[MoodTypes.hapSad] > 0.0f) 
+				{ return true; }
 			return false; };
 
 
@@ -200,36 +211,40 @@ public partial class Program : MonoBehaviour
 
 		RuleConditioner fightCondition = (self, other, indPpl) =>
 		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["convict"] && x.GetDirect()==self && x.GetSubject()==other) ){
-				if(self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() < 0.0){
+				if(self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() < 0.0 || self.moods[MoodTypes.angryFear] < -0.7f){
 					return true; 
 				}
 			}
 			return false; };
 		
 		RuleConditioner bribeCondition = (self, other, indPpl) =>
-		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["convict"] && x.GetDirect()==self && x.GetSubject()==other) ){
+		{	//MONEY
+			if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["convict"] && x.GetDirect()==self && x.GetSubject()==other) ){
 				return true; 
 			}
 			return false; };
 
 		RuleConditioner argueInnocenceCondition = (self, other, indPpl) =>
-		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["convict"] && x.GetSubject()==other)){ return true; }
+		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["convict"] && x.GetSubject()==other) && self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() > 0.0f)
+				{ return true; }
 			return false; };
 
 		RuleConditioner argueGuiltinessCondition = (self, other, indPpl) =>
-		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["convict"] && x.GetSubject()==other)){ return true; }
+		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["convict"] && x.GetSubject()==other) && self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() < 0.0f)
+				{ return true; }
 			return false; };
 
 		RuleConditioner stealCondition = (self, other, indPpl) =>
-		{	if(true){ return true; }
+		{	//MONEY
+			if(self.moods[MoodTypes.hapSad] < -0.3f){ return true; }
 			return false; };
 
 		RuleConditioner practiceStealingCondition = (self, other, indPpl) =>
-		{	if(true){ return true; }
+		{	if(self.moods[MoodTypes.hapSad] < -0.2f && self.GetAbilityy() < 1.0f){ return true; }
 			return false; };
 
 		RuleConditioner askForHelpInIllicitActivityCondition = (self, other, indPpl) =>
-		{	if(true){ return true; }
+		{	if(self.moods[MoodTypes.angryFear] < -0.2f && self.GetAbilityy() < 1.0f){ return true; }
 			return false; };
 
 		RuleConditioner searchForThiefCondition = (self, other, indPpl) =>
@@ -240,7 +255,7 @@ public partial class Program : MonoBehaviour
 // -------------- CULTURAL (CULT) ACTIONS
 
 		RuleConditioner PraiseCultCondition = (self, other, indPpl) =>
-		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["steal"])) { return true; }
+		{	if(self.culture.Exists(x=>x.GetlvlOfInfl() > 0.5f && x.roleName == "Follower")) { return true; }
 			return false; };
 
 		RuleConditioner enterCultCondition = (self, other, indPpl) =>
@@ -270,7 +285,7 @@ public partial class Program : MonoBehaviour
 			return false; };
 
 		RuleConditioner sabotageCondition = (self, other, indPpl) =>
-		{	if(true) { return true; }
+		{	if(self.moods[MoodTypes.angryFear] > 0.5f || self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() < -0.5f) { return true; }
 			return false; };
 
 		RuleConditioner advertiseCondition = (self, other, indPpl) =>
@@ -282,7 +297,7 @@ public partial class Program : MonoBehaviour
 			return false; };
 
 		RuleConditioner DemandtoLeaveGuildCondition = (self, other, indPpl) =>
-		{	if(true) { return true; }
+		{	if(self.moods[MoodTypes.angryFear] < -0.3f || self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() < -0.3f) { return true; }
 			return false; };
 
 		RuleConditioner askForHelpCondition = (self, other, indPpl) =>
@@ -674,4 +689,27 @@ public partial class Program : MonoBehaviour
 		
 		
 	}
+
+
+	void UpdateStats(){
+		statsString = "";
+
+		foreach (Person p in relationSystem.pplAndMasks.people.Values) {
+			if(p.name != "player"){
+				statsString += p.name+"\n";
+				statsString += "AngFea: "+p.moods[MoodTypes.angryFear]+"\n";
+				statsString += "aroDis: "+p.moods[MoodTypes.arousDisgus]+"\n";
+				statsString += "EnrTir: "+p.moods[MoodTypes.energTired]+"\n";
+				statsString += "HapSad: "+p.moods[MoodTypes.hapSad]+"\n";
+			}
+			statsString += "\n";
+		}
+		statsString += "\n";
+
+	}
+
+
+
+
+
 }
