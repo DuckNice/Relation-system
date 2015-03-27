@@ -48,7 +48,7 @@ public class Being
 	{
 		Person self = maskSystem.pplAndMasks.GetPerson (name);
 
-		if (currentRule != null || actionStartTime + currentRule.actionToTrigger.Duration > Time.time) 
+		if (currentRule != null || actionStartTime + currentRule.actionToTrigger.duration > Time.time) 
 		{
             currentRule.SustainAction(self, currentRule.selfOther[self], currentRule, misc: possessions.ToArray());
 		}
