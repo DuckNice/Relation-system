@@ -429,10 +429,10 @@ public partial class Program : MonoBehaviour
 		relationSystem.AddRuleToMask("HeatherPlayer", "Partner", "chooseanotheraspartner", -0.3f);
 		relationSystem.AddRuleToMask("JohnHeather", "Partner", "chooseanotheraspartner", -0.3f);
 		relationSystem.AddRuleToMask("HeatherJohn", "Partner", "stayaspartner", 0.4f);
-		//relationSystem.AddRuleToMask("HeatherPlayer", "Partner", "stayaspartner", 0.4f);
-		//relationSystem.AddRuleToMask("JohnHeather", "Partner", "stayaspartner", 0.4f);
-		//relationSystem.AddRuleToMask("BillTherese", "Partner", "stayaspartner", 0.4f);
-		//relationSystem.AddRuleToMask("ThereseBill", "Partner", "stayaspartner", 0.4f);
+		relationSystem.AddRuleToMask("HeatherPlayer", "Partner", "stayaspartner", 0.4f);
+		relationSystem.AddRuleToMask("JohnHeather", "Partner", "stayaspartner", 0.4f);
+		relationSystem.AddRuleToMask("BillTherese", "Partner", "stayaspartner", 0.4f);
+		relationSystem.AddRuleToMask("ThereseBill", "Partner", "stayaspartner", 0.4f);
 		relationSystem.AddRuleToMask("HeatherJohn", "Partner", "leavepartner", -0.2f);
 		relationSystem.AddRuleToMask("HeatherPlayer", "Partner", "leavepartner", -0.2f);
 		relationSystem.AddRuleToMask("JohnHeather", "Partner", "leavepartner", -0.2f);

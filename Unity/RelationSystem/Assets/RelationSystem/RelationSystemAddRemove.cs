@@ -43,6 +43,7 @@ namespace NRelationSystem
         {
             persName = persName.ToLower();
             role = role.ToLower();
+			mask = mask.ToLower ();
 
             List<Person> peopleRelated = new List<Person>();
 
