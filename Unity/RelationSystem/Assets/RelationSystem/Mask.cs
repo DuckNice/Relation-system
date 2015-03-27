@@ -68,7 +68,7 @@ namespace NRelationSystem
         {
             RuleAndStr chosenAction = new RuleAndStr();
 
-			chosenAction.chosenRule = new Rule("Empty", new MAction("Empty", 0.0f), null);
+			chosenAction.chosenRule = new Rule("Empty", new MAction("Empty", 0.0f, 0.0f), null);
             chosenAction.strOfAct = 0.0f;
 
             foreach(Rule rule in rules.Values.ToList())

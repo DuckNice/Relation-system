@@ -6,20 +6,22 @@ namespace NRelationSystem
 {
     public class MAction
     {
-        float gain;
+        float selfGain;
+        float againstGain;
         private string Name;
         public string name { get { return Name; } set { Name = value.ToLower(); } }
         public List<Rule> affectedRules;
         ActionInvoker actionInvoker;
         ActionInvoker sustainActionInvoker;
         public RelationSystem relationSystem;
-        float duration = 0.0f;
-        public float Duration { get { return duration; } set { duration = value; } }
+        float Duration = 0.0f;
+        public float duration { get { return Duration; } set { Duration = value; } }
 
 
-        public MAction(string _efDesc, float _gain, RelationSystem _relationSystem, ActionInvoker _actionInvoker = null, ActionInvoker _sustainActionInvoker = null)
+        public MAction(string _efDesc, float _selfGain, float _againstGain, RelationSystem _relationSystem, ActionInvoker _actionInvoker = null, ActionInvoker _sustainActionInvoker = null)
         {
-            gain = _gain;
+            selfGain = _selfGain;
+            againstGain = _againstGain;
             name = _efDesc;
             affectedRules = new List<Rule>();
             relationSystem = _relationSystem;
@@ -28,9 +30,10 @@ namespace NRelationSystem
         }
 
 
-        public MAction(string _efDesc, float _gain)
+        public MAction(string _efDesc, float _selfGain, float _againstGain)
         {
-            gain = _gain;
+            selfGain = _selfGain;
+            againstGain = _againstGain;
             name = _efDesc;
             affectedRules = new List<Rule>();
         }
@@ -71,9 +74,9 @@ namespace NRelationSystem
         }
 
 
-		public float GetGain(){ return gain; }
-		public void SetGain(float inp){ gain = inp; }
-		public void AddToGain(float inp){ gain += inp; }
+		public float GetGain(bool selfGain){ if(selfGain){return this.selfGain;} return againstGain; }
+        public void SetGain(float inp, bool selfGain) { if (selfGain) { this.selfGain = inp; } else { againstGain = inp; } }
+        public void AddToGain(float inp, bool selfGain) { if (selfGain) { this.selfGain += inp; } else { againstGain += inp; } }
 
     }
 }
