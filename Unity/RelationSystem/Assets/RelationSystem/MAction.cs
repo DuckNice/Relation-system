@@ -11,14 +11,20 @@ namespace NRelationSystem
         public string name { get { return Name; } set { Name = value.ToLower(); } }
         public List<Rule> affectedRules;
         ActionInvoker actionInvoker;
+        ActionInvoker sustainActionInvoker;
         public RelationSystem relationSystem;
-        public MAction(string _efDesc, float _gain, ActionInvoker _actionInvoker, RelationSystem _relationSystem)
+        float duration = 0.0f;
+        public float Duration { get { return duration; } set { duration = value; } }
+
+
+        public MAction(string _efDesc, float _gain, RelationSystem _relationSystem, ActionInvoker _actionInvoker = null, ActionInvoker _sustainActionInvoker = null)
         {
             gain = _gain;
             name = _efDesc;
             affectedRules = new List<Rule>();
             relationSystem = _relationSystem;
             actionInvoker = _actionInvoker;
+            sustainActionInvoker = _sustainActionInvoker;
         }
 
 
@@ -36,13 +42,28 @@ namespace NRelationSystem
 			if(actionInvoker != null)
             {
                 actionInvoker(subject, direct, indPpl, misc);
-				relationSystem.DidAction(this, subject, direct, _rule);
 			}
 			else
             {
                 debug.Write("Warning: No action to do in action '" + name + "'.");
             }
+
+            relationSystem.DidAction(this, subject, direct, _rule);
         }
+
+
+        public void DoSustainAction(Person subject, Person direct, Rule _rule, Person[] indPpl = null, object[] misc = null)
+        { //SUBJECT, VERB, OBB, DIROBJ    Setup
+            if (sustainActionInvoker != null)
+            {
+                sustainActionInvoker(subject, direct, indPpl, misc);
+            }
+            else
+            {
+                debug.Write("Warning: No action to do in action '" + name + "'.");
+            }
+        }
+
 
         public float EstimationOfSuccess(float ability)
         {

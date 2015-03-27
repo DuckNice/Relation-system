@@ -58,9 +58,12 @@ namespace NRelationSystem
 			actionToTrigger.DoAction (subject, dirObject,_rule, indPpl, misc);
 		}
 
+		public void SustainAction(Person subject, Person dirObject, Rule _rule, Person[] indPpl = null, object[] misc = null){
+			actionToTrigger.DoSustainAction (subject, dirObject,_rule, indPpl, misc);
+		}
+
 		public float GetRuleStrength(){ return strength; }
 		public void SetRuleStrength(float inp){ strength = inp; }
 		public void AddToRuleStrength(float inp){ strength += inp; }
-
     }
 }
