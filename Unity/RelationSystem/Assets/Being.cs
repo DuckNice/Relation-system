@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,7 +14,10 @@ public class Being
 	public RelationSystem maskSystem;
 	public List<Possession> possessions = new List<Possession>();
 	Dictionary<string, MAction> notPossibleActions;
-	
+
+	public Rule currentRule;
+	public float actionStartTime;
+
 
 	public Being (string _name, RelationSystem relsys)
 	{
@@ -40,18 +44,35 @@ public class Being
 	}
 
 
-	public void NPCAction(){
-        Person self = maskSystem.pplAndMasks.GetPerson(name);
-		Rule rule = self.GetAction(notPossibleActions.Values.ToList(), focus.Values.ToList());
+	public void NPCAction()
+	{
+		Person self = maskSystem.pplAndMasks.GetPerson (name);
 
-		//if (debug.Toggle) {
-		//	UIFunctions.WriteGameLine ("Doing action '" + rule.actionToTrigger.name + "' from " + name);
-		//}
+		if (currentRule == null || actionStartTime + currentRule.actionToTrigger.Duration > Time.time) 
+		{
+            currentRule.SustainAction(self, currentRule.selfOther[self], currentRule, misc: possessions.ToArray());
+		}
+		else 
+		{
+			Rule rule = self.GetAction (notPossibleActions.Values.ToList (), focus.Values.ToList ());
+
+			if (debug.Toggle) 
+			{
+				debug.Write ("Doing action '" + rule.actionToTrigger.name + "' from " + name);
+			}
 
 
-        if (rule.actionToTrigger.name.ToLower() != "empty")
-        {
-		    rule.DoAction (self, rule.selfOther[self], rule, misc:possessions.ToArray());
-        }
+			if (rule.actionToTrigger.name.ToLower () != "empty") 
+			{
+                currentRule = rule;
+                actionStartTime = Time.time;
+
+				rule.DoAction (self, rule.selfOther [self], rule, misc: possessions.ToArray ());
+			}
+            else
+            {
+                currentRule = null;
+            }
+		}
     }
 }
