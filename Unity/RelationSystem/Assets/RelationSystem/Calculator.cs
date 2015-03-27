@@ -23,7 +23,7 @@ namespace NRelationSystem
                 foreach (Rule r in rulesThatWillTrigger)
                 {
 
-					tempEgo += r.GetRuleStrength() * r.actionToTrigger.EstimationOfSuccess(ability) * visibility;
+					tempEgo += r.GetRuleStrength() * r.actionToTrigger.EstimationOfSuccess(ability) * visibility * CalculateGain(r, false);
 
                     //probability is just r.strength for now. let's leave it like that for simplicity
 					//right now it just check visibility for all people in world, not just the people involved in the action considered.
@@ -32,7 +32,7 @@ namespace NRelationSystem
 
             tempEgo *= (1 - impulsivity);
 
-            float ego = impulsivity * CalculateGain(curRule) + tempEgo;
+            float ego = impulsivity * CalculateGain(curRule, true) + tempEgo;
 
             //debug.Write("Ego: " + ego);
 
@@ -72,9 +72,9 @@ namespace NRelationSystem
         }
 
 
-        public static float CalculateGain(Rule rule)
+        public static float CalculateGain(Rule rule, bool selfGain)
         {
-            return rule.actionToTrigger.GetGain();
+            return rule.actionToTrigger.GetGain(selfGain);
         }
 
 

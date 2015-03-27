@@ -30,6 +30,7 @@ namespace NRelationSystem
             impulsivity = _impulse;
         }
 
+
 		public float calculateRelation(Person person)
 		{
 			return 0;
@@ -73,12 +74,28 @@ namespace NRelationSystem
         }
 
 
+        public void RemoveLink(TypeMask type, Link oldLink)
+        {
+            if (type == TypeMask.selfPerc)
+            {
+                debug.Write("Error: Cannot remove selfPersonMask.");
+            }
+            else if (type == TypeMask.interPers)
+            {
+                interPersonal.Remove(oldLink);
+            }
+            else
+            {
+                culture.Remove(oldLink);
+            }
+        }
+
+
         public Rule GetAction(List<MAction> notPosActions, List<float> foci) 
         {
 			if (debug.Toggle) {
 				debug.Write ("---------- " + name + "'s TURN.");
-			}
-				
+			}				
 
             RuleAndStr chosenAction = selfPerception.actionForLink(notPosActions, this, rationality, morality, impulsivity, ability, foci);
 
@@ -104,6 +121,7 @@ namespace NRelationSystem
 
 			return chosenAction.chosenRule;
         }
+
 
 		public float GetRationality(){ return rationality; }
 		public void SetRationality(float inp){ rationality = inp; }
