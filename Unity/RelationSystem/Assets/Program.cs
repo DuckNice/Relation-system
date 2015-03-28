@@ -217,6 +217,10 @@ public partial class Program : MonoBehaviour
 				UIFunctions.WriteGameLine(subject.name + " is giving a gift to " + direct.name+".");
 			}
 			direct.moods[MoodTypes.hapSad] += Calculator.unboundAdd(0.5f,direct.moods[MoodTypes.hapSad]);
+
+			beings.Find(x=>x.name == subject.name).possessions.Find(y=>y.Name=="money").value -= 10f;
+			beings.Find(x=>x.name == direct.name).possessions.Find(y=>y.Name=="money").value += 10f;
+
 		};
         relationSystem.AddAction(new MAction("giveGift", 0.2f, 0.4f, relationSystem, giveGift));
 
@@ -325,7 +329,10 @@ public partial class Program : MonoBehaviour
 		{
 			UIFunctions.WriteGameLine(subject.name + " is attempting to bribe "+direct.name);
 			direct.moods[MoodTypes.angryFear] += Calculator.unboundAdd(0.6f,direct.moods[MoodTypes.angryFear]);
+
 			//MONEY!
+			beings.Find(x=>x.name == subject.name).possessions.Find(y=>y.Name=="money").value -= 30f;
+			beings.Find(x=>x.name == direct.name).possessions.Find(y=>y.Name=="money").value += 30f;
 		};
         relationSystem.AddAction(new MAction("bribe", 0.2f, 0.6f, relationSystem, bribe));
 
@@ -348,7 +355,9 @@ public partial class Program : MonoBehaviour
 			UIFunctions.WriteGameLine(subject.name + " is stealing from "+direct.name+". Will they get caught?");
 			subject.moods[MoodTypes.hapSad] += Calculator.unboundAdd(0.6f,subject.moods[MoodTypes.hapSad]);
 			subject.moods[MoodTypes.angryFear] += Calculator.unboundAdd(-0.3f,subject.moods[MoodTypes.angryFear]);
+
 			//money
+			beings.Find(x=>x.name == subject.name).possessions.Find(y=>y.Name=="money").value += 50f;
 		};
         relationSystem.AddAction(new MAction("steal", 0.7f,-0.5f, relationSystem, steal));
 
@@ -408,12 +417,20 @@ public partial class Program : MonoBehaviour
 		ActionInvoker buyCompany = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is making a deal to buy "+direct.name+"'s company");
+			beings.Find(x=>x.name == subject.name).possessions.Find(y=>y.Name=="money").value -= 100f;
+			beings.Find(x=>x.name == direct.name).possessions.Find(y=>y.Name=="money").value += 100f;
+			beings.Find(x=>x.name == direct.name).possessions.Find(y=>y.Name=="company").value -= 1f;
+			beings.Find(x=>x.name == subject.name).possessions.Find(y=>y.Name=="company").value += 1f;
 		};
         relationSystem.AddAction(new MAction("buyCompany", 0.8f,-0.4f, relationSystem, buyCompany));
 
 		ActionInvoker sellCompany = (subject, direct, indPpl, misc) => 
 		{
-			UIFunctions.WriteGameLine(subject.name + " is making a deal to sell a company");
+			UIFunctions.WriteGameLine(subject.name + " is making a deal to sell a company to "+direct.name);
+			beings.Find(x=>x.name == subject.name).possessions.Find(y=>y.Name=="money").value += 100f;
+			beings.Find(x=>x.name == direct.name).possessions.Find(y=>y.Name=="money").value -= 100f;
+			beings.Find(x=>x.name == direct.name).possessions.Find(y=>y.Name=="company").value += 1f;
+			beings.Find(x=>x.name == subject.name).possessions.Find(y=>y.Name=="company").value -= 1f;
 		};
         relationSystem.AddAction(new MAction("sellCompany", 0.4f,0.8f, relationSystem, sellCompany));
 
@@ -422,6 +439,8 @@ public partial class Program : MonoBehaviour
 			UIFunctions.WriteGameLine(subject.name + " is sabotaging "+direct.name);
 			direct.moods[MoodTypes.hapSad] += Calculator.unboundAdd(-0.6f,direct.moods[MoodTypes.hapSad]);
 			direct.moods[MoodTypes.angryFear] += Calculator.unboundAdd(0.4f,direct.moods[MoodTypes.angryFear]);
+
+			beings.Find(x=>x.name == direct.name).possessions.Find(y=>y.Name=="company").value -= 1f;
 		};
         relationSystem.AddAction(new MAction("sabotage", 0.5f,-0.5f, relationSystem, sabotage));
 
@@ -454,12 +473,16 @@ public partial class Program : MonoBehaviour
 		ActionInvoker buyGoods = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is buying goods from "+direct.name);
+			beings.Find(x=>x.name == subject.name).possessions.Find(y=>y.Name=="money").value -= 30f;
+			beings.Find(x=>x.name == subject.name).possessions.Find(y=>y.Name=="goods").value += 1f;
 		};
         relationSystem.AddAction(new MAction("buyGoods", 0.4f,0.2f, relationSystem, buyGoods));
 
 		ActionInvoker sellGoods = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is selling goods to "+direct.name);
+			beings.Find(x=>x.name == subject.name).possessions.Find(y=>y.Name=="money").value += 30f;
+			beings.Find(x=>x.name == subject.name).possessions.Find(y=>y.Name=="goods").value -= 1f;
 		};
         relationSystem.AddAction(new MAction("sellGoods", 0.7f,0.2f, relationSystem, sellGoods));
 

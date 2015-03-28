@@ -27,16 +27,44 @@ public partial class Program : MonoBehaviour
 		Being Therese = new Being ("Therese", relationSystem);
 		Being John = new Being ("John", relationSystem);
 		Being Heather = new Being ("Heather", relationSystem);
+		Being Player = new Being ("Player", relationSystem);
 
 		roomMan.EnterRoom ("Indgang", Bill);
 		roomMan.EnterRoom ("Indgang", Therese);
 		roomMan.EnterRoom ("Indgang", John);
+		roomMan.EnterRoom ("Indgang", Player);
 		
 		beings.Add (Bill);
 		beings.Add (Therese);
 		beings.Add (John);
 		beings.Add (Heather);
-		//Bill.FindFocusToAll (beings);
+		beings.Add (Player);
+		Bill.FindFocusToAll (beings);
+		Therese.FindFocusToAll (beings);
+		John.FindFocusToAll (beings);
+		Heather.FindFocusToAll (beings);
+		Player.FindFocusToAll (beings);
+
+		Bill.possessions.Add (new Money (100f));
+		Bill.possessions.Add (new Goods (5f));
+		Bill.possessions.Add (new Company("Bill's Wares"));
+		Therese.possessions.Add (new Money (70f));
+		John.possessions.Add (new Money (5f));
+		Heather.possessions.Add (new Money (20f));
+		Player.possessions.Add (new Money (30f));
+		Player.possessions.Add (new Goods (2f));
+		Player.possessions.Add (new Company("A Poor Excuse for A Company"));
+
+		debug.Write ("COUNT IN CREATE "+Bill.possessions.Count);
+		foreach (Possession p in Bill.possessions) {
+			debug.Write (p.Name+"   "+p.value);
+		}
+
+		foreach (Being b in beings) {
+			b.name = b.name.ToLower();
+		}
+
+
 	}
 
 
@@ -146,7 +174,9 @@ public partial class Program : MonoBehaviour
 		{	
 			//AND IF YOU HAVE SOMETHING TO GIVE
 			if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.5f) && (self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name)))){
-				return true;
+				if(beings.Find(x=>x.name == self.name).possessions.Find(y=>y.Name=="money").value > 30f){
+					return true;
+				}
 			}
 			return false; };
 
@@ -277,11 +307,11 @@ public partial class Program : MonoBehaviour
 // --------------- CULTURAL (MERCHANT) ACTIONS
 
 		RuleConditioner buyCompanyCondition = (self, other, indPpl) =>
-		{	if(true) { return true; }
+		{	if(beings.Find(x=>x.name == self.name).possessions.Find(y=>y.Name=="money").value >= 100f && beings.Find(x=>x.name == other.name).possessions.Find(y=>y.Name=="company").value >= 1f && self != other) { return true; }
 			return false; };
 
 		RuleConditioner sellCompanyCondition = (self, other, indPpl) =>
-		{	if(true) { return true; }
+		{	if(beings.Find(x=>x.name == other.name).possessions.Find(y=>y.Name=="money").value >= 100f && beings.Find(x=>x.name == self.name).possessions.Find(y=>y.Name=="company").value >= 1f) { return true; }
 			return false; };
 
 		RuleConditioner sabotageCondition = (self, other, indPpl) =>
@@ -305,11 +335,11 @@ public partial class Program : MonoBehaviour
 			return false; };
 
 		RuleConditioner buyGoodsCondition = (self, other, indPpl) =>
-		{	if(true) { return true; }
+		{	if(beings.Find(x=>x.name == self.name).possessions.Find(y=>y.Name=="goods").value < 2f && beings.Find(x=>x.name == self.name).possessions.Find(y=>y.Name=="money").value > 30f) { return true; }
 			return false; };
 
 		RuleConditioner sellGoodsCondition = (self, other, indPpl) =>
-		{	if(true) { return true; }
+		{	if(beings.Find(x=>x.name == self.name).possessions.Find(y=>y.Name=="goods").value > 1f) { return true; }
 			return false; };
 
 		#endregion adding Conditions
@@ -704,7 +734,12 @@ public partial class Program : MonoBehaviour
 			}
 			statsString += "\n";
 		}
-		statsString += "\n";
+		statsString += "Money: \n";
+
+
+		foreach (Being b in beings) {
+			statsString +=  b.name+"  "+ b.possessions.Find(x=>x.Name == "money").value+"\n";
+		}
 
 	}
 

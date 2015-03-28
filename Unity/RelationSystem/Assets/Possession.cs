@@ -14,10 +14,10 @@ public class Possession
 public class Money : Possession
 {
 	//Parameters: moneyValue
-	public Money()
+	public Money(float amount = 0.0f)
 	{
 		name = "money";
-		float value = 0.0f;
+		value = amount;
 		parameters.Add (value);
 	}
 }
@@ -38,5 +38,26 @@ public class Axe : Possession
 		parameters.Add ((object)sharpness);
 		parameters.Add ((object)durability);
 
+	}
+}
+
+
+public class Goods : Possession
+{
+	public Goods(float amount = 0.0f){
+		name = "goods";
+		value = amount;
+		parameters.Add (value);
+	}
+}
+
+
+public class Company : Possession
+{
+	public Company(string _name){
+		name = "company";
+		string companyName = _name;
+		value = 1;
+		parameters.Add (value);
 	}
 }

@@ -26,7 +26,7 @@ public class Being
 		notPossibleActions = new Dictionary<string, MAction> ();
 		maskSystem = relsys;
 
-		possessions.Add (new Money ());
+
 		possessions.Add (new Axe(1.0f, "Lead", 10.0f, 0.5f));
 	}
 
@@ -34,7 +34,7 @@ public class Being
 	//Use in beginning for all Beings, to set initial focus for all beings in the world.
 	public void FindFocusToAll(List<Being> beingsInWorld){
 		foreach (Being b in beingsInWorld) {
-			focus.Add(b,0);
+			focus.Add(b,1);
 		}
 	}
 
