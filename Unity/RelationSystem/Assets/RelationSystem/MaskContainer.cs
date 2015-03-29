@@ -141,5 +141,16 @@ namespace NRelationSystem
         {
             return instMasks[maskName].FindRole(roleName);
         }
+
+		public Rule GetRule(string _ruleName){
+			foreach (Rule r in instRules.Values) {
+				if(r.ruleName == _ruleName){
+					return r;
+				}
+			}
+			debug.Write ("Rule " + _ruleName + " doesn't exist. Spelling error?");
+			return null;
+		}
+
     }
 }

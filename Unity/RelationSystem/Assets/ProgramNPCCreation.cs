@@ -55,11 +55,6 @@ public partial class Program : MonoBehaviour
 		Player.possessions.Add (new Goods (2f));
 		Player.possessions.Add (new Company("A Poor Excuse for A Company"));
 
-		debug.Write ("COUNT IN CREATE "+Bill.possessions.Count);
-		foreach (Possession p in Bill.possessions) {
-			debug.Write (p.Name+"   "+p.value);
-		}
-
 		foreach (Being b in beings) {
 			b.name = b.name.ToLower();
 		}
@@ -455,6 +450,32 @@ public partial class Program : MonoBehaviour
 		relationSystem.CreateNewRule("flee", "flee", fleeCondition);
 
 
+// -----------------
+
+		List<Rule> kissRulesToTrigger = new List<Rule>(); kissRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("stayaspartner")); kissRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("givegift"));
+		relationSystem.pplAndMasks.AddPossibleRulesToRule("kiss",kissRulesToTrigger);
+
+		List<Rule> giveGiftRulesToTrigger = new List<Rule>(); giveGiftRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("reminisce")); giveGiftRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("flirt"));
+		giveGiftRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("deny")); giveGiftRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("chooseanotheraspartner"));
+		relationSystem.pplAndMasks.AddPossibleRulesToRule("givegift",giveGiftRulesToTrigger);
+
+		List<Rule> gossipRulesToTrigger = new List<Rule>(); gossipRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("reminisce")); gossipRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("flirt"));
+		gossipRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("deny")); gossipRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("demandtostopbeingfriendwith"));
+		gossipRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("argue"));
+		relationSystem.pplAndMasks.AddPossibleRulesToRule("gossip",gossipRulesToTrigger);
+
+		List<Rule> denyRulesToTrigger = new List<Rule>(); denyRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("argue")); denyRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("poison")); 
+		denyRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("fight"));
+		relationSystem.pplAndMasks.AddPossibleRulesToRule("deny",denyRulesToTrigger);
+
+		List<Rule> stealRulesToTrigger = new List<Rule>(); stealRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("searchforthief")); stealRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("poison")); 
+		stealRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("fight")); stealRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("convict"));
+		relationSystem.pplAndMasks.AddPossibleRulesToRule("steal",stealRulesToTrigger);
+
+		List<Rule> convictRulesToTrigger = new List<Rule>(); convictRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("bribe")); convictRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("poison")); 
+		convictRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("fight")); convictRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("flee")); 
+		relationSystem.pplAndMasks.AddPossibleRulesToRule("convict",convictRulesToTrigger);
+
 // -------------- ADDING RULES TO MASKS
 	
 	// SElF
@@ -467,6 +488,7 @@ public partial class Program : MonoBehaviour
 		relationSystem.AddRuleToMask("Heather", "Self", "flee", -0.1f);
 		
 	// INTERPERSONAL
+
 		relationSystem.AddRuleToMask("BillTherese", "Partner", "kiss", 0.4f);
 		relationSystem.AddRuleToMask("ThereseBill", "Partner", "kiss", 0.4f);
 		relationSystem.AddRuleToMask("JohnHeather", "Partner", "kiss", 0.4f);
@@ -520,6 +542,8 @@ public partial class Program : MonoBehaviour
 		relationSystem.AddRuleToMask("BillJohn", "Enemy", "chat", 0.0f);
 		relationSystem.AddRuleToMask("BillHeather", "Friend", "chat", 0.0f);
 		relationSystem.AddRuleToMask("BillPlayer", "Enemy", "chat", 0.0f);
+
+
 
 		relationSystem.AddRuleToMask("JohnHeather", "Partner", "givegift", 0.0f);
 		relationSystem.AddRuleToMask("JohnBill", "Enemy", "givegift", 0.0f);

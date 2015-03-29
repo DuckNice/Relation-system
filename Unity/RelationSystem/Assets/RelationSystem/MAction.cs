@@ -10,7 +10,6 @@ namespace NRelationSystem
         float againstGain;
         private string Name;
         public string name { get { return Name; } set { Name = value.ToLower(); } }
-        public List<Rule> affectedRules;
         ActionInvoker actionInvoker;
         ActionInvoker sustainActionInvoker;
         public RelationSystem relationSystem;
@@ -23,7 +22,6 @@ namespace NRelationSystem
             selfGain = _selfGain;
             againstGain = _againstGain;
             name = _efDesc;
-            affectedRules = new List<Rule>();
             relationSystem = _relationSystem;
             actionInvoker = _actionInvoker;
             sustainActionInvoker = _sustainActionInvoker;
@@ -36,7 +34,6 @@ namespace NRelationSystem
             selfGain = _selfGain;
             againstGain = _againstGain;
             name = _efDesc;
-            affectedRules = new List<Rule>();
         }
 
 
