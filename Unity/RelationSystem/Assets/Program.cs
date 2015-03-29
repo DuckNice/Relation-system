@@ -142,6 +142,7 @@ public partial class Program : MonoBehaviour
 		{
 			UIFunctions.WriteGameLine(subject.name + " is greeting "+direct.name);
 			subject.moods[MoodTypes.hapSad] += Calculator.unboundAdd(0.1f,subject.moods[MoodTypes.hapSad]);
+			direct.moods[MoodTypes.hapSad] += Calculator.unboundAdd(0.1f,direct.moods[MoodTypes.hapSad]);
 
 
 		};
