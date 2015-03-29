@@ -66,7 +66,7 @@ public class Being
                 currentRule = rule;
                 actionStartTime = Time.time;
 
-				rule.DoAction (self.Copy(), rule.selfOther [self], rule, misc: possessions.ToArray ());
+				rule.DoAction (self, rule.selfOther [self], rule, misc: possessions.ToArray ());
 			}
             else
             {
