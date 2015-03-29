@@ -61,13 +61,12 @@ public class Being
 				debug.Write ("Doing action '" + rule.actionToTrigger.name + "' from " + name);
 			}
 
-
 			if (rule.actionToTrigger.name.ToLower () != "empty") 
 			{
                 currentRule = rule;
                 actionStartTime = Time.time;
 
-				rule.DoAction (self, rule.selfOther [self], rule, misc: possessions.ToArray ());
+				rule.DoAction (self.Copy(), rule.selfOther [self], rule, misc: possessions.ToArray ());
 			}
             else
             {

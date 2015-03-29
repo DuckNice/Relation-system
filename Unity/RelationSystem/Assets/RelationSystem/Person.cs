@@ -30,6 +30,10 @@ namespace NRelationSystem
             impulsivity = _impulse;
         }
 
+        public Person Copy()
+        {
+            return (Person)this.MemberwiseClone();
+        }
 
 		public float calculateRelation(Person person)
 		{

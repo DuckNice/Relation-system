@@ -31,7 +31,7 @@ namespace NRelationSystem
 
             if (people.ContainsKey(name))
             {
-                return people[name];
+                return people[name].Copy();
             }
             else
             {
