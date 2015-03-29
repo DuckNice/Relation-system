@@ -409,9 +409,11 @@ public partial class Program : MonoBehaviour
 		relationSystem.CreateNewRule("greetfbunce", "greet",  GreetCondition);
 		relationSystem.CreateNewRule("greetfcess", "greet",  GreetCondition);
 		relationSystem.CreateNewRule("greetfbunsant", "greet",  GreetCondition);
+		relationSystem.CreateNewRule("convict", "convict",  convictCondition);
 		relationSystem.CreateNewRule("convictfcess", "convict",  convictCondition);
 		relationSystem.CreateNewRule("convictfbunce", "convict",  convictCondition);
 		relationSystem.CreateNewRule("fight", "fight", fightCondition);
+		relationSystem.CreateNewRule("bribe", "bribe", bribeCondition);
 		relationSystem.CreateNewRule("bribefbunce", "bribe", bribeCondition);
 		relationSystem.CreateNewRule("bribefcess", "bribe", bribeCondition);
 		relationSystem.CreateNewRule("bribefbunsant", "bribe", bribeCondition);
@@ -422,8 +424,10 @@ public partial class Program : MonoBehaviour
 		relationSystem.CreateNewRule("steal", "steal", stealCondition);
 		relationSystem.CreateNewRule("practicestealing", "practicestealing", practiceStealingCondition);
 		relationSystem.CreateNewRule("askforhelpinillicitactivity", "askforhelpinillicitactivity", askForHelpInIllicitActivityCondition);
+		relationSystem.CreateNewRule("searchforthief", "searchforthief", searchForThiefCondition);
 		relationSystem.CreateNewRule("searchforthieffbunce", "searchforthief", searchForThiefCondition);
 		relationSystem.CreateNewRule("searchforthieffcess", "searchforthief", searchForThiefCondition);
+		relationSystem.CreateNewRule("poison", "poison", poisonCondition);
 		relationSystem.CreateNewRule("poisonfbunce", "poison", poisonCondition);
 		relationSystem.CreateNewRule("poisonfcess", "poison", poisonCondition);
 		relationSystem.CreateNewRule("poisonfbunsant", "poison", poisonCondition);
