@@ -133,6 +133,7 @@ public partial class Program : MonoBehaviour
 		ActionInvoker doNothing = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is doing absolutely nothing. What a bore.");
+			subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.2f,subject.moods[MoodTypes.energTired]);
 		};
 		relationSystem.AddAction(new MAction("doNothing", -1.0f, -1.0f, relationSystem, doNothing));
 
@@ -140,6 +141,7 @@ public partial class Program : MonoBehaviour
 		ActionInvoker greet = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is greeting "+direct.name);
+			subject.moods[MoodTypes.hapSad] += Calculator.unboundAdd(0.1f,subject.moods[MoodTypes.hapSad]);
 
 
 		};
