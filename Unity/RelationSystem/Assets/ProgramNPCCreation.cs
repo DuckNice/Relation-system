@@ -126,7 +126,8 @@ public partial class Program : MonoBehaviour
 			return false; };
 
 		RuleConditioner kissCondition = (self, other, indPpl) =>
-		{	if (self.interPersonal.Exists(x => x.roleName == "Partner") && other.interPersonal.Exists(x => x.roleName == "Partner"))
+		{	if (relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["enthuseaboutgreatnessofperson"] && x.GetSubject()==self && x.GetDirect()==other) && 
+			      self.interPersonal.Exists(x => x.roleName == "partner") && other.interPersonal.Exists(x => x.roleName == "partner"))
 			{ return true; }
 			
 			if (self.moods[MoodTypes.arousDisgus] > 0.5f) { return true; }
@@ -134,28 +135,28 @@ public partial class Program : MonoBehaviour
 		};
 
 		RuleConditioner chooseAnotherAsPartnerCondition = (self, other, indPpl) =>
-		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.5) && self.moods[MoodTypes.arousDisgus] > 0.3f){
-				return true;
-			}
+		{	//if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.5) && self.moods[MoodTypes.arousDisgus] > 0.3f){
+			//	return true;
+			//}
 			return false; };
 
 		RuleConditioner stayAsPartnerCondition = (self, other, indPpl) =>
-		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.5) && self.interPersonal.Exists(x => x.roleName == "Partner") && 
-			     													  other.interPersonal.Exists(x => x.roleName == "Partner")){
-				return true;
-			}
+		{	//if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.5) && self.interPersonal.Exists(x => x.roleName == "partner") && 
+			//    													  other.interPersonal.Exists(x => x.roleName == "partner")){
+			//	return true;
+			//}
 			return false; };
 
 		RuleConditioner LeavePartnerCondition = (self, other, indPpl) =>
-		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() < 0.5) && self.interPersonal.Exists(x => x.roleName == "Partner") && 
-			   														  other.interPersonal.Exists(x => x.roleName == "Partner")){
-				return true;
-			}
+		{	//if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() < 0.5) && self.interPersonal.Exists(x => x.roleName == "partner") && 
+			//     													  other.interPersonal.Exists(x => x.roleName == "partner")){
+			//	return true;
+			//}
 			return false; };
 
 		RuleConditioner flirtCondition = (self, other, indPpl) =>
-		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.5) && self.interPersonal.Exists(x => x.roleName != "Partner") && 
-			 	other.interPersonal.Exists(x => x.roleName != "Partner") && self.moods[MoodTypes.arousDisgus] > 0.1f)
+		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.5) && self.interPersonal.Exists(x => x.roleName != "partner") && 
+			     other.interPersonal.Exists(x => x.roleName != "partner") && self.moods[MoodTypes.arousDisgus] > 0.1f)
 				{ return true;}
 			return false; };
 
@@ -209,7 +210,8 @@ public partial class Program : MonoBehaviour
 			return false; };
 
 		RuleConditioner reminisceCondition = (self, other, indPpl) =>
-		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["chat"] && x.GetSubject() == other))
+		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["chat"] && x.GetSubject() == other && 
+			                                       self.interPersonal.Exists(z=>z.GetlvlOfInfl() > 0.4f) && (self.interPersonal.Exists(y=>y.roleRef.Exists(yy=>yy.name == other.name)))))
 			{ return true; }
 			return false; };
 
@@ -280,7 +282,7 @@ public partial class Program : MonoBehaviour
 // -------------- CULTURAL (CULT) ACTIONS
 
 		RuleConditioner PraiseCultCondition = (self, other, indPpl) =>
-		{	if(self.culture.Exists(x=>x.GetlvlOfInfl() > 0.5f && x.roleName == "Follower")) { return true; }
+		{	if(self.culture.Exists(x=>x.GetlvlOfInfl() > 0.5f && x.roleName == "follower")) { return true; }
 			return false; };
 
 		RuleConditioner enterCultCondition = (self, other, indPpl) =>
