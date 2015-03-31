@@ -64,18 +64,29 @@ namespace NRelationSystem
         }
         
 
-        public RuleAndStr CalculateActionToUse(List<MAction> notPosActions, Person self, float rat, float mor, float imp, float abi, float maskInfl, List<float> foci, string role)
+        public RuleAndStr CalculateActionToUse(List<MAction> notPosActions, List<PosActionItem> possibleActions, Person self, float rat, float mor, float imp, float abi, float maskInfl, List<float> foci, string role)
         {
             RuleAndStr chosenAction = new RuleAndStr();
-
 			chosenAction.chosenRule = new Rule("Empty", new MAction("Empty", 0.0f, 0.0f), null);
             chosenAction.strOfAct = 0.0f;
 
             foreach(Rule rule in rules.Values.ToList())
             {
+                List<Person> reactPeople = new List<Person>();
+                /*
+                if(possibleActions != null && possibleActions.Count > 0)
+                {
+                    int index = possibleActions.FindIndex(x => x.action == rule.actionToTrigger);
+
+                    if (index >= 0)
+                        reactPeople = possibleActions[index].reactToPerson;
+                    else
+                        continue;
+                }*/
+
 				debug.Write("Checking "+rule.actionToTrigger.name);
 
-                if(!notPosActions.Contains(rule.actionToTrigger) && rule.role.Equals(role) && rule.Condition(self))
+                if(!notPosActions.Contains(rule.actionToTrigger) && rule.role.Equals(role) && rule.Condition(self, reactPeople))
                 {
                     float newActionStrength = Calculator.CalculateRule(rat, mor, imp, abi, rule, rule.rulesThatMightHappen, maskInfl, foci);
 
@@ -84,6 +95,7 @@ namespace NRelationSystem
                         chosenAction.strOfAct = newActionStrength;
                         chosenAction.chosenRule = rule;
                     }
+                    
                 }
             }
             
@@ -92,6 +104,5 @@ namespace NRelationSystem
 
 		public TypeMask GetMaskType(){ return maskType; }
 		public string GetMaskName(){ return maskName; }
-
     }
 }
