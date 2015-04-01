@@ -81,13 +81,16 @@ public class Being
 
                         Person subject = item.GetSubject();
 
-						if (index < 0)
+                        if (subject.name != name)
                         {
-                            possibleActions.Add(new PosActionItem(rule.actionToTrigger, subject));
-                        }
-                        else if (!possibleActions[index].reactToPerson.Contains(subject))
-                        {
-                            possibleActions[index].reactToPerson.Add(subject);
+                            if (index < 0)
+                            {
+                                possibleActions.Add(new PosActionItem(rule.actionToTrigger, subject));
+                            }
+                            else if (!possibleActions[index].reactToPerson.Contains(subject))
+                            {
+                                possibleActions[index].reactToPerson.Add(subject);
+                            }
                         }
                     }
                 }
