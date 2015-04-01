@@ -18,7 +18,7 @@ public class Being
 
 	public Rule currentRule;
 	public float actionStartTime;
-
+    
 
 	public Being (string _name, RelationSystem relsys)
 	{
@@ -43,13 +43,13 @@ public class Being
 	}
 
 
-	public void NPCAction()
+	public void NPCAction(float time)
 	{
         if (name.ToLower() != "player")
         {
             Person self = maskSystem.pplAndMasks.GetPerson(name);
 
-            if (currentRule != null && actionStartTime + currentRule.actionToTrigger.duration > Time.time)
+            if (currentRule != null && actionStartTime + currentRule.actionToTrigger.duration > time)
             {
                 currentRule.SustainAction(self, currentRule.selfOther[self], currentRule, misc: possessions.ToArray());
             }
@@ -61,7 +61,7 @@ public class Being
                 {
                     HistoryItem item = maskSystem.historyBook[i];
 
-                    if (item.GetTime() < Time.time - reactMemory)
+                    if (item.GetTime() < time - reactMemory)
                     {
                         break;
                     }

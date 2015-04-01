@@ -15,6 +15,7 @@ public partial class Program : MonoBehaviour
 	public void Start()
     {
 		UIFunctions.WriteGameLine ("Welcome to Mask\n\n");
+        relationSystem.program = this;
 		CreateFirstRooms ();
 		SetupActions ();
 		CreateFirstMasks ();

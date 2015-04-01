@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 
 namespace NRelationSystem
@@ -10,8 +9,10 @@ namespace NRelationSystem
         public PersCont pplAndMasks = new PersCont();
         public Dictionary<string, MAction> posActions = new Dictionary<string, MAction>();
 
-
         public List<HistoryItem> historyBook = new List<HistoryItem>();
+
+        public Program program;
+
 
 
         public void CreateNewMask(string nameOfMask, float[] _traits = null, bool[] relatives = null, TypeMask maskType = TypeMask.interPers, string[] roles = null) 
@@ -119,7 +120,7 @@ namespace NRelationSystem
 
         public void DidAction(MAction action, Person subject, Person direct, Rule _rule)
         {
-			historyBook.Add(new HistoryItem(action, subject, direct, Time.time, _rule));
+			historyBook.Add(new HistoryItem(action, subject, direct, program.time, _rule));
 		}
 		
 		
