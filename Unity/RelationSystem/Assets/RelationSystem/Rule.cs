@@ -25,18 +25,28 @@ namespace NRelationSystem
         }
 
 
-        public bool Condition(Person self)
+        public bool Condition(Person self, List<Person> reacters = null)
         {
             if (selfOther.ContainsKey(self)) 
                 selfOther.Remove(self);
-
+            
             List<Person> people = actionToTrigger.relationSystem.pplAndMasks.people.Values.ToList();
+
+            if(reacters != null && reacters.Count > 0)
+            {
+                foreach(Person pers in people)
+                {
+                    if(!reacters.Contains(pers))
+                    {
+                        people.Remove(pers);
+                    }
+                }
+            }
 
             foreach(Person other in people)
             {
                 try
                 {
-					//debug.Write("doing ruleCondition for "+ruleName+" "+other.name);
                     if (ruleCondition(self, other))
                     {
                         selfOther.Add(self, other);

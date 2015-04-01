@@ -97,17 +97,25 @@ namespace NRelationSystem
         }
 
 
-        public Rule GetAction(List<MAction> notPosActions, List<float> foci) 
+        public Rule GetAction(List<MAction> notPosActions, List<PosActionItem> posAction, List<float> foci) 
         {
 			if (debug.Toggle) {
 				debug.Write ("---------- " + name + "'s TURN.");
 			}				
 
-            RuleAndStr chosenAction = selfPerception.actionForLink(notPosActions, this, rationality, morality, impulsivity, ability, foci);
+            RuleAndStr chosenAction = selfPerception.actionForLink(notPosActions, posAction, this, rationality, morality, impulsivity, ability, foci);
 
             foreach(Link curLink in interPersonal)
             {
-				RuleAndStr curAction = curLink.actionForLink(notPosActions, this, rationality, morality, impulsivity, ability, foci);
+                    //CHECK IF THIS IS GOOD WITH BJARKE.
+                foreach(Person pers in curLink.roleRef){
+                    if(posAction.Exists(x => x.reactToPerson.Contains(pers)))
+                    {
+                        continue;
+                    }
+                }
+
+				RuleAndStr curAction = curLink.actionForLink(notPosActions, posAction, this, rationality, morality, impulsivity, ability, foci);
 
                 if(curAction.strOfAct > chosenAction.strOfAct)
                 {
@@ -117,7 +125,7 @@ namespace NRelationSystem
 
             foreach (Link curLink in culture)
             {
-				RuleAndStr curAction = curLink.actionForLink(notPosActions, this, rationality, morality, impulsivity, ability, foci);
+				RuleAndStr curAction = curLink.actionForLink(notPosActions, posAction, this, rationality, morality, impulsivity, ability, foci);
 
                 if (curAction.strOfAct > chosenAction.strOfAct)
                 {

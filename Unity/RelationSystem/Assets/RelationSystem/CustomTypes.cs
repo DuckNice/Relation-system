@@ -67,6 +67,26 @@ namespace NRelationSystem
     };
 
 
+    public class PosActionItem
+    {
+        public MAction action;
+        public List<Person> reactToPerson;
+
+        public PosActionItem(MAction _act, Person _rTp)
+        {
+            action = _act;
+            reactToPerson = new List<Person>();
+            reactToPerson.Add(_rTp);
+        }
+
+        public PosActionItem(MAction _act, List<Person> _rTp)
+        {
+            action = _act;
+            reactToPerson = _rTp;
+        }
+    }
+
+
     public struct HistoryItem
     {
         private MAction action;
@@ -74,6 +94,7 @@ namespace NRelationSystem
         private Person direct;
         private float time;
 		private Rule rule;
+        private List<Person> peopleReacted;
 
         public HistoryItem(MAction _action, Person _subject, Person _direct, float _time, Rule _rule)
         {
@@ -82,6 +103,7 @@ namespace NRelationSystem
             direct = _direct;
             time = _time;
 			rule = _rule;
+            peopleReacted = new List<Person>();
         }
 
         public MAction GetAction() { return action; }
@@ -89,6 +111,8 @@ namespace NRelationSystem
         public Person GetDirect() { return direct; }
         public float GetTime() { return time; }
 		public Rule GetRule() { return rule; }
+        public bool HasReacted( Person person ) { if(peopleReacted.Contains( person )){ return true; } return false; }
+        public void SetReacted( Person person ) { peopleReacted.Add( person ); }
     };
 
 

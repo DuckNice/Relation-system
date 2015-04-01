@@ -9,3 +9,7 @@ Unity/RelationSystem/RelationSystem-csharp.sln
 Unity/RelationSystem/RelationSystem.sln
 Unity/RelationSystem/UnityVS.RelationSystem.v12.suo
 Unity/RelationSystem/obj/Debug/Assembly-CSharp-vs.csproj.FileListAbsolute.txt
+Unity/RelationSystem/obj/Debug/Assembly-CSharp.dll
+Unity/RelationSystem/obj/Debug/Assembly-CSharp.pdb
+Unity/RelationSystem/obj/Debug/UnityVS.RelationSystem.CSharp.csproj.FileListAbsolute.txt
+Unity/RelationSystem/obj/Debug/UnityVS.RelationSystem.CSharp.csprojResolveAssemblyReference.cache

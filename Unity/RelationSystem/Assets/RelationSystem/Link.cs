@@ -27,12 +27,13 @@ namespace NRelationSystem
         }
 
 
-        public RuleAndStr actionForLink(List<MAction> notPosActions, Person self, float rat, float mor, float imp, float abi, List<float> foci) 
+        public RuleAndStr actionForLink(List<MAction> notPosActions, List<PosActionItem> possibleActions, Person self, float rat, float mor, float imp, float abi, List<float> foci) 
         {
             RuleAndStr actionToSend;
+
             try
             {
-				actionToSend = roleMask.CalculateActionToUse(notPosActions, self, rat, mor, imp, abi, lvlOfInfl,foci, roleName);
+				actionToSend = roleMask.CalculateActionToUse(notPosActions, possibleActions, self, rat, mor, imp, abi, lvlOfInfl,foci, roleName);
 					//debug.Write ("Trying from link "+self.name+" Maskname: "+ roleMask.GetMaskName() +" Rolename: "+roleName);
             }
             catch

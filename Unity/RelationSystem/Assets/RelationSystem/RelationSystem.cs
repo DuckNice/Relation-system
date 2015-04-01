@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 
 namespace NRelationSystem
@@ -118,7 +119,7 @@ namespace NRelationSystem
 
         public void DidAction(MAction action, Person subject, Person direct, Rule _rule)
         {
-			historyBook.Add(new HistoryItem(action, subject, direct, 0.0f, _rule));
+			historyBook.Add(new HistoryItem(action, subject, direct, Time.time, _rule));
 		}
 		
 		
