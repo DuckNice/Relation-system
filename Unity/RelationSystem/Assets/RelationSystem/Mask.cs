@@ -84,7 +84,7 @@ namespace NRelationSystem
                         continue;
                 }
 
-				debug.Write("Checking "+rule.actionToTrigger.name);
+			//	debug.Write("Checking "+rule.actionToTrigger.name);
 
                 bool notPosAct = false;
 

@@ -106,17 +106,7 @@ public partial class Program : MonoBehaviour
     void PerformAction(Person target, MAction action)
     {
 		action.DoAction(relationSystem.pplAndMasks.GetPerson("Player"), target,new Rule("Empty", new MAction("Empty", 0.0f, 0.0f), null));
-		 //passing empty rule because I don't know how to pass rules from player.
-        NPCActions();
-    }
-
-
-    void NPCActions() 
-    {
-        foreach(Being being in beings)
-        {
-			being.NPCAction();
-        }
+		    //passing empty rule because I don't know how to pass rules from player.
     }
 
 

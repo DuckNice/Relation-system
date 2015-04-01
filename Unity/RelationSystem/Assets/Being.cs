@@ -45,69 +45,71 @@ public class Being
 
 	public void NPCAction()
 	{
-        Person self = maskSystem.pplAndMasks.GetPerson(name);
+        if (name.ToLower() != "player")
+        {
+            Person self = maskSystem.pplAndMasks.GetPerson(name);
 
-		if (currentRule != null && actionStartTime + currentRule.actionToTrigger.duration > Time.time) 
-		{
-            currentRule.SustainAction(self, currentRule.selfOther[self], currentRule, misc: possessions.ToArray());
-		}
-		else
-		{
-            List<PosActionItem> possibleActions = new List<PosActionItem>();
-
-            for (int i = maskSystem.historyBook.Count - 1; i >= 0; i--)
+            if (currentRule != null && actionStartTime + currentRule.actionToTrigger.duration > Time.time)
             {
-                HistoryItem item = maskSystem.historyBook[i];
-
-                if (item.GetTime() < Time.time - reactMemory)
-                {
-                    break;
-                }
-
-                if (item.HasReacted(self) || item.GetDirect() != self)
-                {
-                    continue;
-                }
-
-                foreach (Rule rule in item.GetRule().rulesThatMightHappen)
-                {
-                    int index = possibleActions.FindIndex(x => x.action == rule.actionToTrigger);
-
-                    Person subject = item.GetSubject();
-
-                    if (index < 0)
-                    {
-                        possibleActions.Add(new PosActionItem(rule.actionToTrigger, subject));
-                    }
-                    else if (!possibleActions[index].reactToPerson.Contains(subject))
-                    {
-                        possibleActions[index].reactToPerson.Add(subject);
-                    }
-                }
+                currentRule.SustainAction(self, currentRule.selfOther[self], currentRule, misc: possessions.ToArray());
             }
-
-            debug.Write("action length = " + possibleActions.Count + ".");
-
-			Rule _rule = self.GetAction (notPossibleActions, possibleActions, focus.Values.ToList ());
-
-            debug.Write("rule: " + _rule.ruleName + " chosen.");
-
-			if (debug.Toggle)
-			{
-				debug.Write ("Doing action '" + _rule.actionToTrigger.name + "' from " + name + ".");
-			}
-
-			if (_rule.actionToTrigger.name.ToLower () != "empty") 
-			{
-                currentRule = _rule;
-                actionStartTime = Time.time;
-
-				_rule.DoAction (self, _rule.selfOther [self], _rule, misc: possessions.ToArray ());
-			}
             else
             {
-                currentRule = null;
+                List<PosActionItem> possibleActions = new List<PosActionItem>();
+
+                for (int i = maskSystem.historyBook.Count - 1; i >= 0; i--)
+                {
+                    HistoryItem item = maskSystem.historyBook[i];
+
+                    if (item.GetTime() < Time.time - reactMemory)
+                    {
+                        break;
+                    }
+
+                    if (item.HasReacted(self) || item.GetDirect() != self)
+                    {
+                        continue;
+                    }
+
+                    foreach (Rule rule in item.GetRule().rulesThatMightHappen)
+                    {
+                        int index = possibleActions.FindIndex(x => x.action == rule.actionToTrigger);
+
+                        Person subject = item.GetSubject();
+
+                        if (index < 0)
+                        {
+                            possibleActions.Add(new PosActionItem(rule.actionToTrigger, subject));
+                        }
+                        else if (!possibleActions[index].reactToPerson.Contains(subject))
+                        {
+                            possibleActions[index].reactToPerson.Add(subject);
+                        }
+                    }
+                }
+
+                //   debug.Write("Action length = " + possibleActions.Count + ".");
+
+                Rule _rule = self.GetAction(notPossibleActions, possibleActions, focus.Values.ToList());
+
+
+                if (debug.Toggle)
+                {
+                    //	debug.Write ("Doing action '" + _rule.actionToTrigger.name + "' from " + name + ".");
+                }
+
+                if (_rule.actionToTrigger.name.ToLower() != "empty")
+                {
+                    currentRule = _rule;
+                    actionStartTime = Time.time;
+
+                    _rule.DoAction(self, _rule.selfOther[self], _rule, misc: possessions.ToArray());
+                }
+                else
+                {
+                    currentRule = null;
+                }
             }
-		}
+        }
     }
 }

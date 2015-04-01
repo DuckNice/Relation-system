@@ -66,7 +66,7 @@ namespace NRelationSystem
         {
 			float returner = (calculateEgo(impulsivity, ability, rule, rulesThatWillTrigger, foci) * rationality) + (calculateSuperEgo(rule, rulesThatWillTrigger, maskInfl) * morality);
 
-			debug.Write("L: "+returner+"   "+rulesThatWillTrigger.Count);
+		//	debug.Write("L: "+returner+"   "+rulesThatWillTrigger.Count);
 
 			return returner;
         }
