@@ -86,11 +86,15 @@ public class Being
                 }
             }
 
+            debug.Write("action length = " + possibleActions.Count + ".");
+
 			Rule _rule = self.GetAction (notPossibleActions, possibleActions, focus.Values.ToList ());
+
+            debug.Write("rule: " + _rule.ruleName + " chosen.");
 
 			if (debug.Toggle)
 			{
-				debug.Write ("Doing action '" + _rule.actionToTrigger.name + "' from " + name);
+				debug.Write ("Doing action '" + _rule.actionToTrigger.name + "' from " + name + ".");
 			}
 
 			if (_rule.actionToTrigger.name.ToLower () != "empty") 

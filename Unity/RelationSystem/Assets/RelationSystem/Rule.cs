@@ -32,7 +32,7 @@ namespace NRelationSystem
             
             List<Person> people = actionToTrigger.relationSystem.pplAndMasks.people.Values.ToList();
 
-            if(reacters != null && reacters.Count >= 0)
+            if(reacters != null && reacters.Count > 0)
             {
                 foreach(Person pers in people)
                 {

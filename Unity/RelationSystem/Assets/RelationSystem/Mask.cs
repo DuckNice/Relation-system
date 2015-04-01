@@ -73,7 +73,7 @@ namespace NRelationSystem
             foreach(Rule rule in rules.Values.ToList())
             {
                 List<Person> reactPeople = new List<Person>();
-                /*
+                
                 if(possibleActions != null && possibleActions.Count > 0)
                 {
                     int index = possibleActions.FindIndex(x => x.action == rule.actionToTrigger);
@@ -82,11 +82,16 @@ namespace NRelationSystem
                         reactPeople = possibleActions[index].reactToPerson;
                     else
                         continue;
-                }*/
+                }
 
 				debug.Write("Checking "+rule.actionToTrigger.name);
 
-                if(!notPosActions.Contains(rule.actionToTrigger) && rule.role.Equals(role) && rule.Condition(self, reactPeople))
+                bool notPosAct = false;
+
+                if(notPosActions != null && notPosActions.Contains(rule.actionToTrigger))
+                    notPosAct = true;
+
+                if(!notPosAct && rule.role.Equals(role) && rule.Condition(self, reactPeople))
                 {
                     float newActionStrength = Calculator.CalculateRule(rat, mor, imp, abi, rule, rule.rulesThatMightHappen, maskInfl, foci);
 
