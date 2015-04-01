@@ -124,7 +124,7 @@ public partial class Program : MonoBehaviour
 		ActionInvoker doNothing = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is doing absolutely nothing. What a bore.");
-			subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.2f,subject.moods[MoodTypes.energTired]);
+			subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(0.2f,subject.moods[MoodTypes.energTired]);
 		};
 		relationSystem.AddAction(new MAction("doNothing", -1.0f, -1.0f, relationSystem, doNothing,5f));
 
@@ -145,6 +145,7 @@ public partial class Program : MonoBehaviour
 			direct.moods[MoodTypes.arousDisgus] += Calculator.unboundAdd(0.5f,direct.moods[MoodTypes.arousDisgus]);
 			subject.moods[MoodTypes.hapSad] += Calculator.unboundAdd(0.5f,subject.moods[MoodTypes.hapSad]);
 			subject.moods[MoodTypes.arousDisgus] += Calculator.unboundAdd(0.5f,subject.moods[MoodTypes.arousDisgus]);
+//			direct.AddToOpinionValue(TraitTypes.NiceNasty,subject,0.2f);
         };
         relationSystem.AddAction(new MAction("kiss", 0.5f, 0.5f, relationSystem, kiss,3f));
 
@@ -190,7 +191,7 @@ public partial class Program : MonoBehaviour
 			direct.moods[MoodTypes.arousDisgus] += Calculator.unboundAdd(0.2f,direct.moods[MoodTypes.arousDisgus]);
 			subject.moods[MoodTypes.hapSad] += Calculator.unboundAdd(0.2f,subject.moods[MoodTypes.hapSad]);
 			subject.moods[MoodTypes.arousDisgus] += Calculator.unboundAdd(0.2f,subject.moods[MoodTypes.arousDisgus]);
-
+//			direct.AddToOpinionValue(TraitTypes.NiceNasty,subject,0.1f);
 			foreach(Link l in subject.interPersonal){
 				if(l.roleRef.Exists(x=>x.name == direct.name)){
 					l.AddToLvlOfInfl(0.1f);
@@ -217,6 +218,7 @@ public partial class Program : MonoBehaviour
 
 		ActionInvoker giveGift = (subject, direct, indPpl, misc) =>
 		{
+	//		direct.AddToOpinionValue(TraitTypes.NiceNasty,subject,0.1f);
 			if(misc != null){
 				UIFunctions.WriteGameLine(subject.name + " is giving the gift of "+misc+" to " + direct.name+".");
 			}
@@ -236,10 +238,14 @@ public partial class Program : MonoBehaviour
 			UIFunctions.WriteGameLine(subject.name + " is poisoning " + direct.name+"! Oh no!");
 			direct.moods[MoodTypes.angryFear] += Calculator.unboundAdd(-0.8f,direct.moods[MoodTypes.angryFear]);
 			direct.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.5f,direct.moods[MoodTypes.energTired]);
+			subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.2f,subject.moods[MoodTypes.energTired]);
+
+	//		direct.AddToOpinionValue(TraitTypes.NiceNasty,subject,-0.5f);
+
 
 			foreach(Link l in subject.interPersonal){
 				if(l.roleRef.Exists(x=>x.name == direct.name)){
-					l.AddToLvlOfInfl(0.4f);
+					l.AddToLvlOfInfl(-0.4f);
 				}
 			}
 		};
@@ -258,6 +264,8 @@ public partial class Program : MonoBehaviour
 			subject.moods[MoodTypes.angryFear] += Calculator.unboundAdd(0.3f,subject.moods[MoodTypes.angryFear]);
 			direct.moods[MoodTypes.energTired] += Calculator.unboundAdd(0.3f,direct.moods[MoodTypes.energTired]);
 			subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(0.3f,subject.moods[MoodTypes.energTired]);
+
+		//	direct.AddToOpinionValue(TraitTypes.NiceNasty,subject,-0.2f);
 
 			foreach(Link l in subject.interPersonal){
 				if(l.roleRef.Exists(x=>x.name == direct.name)){
@@ -283,7 +291,7 @@ public partial class Program : MonoBehaviour
 		ActionInvoker makeDistraction = (subject, direct, indPpl, misc) =>
 		{
 			UIFunctions.WriteGameLine(subject.name + " is making a distraction for " + direct.name+"!");
-			int rand = UnityEngine.Random.Range(0,2);
+			int rand = UnityEngine.Random.Range(0,2); //SHOULD PROBABLY BASE THIS ON ABILITY
 			if(rand == 0){
 				UIFunctions.WriteGameLine("It was a success! They are very distracted");
 				direct.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.5f,direct.moods[MoodTypes.energTired]);
@@ -313,6 +321,7 @@ public partial class Program : MonoBehaviour
 			UIFunctions.WriteGameLine(subject.name + " is reminiscing about old times with " + direct.name+"!");
 			direct.moods[MoodTypes.hapSad] += Calculator.unboundAdd(0.2f,direct.moods[MoodTypes.hapSad]);
 			subject.moods[MoodTypes.hapSad] += Calculator.unboundAdd(0.2f,subject.moods[MoodTypes.hapSad]);
+			subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.1f,subject.moods[MoodTypes.energTired]);
 		};
         relationSystem.AddAction(new MAction("reminisce", 0.1f,0.1f, relationSystem, reminisce, 9f));
 
@@ -320,6 +329,7 @@ public partial class Program : MonoBehaviour
 		{
 			UIFunctions.WriteGameLine(subject.name + " is denying " + direct.name+" their wishes.");
 			direct.moods[MoodTypes.hapSad] += Calculator.unboundAdd(-0.4f,direct.moods[MoodTypes.hapSad]);
+		//	direct.AddToOpinionValue(TraitTypes.NiceNasty,subject,-0.2f);
 			foreach(Link l in subject.interPersonal){
 				if(l.roleRef.Exists(x=>x.name == direct.name)){
 					l.AddToLvlOfInfl(0.2f);
@@ -332,7 +342,8 @@ public partial class Program : MonoBehaviour
 		{
 			UIFunctions.WriteGameLine(subject.name + " is saying how great a person " + direct.name+" is!");
 			direct.moods[MoodTypes.hapSad] += Calculator.unboundAdd(0.4f,direct.moods[MoodTypes.hapSad]);
-
+			subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.1f,subject.moods[MoodTypes.energTired]);
+	//		direct.AddToOpinionValue(TraitTypes.NiceNasty,subject,0.1f);
 
 			subject.GetRule("enthuseaboutgreatnessofperson").SetRuleStrength(-1.0f);
 			foreach(Link l in direct.interPersonal){
@@ -351,6 +362,7 @@ public partial class Program : MonoBehaviour
 			UIFunctions.WriteGameLine(subject.name + " is convicting "+direct.name+" of commiting a crime. To Jail with him!");
 			direct.moods[MoodTypes.hapSad] += Calculator.unboundAdd(-0.8f,direct.moods[MoodTypes.hapSad]);
 			direct.moods[MoodTypes.angryFear] += Calculator.unboundAdd(0.6f,direct.moods[MoodTypes.angryFear]);
+	//		direct.AddToOpinionValue(TraitTypes.NiceNasty,subject,-0.4f);
 			foreach(Link l in direct.interPersonal){
 				if(l.roleRef.Exists(x=>x.name == subject.name)){
 					l.AddToLvlOfInfl(0.3f);
@@ -364,6 +376,8 @@ public partial class Program : MonoBehaviour
 			UIFunctions.WriteGameLine(subject.name + " is attempting to fight back against "+direct.name);
 			direct.moods[MoodTypes.angryFear] += Calculator.unboundAdd(0.6f,direct.moods[MoodTypes.angryFear]);
 			direct.moods[MoodTypes.energTired] += Calculator.unboundAdd(0.6f,direct.moods[MoodTypes.energTired]);
+	//		direct.AddToOpinionValue(TraitTypes.NiceNasty,subject,-0.2f);
+	//		subject.AddToOpinionValue(TraitTypes.NiceNasty,direct,-0.2f);
 			foreach(Link l in direct.interPersonal){
 				if(l.roleRef.Exists(x=>x.name == subject.name)){
 					l.AddToLvlOfInfl(0.4f);
@@ -375,9 +389,9 @@ public partial class Program : MonoBehaviour
 		ActionInvoker bribe = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is attempting to bribe "+direct.name);
-			direct.moods[MoodTypes.angryFear] += Calculator.unboundAdd(0.6f,direct.moods[MoodTypes.angryFear]);
+			direct.moods[MoodTypes.angryFear] += Calculator.unboundAdd(-0.4f,direct.moods[MoodTypes.angryFear]);
+	//		direct.AddToOpinionValue(TraitTypes.HonestFalse,subject,-0.3f);
 
-			//MONEY!
 			beings.Find(x=>x.name == subject.name).possessions.Find(y=>y.Name=="money").value -= 30f;
 			beings.Find(x=>x.name == direct.name).possessions.Find(y=>y.Name=="money").value += 30f;
 			foreach(Link l in direct.interPersonal){
@@ -392,6 +406,7 @@ public partial class Program : MonoBehaviour
 		{
 			UIFunctions.WriteGameLine(subject.name + " is arguing "+direct.name+"'s innocence.");
 			direct.moods[MoodTypes.hapSad] += Calculator.unboundAdd(0.3f,direct.moods[MoodTypes.hapSad]);
+	//		direct.AddToOpinionValue(TraitTypes.NiceNasty,subject,0.2f);
 		};
         relationSystem.AddAction(new MAction("argueInnocence", 0.0f, 0.3f, relationSystem, argueInnocence,7f));
 
@@ -399,6 +414,7 @@ public partial class Program : MonoBehaviour
 		{
 			UIFunctions.WriteGameLine(subject.name + " is arguing "+direct.name+"'s guilt!");
 			direct.moods[MoodTypes.hapSad] += Calculator.unboundAdd(-0.3f,direct.moods[MoodTypes.hapSad]);
+	//		direct.AddToOpinionValue(TraitTypes.NiceNasty,subject,-0.2f);
 		};
         relationSystem.AddAction(new MAction("argueGuiltiness", 0.0f, -0.3f, relationSystem, argueGuiltiness,7f));
 
@@ -407,6 +423,7 @@ public partial class Program : MonoBehaviour
 			UIFunctions.WriteGameLine(subject.name + " is stealing from "+direct.name+". Will they get caught?");
 			subject.moods[MoodTypes.hapSad] += Calculator.unboundAdd(0.6f,subject.moods[MoodTypes.hapSad]);
 			subject.moods[MoodTypes.angryFear] += Calculator.unboundAdd(-0.3f,subject.moods[MoodTypes.angryFear]);
+			subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.3f,subject.moods[MoodTypes.energTired]);
 
 			beings.Find(x=>x.name == subject.name).possessions.Find(y=>y.Name=="money").value += 50f;
 			foreach(Link l in direct.interPersonal){
@@ -421,6 +438,7 @@ public partial class Program : MonoBehaviour
 		{
 			UIFunctions.WriteGameLine(subject.name + " is practicing the arts of stealth. What are they intending!");
 			subject.AddToAbility(Calculator.unboundAdd(0.2f,subject.GetAbilityy()));
+			subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.2f,subject.moods[MoodTypes.energTired]);
 		};
         relationSystem.AddAction(new MAction("practiceStealing", 0.2f,0.0f, relationSystem, practiceStealing,6f));
 
@@ -433,6 +451,7 @@ public partial class Program : MonoBehaviour
 		ActionInvoker searchForThief = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is searching for the thief!");
+			subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.3f,subject.moods[MoodTypes.energTired]);
 		};
         relationSystem.AddAction(new MAction("searchForThief", 0.6f,-0.5f, relationSystem, searchForThief,10f));
 
@@ -493,16 +512,19 @@ public partial class Program : MonoBehaviour
 		ActionInvoker buyCompany = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is making a deal to buy "+direct.name+"'s company");
+			subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.1f,subject.moods[MoodTypes.energTired]);
 			beings.Find(x=>x.name == subject.name).possessions.Find(y=>y.Name=="money").value -= 100f;
 			beings.Find(x=>x.name == direct.name).possessions.Find(y=>y.Name=="money").value += 100f;
 			beings.Find(x=>x.name == direct.name).possessions.Find(y=>y.Name=="company").value -= 1f;
 			beings.Find(x=>x.name == subject.name).possessions.Find(y=>y.Name=="company").value += 1f;
+			//direct.AddToOpinionValue(TraitTypes.NiceNasty,subject,-0.4f);
 		};
         relationSystem.AddAction(new MAction("buyCompany", 0.8f,-0.4f, relationSystem, buyCompany,6f));
 
 		ActionInvoker sellCompany = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is making a deal to sell a company to "+direct.name);
+			subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.1f,subject.moods[MoodTypes.energTired]);
 			beings.Find(x=>x.name == subject.name).possessions.Find(y=>y.Name=="money").value += 100f;
 			beings.Find(x=>x.name == direct.name).possessions.Find(y=>y.Name=="money").value -= 100f;
 			beings.Find(x=>x.name == direct.name).possessions.Find(y=>y.Name=="company").value += 1f;
@@ -515,7 +537,9 @@ public partial class Program : MonoBehaviour
 			UIFunctions.WriteGameLine(subject.name + " is sabotaging "+direct.name);
 			direct.moods[MoodTypes.hapSad] += Calculator.unboundAdd(-0.6f,direct.moods[MoodTypes.hapSad]);
 			direct.moods[MoodTypes.angryFear] += Calculator.unboundAdd(0.4f,direct.moods[MoodTypes.angryFear]);
+			subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.3f,subject.moods[MoodTypes.energTired]);
 
+			//direct.AddToOpinionValue(TraitTypes.NiceNasty,subject,-0.4f);
 			beings.Find(x=>x.name == direct.name).possessions.Find(y=>y.Name=="company").value -= 1f;
 			foreach(Link l in subject.interPersonal){
 				if(l.roleRef.Exists(x=>x.name == direct.name)){
@@ -528,6 +552,10 @@ public partial class Program : MonoBehaviour
 		ActionInvoker advertise = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is advertising for their wares!");
+			subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.1f,subject.moods[MoodTypes.energTired]);
+			direct.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.1f,direct.moods[MoodTypes.energTired]);
+			direct.moods[MoodTypes.angryFear] += Calculator.unboundAdd(0.2f,direct.moods[MoodTypes.angryFear]);
+			//direct.AddToOpinionValue(TraitTypes.NiceNasty,subject,-0.1f);
 		};
         relationSystem.AddAction(new MAction("advertise", 0.3f,-0.1f, relationSystem, advertise,7f));
 
@@ -535,6 +563,7 @@ public partial class Program : MonoBehaviour
 		{
 			UIFunctions.WriteGameLine(subject.name + " is convincing "+direct.name+" to leave the merchant's guild!");
 			direct.moods[MoodTypes.hapSad] += Calculator.unboundAdd(-0.2f,direct.moods[MoodTypes.hapSad]);
+			//direct.AddToOpinionValue(TraitTypes.NiceNasty,subject,-0.2f);
 			foreach(Link l in subject.interPersonal){
 				if(l.roleRef.Exists(x=>x.name == direct.name)){
 					l.AddToLvlOfInfl(-0.6f);
@@ -546,7 +575,8 @@ public partial class Program : MonoBehaviour
 		ActionInvoker DemandtoLeaveGuild = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is demanding "+direct.name+" to leave the merchant's guild!");
-			direct.moods[MoodTypes.hapSad] += Calculator.unboundAdd(-0.6f,direct.moods[MoodTypes.hapSad]);
+			direct.moods[MoodTypes.hapSad] += Calculator.unboundAdd(-0.5f,direct.moods[MoodTypes.hapSad]);
+			//direct.AddToOpinionValue(TraitTypes.NiceNasty,subject,-0.4f);
 			foreach(Link l in subject.interPersonal){
 				if(l.roleRef.Exists(x=>x.name == direct.name)){
 					l.AddToLvlOfInfl(-0.9f);
@@ -558,6 +588,9 @@ public partial class Program : MonoBehaviour
 		ActionInvoker askForHelp = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is asking "+direct.name+" for help");
+			direct.moods[MoodTypes.hapSad] += Calculator.unboundAdd(-0.6f,direct.moods[MoodTypes.hapSad]);
+			//direct.AddToOpinionValue(TraitTypes.NiceNasty,subject,0.1f);
+			//direct.AddToOpinionValue(TraitTypes.ShyBolsterous,subject,-0.4f);
 			foreach(Link l in subject.interPersonal){
 				if(l.roleRef.Exists(x=>x.name == direct.name)){
 					l.AddToLvlOfInfl(0.2f);
@@ -571,6 +604,7 @@ public partial class Program : MonoBehaviour
 			UIFunctions.WriteGameLine(subject.name + " is buying goods from "+direct.name);
 			beings.Find(x=>x.name == subject.name).possessions.Find(y=>y.Name=="money").value -= 30f;
 			beings.Find(x=>x.name == subject.name).possessions.Find(y=>y.Name=="goods").value += 1f;
+			subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.1f,subject.moods[MoodTypes.energTired]);
 		};
         relationSystem.AddAction(new MAction("buyGoods", 0.4f,0.2f, relationSystem, buyGoods,3f));
 
@@ -579,6 +613,7 @@ public partial class Program : MonoBehaviour
 			UIFunctions.WriteGameLine(subject.name + " is selling goods to "+direct.name);
 			beings.Find(x=>x.name == subject.name).possessions.Find(y=>y.Name=="money").value += 30f;
 			beings.Find(x=>x.name == subject.name).possessions.Find(y=>y.Name=="goods").value -= 1f;
+			subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.1f,subject.moods[MoodTypes.energTired]);
 		};
         relationSystem.AddAction(new MAction("sellGoods", 0.7f,0.2f, relationSystem, sellGoods,3f));
 

@@ -113,9 +113,14 @@ public partial class Program : MonoBehaviour
 		};
 		
 		RuleConditioner GreetCondition = (self, other, indPpl) =>
-		{ if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["greet"] && x.GetSubject()==self && x.GetDirect()==other) && self != other){
+		{ if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["greet"] && x.GetSubject()==self && x.GetDirect()==other)){
 				return false; }
-			return true; };
+			if(self != other){
+				return true;
+			}else{
+				return false;
+			}
+		};
 
 		RuleConditioner fleeCondition = (self, other, indPpl) =>
 		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["convict"] && x.GetDirect()==self) ){
@@ -127,7 +132,8 @@ public partial class Program : MonoBehaviour
 
 		RuleConditioner kissCondition = (self, other, indPpl) =>
 		{	if (relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["enthuseaboutgreatnessofperson"] && x.GetSubject()==other && x.GetDirect()==self) && 
-			      self.interPersonal.Exists(x => x.roleName == "partner") && other.interPersonal.Exists(x => x.roleName == "partner") && self != other)
+			      self.interPersonal.Exists(x => x.roleName == "partner") && other.interPersonal.Exists(x => x.roleName == "partner") && self != other  &&
+			      self.moods[MoodTypes.energTired] > -0.2f)
 			{ return true; }
 			
 			if (self.moods[MoodTypes.arousDisgus] > 0.5f) { return true; }
@@ -161,14 +167,16 @@ public partial class Program : MonoBehaviour
 			return false; };
 
 		RuleConditioner chatCondition = (self, other, indPpl) =>
-		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.2) && self.moods[MoodTypes.hapSad] > 0.0f && self != other){
+		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.2) && self.moods[MoodTypes.hapSad] > 0.0f && self != other &&
+			     self.moods[MoodTypes.energTired] > -0.4f){
 				return true;
 			}
 			return false; };
 
 		RuleConditioner giveGiftCondition = (self, other, indPpl) =>
 		{	
-			if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.5f) && (self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name)))){
+			if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.5f) && (self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name)))  &&
+			   self.moods[MoodTypes.energTired] > -0.4f){
 				if(beings.Find(x=>x.name == self.name).possessions.Find(y=>y.Name=="money").value > 30f){
 					return true;
 				}
@@ -182,7 +190,8 @@ public partial class Program : MonoBehaviour
 			return false; };
 
 		RuleConditioner gossipCondition = (self, other, indPpl) =>
-		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.1f) && (self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name))) && self != other){
+		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.1f) && (self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name))) && self != other  &&
+			     self.moods[MoodTypes.energTired] > -0.4f){
 				return true;
 			}
 			return false; };
@@ -204,14 +213,15 @@ public partial class Program : MonoBehaviour
 		
 		RuleConditioner makeDistractionCondition = (self, other, indPpl) =>
 		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["askforhelpinillicitactivity"] && x.GetSubject()==other && x.GetDirect()==self) 
-			     && self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() < 0.0f)
+			     && self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() < 0.0f  && self.moods[MoodTypes.energTired] > -0.4f)
 				{ return true; }
 			return false; };
 
 		RuleConditioner reminisceCondition = (self, other, indPpl) =>
 		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["chat"] && x.GetSubject() == other && 
-			                                       self.interPersonal.Exists(z=>z.GetlvlOfInfl() > 0.4f) && (self.interPersonal.Exists(y=>y.roleRef.Exists(yy=>yy.name == other.name)))) && self != other)
-			{ return true; }
+			     self.interPersonal.Exists(z=>z.GetlvlOfInfl() > 0.4f) && (self.interPersonal.Exists(y=>y.roleRef.Exists(yy=>yy.name == other.name)))) && self != other  &&
+			     self.moods[MoodTypes.energTired] > -0.4f)
+				{ return true; }
 			return false; };
 
 		RuleConditioner denyCondition = (self, other, indPpl) =>
@@ -237,7 +247,8 @@ public partial class Program : MonoBehaviour
 
 		RuleConditioner fightCondition = (self, other, indPpl) =>
 		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["convict"] && x.GetDirect()==self && x.GetSubject()==other)  && self != other){
-				if(self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() < 0.0 || self.moods[MoodTypes.angryFear] < -0.7f){
+				if(self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() < 0.0 || self.moods[MoodTypes.angryFear] < -0.7f  &&
+				   self.moods[MoodTypes.energTired] > -0.6f){
 					return true; 
 				}
 			}
@@ -264,11 +275,13 @@ public partial class Program : MonoBehaviour
 
 		RuleConditioner stealCondition = (self, other, indPpl) =>
 		{	//MONEY
-			if(self.moods[MoodTypes.hapSad] < -0.3f  && self != other){ return true; }
+			if(self.moods[MoodTypes.hapSad] < -0.3f  && self != other  &&
+			   self.moods[MoodTypes.energTired] > -0.4f){ return true; }
 			return false; };
 
 		RuleConditioner practiceStealingCondition = (self, other, indPpl) =>
-		{	if(self.moods[MoodTypes.hapSad] < -0.2f && self.GetAbilityy() < 1.0f){ return true; }
+		{	if(self.moods[MoodTypes.hapSad] < -0.2f && self.GetAbilityy() < 1.0f  &&
+			     self.moods[MoodTypes.energTired] > -0.4f){ return true; }
 			return false; };
 
 		RuleConditioner askForHelpInIllicitActivityCondition = (self, other, indPpl) =>
@@ -276,14 +289,16 @@ public partial class Program : MonoBehaviour
 			return false; };
 
 		RuleConditioner searchForThiefCondition = (self, other, indPpl) =>
-		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["steal"]) && self != other) { return true; }
+		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["steal"]) && self != other  &&
+			     self.moods[MoodTypes.energTired] > -0.4f) { return true; }
 			return false; };
 
 
 // -------------- CULTURAL (CULT) ACTIONS
 
 		RuleConditioner PraiseCultCondition = (self, other, indPpl) =>
-		{	if(self.culture.Exists(x=>x.GetlvlOfInfl() > 0.5f && x.roleName == "follower")) { return true; }
+		{	if(self.culture.Exists(x=>x.GetlvlOfInfl() > 0.5f && x.roleName == "follower")  &&
+			     self.moods[MoodTypes.energTired] > -0.4f) { return true; }
 			return false; };
 
 		RuleConditioner enterCultCondition = (self, other, indPpl) =>
@@ -315,19 +330,21 @@ public partial class Program : MonoBehaviour
 			return false; };
 
 		RuleConditioner sabotageCondition = (self, other, indPpl) =>
-		{	if(self.moods[MoodTypes.angryFear] > 0.5f || self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() < -0.5f && self != other) { return true; }
+		{	if(self.moods[MoodTypes.angryFear] > 0.5f || self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() < -0.5f && self != other  &&
+			     self.moods[MoodTypes.energTired] > -0.4f) { return true; }
 			return false; };
 
 		RuleConditioner advertiseCondition = (self, other, indPpl) =>
-		{	if(self != other) { return true; }
+		{	if(self != other  && self.moods[MoodTypes.energTired] > -0.4f) { return true; }
 			return false; };
 
 		RuleConditioner convinceToLeaveGuildCondition = (self, other, indPpl) =>
-		{	if(self != other) { return true; }
+		{	if(self != other  &&  self.moods[MoodTypes.energTired] > -0.4f && self.GetOpinionValue(TraitTypes.NiceNasty,other) < 0 && beings.Find(x=>x.name == other.name).possessions.Find(y=>y.Name=="money").value <= 0f) { return true; }
 			return false; };
 
 		RuleConditioner DemandtoLeaveGuildCondition = (self, other, indPpl) =>
-		{	if(self.moods[MoodTypes.angryFear] < -0.3f || self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() < -0.3f && self != other) { return true; }
+		{	if((self.moods[MoodTypes.angryFear] > 0.3f || self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() < -0.3f) && self != other &&
+			     self.GetOpinionValue(TraitTypes.NiceNasty,other) < 0 && beings.Find(x=>x.name == other.name).possessions.Find(y=>y.Name=="money").value <= 0f) { return true; }
 			return false; };
 
 		RuleConditioner askForHelpCondition = (self, other, indPpl) =>
@@ -336,11 +353,11 @@ public partial class Program : MonoBehaviour
 
 		RuleConditioner buyGoodsCondition = (self, other, indPpl) =>
 		{	if(beings.Find(x=>x.name == self.name).possessions.Find(y=>y.Name=="goods").value < 2f && beings.Find(x=>x.name == self.name).possessions.Find(y=>y.Name=="money").value > 30f
-			     && self != other) { return true; }
+			     && self != other && self.moods[MoodTypes.energTired] > -0.4f) { return true; }
 			return false; };
 
 		RuleConditioner sellGoodsCondition = (self, other, indPpl) =>
-		{	if(beings.Find(x=>x.name == self.name).possessions.Find(y=>y.Name=="goods").value > 1f && self != other) { return true; }
+		{	if(beings.Find(x=>x.name == self.name).possessions.Find(y=>y.Name=="goods").value > 1f && self != other && self.moods[MoodTypes.energTired] > -0.4f) { return true; }
 			return false; };
 
 		#endregion adding Conditions

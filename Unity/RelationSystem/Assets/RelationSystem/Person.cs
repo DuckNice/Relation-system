@@ -191,7 +191,25 @@ namespace NRelationSystem
 			debug.Write ("Error. Did not find person "+person.name+" or trait "+traittype+". Check spelling. Returning 0.0");
 			return 0.0f;
 		}
+		/*
+		public void SetOpinionValue(TraitTypes traittype, Person pers, float valToAdd){
+			for (int i = 0; i<opinions.Count; i++) {
+				if (opinions [i].pers == pers && opinions [i].trait == traittype) {
+					opinions [i].value = valToAdd;
+				}
+			}
+			debug.Write ("Error in Set. Did not find person "+pers.name+" or trait "+traittype+". Check spelling.");
+		}
 
+		public void AddToOpinionValue(TraitTypes traittype, Person pers, float valToAdd){
+			for (int i = 0; i<opinions.Count; i++) {
+				if (opinions [i].pers == pers && opinions [i].trait == traittype) {
+					opinions [i].value += Calculator.unboundAdd (valToAdd, opinions [i].value);
+				}
+			}
+			debug.Write ("Error in Set. Did not find person "+pers.name+" or trait "+traittype+". Check spelling.");
+		}
+*/
 
     }
 }

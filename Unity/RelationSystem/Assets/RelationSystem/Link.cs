@@ -53,7 +53,7 @@ namespace NRelationSystem
 
 		public void SetlvlOfInfl(float inp){ lvlOfInfl = inp; }
 
-		public void AddToLvlOfInfl(float inp){ lvlOfInfl += inp; }
+		public void AddToLvlOfInfl(float inp){ lvlOfInfl += Calculator.unboundAdd(inp,lvlOfInfl); }
 
     }
 }
