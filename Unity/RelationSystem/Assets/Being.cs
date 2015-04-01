@@ -26,7 +26,6 @@ public class Being
 		notPossibleActions = new Dictionary<string, MAction> ();
 		maskSystem = relsys;
 
-
 		possessions.Add (new Axe(1.0f, "Lead", 10.0f, 0.5f));
 	}
 

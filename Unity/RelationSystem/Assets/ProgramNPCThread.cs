@@ -24,7 +24,9 @@ public partial class Program : MonoBehaviour
             {
                 foreach (Being being in beings)
                 {
-                    being.NPCAction();
+					if(being.name != "player"){
+						being.NPCAction();
+					}
                 }
             }
 

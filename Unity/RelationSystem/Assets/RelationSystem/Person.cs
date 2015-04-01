@@ -11,7 +11,9 @@ namespace NRelationSystem
         public List<Link> culture;
         public Overlay absTraits;
 		public Dictionary<MoodTypes, float> moods = new Dictionary<MoodTypes, float> ();
-        public string name;
+		public List<Opinion> opinions = new List<Opinion> ();
+
+		public string name;
 
         float rationality;
         float morality;
@@ -173,5 +175,17 @@ namespace NRelationSystem
 			
 			return new Rule("Empty", new MAction("Empty", 0.0f,0.0f), null);
 		}
+
+		public float GetOpinionValue(TraitTypes traittype, Person person){
+			foreach(Opinion o in opinions ){
+				if(o.pers == person && o.trait == traittype){
+					return o.value;
+				}
+			}
+			debug.Write ("Error. Did not find person "+person.name+" or trait "+traittype+". Check spelling. Returning 0.0");
+			return 0.0f;
+		}
+
+
     }
 }
