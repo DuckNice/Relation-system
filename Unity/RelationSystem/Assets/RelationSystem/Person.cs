@@ -99,9 +99,7 @@ namespace NRelationSystem
 
         public Rule GetAction(List<MAction> notPosActions, List<PosActionItem> posAction, List<float> foci) 
         {
-			if (debug.Toggle) {
-				debug.Write ("---------- " + name + "'s TURN.");
-			}				
+							
 
             RuleAndStr chosenAction = selfPerception.actionForLink(notPosActions, posAction, this, rationality, morality, impulsivity, ability, foci);
 

@@ -47,6 +47,7 @@ public class Being
 	{
         Person self = maskSystem.pplAndMasks.GetPerson(name);
 
+		
 		if (currentRule != null && actionStartTime + currentRule.actionToTrigger.duration > Time.time) 
 		{
             currentRule.SustainAction(self, currentRule.selfOther[self], currentRule, misc: possessions.ToArray());
@@ -54,20 +55,27 @@ public class Being
 		else
 		{
             List<PosActionItem> possibleActions = new List<PosActionItem>();
+			//debug.Write("BEFORE LOOP "+maskSystem.historyBook.Count);
+
 
             for (int i = maskSystem.historyBook.Count - 1; i >= 0; i--)
             {
                 HistoryItem item = maskSystem.historyBook[i];
+				//debug.Write("START LOOP "+item.GetRule ().ruleName+" "+item.GetRule().rulesThatMightHappen.Count);
 
                 if (item.GetTime() < Time.time - reactMemory)
                 {
+					debug.Write("BREAKS");
                     break;
                 }
-
+				 
                 if (item.HasReacted(self) || item.GetDirect() != self)
                 {
-                    continue;
+					debug.Write("CONTINUES");
+					continue;
                 }
+
+				debug.Write("INSIDE LOOP "+item.GetRule ().ruleName+" "+item.GetRule().rulesThatMightHappen.Count);
 
                 foreach (Rule rule in item.GetRule().rulesThatMightHappen)
                 {
@@ -85,6 +93,9 @@ public class Being
                     }
                 }
             }
+			if (debug.Toggle) {
+				debug.Write ("---------- " + self.name + "'s TURN.");
+			}
 
             debug.Write("action length = " + possibleActions.Count + ".");
 

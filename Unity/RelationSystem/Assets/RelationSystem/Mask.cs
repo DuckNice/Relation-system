@@ -84,29 +84,32 @@ namespace NRelationSystem
                         continue;
                 }
 
-				debug.Write("Checking "+rule.actionToTrigger.name);
+
 
                 bool notPosAct = false;
 
                 if(notPosActions != null && notPosActions.Contains(rule.actionToTrigger))
                     notPosAct = true;
 
-                if(!notPosAct && rule.role.Equals(role) && rule.Condition(self, reactPeople))
-                {
-                    float newActionStrength = Calculator.CalculateRule(rat, mor, imp, abi, rule, rule.rulesThatMightHappen, maskInfl, foci);
-
-                    if (newActionStrength > chosenAction.strOfAct)
-                    {
-                        chosenAction.strOfAct = newActionStrength;
-                        chosenAction.chosenRule = rule;
-                    }
-                    
-                }
-            }
-            
+				if(rule.role.Equals(role)){
+					debug.Write("Checking "+rule.actionToTrigger.name);
+					if(!notPosAct&& rule.Condition(self, reactPeople))
+					{
+						float newActionStrength = Calculator.CalculateRule(rat, mor, imp, abi, rule, rule.rulesThatMightHappen, maskInfl, foci);
+						
+						if (newActionStrength > chosenAction.strOfAct)
+						{
+							chosenAction.strOfAct = newActionStrength;
+							chosenAction.chosenRule = rule;
+						}
+					}
+				}
+				
+			}
+			
 			return chosenAction;
-        }
-
+		}
+		
 		public TypeMask GetMaskType(){ return maskType; }
 		public string GetMaskName(){ return maskName; }
     }
