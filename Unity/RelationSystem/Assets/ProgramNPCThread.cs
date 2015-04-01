@@ -14,6 +14,7 @@ public partial class Program : MonoBehaviour
 	bool shouldPlay = false;
 	public RoomManager roomMan;
 	public float timePace;
+    public float time = 0.0f;
 
 
     IEnumerator NPCUpdate()
@@ -25,7 +26,7 @@ public partial class Program : MonoBehaviour
                 foreach (Being being in beings)
                 {
 					if(being.name != "player"){
-						being.NPCAction();
+						being.NPCAction(time);
 					}
                 }
             }
@@ -39,6 +40,15 @@ public partial class Program : MonoBehaviour
             yield return new WaitForSeconds(timePace);
         }
 	}
+
+
+    public void Update()
+    {
+        if(shouldPlay)
+        {
+            time += Time.deltaTime;
+        }
+    }
 
 
 	public void setPlaying()

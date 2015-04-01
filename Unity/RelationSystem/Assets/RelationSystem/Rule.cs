@@ -34,11 +34,12 @@ namespace NRelationSystem
 
             if(reacters != null && reacters.Count > 0)
             {
-                foreach(Person pers in people)
+                for (int i = 0; i < people.Count; i++)
                 {
-                    if(!reacters.Contains(pers))
+                    if (!reacters.Contains(people[i]))
                     {
-                        people.Remove(pers);
+                        people.RemoveAt(i);
+                        i--;
                     }
                 }
             }

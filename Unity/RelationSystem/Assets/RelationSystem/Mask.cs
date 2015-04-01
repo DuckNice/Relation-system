@@ -84,8 +84,6 @@ namespace NRelationSystem
                         continue;
                 }
 
-
-
                 bool notPosAct = false;
 
                 if(notPosActions != null && notPosActions.Contains(rule.actionToTrigger))
