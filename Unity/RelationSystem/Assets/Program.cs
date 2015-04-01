@@ -204,6 +204,8 @@ public partial class Program : MonoBehaviour
 			UIFunctions.WriteGameLine(subject.name + " is chatting with " + direct.name+".");
 			direct.moods[MoodTypes.hapSad] += Calculator.unboundAdd(0.2f,direct.moods[MoodTypes.hapSad]);
 			subject.moods[MoodTypes.hapSad] += Calculator.unboundAdd(0.2f,subject.moods[MoodTypes.hapSad]);
+			direct.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.2f,direct.moods[MoodTypes.energTired]);
+			subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.2f,subject.moods[MoodTypes.energTired]);
 
 			foreach(Link l in subject.interPersonal){
 				if(l.roleRef.Exists(x=>x.name == direct.name)){

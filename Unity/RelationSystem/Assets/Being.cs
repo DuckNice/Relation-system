@@ -63,21 +63,17 @@ public class Being
                 for (int i = maskSystem.historyBook.Count - 1; i >= 0; i--)
                 {
                     HistoryItem item = maskSystem.historyBook[i];
-                    //debug.Write("START LOOP "+item.GetRule ().ruleName+" "+item.GetRule().rulesThatMightHappen.Count);
-
+                    
                     if (item.GetTime() < time - reactMemory)
                     {
-                        debug.Write("BREAKS");
                         break;
                     }
 
                     if (item.HasReacted(self) || item.GetDirect() != self)
                     {
-                        debug.Write("CONTINUES");
                         continue;
                     }
 
-                    debug.Write("INSIDE LOOP " + item.GetRule().ruleName + " " + item.GetRule().rulesThatMightHappen.Count);
 
                     foreach (Rule rule in item.GetRule().rulesThatMightHappen)
                     {
@@ -85,7 +81,7 @@ public class Being
 
                         Person subject = item.GetSubject();
 
-                        if (index < 0)
+						if (index < 0)
                         {
                             possibleActions.Add(new PosActionItem(rule.actionToTrigger, subject));
                         }
@@ -100,11 +96,7 @@ public class Being
                     debug.Write("---------- " + self.name + "'s TURN.");
                 }
 
-                debug.Write("action length = " + possibleActions.Count + ".");
-
                 Rule _rule = self.GetAction(notPossibleActions, possibleActions, focus.Values.ToList());
-
-                debug.Write("rule: " + _rule.ruleName + " chosen.");
 
                 if (debug.Toggle)
                 {
