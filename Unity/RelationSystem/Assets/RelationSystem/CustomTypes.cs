@@ -35,17 +35,18 @@ namespace NRelationSystem
         HonestFalse
     }
 
-	public struct Opinion
+	public class Opinion
 	{
 		public TraitTypes trait;
 		public Person pers;
 		public float value;
+
 		public Opinion(TraitTypes _trait,Person _person, float _val){
 			trait = _trait;
 			pers = _person;
 			value = _val;
 		}
-	}
+	};
 
 
     public struct MaskAdds

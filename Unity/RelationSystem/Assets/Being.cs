@@ -66,12 +66,12 @@ public class Being
                     
                     if (item.GetTime() < time - reactMemory)
                     {
-                        break;
+						break;
                     }
 
                     if (item.HasReacted(self) || item.GetDirect() != self)
                     {
-                        continue;
+						continue;
                     }
 
 
@@ -81,7 +81,7 @@ public class Being
 
                         Person subject = item.GetSubject();
 
-                        if (subject.name != name)
+						if (subject.name != name)
                         {
                             if (index < 0)
                             {
@@ -94,17 +94,14 @@ public class Being
                         }
                     }
                 }
-                if (debug.Toggle)
-                {
-                    debug.Write("---------- " + self.name + "'s TURN.");
-                }
+                debug.Write("---------- " + self.name + "'s TURN.");
 
                 Rule _rule = self.GetAction(notPossibleActions, possibleActions, focus.Values.ToList());
+				if(_rule != null){
+					_rule = self.GetAction(notPossibleActions, null, focus.Values.ToList());
+				}
 
-                if (debug.Toggle)
-                {
-					debug.Write("Doing action '" + _rule.actionToTrigger.name + "' from " + name + ".");
-                }
+				debug.Write("Doing action '" + _rule.actionToTrigger.name + "' from " + name + ".");
 
                 if (_rule.actionToTrigger.name.ToLower() != "empty")
                 {
