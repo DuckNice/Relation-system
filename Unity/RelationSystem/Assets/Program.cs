@@ -149,6 +149,23 @@ public partial class Program : MonoBehaviour
         };
         relationSystem.AddAction(new MAction("kiss", 0.5f, 0.5f, relationSystem, kiss,3f));
 
+		ActionInvoker askAboutPartnerStatus = (subject, direct, indPpl, misc) =>
+		{
+			UIFunctions.WriteGameLine(subject.name + " is asking if "+direct.name+" wants to be their partner");
+			
+			direct.moods[MoodTypes.hapSad] += Calculator.unboundAdd(0.6f,direct.moods[MoodTypes.hapSad]);
+			direct.moods[MoodTypes.arousDisgus] += Calculator.unboundAdd(0.6f,direct.moods[MoodTypes.arousDisgus]);
+			subject.moods[MoodTypes.hapSad] += Calculator.unboundAdd(0.6f,subject.moods[MoodTypes.hapSad]);
+			subject.moods[MoodTypes.arousDisgus] += Calculator.unboundAdd(0.6f,subject.moods[MoodTypes.arousDisgus]);
+			
+			foreach(Person p in indPpl){
+				p.moods[MoodTypes.hapSad] += Calculator.unboundAdd(-0.4f,p.moods[MoodTypes.hapSad]);
+				p.moods[MoodTypes.arousDisgus] += Calculator.unboundAdd(-0.4f,p.moods[MoodTypes.arousDisgus]);
+			}
+			
+		};
+		relationSystem.AddAction(new MAction("askAboutPartnerStatus", 0.0f, 0.0f, relationSystem, askAboutPartnerStatus,5f));
+
 		ActionInvoker chooseAnotherAsPartner = (subject, direct, indPpl, misc) =>
 		{
 			UIFunctions.WriteGameLine(subject.name + " has chosen " + direct.name+" as their partner! How romantic.");
@@ -254,6 +271,8 @@ public partial class Program : MonoBehaviour
 		ActionInvoker gossip = (subject, direct, indPpl, misc) =>
 		{
 			UIFunctions.WriteGameLine(subject.name + " is gossiping with " + direct.name);
+			direct.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.2f,direct.moods[MoodTypes.energTired]);
+			subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.2f,subject.moods[MoodTypes.energTired]);
 		};
         relationSystem.AddAction(new MAction("gossip", 0.1f, 0.1f, relationSystem, gossip,7f));
 
@@ -275,7 +294,7 @@ public partial class Program : MonoBehaviour
 		};
         relationSystem.AddAction(new MAction("argue", -0.2f,-0.4f, relationSystem, argue,8f));
 
-		ActionInvoker demandToStopBeingFriendWith = (subject, direct, indPpl, misc) =>
+/*		ActionInvoker demandToStopBeingFriendWith = (subject, direct, indPpl, misc) =>
 		{
 			UIFunctions.WriteGameLine(subject.name + " is demanding that " + direct.name+" stops being friends with ");
 			//I HAVE NO WAY OF TESTING IF THIS WORKS
@@ -287,7 +306,7 @@ public partial class Program : MonoBehaviour
 			}
 		};
         relationSystem.AddAction(new MAction("demandToStopBeingFriendWith", 0.3f, -0.5f, relationSystem, demandToStopBeingFriendWith,4f));
-
+*/
 		ActionInvoker makeDistraction = (subject, direct, indPpl, misc) =>
 		{
 			UIFunctions.WriteGameLine(subject.name + " is making a distraction for " + direct.name+"!");
@@ -616,6 +635,28 @@ public partial class Program : MonoBehaviour
 			subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.1f,subject.moods[MoodTypes.energTired]);
 		};
         relationSystem.AddAction(new MAction("sellGoods", 0.7f,0.2f, relationSystem, sellGoods,3f));
+
+		ActionInvoker moveToStue = (subject, direct, indPpl, misc) => 
+		{
+			UIFunctions.WriteGameLine(subject.name + " is going into the Living Room.");
+			roomMan.EnterRoom("Stue",beings.Find(x=>x.name == subject.name));
+		};
+		relationSystem.AddAction(new MAction("moveToStue", 0.4f,0.0f, relationSystem, moveToStue,5f));
+
+		ActionInvoker moveToKøkken = (subject, direct, indPpl, misc) => 
+		{
+			UIFunctions.WriteGameLine(subject.name + " is going into the Kitchen.");
+			roomMan.EnterRoom("Køkken",beings.Find(x=>x.name == subject.name));
+		};
+		relationSystem.AddAction(new MAction("moveToKøkken", 0.4f,0.0f, relationSystem, moveToKøkken,5f));
+
+		ActionInvoker moveToIndgang = (subject, direct, indPpl, misc) => 
+		{
+			UIFunctions.WriteGameLine(subject.name + " is going into the Entry Hallway.");
+			roomMan.EnterRoom("Indgang",beings.Find(x=>x.name == subject.name));
+		};
+		relationSystem.AddAction(new MAction("moveToIndgang", 0.4f,0.0f, relationSystem, moveToIndgang,5f));
+
 
 	}
 }

@@ -50,6 +50,11 @@ public class RoomManager {
 
 		return true;
 	}
+
+	public Room GetRoomIAmIn(Being subject){
+		return rooms.Find (x => x.OccupantExists(subject));
+	}
+
 }
 
 
