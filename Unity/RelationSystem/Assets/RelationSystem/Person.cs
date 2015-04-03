@@ -98,21 +98,12 @@ namespace NRelationSystem
 
 
         public Rule GetAction(List<MAction> notPosActions, List<PosActionItem> posAction, List<float> foci) 
-        {
-							
+        {					
 
             RuleAndStr chosenAction = selfPerception.actionForLink(notPosActions, posAction, this, rationality, morality, impulsivity, ability, foci);
 
             foreach(Link curLink in interPersonal)
             {
-                    //CHECK IF THIS IS GOOD WITH BJARKE.
-                foreach(Person pers in curLink.roleRef){
-                    if(posAction.Exists(x => x.reactToPerson.Contains(pers)))
-                    {
-                        continue;
-                    }
-                }
-
 				RuleAndStr curAction = curLink.actionForLink(notPosActions, posAction, this, rationality, morality, impulsivity, ability, foci);
 
                 if(curAction.strOfAct > chosenAction.strOfAct)
@@ -182,34 +173,39 @@ namespace NRelationSystem
 			return new Rule("Empty", new MAction("Empty", 0.0f,0.0f), null);
 		}
 
-		public float GetOpinionValue(TraitTypes traittype, Person person){
+
+		public float GetOpinionValue(TraitTypes traittype, Person pers){
 			foreach(Opinion o in opinions ){
-				if(o.pers == person && o.trait == traittype){
+				if(o.pers == pers && o.trait == traittype){
 					return o.value;
 				}
 			}
-			debug.Write ("Error. Did not find person "+person.name+" or trait "+traittype+". Check spelling. Returning 0.0");
+			debug.Write ("Error. Did not find person "+pers.name+" or trait "+traittype+". Check spelling. Returning 0.0");
 			return 0.0f;
 		}
-		/*
+
 		public void SetOpinionValue(TraitTypes traittype, Person pers, float valToAdd){
-			for (int i = 0; i<opinions.Count; i++) {
-				if (opinions [i].pers == pers && opinions [i].trait == traittype) {
-					opinions [i].value = valToAdd;
+			foreach (Opinion o in opinions) {
+				if (o.pers == pers && o.trait == traittype) {
+					o.value = valToAdd;
+				}
+				else{
+					debug.Write ("Error in Set. Did not find person "+pers.name+" or trait "+traittype+". Check spelling.");
 				}
 			}
-			debug.Write ("Error in Set. Did not find person "+pers.name+" or trait "+traittype+". Check spelling.");
 		}
 
 		public void AddToOpinionValue(TraitTypes traittype, Person pers, float valToAdd){
-			for (int i = 0; i<opinions.Count; i++) {
-				if (opinions [i].pers == pers && opinions [i].trait == traittype) {
-					opinions [i].value += Calculator.unboundAdd (valToAdd, opinions [i].value);
+			foreach (Opinion o in opinions) {
+				if (o.pers == pers && o.trait == traittype) {
+					o.value += Calculator.unboundAdd (valToAdd, o.value);
+				}
+				else{
+					debug.Write ("Error in Set. Did not find person "+pers.name+" or trait "+traittype+". Check spelling.");
 				}
 			}
-			debug.Write ("Error in Set. Did not find person "+pers.name+" or trait "+traittype+". Check spelling.");
 		}
-*/
+
 
     }
 }
