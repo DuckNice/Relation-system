@@ -38,32 +38,18 @@ public partial class Program : MonoBehaviour
         {
             relationSystem.PrintPersonStatus();
         }
-        else if(sepInput[0] == "do")
+        else if (relationSystem.posActions.ContainsKey(sepInput[0]))
         {
+            MAction actionToDo = relationSystem.posActions[sepInput[0]];
+                
             if(sepInput.Length > 1)
             {
                 Person target = relationSystem.pplAndMasks.GetPerson(sepInput[1]);
 
-                if(target != null)
+                if (target != null)
                 {
-                    if(sepInput.Length > 2)
-                    {
-                        if (relationSystem.posActions.ContainsKey(sepInput[2]))
-                        {
-                            MAction actionToDo = relationSystem.posActions[sepInput[2]];
-
-                            PerformAction(target, actionToDo);
-                        }
-                    }
+                    PerformAction(target, actionToDo);
                 }
-                else
-                {
-					UIFunctions.WritePlayerLine("'Do' recognized, but second parameter not found in list of people.");
-                }
-            }
-            else
-            {
-				UIFunctions.WritePlayerLine("'Do' what?");
             }
         }
         else if(sepInput[0] == "help")
@@ -72,8 +58,12 @@ public partial class Program : MonoBehaviour
             {
                 switch(sepInput[1])
                 {
-                    case "do":
-						UIFunctions.WritePlayerLine("Nothing here yet");
+                    case "people":
+						UIFunctions.WritePlayerLine("List of actions:\n");
+
+                        foreach(string personName in relationSystem.pplAndMasks.people.Keys)
+							UIFunctions.WritePlayerLine("  " + personName + ".");
+
 						break;
                     case "actions":
 						UIFunctions.WritePlayerLine("List of actions:\n");
@@ -86,8 +76,8 @@ public partial class Program : MonoBehaviour
             }
             else
             {
-				UIFunctions.WritePlayerLine((string)"'display <person>': Get information about character.");
-				UIFunctions.WritePlayerLine("'do <person> <action>': Perform the mentioned <action> interacting with the stated <person>");
+				UIFunctions.WritePlayerLine("'display <person>': Get information about character.");
+                UIFunctions.WritePlayerLine("'<action> <person>': Perform the mentioned <action> interacting with the stated <person>");
 				UIFunctions.WritePlayerLine("'history': Show the history log.");
             }
         }
