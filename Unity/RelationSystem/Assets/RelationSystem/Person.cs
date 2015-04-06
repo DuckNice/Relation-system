@@ -180,7 +180,7 @@ namespace NRelationSystem
 					return o.value;
 				}
 			}
-			debug.Write ("Error. Did not find person "+pers.name+" or trait "+traittype+". Check spelling. Returning 0.0");
+			debug.Write ("Error in GetOpinionValue. Did not find person "+pers.name+" or trait "+traittype+". Check spelling. Returning 0.0");
 			return 0.0f;
 		}
 
@@ -188,9 +188,10 @@ namespace NRelationSystem
 			foreach (Opinion o in opinions) {
 				if (o.pers == pers && o.trait == traittype) {
 					o.value = valToAdd;
+					break;
 				}
 				else{
-					debug.Write ("Error in Set. Did not find person "+pers.name+" or trait "+traittype+". Check spelling.");
+					debug.Write ("Error in SetOpinion. Did not find person "+pers.name+" or trait "+traittype+". Check spelling.");
 				}
 			}
 		}
@@ -199,9 +200,10 @@ namespace NRelationSystem
 			foreach (Opinion o in opinions) {
 				if (o.pers == pers && o.trait == traittype) {
 					o.value += Calculator.unboundAdd (valToAdd, o.value);
+					break;
 				}
 				else{
-					debug.Write ("Error in Set. Did not find person "+pers.name+" or trait "+traittype+". Check spelling.");
+					debug.Write ("Error in AddtoOpinion. Did not find person "+pers.name+" or trait "+traittype+". Check spelling.");
 				}
 			}
 		}
