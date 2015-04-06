@@ -304,6 +304,38 @@ public partial class Program : MonoBehaviour
 			     self.moods[MoodTypes.energTired] > -0.4f) { return true; }
 			return false; };
 
+		RuleConditioner makefunofCondition = (self, other, indPpl) =>
+		{	if(self != other  && self.moods[MoodTypes.energTired] > -0.6f && self.moods[MoodTypes.hapSad] > -0.8f && self.moods[MoodTypes.hapSad] < 0.0f) 
+			{ return true; }
+			return false; };
+
+		RuleConditioner telljokeCondition = (self, other, indPpl) =>
+		{	if(self != other  && self.moods[MoodTypes.energTired] > -0.2f && self.moods[MoodTypes.hapSad] > -0.2f) 
+			{ return true; }
+			return false; };
+
+		RuleConditioner prankCondition = (self, other, indPpl) =>
+		{	if(self != other  && self.moods[MoodTypes.energTired] > -0.5f && self.moods[MoodTypes.hapSad] > -0.4f) 
+			{ if(self.GetOpinionValue(TraitTypes.NiceNasty,other) < 0.0f) {return true;} }
+			return false; };
+
+		RuleConditioner harassCondition = (self, other, indPpl) =>
+		{	if(self != other  && self.moods[MoodTypes.energTired] > -0.7f && self.moods[MoodTypes.hapSad] > -0.8f && self.moods[MoodTypes.hapSad] < 0.0f) 
+			{ if(self.GetOpinionValue(TraitTypes.NiceNasty,other) < 0.0f) {return true;} }
+			return false; };
+
+		RuleConditioner playgameCondition = (self, other, indPpl) =>
+		{	if(self != other  && self.moods[MoodTypes.energTired] > -0.7f) 
+			{ if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > -0.4f) {return true;} }
+			return false; };
+
+		RuleConditioner orderCondition = (self, other, indPpl) =>
+		{	if(self != other && 
+			     (self.interPersonal.Exists(x => x.roleName != "bunce") || self.interPersonal.Exists(x => x.roleName != "buncess")) && 
+			     other.interPersonal.Exists(x => x.roleName != "bunsant"))
+			{ if(self.GetOpinionValue(TraitTypes.NiceNasty,other) < 0.4f) {return true;} }
+			return false; };
+
 
 // -------------- CULTURAL (CULT) ACTIONS
 
@@ -521,6 +553,11 @@ public partial class Program : MonoBehaviour
 		relationSystem.CreateNewRule("makedistraction", "makedistraction", makeDistractionCondition);
 		relationSystem.CreateNewRule("reminisce", "reminisce", reminisceCondition);
 		relationSystem.CreateNewRule("enthuseaboutgreatnessofperson", "enthuseaboutgreatnessofperson", enthuseAboutGreatnessofPersonCondition);
+		relationSystem.CreateNewRule("makefunof", "makefunof", makefunofCondition);
+		relationSystem.CreateNewRule("telljoke", "telljoke", telljokeCondition);
+		relationSystem.CreateNewRule("prank", "prank", prankCondition);
+		relationSystem.CreateNewRule("harass", "harass", harassCondition);
+
 
 		// CULTURAL RULES
 		relationSystem.CreateNewRule("greet", "greet",  GreetCondition);
@@ -551,6 +588,15 @@ public partial class Program : MonoBehaviour
 		relationSystem.CreateNewRule("poisonfbunce", "poison", poisonCondition);
 		relationSystem.CreateNewRule("poisonfcess", "poison", poisonCondition);
 		relationSystem.CreateNewRule("poisonfbunsant", "poison", poisonCondition);
+		relationSystem.CreateNewRule("playgame", "playgame", playgameCondition);
+		relationSystem.CreateNewRule("playgamefbunce", "playgame", playgameCondition);
+		relationSystem.CreateNewRule("playgamefcess", "playgame", playgameCondition);
+		relationSystem.CreateNewRule("playgamefbunsant", "playgame", playgameCondition);
+		relationSystem.CreateNewRule("order", "order", bribeCondition);
+		relationSystem.CreateNewRule("orderfbunce", "order", bribeCondition);
+		relationSystem.CreateNewRule("orderfcess", "order", bribeCondition);
+		relationSystem.CreateNewRule("orderfbunsant", "order", bribeCondition);
+
 		relationSystem.CreateNewRule("moveToStuefbunce", "moveToStue", emptyCondition);
 		relationSystem.CreateNewRule("moveToStuefcess", "moveToStue", emptyCondition);
 		relationSystem.CreateNewRule("moveToStuefbunsant", "moveToStue", emptyCondition);
@@ -622,7 +668,7 @@ public partial class Program : MonoBehaviour
 		relationSystem.pplAndMasks.AddPossibleRulesToRule("gossip",gossipRulesToTrigger);
 
 		List<Rule> argueRulesToTrigger = new List<Rule>(); argueRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("argue")); argueRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("fight"));
-		argueRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("sabotage"));
+		argueRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("sabotage")); argueRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("order")); 
 		relationSystem.pplAndMasks.AddPossibleRulesToRule("argue",argueRulesToTrigger);
 
 		List<Rule> denyRulesToTrigger = new List<Rule>(); denyRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("argue")); denyRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("poison")); 
@@ -644,6 +690,24 @@ public partial class Program : MonoBehaviour
 		List<Rule> enthuseaboutgreatnessofpersonRulesToTrigger = new List<Rule>(); enthuseaboutgreatnessofpersonRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("chat")); enthuseaboutgreatnessofpersonRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("enthuseaboutgreatnessofperson"));
 		enthuseaboutgreatnessofpersonRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("flirt")); enthuseaboutgreatnessofpersonRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("fight"));
 		relationSystem.pplAndMasks.AddPossibleRulesToRule("enthuseaboutgreatnessofperson",enthuseaboutgreatnessofpersonRulesToTrigger);
+
+		List<Rule> makefunofRulesToTrigger = new List<Rule>(); makefunofRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("makefunof")); makefunofRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("argue"));
+		makefunofRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("harass")); makefunofRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("deny"));
+		makefunofRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("telljoke"));
+		relationSystem.pplAndMasks.AddPossibleRulesToRule("makefunof",makefunofRulesToTrigger);
+
+		List<Rule> telljokeRulesToTrigger = new List<Rule>(); telljokeRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("makefunof")); telljokeRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("telljoke")); 
+		telljokeRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("chat")); telljokeRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("enthuseaboutgreatnessofperson")); 
+		relationSystem.pplAndMasks.AddPossibleRulesToRule("telljoke",telljokeRulesToTrigger);
+
+		List<Rule> prankRulesToTrigger = new List<Rule>(); prankRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("makefunof")); prankRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("deny"));
+		prankRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("convict")); prankRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("argue")); prankRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("order"));
+		relationSystem.pplAndMasks.AddPossibleRulesToRule("prank",prankRulesToTrigger);
+
+		List<Rule> harassRulesToTrigger = new List<Rule>(); harassRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("telljoke")); harassRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("deny"));
+		harassRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("argue")); harassRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("fight")); harassRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("order"));
+		relationSystem.pplAndMasks.AddPossibleRulesToRule("harass",harassRulesToTrigger);
+
 
 		// ------------- CULTURE
 		List<Rule> greetRulesToTrigger = new List<Rule>(); greetRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("chat"));
@@ -705,6 +769,20 @@ public partial class Program : MonoBehaviour
 		relationSystem.pplAndMasks.AddPossibleRulesToRule("poisonfcess",poisonRulesToTrigger);
 		relationSystem.pplAndMasks.AddPossibleRulesToRule("poisonfbunsant",poisonRulesToTrigger);
 
+		List<Rule> playgameRulesToTriger = new List<Rule>(); playgameRulesToTriger.Add(relationSystem.pplAndMasks.GetRule("telljoke")); playgameRulesToTriger.Add(relationSystem.pplAndMasks.GetRule("chat")); 
+		playgameRulesToTriger.Add(relationSystem.pplAndMasks.GetRule("reminisce")); 
+		relationSystem.pplAndMasks.AddPossibleRulesToRule("playgame",playgameRulesToTriger);
+		relationSystem.pplAndMasks.AddPossibleRulesToRule("playgamefbunce",playgameRulesToTriger);
+		relationSystem.pplAndMasks.AddPossibleRulesToRule("playgamefbunsant",playgameRulesToTriger);
+		relationSystem.pplAndMasks.AddPossibleRulesToRule("playgamefcess",playgameRulesToTriger);
+
+		List<Rule> orderRulesToTriger = new List<Rule>(); orderRulesToTriger.Add(relationSystem.pplAndMasks.GetRule("deny")); orderRulesToTriger.Add(relationSystem.pplAndMasks.GetRule("fight"));
+		orderRulesToTriger.Add(relationSystem.pplAndMasks.GetRule("flee"));
+		relationSystem.pplAndMasks.AddPossibleRulesToRule("order",orderRulesToTriger);
+		relationSystem.pplAndMasks.AddPossibleRulesToRule("orderfbunce",orderRulesToTriger);
+		relationSystem.pplAndMasks.AddPossibleRulesToRule("orderfcess",orderRulesToTriger);
+		relationSystem.pplAndMasks.AddPossibleRulesToRule("orderfbunsant",orderRulesToTriger);
+
 		// ------------- CULT RULES
 
 		List<Rule> praisecultRulesToTrigger = new List<Rule>(); poisonRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("enthuseaboutgreatnessofperson"));
@@ -751,16 +829,17 @@ public partial class Program : MonoBehaviour
 
 		List<Rule> convincetoleaveguildRulesToTrigger = new List<Rule>();
 		convincetoleaveguildRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("argue")); convincetoleaveguildRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("poison")); 
-		relationSystem.pplAndMasks.AddPossibleRulesToRule("convincetoleaveguild",convincetoleaveguildRulesToTrigger);
+		relationSystem.pplAndMasks.AddPossibleRulesToRule("convincetoleaveguild",convincetoleaveguildRulesToTrigger); convincetoleaveguildRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("order"));
 
 		List<Rule> demandtoleaveguildRulesToTrigger = new List<Rule>();
 		demandtoleaveguildRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("argue")); demandtoleaveguildRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("poison")); 
-		demandtoleaveguildRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("fight")); 
+		demandtoleaveguildRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("fight")); demandtoleaveguildRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("order")); 
 		relationSystem.pplAndMasks.AddPossibleRulesToRule("demandtoleaveguild",demandtoleaveguildRulesToTrigger);
 
 		List<Rule> askforhelpRulesToTrigger = new List<Rule>(); 
 		askforhelpRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("argue")); askforhelpRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("chat"));
 		askforhelpRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("sellgoods")); askforhelpRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("buygoods"));
+		askforhelpRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("order"));
 		relationSystem.pplAndMasks.AddPossibleRulesToRule("askforhelp",askforhelpRulesToTrigger);
 
 		List<Rule> buygoodsRulesToTrigger = new List<Rule>(); 
@@ -897,7 +976,7 @@ public partial class Program : MonoBehaviour
 		relationSystem.AddRuleToMask("BillHeather", "Friend", "argue", -0.2f);
 		relationSystem.AddRuleToMask("BillPlayer", "Enemy", "argue", -0.2f);
 
-		/*relationSystem.AddRuleToMask("JohnHeather", "Partner", "deny", -0.1f);
+		relationSystem.AddRuleToMask("JohnHeather", "Partner", "deny", -0.1f);
 		relationSystem.AddRuleToMask("JohnBill", "Enemy", "deny", -0.1f);
 		relationSystem.AddRuleToMask("JohnTherese", "Enemy", "deny", -0.1f);
 		relationSystem.AddRuleToMask("JohnPlayer", "Friend", "deny", -0.1f);
@@ -912,7 +991,7 @@ public partial class Program : MonoBehaviour
 		relationSystem.AddRuleToMask("BillTherese", "Partner", "deny", -0.1f);
 		relationSystem.AddRuleToMask("BillJohn", "Enemy", "deny", -0.1f);
 		relationSystem.AddRuleToMask("BillHeather", "Friend", "deny", -0.1f);
-		relationSystem.AddRuleToMask("BillPlayer", "Enemy", "deny", -0.1f);*/
+		relationSystem.AddRuleToMask("BillPlayer", "Enemy", "deny", -0.1f);
 
 		/*relationSystem.AddRuleToMask("JohnHeather", "Partner", "demandtostopbeingfriendwith", -0.4f);
 		relationSystem.AddRuleToMask("JohnBill", "Enemy", "demandtostopbeingfriendwith", -0.4f);
@@ -948,6 +1027,74 @@ public partial class Program : MonoBehaviour
 		relationSystem.AddRuleToMask("BillHeather", "Friend", "makedistraction", -0.2f);
 		relationSystem.AddRuleToMask("BillPlayer", "Enemy", "makedistraction", -0.2f);
 
+		relationSystem.AddRuleToMask("JohnHeather", "Partner", "makefunof", 0.0f);
+		relationSystem.AddRuleToMask("JohnBill", "Enemy", "makefunof", 0.0f);
+		relationSystem.AddRuleToMask("JohnTherese", "Enemy", "makefunof", 0.0f);
+		relationSystem.AddRuleToMask("JohnPlayer", "Friend", "makefunof", 0.0f);
+		relationSystem.AddRuleToMask("HeatherJohn", "Partner", "makefunof", 0.0f);
+		relationSystem.AddRuleToMask("HeatherPlayer", "Partner", "makefunof", -0.2f);
+		relationSystem.AddRuleToMask("HeatherBill", "Friend", "makefunof",  -0.2f);
+		relationSystem.AddRuleToMask("HeatherTherese", "Friend", "makefunof", -0.2f);
+		relationSystem.AddRuleToMask("ThereseBill", "Partner", "makefunof", -0.2f);
+		relationSystem.AddRuleToMask("ThereseJohn", "Enemy", "makefunof", -0.2f);
+		relationSystem.AddRuleToMask("ThereseHeather", "Friend", "makefunof", -0.2f);
+		relationSystem.AddRuleToMask("TheresePlayer", "Enemy", "makefunof", -0.2f);
+		relationSystem.AddRuleToMask("BillTherese", "Partner", "makefunof", -0.2f);
+		relationSystem.AddRuleToMask("BillJohn", "Enemy", "makefunof", -0.2f);
+		relationSystem.AddRuleToMask("BillHeather", "Friend", "makefunof", -0.2f);
+		relationSystem.AddRuleToMask("BillPlayer", "Enemy", "makefunof", 0.0f);
+
+		relationSystem.AddRuleToMask("JohnHeather", "Partner", "telljoke", -0.2f);
+		relationSystem.AddRuleToMask("JohnBill", "Enemy", "telljoke", -0.2f);
+		relationSystem.AddRuleToMask("JohnTherese", "Enemy", "telljoke", -0.2f);
+		relationSystem.AddRuleToMask("JohnPlayer", "Friend", "telljoke", -0.2f);
+		relationSystem.AddRuleToMask("HeatherJohn", "Partner", "telljoke", -0.2f);
+		relationSystem.AddRuleToMask("HeatherPlayer", "Partner", "telljoke", -0.2f);
+		relationSystem.AddRuleToMask("HeatherBill", "Friend", "telljoke",  -0.2f);
+		relationSystem.AddRuleToMask("HeatherTherese", "Friend", "telljoke", -0.2f);
+		relationSystem.AddRuleToMask("ThereseBill", "Partner", "telljoke", -0.2f);
+		relationSystem.AddRuleToMask("ThereseJohn", "Enemy", "telljoke", -0.2f);
+		relationSystem.AddRuleToMask("ThereseHeather", "Friend", "telljoke", -0.2f);
+		relationSystem.AddRuleToMask("TheresePlayer", "Enemy", "telljoke", -0.2f);
+		relationSystem.AddRuleToMask("BillTherese", "Partner", "telljoke", -0.2f);
+		relationSystem.AddRuleToMask("BillJohn", "Enemy", "telljoke", -0.2f);
+		relationSystem.AddRuleToMask("BillHeather", "Friend", "telljoke", -0.2f);
+		relationSystem.AddRuleToMask("BillPlayer", "Enemy", "telljoke", 0.2f);
+
+		relationSystem.AddRuleToMask("JohnHeather", "Partner", "prank", -0.2f);
+		relationSystem.AddRuleToMask("JohnBill", "Enemy", "prank", -0.2f);
+		relationSystem.AddRuleToMask("JohnTherese", "Enemy", "prank", -0.2f);
+		relationSystem.AddRuleToMask("JohnPlayer", "Friend", "prank", -0.2f);
+		relationSystem.AddRuleToMask("HeatherJohn", "Partner", "prank", -0.2f);
+		relationSystem.AddRuleToMask("HeatherPlayer", "Partner", "prank", -0.2f);
+		relationSystem.AddRuleToMask("HeatherBill", "Friend", "prank",  -0.2f);
+		relationSystem.AddRuleToMask("HeatherTherese", "Friend", "prank", -0.2f);
+		relationSystem.AddRuleToMask("ThereseBill", "Partner", "prank", -0.2f);
+		relationSystem.AddRuleToMask("ThereseJohn", "Enemy", "prank", -0.2f);
+		relationSystem.AddRuleToMask("ThereseHeather", "Friend", "prank", -0.2f);
+		relationSystem.AddRuleToMask("TheresePlayer", "Enemy", "prank", -0.2f);
+		relationSystem.AddRuleToMask("BillTherese", "Partner", "prank", -0.2f);
+		relationSystem.AddRuleToMask("BillJohn", "Enemy", "prank", -0.2f);
+		relationSystem.AddRuleToMask("BillHeather", "Friend", "prank", -0.2f);
+		relationSystem.AddRuleToMask("BillPlayer", "Enemy", "prank", 0.0f);
+
+		relationSystem.AddRuleToMask("JohnHeather", "Partner", "harass", -0.2f);
+		relationSystem.AddRuleToMask("JohnBill", "Enemy", "harass", -0.2f);
+		relationSystem.AddRuleToMask("JohnTherese", "Enemy", "harass", -0.2f);
+		relationSystem.AddRuleToMask("JohnPlayer", "Friend", "harass", -0.2f);
+		relationSystem.AddRuleToMask("HeatherJohn", "Partner", "harass", -0.2f);
+		relationSystem.AddRuleToMask("HeatherPlayer", "Partner", "harass", -0.2f);
+		relationSystem.AddRuleToMask("HeatherBill", "Friend", "harass",  -0.2f);
+		relationSystem.AddRuleToMask("HeatherTherese", "Friend", "harass", -0.2f);
+		relationSystem.AddRuleToMask("ThereseBill", "Partner", "harass", -0.2f);
+		relationSystem.AddRuleToMask("ThereseJohn", "Enemy", "harass", -0.2f);
+		relationSystem.AddRuleToMask("ThereseHeather", "Friend", "harass", -0.2f);
+		relationSystem.AddRuleToMask("TheresePlayer", "Enemy", "harass", -0.2f);
+		relationSystem.AddRuleToMask("BillTherese", "Partner", "harass", -0.2f);
+		relationSystem.AddRuleToMask("BillJohn", "Enemy", "harass", -0.2f);
+		relationSystem.AddRuleToMask("BillHeather", "Friend", "harass", -0.2f);
+		relationSystem.AddRuleToMask("BillPlayer", "Enemy", "harass", -0.2f);
+
 		relationSystem.AddRuleToMask("JohnHeather", "Partner", "reminisce", 0.2f);
 		relationSystem.AddRuleToMask("JohnPlayer", "Friend", "reminisce", 0.2f);
 		relationSystem.AddRuleToMask("HeatherJohn", "Partner", "reminisce", 0.2f);
@@ -982,7 +1129,8 @@ public partial class Program : MonoBehaviour
 		relationSystem.AddRuleToMask("Bungary", "Bunsant", "moveToStuefbunsant", 0.0f);
 		relationSystem.AddRuleToMask("Bungary", "Bunsant", "moveToKøkkenfbunsant", 0.0f);
 		relationSystem.AddRuleToMask("Bungary", "Bunsant", "moveToIndgangfbunsant", 0.0f);
-
+		relationSystem.AddRuleToMask("Bungary", "Bunsant", "playgamefbunsant", 0.2f);
+		relationSystem.AddRuleToMask("Bungary", "Bunsant", "orderfbunsant", -0.5f);
 
 		relationSystem.AddRuleToMask("Bungary", "Bunce", "bribefbunce", 0.3f);
 		relationSystem.AddRuleToMask("Bungary", "Bunce", "convictfbunce", 0.0f);
@@ -994,8 +1142,9 @@ public partial class Program : MonoBehaviour
 		relationSystem.AddRuleToMask("Bungary", "Bunce", "moveToStuefbunce", 0.5f);
 		relationSystem.AddRuleToMask("Bungary", "Bunce", "moveToKøkkenfbunce", 0.1f);
 		relationSystem.AddRuleToMask("Bungary", "Bunce", "moveToIndgangfbunce", 0.3f);
+		relationSystem.AddRuleToMask("Bungary", "Bunce", "playgamefbunce", 0.2f);
+		relationSystem.AddRuleToMask("Bungary", "Bunce", "orderfbunce", 0.5f);
 
-		
 		relationSystem.AddRuleToMask("Bungary", "Buncess", "bribefcess", 0.3f);
 		relationSystem.AddRuleToMask("Bungary", "Buncess", "convictfcess", 0.0f);
 		relationSystem.AddRuleToMask("Bungary", "Buncess", "argueinnocencefcess", 0.2f);
@@ -1006,6 +1155,13 @@ public partial class Program : MonoBehaviour
 		relationSystem.AddRuleToMask("Bungary", "Buncess", "moveToStuefcess", 0.6f);
 		relationSystem.AddRuleToMask("Bungary", "Buncess", "moveToKøkkenfcess", 0.2f);
 		relationSystem.AddRuleToMask("Bungary", "Buncess", "moveToIndgangfcess", 0.3f);
+		relationSystem.AddRuleToMask("Bungary", "Buncess", "playgamefbuncess", 0.2f);
+		relationSystem.AddRuleToMask("Bungary", "Buncess", "orderfcess", 0.5f);
+
+
+
+		//playgame, order
+
 
 		relationSystem.AddRuleToMask("Cult", "Leader", "praisecultfleader", 0.6f);
 		relationSystem.AddRuleToMask("Cult", "Follower", "praisecultffollower", 0.4f);
