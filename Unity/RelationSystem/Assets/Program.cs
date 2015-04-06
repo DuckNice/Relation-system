@@ -122,9 +122,6 @@ public partial class Program : MonoBehaviour
 		ActionInvoker greet = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is greeting "+direct.name);
-			subject.moods[MoodTypes.hapSad] += Calculator.unboundAdd(0.1f,subject.moods[MoodTypes.hapSad]);
-			direct.moods[MoodTypes.hapSad] += Calculator.unboundAdd(0.1f,direct.moods[MoodTypes.hapSad]);
-
 		};
         relationSystem.AddAction(new MAction("Greet", 0.1f,0.1f, relationSystem, greet,2f));
 
@@ -209,12 +206,13 @@ public partial class Program : MonoBehaviour
 
 		ActionInvoker chat = (subject, direct, indPpl, misc) =>
 		{
+			debug.Write(subject.name+"   "+direct.name);
 			UIFunctions.WriteGameLine(subject.name + " is chatting with " + direct.name+".");
 			direct.moods[MoodTypes.hapSad] += Calculator.unboundAdd(0.2f,direct.moods[MoodTypes.hapSad]);
 			subject.moods[MoodTypes.hapSad] += Calculator.unboundAdd(0.2f,subject.moods[MoodTypes.hapSad]);
 			direct.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.2f,direct.moods[MoodTypes.energTired]);
 			subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.2f,subject.moods[MoodTypes.energTired]);
-			direct.AddToOpinionValue(TraitTypes.NiceNasty,subject,0.0f);
+			//direct.AddToOpinionValue(TraitTypes.NiceNasty,subject,0.0f);
 
 			foreach(Link l in subject.interPersonal){
 				if(l.roleRef.Exists(x=>x.name == direct.name)){
@@ -458,13 +456,12 @@ public partial class Program : MonoBehaviour
 		};
         relationSystem.AddAction(new MAction("askForHelpInIllicitActivity", 0.4f,0.1f, relationSystem, askForHelpInIllicitActivity,8f));
 
-		ActionInvoker searchForThief = (subject, direct, indPpl, misc) => 
+		/*ActionInvoker searchForThief = (subject, direct, indPpl, misc) => 
 		{
 			UIFunctions.WriteGameLine(subject.name + " is searching for the thief!");
 			subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.3f,subject.moods[MoodTypes.energTired]);
 		};
-        relationSystem.AddAction(new MAction("searchForThief", 0.6f,-0.5f, relationSystem, searchForThief,10f));
-
+        relationSystem.AddAction(new MAction("searchForThief", 0.6f,-0.5f, relationSystem, searchForThief,10f));*/
 
 // ----------- CULTURAL (CULT) ACTIONS
 

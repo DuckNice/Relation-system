@@ -166,6 +166,7 @@ namespace NRelationSystem
         }
 
 		public Rule GetRule(string _ruleName){
+			_ruleName = _ruleName.ToLower ();
 			foreach (Rule r in instRules.Values) {
 				if(r.ruleName == _ruleName){
 					return r;

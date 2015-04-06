@@ -97,11 +97,13 @@ public class Being
                 debug.Write("---------- " + self.name + "'s TURN.");
 
                 Rule _rule = self.GetAction(notPossibleActions, possibleActions, focus.Values.ToList());
-				if(_rule != null){
+				//debug.Write("ACTION FROM "+name+" "+possibleActions.Count);
+				if(_rule == null || _rule.ruleName == "Empty"){
+					debug.Write("COULD NOT DO REACTION "+name+" ");
 					_rule = self.GetAction(notPossibleActions, null, focus.Values.ToList());
 				}
 
-				debug.Write("Doing action '" + _rule.actionToTrigger.name + "' from " + name + ".");
+				debug.Write("DOING ACTION '" + _rule.actionToTrigger.name + "' FROM " + name + ".  "+_rule.ruleName);
 
                 if (_rule.actionToTrigger.name.ToLower() != "empty")
                 {

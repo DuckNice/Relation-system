@@ -68,7 +68,7 @@ namespace NRelationSystem
         {
             RuleAndStr chosenAction = new RuleAndStr();
 			chosenAction.chosenRule = new Rule("Empty", new MAction("Empty", 0.0f, 0.0f), null);
-            chosenAction.strOfAct = 0.0f;
+            chosenAction.strOfAct = -99999999999f;
 
             foreach(Rule rule in rules.Values.ToList())
             {
@@ -90,9 +90,10 @@ namespace NRelationSystem
                     notPosAct = true;
 
 				if(rule.role.Equals(role)){
-					//debug.Write("Checking "+rule.actionToTrigger.name);
+
 					if(!notPosAct&& rule.Condition(self, reactPeople))
 					{
+						debug.Write("Calculating "+rule.actionToTrigger.name);
 						float newActionStrength = Calculator.CalculateRule(rat, mor, imp, abi, rule, rule.rulesThatMightHappen, maskInfl, foci);
 						
 						if (newActionStrength > chosenAction.strOfAct)
@@ -104,7 +105,7 @@ namespace NRelationSystem
 				}
 				
 			}
-			
+			debug.Write ("RETURNING " + chosenAction.chosenRule.ruleName);
 			return chosenAction;
 		}
 		
