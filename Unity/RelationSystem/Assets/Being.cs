@@ -101,9 +101,11 @@ public class Being
 				if(_rule == null || _rule.ruleName == "Empty"){
 					debug.Write("COULD NOT DO REACTION "+name+" ");
 					_rule = self.GetAction(notPossibleActions, null, focus.Values.ToList());
+				}else{
+					debug.Write("DOING REACTION");
 				}
 
-				debug.Write("DOING ACTION '" + _rule.actionToTrigger.name + "' FROM " + name + ".  "+_rule.ruleName);
+				debug.Write("DOING ACTION '" + _rule.actionToTrigger.name + "' FROM " + name + ". Rule: "+_rule.ruleName+". Role: "+_rule.role+". To: "+_rule.selfOther[self].name);
 
                 if (_rule.actionToTrigger.name.ToLower() != "empty")
                 {

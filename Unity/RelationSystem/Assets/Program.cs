@@ -208,8 +208,8 @@ public partial class Program : MonoBehaviour
 		{
 			debug.Write(subject.name+"   "+direct.name);
 			UIFunctions.WriteGameLine(subject.name + " is chatting with " + direct.name+".");
-			direct.moods[MoodTypes.hapSad] += Calculator.unboundAdd(0.2f,direct.moods[MoodTypes.hapSad]);
-			subject.moods[MoodTypes.hapSad] += Calculator.unboundAdd(0.2f,subject.moods[MoodTypes.hapSad]);
+			//direct.moods[MoodTypes.hapSad] += Calculator.unboundAdd(0.2f,direct.moods[MoodTypes.hapSad]);
+			//subject.moods[MoodTypes.hapSad] += Calculator.unboundAdd(0.2f,subject.moods[MoodTypes.hapSad]);
 			direct.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.2f,direct.moods[MoodTypes.energTired]);
 			subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.2f,subject.moods[MoodTypes.energTired]);
 			//direct.AddToOpinionValue(TraitTypes.NiceNasty,subject,0.0f);
@@ -377,7 +377,7 @@ public partial class Program : MonoBehaviour
 				}
 			}
 		};
-        relationSystem.AddAction(new MAction("convict", 0.7f, -0.7f, relationSystem, convict,6f));
+        relationSystem.AddAction(new MAction("convict", 1.0f, -0.5f, relationSystem, convict,6f));
 
 		ActionInvoker fight = (subject, direct, indPpl, misc) => 
 		{
@@ -434,6 +434,7 @@ public partial class Program : MonoBehaviour
 			subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.3f,subject.moods[MoodTypes.energTired]);
 
 			beings.Find(x=>x.name == subject.name).possessions.Find(y=>y.Name=="money").value += 50f;
+			beings.Find(x=>x.name == direct.name).possessions.Find(y=>y.Name=="money").value -= 50f;
 			foreach(Link l in direct.interPersonal){
 				if(l.roleRef.Exists(x=>x.name == subject.name)){
 					l.AddToLvlOfInfl(-0.1f);
@@ -574,6 +575,7 @@ public partial class Program : MonoBehaviour
 			subject.moods[MoodTypes.hapSad] += Calculator.unboundAdd(0.3f,subject.moods[MoodTypes.hapSad]);
 			direct.moods[MoodTypes.hapSad] += Calculator.unboundAdd(0.3f,direct.moods[MoodTypes.hapSad]);
 			direct.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.3f,direct.moods[MoodTypes.energTired]);
+			debug.Write("OPINION: "+direct.name+"   "+subject.name+"    "+direct.GetOpinionValue(TraitTypes.NiceNasty,subject));
 			direct.AddToOpinionValue(TraitTypes.NiceNasty,subject, 0.1f);
 			direct.AddToOpinionValue(TraitTypes.HonestFalse,subject, 0.1f);
 		};
@@ -603,10 +605,9 @@ public partial class Program : MonoBehaviour
 			beings.Find(x=>x.name == direct.name).possessions.Find(y=>y.Name=="money").value += 100f;
 			beings.Find(x=>x.name == direct.name).possessions.Find(y=>y.Name=="company").value -= 1f;
 			beings.Find(x=>x.name == subject.name).possessions.Find(y=>y.Name=="company").value += 1f;
-			debug.Write(direct.name+" "+subject.name+"   "+direct.GetOpinionValue(TraitTypes.NiceNasty,subject));
 			direct.AddToOpinionValue(TraitTypes.NiceNasty,subject,-0.4f);
 		};
-        relationSystem.AddAction(new MAction("buyCompany", 0.8f,-0.4f, relationSystem, buyCompany,6f));
+        relationSystem.AddAction(new MAction("buyCompany", 0.4f,-0.4f, relationSystem, buyCompany,6f));
 
 		ActionInvoker sellCompany = (subject, direct, indPpl, misc) => 
 		{
@@ -617,7 +618,7 @@ public partial class Program : MonoBehaviour
 			beings.Find(x=>x.name == direct.name).possessions.Find(y=>y.Name=="company").value += 1f;
 			beings.Find(x=>x.name == subject.name).possessions.Find(y=>y.Name=="company").value -= 1f;
 		};
-        relationSystem.AddAction(new MAction("sellCompany", 0.4f,0.8f, relationSystem, sellCompany,6f));
+        relationSystem.AddAction(new MAction("sellCompany", -0.4f,0.4f, relationSystem, sellCompany,6f));
 
 		ActionInvoker sabotage = (subject, direct, indPpl, misc) => 
 		{

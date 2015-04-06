@@ -106,6 +106,8 @@ public partial class Program : MonoBehaviour
 	{
 		#region adding Conditions
 
+// ------------------------------------------------------------------------------------------------------------------------------------------------ CREATING CONDITIONS
+
 // --------------------------- INTERPERSONAL RULE CONDITIONS
 		RuleConditioner emptyCondition = (self, other, indPpl) => { 
 			//UIFunctions.WriteGameLine("PassedCorrectly ");
@@ -263,13 +265,14 @@ public partial class Program : MonoBehaviour
 // --------------------------------- CULTURAL CONDITIONS
 		
 		RuleConditioner convictCondition = (self, other, indPpl) =>
-		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["steal"] && x.GetDirect()==self && (x.GetSubject()==other && x.GetSubject()!=self)) )
+		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["steal"] && x.GetDirect()==self && (x.GetSubject()==other && x.GetSubject()!=self)) ||
+			   relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["fight"] && x.GetDirect()==self && (x.GetSubject()==other && x.GetSubject()!=self))  )
 			{	return true; }
 			return false; };
 
 		RuleConditioner fightCondition = (self, other, indPpl) =>
-		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["convict"] && x.GetDirect()==self && x.GetSubject()==other)  && self != other){
-				if(self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() < 0.0 || self.moods[MoodTypes.angryFear] < -0.7f  &&
+		{	if(self != other){
+				if((self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() < 0.0 || self.moods[MoodTypes.angryFear] < -0.7f) && self.GetOpinionValue(TraitTypes.NiceNasty,other) < -0.5f  &&
 				   self.moods[MoodTypes.energTired] > -0.6f){
 					return true; 
 				}
@@ -298,7 +301,7 @@ public partial class Program : MonoBehaviour
 		RuleConditioner stealCondition = (self, other, indPpl) =>
 		{	//MONEY
 			if(self.moods[MoodTypes.hapSad] < -0.3f  && self != other  &&
-			   self.moods[MoodTypes.energTired] > -0.4f){ return true; }
+			   self.moods[MoodTypes.energTired] > -0.4f && beings.Find(x=>x.name == self.name).possessions.Find(y=>y.Name=="money").value <= 10f){ return true; }
 			return false; };
 
 		RuleConditioner practiceStealingCondition = (self, other, indPpl) =>
@@ -437,123 +440,7 @@ public partial class Program : MonoBehaviour
 		#endregion adding Conditions
 
 
-		#region AddingPlayer
-		MaskAdds selfPersMask = new MaskAdds("Self", "Player", 0.0f, new List<Person>());
-		
-		relationSystem.CreateNewPerson(selfPersMask, new List<MaskAdds>(), new List<MaskAdds>(), 0f, 0f, 0f, new float[] { 0f, 0f, 0f },new float[]{0.0f,0.0f,0.0f});
-		#endregion AddingPlayer
-		
-		#region AddingBill
-		selfPersMask = new MaskAdds("Self", "Bill", 0.0f, new List<Person>());
-		
-		List<MaskAdds>  culture = new List<MaskAdds>();
-		culture.Add(new MaskAdds("Bunce", "Bungary", 0.2f, new List<Person>()));
-		culture.Add(new MaskAdds("Follower", "Cult", 0.4f,new List<Person>()));
-		culture.Add(new MaskAdds("Member", "MerchantGuild", 0.6f,new List<Person>()));
-		
-		relationSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.6f, 0.4f, 0.7f, new float[] { -0.2f, 0.5f, 0.1f },new float[]{0.0f,0.0f,0.0f});
-		#endregion AddingBill
-		
-		#region AddingTerese
-		selfPersMask = new MaskAdds("Self", "Therese", 0.0f, new List<Person>());
-
-		culture = new List<MaskAdds>();
-		culture.Add(new MaskAdds("Buncess", "Bungary", 0.6f, new List<Person>()));
-		culture.Add(new MaskAdds("Sceptic", "Cult", 0.1f,new List<Person>()));
-
-		relationSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.3f, 0.7f, 0.2f, new float[] { 0.6f, -0.5f, 0.6f },new float[]{0.0f,0.0f,0.0f});
-		#endregion AddingTerese
-		
-		#region AddingJohn
-		selfPersMask = new MaskAdds("Self", "John", 0.0f, new List<Person>());
-
-		culture = new List<MaskAdds>();
-		culture.Add(new MaskAdds("Follower", "Cult", 0.4f,new List<Person>()));
-		culture.Add(new MaskAdds("Bunsant", "Bungary", 0.1f, new List<Person>()));
-		
-		relationSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.5f, 0.5f, 0.4f, new float[] { 0.0f, 0.8f, -0.4f },new float[]{0.0f,0.0f,0.0f});
-		#endregion AddingJohn
-
-		#region AddingHeather
-		selfPersMask = new MaskAdds("Self", "Heather", 0.0f, new List<Person>());
-		
-		culture = new List<MaskAdds>();
-		culture.Add(new MaskAdds("Bunsant", "Bungary", 0.3f, new List<Person>()));
-		culture.Add(new MaskAdds("Leader", "Cult", 0.9f,new List<Person>()));
-		
-		relationSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.2f, 0.8f, 0.8f, new float[] { 0.2f, 0.4f, 0.0f },new float[]{0.0f,0.0f,0.0f});
-		#endregion AddingHeather
-
-		#region rolerefs
-		relationSystem.pplAndMasks.GetPerson("bill").GetLinks(TypeMask.culture).Find(x=>x.roleMask.GetMaskName() == "cult").AddRoleRef(relationSystem.pplAndMasks.GetPerson("heather"));
-		relationSystem.pplAndMasks.GetPerson("john").GetLinks(TypeMask.culture).Find(x=>x.roleMask.GetMaskName() == "cult").AddRoleRef(relationSystem.pplAndMasks.GetPerson("heather"));
-		#endregion rolerefs
-
-
-		#region Opinions
-		//BILL OPINIONS
-		relationSystem.pplAndMasks.GetPerson("bill").opinions.Add(new Opinion(TraitTypes.NiceNasty,relationSystem.pplAndMasks.GetPerson("therese"),0.6f));
-		relationSystem.pplAndMasks.GetPerson("bill").opinions.Add(new Opinion(TraitTypes.HonestFalse,relationSystem.pplAndMasks.GetPerson("therese"),0.3f));
-		relationSystem.pplAndMasks.GetPerson("bill").opinions.Add(new Opinion(TraitTypes.ShyBolsterous,relationSystem.pplAndMasks.GetPerson("therese"),-0.1f));
-		relationSystem.pplAndMasks.GetPerson("bill").opinions.Add(new Opinion(TraitTypes.NiceNasty,relationSystem.pplAndMasks.GetPerson("john"),-0.4f));
-		relationSystem.pplAndMasks.GetPerson("bill").opinions.Add(new Opinion(TraitTypes.HonestFalse,relationSystem.pplAndMasks.GetPerson("john"),-0.6f));
-		relationSystem.pplAndMasks.GetPerson("bill").opinions.Add(new Opinion(TraitTypes.ShyBolsterous,relationSystem.pplAndMasks.GetPerson("john"),0.3f));
-		relationSystem.pplAndMasks.GetPerson("bill").opinions.Add(new Opinion(TraitTypes.NiceNasty,relationSystem.pplAndMasks.GetPerson("heather"),0.4f));
-		relationSystem.pplAndMasks.GetPerson("bill").opinions.Add(new Opinion(TraitTypes.HonestFalse,relationSystem.pplAndMasks.GetPerson("heather"),0.6f));
-		relationSystem.pplAndMasks.GetPerson("bill").opinions.Add(new Opinion(TraitTypes.ShyBolsterous,relationSystem.pplAndMasks.GetPerson("heather"),0.4f));
-		relationSystem.pplAndMasks.GetPerson("bill").opinions.Add(new Opinion(TraitTypes.NiceNasty,relationSystem.pplAndMasks.GetPerson("player"),-0.2f));
-		relationSystem.pplAndMasks.GetPerson("bill").opinions.Add(new Opinion(TraitTypes.HonestFalse,relationSystem.pplAndMasks.GetPerson("player"),-0.1f));
-		relationSystem.pplAndMasks.GetPerson("bill").opinions.Add(new Opinion(TraitTypes.ShyBolsterous,relationSystem.pplAndMasks.GetPerson("player"),0.4f));
-		relationSystem.pplAndMasks.GetPerson("therese").opinions.Add(new Opinion(TraitTypes.NiceNasty,relationSystem.pplAndMasks.GetPerson("bill"),0.7f));
-		relationSystem.pplAndMasks.GetPerson("therese").opinions.Add(new Opinion(TraitTypes.HonestFalse,relationSystem.pplAndMasks.GetPerson("bill"),0.5f));
-		relationSystem.pplAndMasks.GetPerson("therese").opinions.Add(new Opinion(TraitTypes.ShyBolsterous,relationSystem.pplAndMasks.GetPerson("bill"),0.8f));
-		relationSystem.pplAndMasks.GetPerson("therese").opinions.Add(new Opinion(TraitTypes.NiceNasty,relationSystem.pplAndMasks.GetPerson("john"),-0.4f));
-		relationSystem.pplAndMasks.GetPerson("therese").opinions.Add(new Opinion(TraitTypes.HonestFalse,relationSystem.pplAndMasks.GetPerson("john"),-0.7f));
-		relationSystem.pplAndMasks.GetPerson("therese").opinions.Add(new Opinion(TraitTypes.ShyBolsterous,relationSystem.pplAndMasks.GetPerson("john"),-0.3f));
-		relationSystem.pplAndMasks.GetPerson("therese").opinions.Add(new Opinion(TraitTypes.NiceNasty,relationSystem.pplAndMasks.GetPerson("heather"),0.5f));
-		relationSystem.pplAndMasks.GetPerson("therese").opinions.Add(new Opinion(TraitTypes.HonestFalse,relationSystem.pplAndMasks.GetPerson("heather"),-0.1f));
-		relationSystem.pplAndMasks.GetPerson("therese").opinions.Add(new Opinion(TraitTypes.ShyBolsterous,relationSystem.pplAndMasks.GetPerson("heather"),0.0f));
-		relationSystem.pplAndMasks.GetPerson("therese").opinions.Add(new Opinion(TraitTypes.NiceNasty,relationSystem.pplAndMasks.GetPerson("player"),-0.3f));
-		relationSystem.pplAndMasks.GetPerson("therese").opinions.Add(new Opinion(TraitTypes.HonestFalse,relationSystem.pplAndMasks.GetPerson("player"),0.1f));
-		relationSystem.pplAndMasks.GetPerson("therese").opinions.Add(new Opinion(TraitTypes.ShyBolsterous,relationSystem.pplAndMasks.GetPerson("player"),0.5f));
-		relationSystem.pplAndMasks.GetPerson("john").opinions.Add(new Opinion(TraitTypes.NiceNasty,relationSystem.pplAndMasks.GetPerson("bill"),-0.5f));
-		relationSystem.pplAndMasks.GetPerson("john").opinions.Add(new Opinion(TraitTypes.HonestFalse,relationSystem.pplAndMasks.GetPerson("bill"),-0.5f));
-		relationSystem.pplAndMasks.GetPerson("john").opinions.Add(new Opinion(TraitTypes.ShyBolsterous,relationSystem.pplAndMasks.GetPerson("bill"),-0.1f));
-		relationSystem.pplAndMasks.GetPerson("john").opinions.Add(new Opinion(TraitTypes.NiceNasty,relationSystem.pplAndMasks.GetPerson("therese"),-0.3f));
-		relationSystem.pplAndMasks.GetPerson("john").opinions.Add(new Opinion(TraitTypes.HonestFalse,relationSystem.pplAndMasks.GetPerson("therese"),0.2f));
-		relationSystem.pplAndMasks.GetPerson("john").opinions.Add(new Opinion(TraitTypes.ShyBolsterous,relationSystem.pplAndMasks.GetPerson("therese"),-0.3f));
-		relationSystem.pplAndMasks.GetPerson("john").opinions.Add(new Opinion(TraitTypes.NiceNasty,relationSystem.pplAndMasks.GetPerson("heather"),0.6f));
-		relationSystem.pplAndMasks.GetPerson("john").opinions.Add(new Opinion(TraitTypes.HonestFalse,relationSystem.pplAndMasks.GetPerson("heather"),0.4f));
-		relationSystem.pplAndMasks.GetPerson("john").opinions.Add(new Opinion(TraitTypes.ShyBolsterous,relationSystem.pplAndMasks.GetPerson("heather"),0.4f));
-		relationSystem.pplAndMasks.GetPerson("john").opinions.Add(new Opinion(TraitTypes.NiceNasty,relationSystem.pplAndMasks.GetPerson("player"),0.5f));
-		relationSystem.pplAndMasks.GetPerson("john").opinions.Add(new Opinion(TraitTypes.HonestFalse,relationSystem.pplAndMasks.GetPerson("player"),07f));
-		relationSystem.pplAndMasks.GetPerson("john").opinions.Add(new Opinion(TraitTypes.ShyBolsterous,relationSystem.pplAndMasks.GetPerson("player"),0.3f));
-		relationSystem.pplAndMasks.GetPerson("heather").opinions.Add(new Opinion(TraitTypes.NiceNasty,relationSystem.pplAndMasks.GetPerson("bill"),0.4f));
-		relationSystem.pplAndMasks.GetPerson("heather").opinions.Add(new Opinion(TraitTypes.HonestFalse,relationSystem.pplAndMasks.GetPerson("bill"),-0.1f));
-		relationSystem.pplAndMasks.GetPerson("heather").opinions.Add(new Opinion(TraitTypes.ShyBolsterous,relationSystem.pplAndMasks.GetPerson("bill"),0.2f));
-		relationSystem.pplAndMasks.GetPerson("heather").opinions.Add(new Opinion(TraitTypes.NiceNasty,relationSystem.pplAndMasks.GetPerson("therese"),0.6f));
-		relationSystem.pplAndMasks.GetPerson("heather").opinions.Add(new Opinion(TraitTypes.HonestFalse,relationSystem.pplAndMasks.GetPerson("therese"),0.4f));
-		relationSystem.pplAndMasks.GetPerson("heather").opinions.Add(new Opinion(TraitTypes.ShyBolsterous,relationSystem.pplAndMasks.GetPerson("therese"),-0.1f));
-		relationSystem.pplAndMasks.GetPerson("heather").opinions.Add(new Opinion(TraitTypes.NiceNasty,relationSystem.pplAndMasks.GetPerson("john"),0.4f));
-		relationSystem.pplAndMasks.GetPerson("heather").opinions.Add(new Opinion(TraitTypes.HonestFalse,relationSystem.pplAndMasks.GetPerson("john"), -0.4f));
-		relationSystem.pplAndMasks.GetPerson("heather").opinions.Add(new Opinion(TraitTypes.ShyBolsterous,relationSystem.pplAndMasks.GetPerson("john"), 0.2f));
-		relationSystem.pplAndMasks.GetPerson("heather").opinions.Add(new Opinion(TraitTypes.NiceNasty,relationSystem.pplAndMasks.GetPerson("player"),0.7f));
-		relationSystem.pplAndMasks.GetPerson("heather").opinions.Add(new Opinion(TraitTypes.HonestFalse,relationSystem.pplAndMasks.GetPerson("player"),0.3f));
-		relationSystem.pplAndMasks.GetPerson("heather").opinions.Add(new Opinion(TraitTypes.ShyBolsterous,relationSystem.pplAndMasks.GetPerson("player"),0.4f));
-		relationSystem.pplAndMasks.GetPerson("player").opinions.Add(new Opinion(TraitTypes.NiceNasty,relationSystem.pplAndMasks.GetPerson("bill"),0.0f));
-		relationSystem.pplAndMasks.GetPerson("player").opinions.Add(new Opinion(TraitTypes.HonestFalse,relationSystem.pplAndMasks.GetPerson("bill"),0.0f));
-		relationSystem.pplAndMasks.GetPerson("player").opinions.Add(new Opinion(TraitTypes.ShyBolsterous,relationSystem.pplAndMasks.GetPerson("bill"),0.0f));
-		relationSystem.pplAndMasks.GetPerson("player").opinions.Add(new Opinion(TraitTypes.NiceNasty,relationSystem.pplAndMasks.GetPerson("therese"),0.0f));
-		relationSystem.pplAndMasks.GetPerson("player").opinions.Add(new Opinion(TraitTypes.HonestFalse,relationSystem.pplAndMasks.GetPerson("therese"),0.0f));
-		relationSystem.pplAndMasks.GetPerson("player").opinions.Add(new Opinion(TraitTypes.ShyBolsterous,relationSystem.pplAndMasks.GetPerson("therese"),0.0f));
-		relationSystem.pplAndMasks.GetPerson("player").opinions.Add(new Opinion(TraitTypes.NiceNasty,relationSystem.pplAndMasks.GetPerson("john"),0.0f));
-		relationSystem.pplAndMasks.GetPerson("player").opinions.Add(new Opinion(TraitTypes.HonestFalse,relationSystem.pplAndMasks.GetPerson("john"), 0.0f));
-		relationSystem.pplAndMasks.GetPerson("player").opinions.Add(new Opinion(TraitTypes.ShyBolsterous,relationSystem.pplAndMasks.GetPerson("john"), 0.0f));
-		relationSystem.pplAndMasks.GetPerson("player").opinions.Add(new Opinion(TraitTypes.NiceNasty,relationSystem.pplAndMasks.GetPerson("heather"),0.0f));
-		relationSystem.pplAndMasks.GetPerson("player").opinions.Add(new Opinion(TraitTypes.HonestFalse,relationSystem.pplAndMasks.GetPerson("heather"),0.0f));
-		relationSystem.pplAndMasks.GetPerson("player").opinions.Add(new Opinion(TraitTypes.ShyBolsterous,relationSystem.pplAndMasks.GetPerson("heather"),0.0f));
-		#endregion Opinions
-
+// ---------------------------------------------------------------------------------------------------------------------- CREATING RULES
 
 
 		#region Rules
@@ -614,10 +501,10 @@ public partial class Program : MonoBehaviour
 		relationSystem.CreateNewRule("playgamefbunce", "playgame", playgameCondition);
 		relationSystem.CreateNewRule("playgamefcess", "playgame", playgameCondition);
 		relationSystem.CreateNewRule("playgamefbunsant", "playgame", playgameCondition);
-		relationSystem.CreateNewRule("order", "order", bribeCondition);
-		relationSystem.CreateNewRule("orderfbunce", "order", bribeCondition);
-		relationSystem.CreateNewRule("orderfcess", "order", bribeCondition);
-		relationSystem.CreateNewRule("orderfbunsant", "order", bribeCondition);
+		relationSystem.CreateNewRule("order", "order", orderCondition);
+		relationSystem.CreateNewRule("orderfbunce", "order", orderCondition);
+		relationSystem.CreateNewRule("orderfcess", "order", orderCondition);
+		relationSystem.CreateNewRule("orderfbunsant", "order", orderCondition);
 
 	/*	relationSystem.CreateNewRule("moveToStuefbunce", "moveToStue", emptyCondition);
 		relationSystem.CreateNewRule("moveToStuefcess", "moveToStue", emptyCondition);
@@ -652,7 +539,7 @@ public partial class Program : MonoBehaviour
 		relationSystem.CreateNewRule("flee", "flee", fleeCondition);
 
 
-// ----------------- RULES THAT MIGHT HAPPEN (REACTION RULES)
+// ------------------------------------------------------------------------------------------------------------------------------------------ RULES THAT MIGHT HAPPEN (REACTION RULES)
 
 		// ------------- INTERPERSONAL
 		List<Rule> kissRulesToTrigger = new List<Rule>(); kissRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("givegift"));
@@ -882,7 +769,7 @@ public partial class Program : MonoBehaviour
 		relationSystem.pplAndMasks.AddPossibleRulesToRule("sellgoods",sellgoodsRulesToTrigger);
 
 
-// -------------- ADDING RULES TO MASKS
+// ----------------------------------------------------------------------------------------------- ADDING RULES TO MASKS
 	
 	// SElF
 		relationSystem.AddRuleToMask("John", "Self", "donothing", -1.0f);
@@ -1205,54 +1092,159 @@ public partial class Program : MonoBehaviour
 		relationSystem.AddRuleToMask("MerchantGuild", "Member", "sellgoods", 0.7f);
 
 		#endregion Rules
+
+
+
+//  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+		//PEOPLE
+
+
 		
+		#region AddingPlayer
+		MaskAdds selfPersMask = new MaskAdds("Self", "Player", 0.0f, new List<Person>());
 		
+		relationSystem.CreateNewPerson(selfPersMask, new List<MaskAdds>(), new List<MaskAdds>(), 0f, 0f, 0f, new float[] { 0f, 0f, 0f },new float[]{0.0f,0.0f,0.0f});
+		#endregion AddingPlayer
+		
+		#region AddingBill
+		selfPersMask = new MaskAdds("Self", "Bill", 0.0f, new List<Person>());
+		
+		List<MaskAdds>  culture = new List<MaskAdds>();
+		culture.Add(new MaskAdds("Bunce", "Bungary", 0.5f, new List<Person>()));
+		culture.Add(new MaskAdds("Follower", "Cult", 0.4f,new List<Person>()));
+		culture.Add(new MaskAdds("Member", "MerchantGuild", 0.6f,new List<Person>()));
+		
+		relationSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.6f, 0.4f, 0.7f, new float[] { -0.2f, 0.5f, 0.1f },new float[]{0.0f,0.0f,0.0f});
+		#endregion AddingBill
+		
+		#region AddingTerese
+		selfPersMask = new MaskAdds("Self", "Therese", 0.0f, new List<Person>());
+		
+		culture = new List<MaskAdds>();
+		culture.Add(new MaskAdds("Buncess", "Bungary", 0.6f, new List<Person>()));
+		culture.Add(new MaskAdds("Sceptic", "Cult", 0.1f,new List<Person>()));
+		
+		relationSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.3f, 0.7f, 0.2f, new float[] { 0.6f, -0.5f, 0.6f },new float[]{0.0f,0.0f,0.0f});
+		#endregion AddingTerese
+		
+		#region AddingJohn
+		selfPersMask = new MaskAdds("Self", "John", 0.0f, new List<Person>());
+		
+		culture = new List<MaskAdds>();
+		culture.Add(new MaskAdds("Follower", "Cult", 0.4f,new List<Person>()));
+		culture.Add(new MaskAdds("Bunsant", "Bungary", 0.1f, new List<Person>()));
+		
+		relationSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.5f, 0.5f, 0.4f, new float[] { 0.0f, 0.8f, -0.4f },new float[]{0.0f,0.0f,0.0f});
+		#endregion AddingJohn
+		
+		#region AddingHeather
+		selfPersMask = new MaskAdds("Self", "Heather", 0.0f, new List<Person>());
+		
+		culture = new List<MaskAdds>();
+		culture.Add(new MaskAdds("Bunsant", "Bungary", 0.3f, new List<Person>()));
+		culture.Add(new MaskAdds("Leader", "Cult", 0.9f,new List<Person>()));
+		
+		relationSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.2f, 0.8f, 0.8f, new float[] { 0.2f, 0.4f, 0.0f },new float[]{0.0f,0.0f,0.0f});
+		#endregion AddingHeather
+		
+		#region rolerefs
+		relationSystem.pplAndMasks.GetPerson("bill").GetLinks(TypeMask.culture).Find(x=>x.roleMask.GetMaskName() == "cult").AddRoleRef(relationSystem.pplAndMasks.GetPerson("heather"));
+		relationSystem.pplAndMasks.GetPerson("john").GetLinks(TypeMask.culture).Find(x=>x.roleMask.GetMaskName() == "cult").AddRoleRef(relationSystem.pplAndMasks.GetPerson("heather"));
+		#endregion rolerefs
+
 		
 		#region LINKS
-		relationSystem.AddLinkToPerson("Bill", new string[] { "Therese" }, TypeMask.interPers, "Partner", "BillTherese", 0.6f);
-		relationSystem.AddLinkToPerson("Bill", new string[] { "John" }, TypeMask.interPers, "Enemy", "BillJohn", 0.2f);
+		relationSystem.AddLinkToPerson("Bill", new string[] { "Therese" }, TypeMask.interPers, "Partner", "BillTherese", 0.3f);
+		relationSystem.AddLinkToPerson("Bill", new string[] { "John" }, TypeMask.interPers, "Enemy", "BillJohn", 0.4f);
 		relationSystem.AddLinkToPerson("Bill", new string[] { "Heather" }, TypeMask.interPers, "Friend", "BillHeather", 0.2f);
-		relationSystem.AddLinkToPerson("Bill", new string[] { "Player" }, TypeMask.interPers, "Enemy", "BillPlayer", 0.2f);
+		relationSystem.AddLinkToPerson("Bill", new string[] { "Player" }, TypeMask.interPers, "Enemy", "BillPlayer", 0.4f);
 
-		relationSystem.AddLinkToPerson("Therese", new string[] { "Bill" }, TypeMask.interPers, "Partner", "ThereseBill", 0.4f);
+		relationSystem.AddLinkToPerson("Therese", new string[] { "Bill" }, TypeMask.interPers, "Partner", "ThereseBill", 0.5f);
 		relationSystem.AddLinkToPerson("Therese", new string[] { "John" }, TypeMask.interPers, "Enemy", "ThereseJohn", 0.2f);
 		relationSystem.AddLinkToPerson("Therese", new string[] { "Heather" }, TypeMask.interPers, "Friend", "ThereseHeather", 0.6f);
 		relationSystem.AddLinkToPerson("Therese", new string[] { "Player" }, TypeMask.interPers, "Enemy", "TheresePlayer", 0.3f);
 
 		relationSystem.AddLinkToPerson("John", new string[] { "Bill" }, TypeMask.interPers, "Enemy", "JohnBill", 0.7f);
 		relationSystem.AddLinkToPerson("John", new string[] { "Therese" }, TypeMask.interPers, "Enemy", "JohnTherese", 0.4f);
-		relationSystem.AddLinkToPerson("John", new string[] { "Heather" }, TypeMask.interPers, "Friend", "JohnHeather", 0.8f);
-		relationSystem.AddLinkToPerson("John", new string[] { "Player" }, TypeMask.interPers, "Enemy", "JohnPlayer", 0.5f);
+		relationSystem.AddLinkToPerson("John", new string[] { "Heather" }, TypeMask.interPers, "Partner", "JohnHeather", 0.8f);
+		relationSystem.AddLinkToPerson("John", new string[] { "Player" }, TypeMask.interPers, "Friend", "JohnPlayer", 0.5f);
 
 		relationSystem.AddLinkToPerson("Heather", new string[] { "Bill" }, TypeMask.interPers, "Friend", "HeatherBill", 0.4f);
-		relationSystem.AddLinkToPerson("Heather", new string[] { "Therese" }, TypeMask.interPers, "Enemy", "HeatherTherese", 0.6f);
+		relationSystem.AddLinkToPerson("Heather", new string[] { "Therese" }, TypeMask.interPers, "Friend", "HeatherTherese", 0.6f);
 		relationSystem.AddLinkToPerson("Heather", new string[] { "John" }, TypeMask.interPers, "Partner", "HeatherJohn", 0.5f);
 		relationSystem.AddLinkToPerson("Heather", new string[] { "Player" }, TypeMask.interPers, "Partner", "HeatherPlayer", 0.5f);
 		#endregion LINKS 
-		
+
+		#region Opinions
+		//BILL OPINIONS
+		relationSystem.pplAndMasks.GetPerson("bill").opinions.Add(new Opinion(TraitTypes.NiceNasty,relationSystem.pplAndMasks.GetPerson("therese"),0.6f));
+		relationSystem.pplAndMasks.GetPerson("bill").opinions.Add(new Opinion(TraitTypes.HonestFalse,relationSystem.pplAndMasks.GetPerson("therese"),0.3f));
+		relationSystem.pplAndMasks.GetPerson("bill").opinions.Add(new Opinion(TraitTypes.ShyBolsterous,relationSystem.pplAndMasks.GetPerson("therese"),-0.1f));
+		relationSystem.pplAndMasks.GetPerson("bill").opinions.Add(new Opinion(TraitTypes.NiceNasty,relationSystem.pplAndMasks.GetPerson("john"),-0.4f));
+		relationSystem.pplAndMasks.GetPerson("bill").opinions.Add(new Opinion(TraitTypes.HonestFalse,relationSystem.pplAndMasks.GetPerson("john"),-0.6f));
+		relationSystem.pplAndMasks.GetPerson("bill").opinions.Add(new Opinion(TraitTypes.ShyBolsterous,relationSystem.pplAndMasks.GetPerson("john"),0.3f));
+		relationSystem.pplAndMasks.GetPerson("bill").opinions.Add(new Opinion(TraitTypes.NiceNasty,relationSystem.pplAndMasks.GetPerson("heather"),0.4f));
+		relationSystem.pplAndMasks.GetPerson("bill").opinions.Add(new Opinion(TraitTypes.HonestFalse,relationSystem.pplAndMasks.GetPerson("heather"),0.6f));
+		relationSystem.pplAndMasks.GetPerson("bill").opinions.Add(new Opinion(TraitTypes.ShyBolsterous,relationSystem.pplAndMasks.GetPerson("heather"),0.4f));
+		relationSystem.pplAndMasks.GetPerson("bill").opinions.Add(new Opinion(TraitTypes.NiceNasty,relationSystem.pplAndMasks.GetPerson("player"),-0.2f));
+		relationSystem.pplAndMasks.GetPerson("bill").opinions.Add(new Opinion(TraitTypes.HonestFalse,relationSystem.pplAndMasks.GetPerson("player"),-0.1f));
+		relationSystem.pplAndMasks.GetPerson("bill").opinions.Add(new Opinion(TraitTypes.ShyBolsterous,relationSystem.pplAndMasks.GetPerson("player"),0.4f));
+		relationSystem.pplAndMasks.GetPerson("therese").opinions.Add(new Opinion(TraitTypes.NiceNasty,relationSystem.pplAndMasks.GetPerson("bill"),0.7f));
+		relationSystem.pplAndMasks.GetPerson("therese").opinions.Add(new Opinion(TraitTypes.HonestFalse,relationSystem.pplAndMasks.GetPerson("bill"),0.5f));
+		relationSystem.pplAndMasks.GetPerson("therese").opinions.Add(new Opinion(TraitTypes.ShyBolsterous,relationSystem.pplAndMasks.GetPerson("bill"),0.8f));
+		relationSystem.pplAndMasks.GetPerson("therese").opinions.Add(new Opinion(TraitTypes.NiceNasty,relationSystem.pplAndMasks.GetPerson("john"),-0.4f));
+		relationSystem.pplAndMasks.GetPerson("therese").opinions.Add(new Opinion(TraitTypes.HonestFalse,relationSystem.pplAndMasks.GetPerson("john"),-0.7f));
+		relationSystem.pplAndMasks.GetPerson("therese").opinions.Add(new Opinion(TraitTypes.ShyBolsterous,relationSystem.pplAndMasks.GetPerson("john"),-0.3f));
+		relationSystem.pplAndMasks.GetPerson("therese").opinions.Add(new Opinion(TraitTypes.NiceNasty,relationSystem.pplAndMasks.GetPerson("heather"),0.5f));
+		relationSystem.pplAndMasks.GetPerson("therese").opinions.Add(new Opinion(TraitTypes.HonestFalse,relationSystem.pplAndMasks.GetPerson("heather"),-0.1f));
+		relationSystem.pplAndMasks.GetPerson("therese").opinions.Add(new Opinion(TraitTypes.ShyBolsterous,relationSystem.pplAndMasks.GetPerson("heather"),0.0f));
+		relationSystem.pplAndMasks.GetPerson("therese").opinions.Add(new Opinion(TraitTypes.NiceNasty,relationSystem.pplAndMasks.GetPerson("player"),-0.3f));
+		relationSystem.pplAndMasks.GetPerson("therese").opinions.Add(new Opinion(TraitTypes.HonestFalse,relationSystem.pplAndMasks.GetPerson("player"),0.1f));
+		relationSystem.pplAndMasks.GetPerson("therese").opinions.Add(new Opinion(TraitTypes.ShyBolsterous,relationSystem.pplAndMasks.GetPerson("player"),0.5f));
+		relationSystem.pplAndMasks.GetPerson("john").opinions.Add(new Opinion(TraitTypes.NiceNasty,relationSystem.pplAndMasks.GetPerson("bill"),-0.5f));
+		relationSystem.pplAndMasks.GetPerson("john").opinions.Add(new Opinion(TraitTypes.HonestFalse,relationSystem.pplAndMasks.GetPerson("bill"),-0.5f));
+		relationSystem.pplAndMasks.GetPerson("john").opinions.Add(new Opinion(TraitTypes.ShyBolsterous,relationSystem.pplAndMasks.GetPerson("bill"),-0.1f));
+		relationSystem.pplAndMasks.GetPerson("john").opinions.Add(new Opinion(TraitTypes.NiceNasty,relationSystem.pplAndMasks.GetPerson("therese"),-0.3f));
+		relationSystem.pplAndMasks.GetPerson("john").opinions.Add(new Opinion(TraitTypes.HonestFalse,relationSystem.pplAndMasks.GetPerson("therese"),0.2f));
+		relationSystem.pplAndMasks.GetPerson("john").opinions.Add(new Opinion(TraitTypes.ShyBolsterous,relationSystem.pplAndMasks.GetPerson("therese"),-0.3f));
+		relationSystem.pplAndMasks.GetPerson("john").opinions.Add(new Opinion(TraitTypes.NiceNasty,relationSystem.pplAndMasks.GetPerson("heather"),0.6f));
+		relationSystem.pplAndMasks.GetPerson("john").opinions.Add(new Opinion(TraitTypes.HonestFalse,relationSystem.pplAndMasks.GetPerson("heather"),0.4f));
+		relationSystem.pplAndMasks.GetPerson("john").opinions.Add(new Opinion(TraitTypes.ShyBolsterous,relationSystem.pplAndMasks.GetPerson("heather"),0.4f));
+		relationSystem.pplAndMasks.GetPerson("john").opinions.Add(new Opinion(TraitTypes.NiceNasty,relationSystem.pplAndMasks.GetPerson("player"),0.5f));
+		relationSystem.pplAndMasks.GetPerson("john").opinions.Add(new Opinion(TraitTypes.HonestFalse,relationSystem.pplAndMasks.GetPerson("player"),07f));
+		relationSystem.pplAndMasks.GetPerson("john").opinions.Add(new Opinion(TraitTypes.ShyBolsterous,relationSystem.pplAndMasks.GetPerson("player"),0.3f));
+		relationSystem.pplAndMasks.GetPerson("heather").opinions.Add(new Opinion(TraitTypes.NiceNasty,relationSystem.pplAndMasks.GetPerson("bill"),0.4f));
+		relationSystem.pplAndMasks.GetPerson("heather").opinions.Add(new Opinion(TraitTypes.HonestFalse,relationSystem.pplAndMasks.GetPerson("bill"),-0.1f));
+		relationSystem.pplAndMasks.GetPerson("heather").opinions.Add(new Opinion(TraitTypes.ShyBolsterous,relationSystem.pplAndMasks.GetPerson("bill"),0.2f));
+		relationSystem.pplAndMasks.GetPerson("heather").opinions.Add(new Opinion(TraitTypes.NiceNasty,relationSystem.pplAndMasks.GetPerson("therese"),0.6f));
+		relationSystem.pplAndMasks.GetPerson("heather").opinions.Add(new Opinion(TraitTypes.HonestFalse,relationSystem.pplAndMasks.GetPerson("therese"),0.4f));
+		relationSystem.pplAndMasks.GetPerson("heather").opinions.Add(new Opinion(TraitTypes.ShyBolsterous,relationSystem.pplAndMasks.GetPerson("therese"),-0.1f));
+		relationSystem.pplAndMasks.GetPerson("heather").opinions.Add(new Opinion(TraitTypes.NiceNasty,relationSystem.pplAndMasks.GetPerson("john"),0.4f));
+		relationSystem.pplAndMasks.GetPerson("heather").opinions.Add(new Opinion(TraitTypes.HonestFalse,relationSystem.pplAndMasks.GetPerson("john"), -0.4f));
+		relationSystem.pplAndMasks.GetPerson("heather").opinions.Add(new Opinion(TraitTypes.ShyBolsterous,relationSystem.pplAndMasks.GetPerson("john"), 0.2f));
+		relationSystem.pplAndMasks.GetPerson("heather").opinions.Add(new Opinion(TraitTypes.NiceNasty,relationSystem.pplAndMasks.GetPerson("player"),0.7f));
+		relationSystem.pplAndMasks.GetPerson("heather").opinions.Add(new Opinion(TraitTypes.HonestFalse,relationSystem.pplAndMasks.GetPerson("player"),0.3f));
+		relationSystem.pplAndMasks.GetPerson("heather").opinions.Add(new Opinion(TraitTypes.ShyBolsterous,relationSystem.pplAndMasks.GetPerson("player"),0.4f));
+		relationSystem.pplAndMasks.GetPerson("player").opinions.Add(new Opinion(TraitTypes.NiceNasty,relationSystem.pplAndMasks.GetPerson("bill"),0.0f));
+		relationSystem.pplAndMasks.GetPerson("player").opinions.Add(new Opinion(TraitTypes.HonestFalse,relationSystem.pplAndMasks.GetPerson("bill"),0.0f));
+		relationSystem.pplAndMasks.GetPerson("player").opinions.Add(new Opinion(TraitTypes.ShyBolsterous,relationSystem.pplAndMasks.GetPerson("bill"),0.0f));
+		relationSystem.pplAndMasks.GetPerson("player").opinions.Add(new Opinion(TraitTypes.NiceNasty,relationSystem.pplAndMasks.GetPerson("therese"),0.0f));
+		relationSystem.pplAndMasks.GetPerson("player").opinions.Add(new Opinion(TraitTypes.HonestFalse,relationSystem.pplAndMasks.GetPerson("therese"),0.0f));
+		relationSystem.pplAndMasks.GetPerson("player").opinions.Add(new Opinion(TraitTypes.ShyBolsterous,relationSystem.pplAndMasks.GetPerson("therese"),0.0f));
+		relationSystem.pplAndMasks.GetPerson("player").opinions.Add(new Opinion(TraitTypes.NiceNasty,relationSystem.pplAndMasks.GetPerson("john"),0.0f));
+		relationSystem.pplAndMasks.GetPerson("player").opinions.Add(new Opinion(TraitTypes.HonestFalse,relationSystem.pplAndMasks.GetPerson("john"), 0.0f));
+		relationSystem.pplAndMasks.GetPerson("player").opinions.Add(new Opinion(TraitTypes.ShyBolsterous,relationSystem.pplAndMasks.GetPerson("john"), 0.0f));
+		relationSystem.pplAndMasks.GetPerson("player").opinions.Add(new Opinion(TraitTypes.NiceNasty,relationSystem.pplAndMasks.GetPerson("heather"),0.0f));
+		relationSystem.pplAndMasks.GetPerson("player").opinions.Add(new Opinion(TraitTypes.HonestFalse,relationSystem.pplAndMasks.GetPerson("heather"),0.0f));
+		relationSystem.pplAndMasks.GetPerson("player").opinions.Add(new Opinion(TraitTypes.ShyBolsterous,relationSystem.pplAndMasks.GetPerson("heather"),0.0f));
+		#endregion Opinions
+
+
+
+
+
 		
 	}
 
-
-	void UpdateStats(){
-		statsString = "";
-
-		foreach (Person p in relationSystem.pplAndMasks.people.Values) {
-			if(p.name != "player"){
-				statsString += p.name+"\n";
-				statsString += "AngFea: "+p.moods[MoodTypes.angryFear]+"\n";
-				statsString += "aroDis: "+p.moods[MoodTypes.arousDisgus]+"\n";
-				statsString += "EnrTir: "+p.moods[MoodTypes.energTired]+"\n";
-				statsString += "HapSad: "+p.moods[MoodTypes.hapSad]+"\n";
-			}
-			statsString += "\n";
-		}
-		statsString += "Money: \n";
-
-
-		foreach (Being b in beings) {
-			statsString +=  b.name+"  "+ b.possessions.Find(x=>x.Name == "money").value+"\n";
-		}
-	}
 
 }

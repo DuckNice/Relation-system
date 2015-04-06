@@ -188,10 +188,7 @@ namespace NRelationSystem
 			foreach (Opinion o in opinions) {
 				if (o.pers == pers && o.trait == traittype) {
 					o.value = valToAdd;
-					break;
-				}
-				else{
-					debug.Write ("Error in SetOpinion. Did not find person "+pers.name+" or trait "+traittype+". Check spelling.");
+					return;
 				}
 			}
 		}
@@ -200,10 +197,7 @@ namespace NRelationSystem
 			foreach (Opinion o in opinions) {
 				if (o.pers == pers && o.trait == traittype) {
 					o.value += Calculator.unboundAdd (valToAdd, o.value);
-					break;
-				}
-				else{
-					debug.Write ("Error in AddtoOpinion. Did not find person "+pers.name+" or trait "+traittype+". Check spelling.");
+					return;
 				}
 			}
 		}
