@@ -95,9 +95,14 @@ public partial class Program : MonoBehaviour
 		relationSystem.CreateNewMask("HeatherJohn", new float[] { 0.2f, 0.0f }, new bool[] { }, TypeMask.interPers, new string[] { "Partner" });
 
 		relationSystem.CreateNewMask("BillPlayer", new float[] { -0.4f, 0.0f }, new bool[] { }, TypeMask.interPers, new string[] { "Partner" });
-		relationSystem.CreateNewMask("HeatherPlayer", new float[] { 0.5f, 0.0f }, new bool[] { }, TypeMask.interPers, new string[] { "Enemy" });
+		relationSystem.CreateNewMask("HeatherPlayer", new float[] { 0.5f, 0.0f }, new bool[] { }, TypeMask.interPers, new string[] { "Partner" });
 		relationSystem.CreateNewMask("TheresePlayer", new float[] { -0.2f, 0.0f }, new bool[] { }, TypeMask.interPers, new string[] { "Enemy" });
 		relationSystem.CreateNewMask("JohnPlayer", new float[] { 0.2f, 0.0f }, new bool[] { }, TypeMask.interPers, new string[] { "Friend" });
+
+		relationSystem.CreateNewMask("PlayerBill", new float[] { -0.4f, 0.0f }, new bool[] { }, TypeMask.interPers, new string[] { "Enemy" });
+		relationSystem.CreateNewMask("PlayerHeather", new float[] { 0.5f, 0.0f }, new bool[] { }, TypeMask.interPers, new string[] { "Partner" });
+		relationSystem.CreateNewMask("PlayerTherese", new float[] { -0.2f, 0.0f }, new bool[] { }, TypeMask.interPers, new string[] { "Enemy" });
+		relationSystem.CreateNewMask("PlayerJohn", new float[] { 0.2f, 0.0f }, new bool[] { }, TypeMask.interPers, new string[] { "Friend" });
 	}
 
 
@@ -129,32 +134,38 @@ public partial class Program : MonoBehaviour
 		};
 
 		RuleConditioner fleeCondition = (self, other, indPpl) =>
-		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["convict"] && x.GetDirect()==self) ){
-				if(self.moods[MoodTypes.angryFear] < -0.2f){
+		{	if(self.moods[MoodTypes.angryFear] < -0.9f){
 					return true; 
 				}
-			}
 			return false; };
 
 		RuleConditioner kissCondition = (self, other, indPpl) =>
-		{	if (self != other  && self.moods[MoodTypes.energTired] > -0.2f)
-			      { if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.7f){ return true; }}
-			
-			if (self.moods[MoodTypes.arousDisgus] > 0.5f) { return true; }
+		{	if(self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name && y.interPersonal.Exists(z=>z.roleName == "partner" && z.roleRef.Exists(s=>s.name == self.name))) && x.roleName == "partner")){
+				if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.4f && self.moods[MoodTypes.arousDisgus] > 0.4f){ return true; }
+			}
+			else{
+				if (self != other  && self.moods[MoodTypes.energTired] > 0.2f)
+				{ if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.7f && self.moods[MoodTypes.arousDisgus] > 0.5f){ return true; }}
+			}					
 			return false;
 		};
 
 		RuleConditioner askAboutPartnerStatusCondition = (self, other, indPpl) =>
-		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["kiss"] && x.GetSubject() == other && x.GetDirect() != self) && 
-			     self.interPersonal.Exists(x => x.roleName == "partner") && other.interPersonal.Exists(x => x.roleName == "partner") ){
+		{	if((relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["kiss"] && x.GetSubject() == other && x.GetDirect() != self)
+			      && (self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name && y.interPersonal.Exists(z=>z.roleName == "partner" && z.roleRef.Exists(s=>s.name == self.name))) && x.roleName == "partner")))){
 				return true;
+			}
+			if(!(self.interPersonal.Exists(x=>x.roleName=="partner"))){
+				if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.7f){
+					return true;
+				}
 			}
 			return false; };
 
 		RuleConditioner chooseAnotherAsPartnerCondition = (self, other, indPpl) =>
 		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.3) && self.moods[MoodTypes.arousDisgus] > 0.3f && self != other){
 				if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.5f)
-					return true;
+				{  return true; }
 			}
 			return false; };
 
@@ -793,7 +804,7 @@ public partial class Program : MonoBehaviour
 		relationSystem.AddRuleToMask("JohnHeather", "Partner", "askAboutPartnerStatus", 0.5f);
 		relationSystem.AddRuleToMask("BillTherese", "Partner", "askAboutPartnerStatus", 0.5f);
 		relationSystem.AddRuleToMask("ThereseBill", "Partner", "askAboutPartnerStatus", 0.5f);
-		/*relationSystem.AddRuleToMask("HeatherJohn", "Partner", "chooseanotheraspartner", -0.3f);
+		relationSystem.AddRuleToMask("HeatherJohn", "Partner", "chooseanotheraspartner", -0.3f);
 		relationSystem.AddRuleToMask("HeatherPlayer", "Partner", "chooseanotheraspartner", -0.3f);
 		relationSystem.AddRuleToMask("JohnHeather", "Partner", "chooseanotheraspartner", -0.3f);
 		relationSystem.AddRuleToMask("HeatherJohn", "Partner", "stayaspartner", 0.4f);
@@ -805,7 +816,7 @@ public partial class Program : MonoBehaviour
 		relationSystem.AddRuleToMask("HeatherPlayer", "Partner", "leavepartner", -0.2f);
 		relationSystem.AddRuleToMask("JohnHeather", "Partner", "leavepartner", -0.2f);
 		relationSystem.AddRuleToMask("BillTherese", "Partner", "leavepartner", -0.2f);
-		relationSystem.AddRuleToMask("ThereseBill", "Partner", "leavepartner", -0.2f);*/
+		relationSystem.AddRuleToMask("ThereseBill", "Partner", "leavepartner", -0.2f);
 
 		relationSystem.AddRuleToMask("JohnHeather", "Partner", "flirt", -0.4f);
 		relationSystem.AddRuleToMask("JohnBill", "Enemy", "flirt", -0.4f);
@@ -1173,6 +1184,11 @@ public partial class Program : MonoBehaviour
 		relationSystem.AddLinkToPerson("Heather", new string[] { "Therese" }, TypeMask.interPers, "Friend", "HeatherTherese", 0.6f);
 		relationSystem.AddLinkToPerson("Heather", new string[] { "John" }, TypeMask.interPers, "Partner", "HeatherJohn", 0.5f);
 		relationSystem.AddLinkToPerson("Heather", new string[] { "Player" }, TypeMask.interPers, "Partner", "HeatherPlayer", 0.5f);
+
+		relationSystem.AddLinkToPerson("Player", new string[] { "Bill" }, TypeMask.interPers, "Enemy", "PlayerBill", 0.4f);
+		relationSystem.AddLinkToPerson("Player", new string[] { "Therese" }, TypeMask.interPers, "Enemy", "PlayerTherese", 0.6f);
+		relationSystem.AddLinkToPerson("Player", new string[] { "John" }, TypeMask.interPers, "Friend", "PlayerJohn", 0.5f);
+		relationSystem.AddLinkToPerson("Player", new string[] { "Heather" }, TypeMask.interPers, "Partner", "Player", 0.5f);
 		#endregion LINKS 
 
 		#region Opinions
