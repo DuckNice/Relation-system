@@ -526,7 +526,7 @@ public partial class Program : MonoBehaviour
 			direct.AddToOpinionValue(TraitTypes.NiceNasty,subject, -0.2f);
 			direct.AddToOpinionValue(TraitTypes.HonestFalse,subject, -0.1f);
 		};
-		relationSystem.AddAction(new MAction("makeoffun", 0.4f,-0.6f, relationSystem, makefunof,4f));
+		relationSystem.AddAction(new MAction("makefunof", 0.4f,-0.6f, relationSystem, makefunof,4f));
 
 		ActionInvoker telljoke = (subject, direct, indPpl, misc) => 
 		{
@@ -564,7 +564,7 @@ public partial class Program : MonoBehaviour
 			direct.AddToOpinionValue(TraitTypes.NiceNasty,subject, -0.3f);
 			direct.AddToOpinionValue(TraitTypes.HonestFalse,subject, -0.3f);
 		};
-		relationSystem.AddAction(new MAction("telljoke", 0.3f, -0.4f, relationSystem, prank, 5f));
+		relationSystem.AddAction(new MAction("prank", 0.3f, -0.4f, relationSystem, prank, 5f));
 
 		ActionInvoker playgame = (subject, direct, indPpl, misc) => 
 		{
