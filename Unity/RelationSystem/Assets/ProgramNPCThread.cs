@@ -65,10 +65,10 @@ public partial class Program : MonoBehaviour
 		
 		foreach (Person p in relationSystem.pplAndMasks.people.Values) {
 			statsString += p.name+"\n";
-			statsString += "AngFea: "+p.moods[MoodTypes.angryFear]+"\n";
-			statsString += "aroDis: "+p.moods[MoodTypes.arousDisgus]+"\n";
-			statsString += "EnrTir: "+p.moods[MoodTypes.energTired]+"\n";
-			statsString += "HapSad: "+p.moods[MoodTypes.hapSad]+"\n";
+			statsString += "AngFea: "+(p.moods[MoodTypes.angryFear])*100f+"\n";
+			statsString += "aroDis: "+(p.moods[MoodTypes.arousDisgus])*100f+"\n";
+			statsString += "EnrTir: "+(p.moods[MoodTypes.energTired])*100f+"\n";
+			statsString += "HapSad: "+(p.moods[MoodTypes.hapSad])*100f+"\n";
 			statsString += "\n";
 		}
 		statsString += "Money: \n";

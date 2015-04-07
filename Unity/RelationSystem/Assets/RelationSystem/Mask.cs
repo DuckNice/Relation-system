@@ -90,10 +90,10 @@ namespace NRelationSystem
                     notPosAct = true;
 
 				if(rule.role.Equals(role)){
-
+					debug.Write("Checking condition "+rule.ruleName);
 					if(!notPosAct&& rule.Condition(self, reactPeople))
 					{
-						debug.Write("Calculating "+rule.actionToTrigger.name);
+					//	debug.Write("Calculating "+rule.actionToTrigger.name);
 						float newActionStrength = Calculator.CalculateRule(rat, mor, imp, abi, rule, rule.rulesThatMightHappen, maskInfl, foci);
 						
 						if (newActionStrength > chosenAction.strOfAct)

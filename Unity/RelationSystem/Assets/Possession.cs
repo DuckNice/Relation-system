@@ -61,3 +61,15 @@ public class Company : Possession
 		parameters.Add (value);
 	}
 }
+
+public class Game : Possession
+{
+	public Game(string _name){
+		name = "game";
+		string gameName = _name;
+		value = 1;
+		parameters.Add (value);
+	}
+
+}
+

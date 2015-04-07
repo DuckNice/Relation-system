@@ -54,6 +54,7 @@ public partial class Program : MonoBehaviour
 		Player.possessions.Add (new Money (30f));
 		Player.possessions.Add (new Goods (2f));
 		Player.possessions.Add (new Company("A Poor Excuse for A Company"));
+		Heather.possessions.Add (new Game ("StarCraft"));
 
 		foreach (Being b in beings) {
 			b.name = b.name.ToLower();
@@ -163,23 +164,33 @@ public partial class Program : MonoBehaviour
 			return false; };
 
 		RuleConditioner chooseAnotherAsPartnerCondition = (self, other, indPpl) =>
-		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.3) && self.moods[MoodTypes.arousDisgus] > 0.3f && self != other){
-				if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.5f)
-				{  return true; }
+		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["askaboutpartnerstatus"] && x.GetSubject() == other && x.GetDirect() == self && x.GetTime() < 10f)){
+				if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.3) && self.moods[MoodTypes.arousDisgus] > 0.3f && self != other){
+					if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.5f)
+					{  return true; }
+				}
+			}
+			if(self.interPersonal.Exists(x => x.roleName != "partner") && other.interPersonal.Exists(x => x.roleName != "partner")){
+				if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.5f) && self.moods[MoodTypes.arousDisgus] > 0.3f && self != other){
+					if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.5f)
+					{  return true; }
+				}
 			}
 			return false; };
 
 		RuleConditioner stayAsPartnerCondition = (self, other, indPpl) =>
-		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.3) && self.interPersonal.Exists(x => x.roleName == "partner") && other.interPersonal.Exists(x => x.roleName == "partner") && self != other){
-				if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.5f)
-					return true;
+		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["askaboutpartnerstatus"] && x.GetSubject() == other && x.GetDirect() == self && x.GetTime() < 10f)){
+				if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.3) && self.interPersonal.Exists(x => x.roleName == "partner") && other.interPersonal.Exists(x => x.roleName == "partner") && self != other){
+					if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.5f)
+						return true;
+				}
 			}
 			return false; };
 
 		RuleConditioner LeavePartnerCondition = (self, other, indPpl) =>
-		{	if((self.interPersonal.Exists(x=>x.GetlvlOfInfl() < 0.6) && self.interPersonal.Exists(x => x.roleName == "partner") && 
+		{	if((self.interPersonal.Exists(x=>x.GetlvlOfInfl() < 0.5f) && self.interPersonal.Exists(x => x.roleName == "partner") && 
 			     													  other.interPersonal.Exists(x => x.roleName == "partner") && self != other)){
-				if(self.GetOpinionValue(TraitTypes.NiceNasty,other) < 0.5f)
+				if(self.GetOpinionValue(TraitTypes.NiceNasty,other) < 0.0f)
 					return true;
 			}
 			return false; };
@@ -312,7 +323,7 @@ public partial class Program : MonoBehaviour
 		RuleConditioner stealCondition = (self, other, indPpl) =>
 		{	//MONEY
 			if(self.moods[MoodTypes.hapSad] < -0.3f  && self != other  &&
-			   self.moods[MoodTypes.energTired] > -0.4f && beings.Find(x=>x.name == self.name).possessions.Find(y=>y.Name=="money").value <= 10f){ return true; }
+			   self.moods[MoodTypes.energTired] > -0.4f && beings.Find(x=>x.name == self.name).possessions.Find(y=>y.Name=="money").value <= 50f){ return true; }
 			return false; };
 
 		RuleConditioner practiceStealingCondition = (self, other, indPpl) =>
@@ -352,8 +363,10 @@ public partial class Program : MonoBehaviour
 			return false; };
 
 		RuleConditioner playgameCondition = (self, other, indPpl) =>
-		{	if(self != other  && self.moods[MoodTypes.energTired] > -0.7f) 
-			{ if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > -0.4f) {return true;} }
+		{	if(beings.Find(x=>x.name == self.name).possessions.Find(y=>y.Name=="game").value > 0){
+				if(self != other  && self.moods[MoodTypes.energTired] > -0.2f) 
+				{ if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.4f) {return true;} }
+			}
 			return false; };
 
 		RuleConditioner orderCondition = (self, other, indPpl) =>
@@ -364,19 +377,26 @@ public partial class Program : MonoBehaviour
 			return false; };
 
 
+/*
 // -------------- CULTURAL (CULT) ACTIONS
 
 		RuleConditioner PraiseCultCondition = (self, other, indPpl) =>
-		{	if(self.culture.Exists(x=>x.GetlvlOfInfl() > 0.5f && x.roleName == "follower")  &&
-			     self.moods[MoodTypes.energTired] > -0.4f) { return true; }
+		{	if(self.culture.Exists(x=>x.GetlvlOfInfl() > 0.5f && x.roleName == "follower" || x.roleName == "leader")  &&
+			     self.moods[MoodTypes.energTired] > -0.4f && other.culture.Exists(x=>x.roleMask.GetMaskName() == "cult" && (x.roleName == "follower" || x.roleName == "leader")) && self != other) 
+				{ return true; }
+			if(self.culture.Exists(x=>x.GetlvlOfInfl() > 0.5f && x.roleName == "follower" || x.roleName == "leader")  &&
+			   self.moods[MoodTypes.energTired] > -0.4f && other.culture.Exists(x=>x.roleMask.GetMaskName() == "cult" && (x.roleName != "follower" || x.roleName != "leader")) && 
+			   self != other && self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.5f)
+				{ return true; }
+
 			return false; };
 
 		RuleConditioner enterCultCondition = (self, other, indPpl) =>
-		{	if(self.culture.Exists(x=>x.roleRef.Exists(y=>y.name=="cult") && x.GetlvlOfInfl() > 0.5f)) { return true; }
+		{	if(self.culture.Exists(x=>x.roleRef.Exists(y=>y.name=="cult") && (x.roleName != "follower" || x.roleName != "leader") && x.GetlvlOfInfl() > 0.5f)) { return true; }
 			return false; };
 
 		RuleConditioner exitCultCondition = (self, other, indPpl) =>
-		{	if(self.culture.Exists(x=>x.roleRef.Exists(y=>y.name=="cult") && x.GetlvlOfInfl() < 0.1f)) { return true; }
+		{	if(self.culture.Exists(x=>x.roleRef.Exists(y=>y.name=="cult") && (x.roleName == "follower" || x.roleName == "leader") && x.GetlvlOfInfl() < 0.1f)) { return true; }
 			return false; };
 
 		RuleConditioner damnCultCondition = (self, other, indPpl) =>
@@ -385,7 +405,7 @@ public partial class Program : MonoBehaviour
 
 		RuleConditioner excommunicateFromCultCondition = (self, other, indPpl) =>
 		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["damncult"] && x.GetSubject() == other) && self != other) { return true; }
-			return false; };
+			return false; };*/
 
 // --------------- CULTURAL (MERCHANT) ACTIONS
 
@@ -526,7 +546,7 @@ public partial class Program : MonoBehaviour
 		relationSystem.CreateNewRule("moveToIndgangfbunce", "moveToIndgang", emptyCondition);
 		relationSystem.CreateNewRule("moveToIndgangfcess", "moveToIndgang", emptyCondition);
 		relationSystem.CreateNewRule("moveToIndgangfbunsant", "moveToIndgang", emptyCondition);
-*/
+*//*
 		relationSystem.CreateNewRule("praisecult", "praisecult", PraiseCultCondition);
 		relationSystem.CreateNewRule("praisecultfleader", "praisecult", PraiseCultCondition);
 		relationSystem.CreateNewRule("praisecultffollower", "praisecult", PraiseCultCondition);
@@ -534,7 +554,7 @@ public partial class Program : MonoBehaviour
 		relationSystem.CreateNewRule("exitcult", "exitcult", exitCultCondition);
 		relationSystem.CreateNewRule("damncult", "damncult", damnCultCondition);
 		relationSystem.CreateNewRule("excommunicatefromcult", "excommunicatefromcult", excommunicateFromCultCondition);
-
+		*/
 		relationSystem.CreateNewRule("buycompany", "buycompany", buyCompanyCondition);
 		relationSystem.CreateNewRule("sabotage", "sabotage", sabotageCondition);
 		relationSystem.CreateNewRule("advertise", "advertise", advertiseCondition);
@@ -706,10 +726,11 @@ public partial class Program : MonoBehaviour
 		relationSystem.pplAndMasks.AddPossibleRulesToRule("orderfcess",orderRulesToTriger);
 		relationSystem.pplAndMasks.AddPossibleRulesToRule("orderfbunsant",orderRulesToTriger);
 
-		// ------------- CULT RULES
+/*		// ------------- CULT RULES
 
-		List<Rule> praisecultRulesToTrigger = new List<Rule>(); poisonRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("enthuseaboutgreatnessofperson"));
-		poisonRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("argue"));
+		List<Rule> praisecultRulesToTrigger = new List<Rule>(); praisecultRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("enthuseaboutgreatnessofperson"));
+		praisecultRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("argue")); praisecultRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("deny")); praisecultRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("leavecult"));  
+		praisecultRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("entercult"));  
 		relationSystem.pplAndMasks.AddPossibleRulesToRule("praisecult",praisecultRulesToTrigger);
 		relationSystem.pplAndMasks.AddPossibleRulesToRule("praisecultffollower",praisecultRulesToTrigger);
 		List<Rule> praisecultfleaderRulesToTrigger = new List<Rule>(); poisonRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("enthuseaboutgreatnessofperson"));
@@ -735,12 +756,12 @@ public partial class Program : MonoBehaviour
 		excommunicatefromcultRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("argue")); excommunicatefromcultRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("fight"));
 		excommunicatefromcultRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("askAboutPartnerStatus"));
 		relationSystem.pplAndMasks.AddPossibleRulesToRule("excommunicatefromcult",excommunicatefromcultRulesToTrigger);
-
+*/
 		// ------------- MERCHANT GUILD RULES
 
 		List<Rule> buycompanyRulesToTrigger = new List<Rule>();
-		excommunicatefromcultRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("argue"));
-		excommunicatefromcultRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("sabotage")); excommunicatefromcultRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("convincetoleaveguild"));
+		buycompanyRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("argue"));
+		buycompanyRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("sabotage")); buycompanyRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("convincetoleaveguild"));
 		relationSystem.pplAndMasks.AddPossibleRulesToRule("buycompany",buycompanyRulesToTrigger);
 
 		List<Rule> sellcompanyRulesToTrigger = new List<Rule>();
@@ -1084,14 +1105,14 @@ public partial class Program : MonoBehaviour
 	//	relationSystem.AddRuleToMask("Bungary", "Buncess", "moveToStuefcess", 0.6f);
 	//	relationSystem.AddRuleToMask("Bungary", "Buncess", "moveToKøkkenfcess", 0.2f);
 	//	relationSystem.AddRuleToMask("Bungary", "Buncess", "moveToIndgangfcess", 0.3f);
-
+/*
 		relationSystem.AddRuleToMask("Cult", "Leader", "praisecultfleader", 0.6f);
 		relationSystem.AddRuleToMask("Cult", "Follower", "praisecultffollower", 0.4f);
 		relationSystem.AddRuleToMask("Cult", "Follower", "entercult", 0.3f);
 		relationSystem.AddRuleToMask("Cult", "Follower", "exitcult", -0.8f);
 		relationSystem.AddRuleToMask("Cult", "Follower", "damncult", -0.4f);
 		relationSystem.AddRuleToMask("Cult", "Leader", "excommunicatefromcult", 0.1f);
-
+*/
 		relationSystem.AddRuleToMask("MerchantGuild", "Member", "buycompany", 0.2f);
 		relationSystem.AddRuleToMask("MerchantGuild", "Member", "sabotage", -0.5f);
 		relationSystem.AddRuleToMask("MerchantGuild", "Member", "advertise", 0.5f);
@@ -1122,7 +1143,7 @@ public partial class Program : MonoBehaviour
 		
 		List<MaskAdds>  culture = new List<MaskAdds>();
 		culture.Add(new MaskAdds("Bunce", "Bungary", 0.5f, new List<Person>()));
-		culture.Add(new MaskAdds("Follower", "Cult", 0.4f,new List<Person>()));
+		//culture.Add(new MaskAdds("Follower", "Cult", 0.4f,new List<Person>()));
 		culture.Add(new MaskAdds("Member", "MerchantGuild", 0.6f,new List<Person>()));
 		
 		relationSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.6f, 0.4f, 0.7f, new float[] { -0.2f, 0.5f, 0.1f },new float[]{0.0f,0.0f,0.0f});
@@ -1133,7 +1154,7 @@ public partial class Program : MonoBehaviour
 		
 		culture = new List<MaskAdds>();
 		culture.Add(new MaskAdds("Buncess", "Bungary", 0.6f, new List<Person>()));
-		culture.Add(new MaskAdds("Sceptic", "Cult", 0.1f,new List<Person>()));
+		//culture.Add(new MaskAdds("Sceptic", "Cult", 0.1f,new List<Person>()));
 		
 		relationSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.3f, 0.7f, 0.2f, new float[] { 0.6f, -0.5f, 0.6f },new float[]{0.0f,0.0f,0.0f});
 		#endregion AddingTerese
@@ -1142,7 +1163,7 @@ public partial class Program : MonoBehaviour
 		selfPersMask = new MaskAdds("Self", "John", 0.0f, new List<Person>());
 		
 		culture = new List<MaskAdds>();
-		culture.Add(new MaskAdds("Follower", "Cult", 0.4f,new List<Person>()));
+		//culture.Add(new MaskAdds("Follower", "Cult", 0.4f,new List<Person>()));
 		culture.Add(new MaskAdds("Bunsant", "Bungary", 0.1f, new List<Person>()));
 		
 		relationSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.5f, 0.5f, 0.4f, new float[] { 0.0f, 0.8f, -0.4f },new float[]{0.0f,0.0f,0.0f});
@@ -1153,14 +1174,14 @@ public partial class Program : MonoBehaviour
 		
 		culture = new List<MaskAdds>();
 		culture.Add(new MaskAdds("Bunsant", "Bungary", 0.3f, new List<Person>()));
-		culture.Add(new MaskAdds("Leader", "Cult", 0.9f,new List<Person>()));
+		//culture.Add(new MaskAdds("Leader", "Cult", 0.6f,new List<Person>()));
 		
 		relationSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.2f, 0.8f, 0.8f, new float[] { 0.2f, 0.4f, 0.0f },new float[]{0.0f,0.0f,0.0f});
 		#endregion AddingHeather
 		
 		#region rolerefs
-		relationSystem.pplAndMasks.GetPerson("bill").GetLinks(TypeMask.culture).Find(x=>x.roleMask.GetMaskName() == "cult").AddRoleRef(relationSystem.pplAndMasks.GetPerson("heather"));
-		relationSystem.pplAndMasks.GetPerson("john").GetLinks(TypeMask.culture).Find(x=>x.roleMask.GetMaskName() == "cult").AddRoleRef(relationSystem.pplAndMasks.GetPerson("heather"));
+		//relationSystem.pplAndMasks.GetPerson("bill").GetLinks(TypeMask.culture).Find(x=>x.roleMask.GetMaskName() == "cult").AddRoleRef(relationSystem.pplAndMasks.GetPerson("heather"));
+		//relationSystem.pplAndMasks.GetPerson("john").GetLinks(TypeMask.culture).Find(x=>x.roleMask.GetMaskName() == "cult").AddRoleRef(relationSystem.pplAndMasks.GetPerson("heather"));
 		#endregion rolerefs
 
 		
