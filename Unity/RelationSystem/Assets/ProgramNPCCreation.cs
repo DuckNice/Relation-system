@@ -108,6 +108,10 @@ public partial class Program : MonoBehaviour
 		relationSystem.CreateNewMask("PlayerHeather", new float[] { 0.5f, 0.0f }, new bool[] { }, TypeMask.interPers, new string[] { "Partner" });
 		relationSystem.CreateNewMask("PlayerTherese", new float[] { -0.2f, 0.0f }, new bool[] { }, TypeMask.interPers, new string[] { "Enemy" });
 		relationSystem.CreateNewMask("PlayerJohn", new float[] { 0.2f, 0.0f }, new bool[] { }, TypeMask.interPers, new string[] { "Friend" });
+
+		relationSystem.CreateNewMask("RomanticRelationship", new float[] { 0.2f, 0.0f, 0.0f }, new bool[] { }, TypeMask.interPers, new string[] { "Partner" });
+		relationSystem.CreateNewMask("Friendship", new float[] { 0.1f, 0.2f, 0.0f }, new bool[] { }, TypeMask.interPers, new string[] { "Friend" });
+		relationSystem.CreateNewMask("Rivalry", new float[] { -0.2f, -0.2f, 0.2f }, new bool[] { }, TypeMask.interPers, new string[] { "Enemy" });
 	}
 
 
@@ -168,16 +172,20 @@ public partial class Program : MonoBehaviour
 			return false; };
 
 		RuleConditioner chooseAnotherAsPartnerCondition = (self, other, indPpl) =>
-		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["askaboutpartnerstatus"] && x.GetSubject() == other && x.GetDirect() == self && x.GetTime() < 10f)){
+		{	if(self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name && y.interPersonal.Exists(z=>z.roleName == "partner" && z.roleRef.Exists(s=>s.name == self.name))) && x.roleName == "partner")){
+				return false;
+			}
+
+			if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["askaboutpartnerstatus"] && x.GetSubject() == other && x.GetDirect() == self && x.GetTime() < 10f)){
 				if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.3) && self.moods[MoodTypes.arousDisgus] > 0.3f && self != other){
 					if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.5f)
-					{  return true; }
+						{  return true; }
 				}
 			}
 			if(self.interPersonal.Exists(x => x.roleName != "partner") && other.interPersonal.Exists(x => x.roleName != "partner")){
 				if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.5f) && self.moods[MoodTypes.arousDisgus] > 0.3f && self != other){
 					if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.5f)
-					{  return true; }
+						{  return true; }
 				}
 			}
 			return false; };
@@ -186,16 +194,16 @@ public partial class Program : MonoBehaviour
 		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["askaboutpartnerstatus"] && x.GetSubject() == other && x.GetDirect() == self && x.GetTime() < 10f)){
 				if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.3) && self.interPersonal.Exists(x => x.roleName == "partner") && other.interPersonal.Exists(x => x.roleName == "partner") && self != other){
 					if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.5f)
-						return true;
+						{ return true; }
 				}
 			}
 			return false; };
 
 		RuleConditioner LeavePartnerCondition = (self, other, indPpl) =>
-		{	if((self.interPersonal.Exists(x=>x.GetlvlOfInfl() < 0.5f) && self.interPersonal.Exists(x => x.roleName == "partner") && 
-			     													  other.interPersonal.Exists(x => x.roleName == "partner") && self != other)){
-				if(self.GetOpinionValue(TraitTypes.NiceNasty,other) < 0.0f)
+		{	if(self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name && y.interPersonal.Exists(z=>z.roleName == "partner" && z.roleRef.Exists(s=>s.name == self.name))) && x.roleName == "partner")){
+				if((self.interPersonal.Exists(x=>x.GetlvlOfInfl() < 0.3f) && self != other)){
 					return true;
+				}
 			}
 			return false; };
 
@@ -219,8 +227,11 @@ public partial class Program : MonoBehaviour
 		{	
 			if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.5f) && (self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name)))  &&
 			   self.moods[MoodTypes.energTired] > -0.4f && self != other){
-				if(beings.Find(x=>x.name == self.name).possessions.Find(y=>y.Name=="money").value > 30f && self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.4f){
-					return true;
+				if(beings.Find(x=>x.name == self.name).possessions.Exists(y=>y.Name=="game" || y.Name=="company") && self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.4f){
+					if(beings.Find(x=>x.name == self.name).possessions.Find(y=>y.Name=="game" || y.Name=="company").value > 0f){
+						return true;
+					}
+
 				}
 			}
 			return false; };
@@ -325,9 +336,10 @@ public partial class Program : MonoBehaviour
 			return false; };
 
 		RuleConditioner stealCondition = (self, other, indPpl) =>
-		{	//MONEY
-			if(self.moods[MoodTypes.hapSad] < -0.3f  && self != other  &&
-			   self.moods[MoodTypes.energTired] > -0.4f && beings.Find(x=>x.name == self.name).possessions.Find(y=>y.Name=="money").value <= 50f){ return true; }
+		{	if(self.moods[MoodTypes.hapSad] < -0.3f  && self != other  &&
+			   self.moods[MoodTypes.energTired] > -0.4f && beings.Find(x=>x.name == self.name).possessions.Find(y=>y.Name=="money").value <= 50f
+			   && beings.Find(x=>x.name == other.name).possessions.Find(y=>y.Name=="money").value >= 50f)
+				  { return true; }
 			return false; };
 
 		RuleConditioner practiceStealingCondition = (self, other, indPpl) =>
@@ -367,9 +379,11 @@ public partial class Program : MonoBehaviour
 			return false; };
 
 		RuleConditioner playgameCondition = (self, other, indPpl) =>
-		{	if(beings.Find(x=>x.name == self.name).possessions.Find(y=>y.Name=="game").value > 0){
-				if(self != other  && self.moods[MoodTypes.energTired] > -0.2f) 
-				{ if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.4f) {return true;} }
+		{	if(beings.Find(x=>x.name == self.name).possessions.Exists(y=>y.Name=="game")){
+				if(beings.Find(x=>x.name == self.name).possessions.Find(y=>y.Name=="game").value > 0){
+					if(self != other  && self.moods[MoodTypes.energTired] > -0.2f) 
+					{ if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.4f) {return true;} }
+				}
 			}
 			return false; };
 
@@ -821,259 +835,69 @@ public partial class Program : MonoBehaviour
 
 		relationSystem.AddRuleToMask("John", "Self", "flee", 0.2f);
 		relationSystem.AddRuleToMask("Heather", "Self", "flee", -0.1f);
+
+		relationSystem.AddRuleToMask("John", "Self", "chooseanotheraspartner", 0.5f);
+		relationSystem.AddRuleToMask("Therese", "Self", "chooseanotheraspartner", 0.5f);
+		relationSystem.AddRuleToMask("Bill", "Self", "chooseanotheraspartner", 0.5f);
+		relationSystem.AddRuleToMask("Heather", "Self", "chooseanotheraspartner", 0.5f);
 		
 	// INTERPERSONAL
+		relationSystem.AddRuleToMask("RomanticRelationship", "Partner", "kiss", 0.4f);
+		
+		relationSystem.AddRuleToMask("RomanticRelationship", "Partner", "askAboutPartnerStatus", 0.5f);
+		relationSystem.AddRuleToMask("RomanticRelationship", "Partner", "stayaspartner", 0.5f);
+		relationSystem.AddRuleToMask("RomanticRelationship", "Partner", "leavepartner", 0.5f);
 
-		relationSystem.AddRuleToMask("BillTherese", "Partner", "kiss", 0.4f);
-		relationSystem.AddRuleToMask("ThereseBill", "Partner", "kiss", 0.4f);
-		relationSystem.AddRuleToMask("JohnHeather", "Partner", "kiss", 0.4f);
-		relationSystem.AddRuleToMask("HeatherJohn", "Partner", "kiss", 0.4f);
-		relationSystem.AddRuleToMask("HeatherPlayer", "Partner", "kiss", 0.4f);
+		relationSystem.AddRuleToMask("RomanticRelationship", "Partner", "flirt", -0.4f);
+		relationSystem.AddRuleToMask("Friendship", "Friend", "flirt", -0.4f);
 
-		relationSystem.AddRuleToMask("HeatherPlayer", "Partner", "askAboutPartnerStatus", 0.5f);
-		relationSystem.AddRuleToMask("HeatherJohn", "Partner", "askAboutPartnerStatus", 0.5f);
-		relationSystem.AddRuleToMask("JohnHeather", "Partner", "askAboutPartnerStatus", 0.5f);
-		relationSystem.AddRuleToMask("BillTherese", "Partner", "askAboutPartnerStatus", 0.5f);
-		relationSystem.AddRuleToMask("ThereseBill", "Partner", "askAboutPartnerStatus", 0.5f);
-		relationSystem.AddRuleToMask("HeatherJohn", "Partner", "chooseanotheraspartner", -0.3f);
-		relationSystem.AddRuleToMask("HeatherPlayer", "Partner", "chooseanotheraspartner", -0.3f);
-		relationSystem.AddRuleToMask("JohnHeather", "Partner", "chooseanotheraspartner", -0.3f);
-		relationSystem.AddRuleToMask("HeatherJohn", "Partner", "stayaspartner", 0.4f);
-		relationSystem.AddRuleToMask("HeatherPlayer", "Partner", "stayaspartner", 0.4f);
-		relationSystem.AddRuleToMask("JohnHeather", "Partner", "stayaspartner", 0.4f);
-		relationSystem.AddRuleToMask("BillTherese", "Partner", "stayaspartner", 0.4f);
-		relationSystem.AddRuleToMask("ThereseBill", "Partner", "stayaspartner", 0.4f);
-		relationSystem.AddRuleToMask("HeatherJohn", "Partner", "leavepartner", -0.2f);
-		relationSystem.AddRuleToMask("HeatherPlayer", "Partner", "leavepartner", -0.2f);
-		relationSystem.AddRuleToMask("JohnHeather", "Partner", "leavepartner", -0.2f);
-		relationSystem.AddRuleToMask("BillTherese", "Partner", "leavepartner", -0.2f);
-		relationSystem.AddRuleToMask("ThereseBill", "Partner", "leavepartner", -0.2f);
+		relationSystem.AddRuleToMask("RomanticRelationship", "Partner", "chat", 0.0f);
+		relationSystem.AddRuleToMask("Friendship", "Friend", "chat", 0.0f);
+		relationSystem.AddRuleToMask("Rivalry", "Enemy", "chat", 0.0f);
 
-		relationSystem.AddRuleToMask("JohnHeather", "Partner", "flirt", -0.4f);
-		relationSystem.AddRuleToMask("JohnBill", "Enemy", "flirt", -0.4f);
-		relationSystem.AddRuleToMask("JohnTherese", "Enemy", "flirt", -0.4f);
-		relationSystem.AddRuleToMask("JohnPlayer", "Friend", "flirt", -0.4f);
-		relationSystem.AddRuleToMask("HeatherJohn", "Partner", "flirt", -0.4f);
-		relationSystem.AddRuleToMask("HeatherPlayer", "Partner", "flirt", 0.4f);
-		relationSystem.AddRuleToMask("HeatherBill", "Friend", "flirt", -0.4f);
-		relationSystem.AddRuleToMask("HeatherTherese", "Friend", "flirt", -0.4f);
-		relationSystem.AddRuleToMask("ThereseBill", "Partner", "flirt", 0.4f);
-		relationSystem.AddRuleToMask("ThereseJohn", "Enemy", "flirt", -0.4f);
-		relationSystem.AddRuleToMask("ThereseHeather", "Friend", "flirt", -0.4f);
-		relationSystem.AddRuleToMask("TheresePlayer", "Enemy", "flirt", -0.4f);
-		relationSystem.AddRuleToMask("BillTherese", "Partner", "flirt", 0.4f);
-		relationSystem.AddRuleToMask("BillJohn", "Enemy", "flirt", -0.4f);
-		relationSystem.AddRuleToMask("BillHeather", "Friend", "flirt", -0.4f);
-		relationSystem.AddRuleToMask("BillPlayer", "Enemy", "flirt", -0.4f);
+		relationSystem.AddRuleToMask("RomanticRelationship", "Partner", "givegift", 0.0f);
+		relationSystem.AddRuleToMask("Rivalry", "Enemy", "givegift", 0.0f);
+		relationSystem.AddRuleToMask("Friendship", "Friend", "givegift", 0.0f);
 
-		relationSystem.AddRuleToMask("JohnHeather", "Partner", "chat", 0.0f);
-		relationSystem.AddRuleToMask("JohnBill", "Enemy", "chat", 0.0f);
-		relationSystem.AddRuleToMask("JohnTherese", "Enemy", "chat", 0.0f);
-		relationSystem.AddRuleToMask("JohnPlayer", "Friend", "chat", 0.0f);
-		relationSystem.AddRuleToMask("HeatherJohn", "Partner", "chat", 0.0f);
-		relationSystem.AddRuleToMask("HeatherPlayer", "Partner", "chat",0.0f);
-		relationSystem.AddRuleToMask("HeatherBill", "Friend", "chat", 0.0f);
-		relationSystem.AddRuleToMask("HeatherTherese", "Friend", "chat", 0.0f);
-		relationSystem.AddRuleToMask("ThereseBill", "Partner", "chat", 0.0f);
-		relationSystem.AddRuleToMask("ThereseJohn", "Enemy", "chat", 0.0f);
-		relationSystem.AddRuleToMask("ThereseHeather", "Friend", "chat", 0.0f);
-		relationSystem.AddRuleToMask("TheresePlayer", "Enemy", "chat", 0.0f);
-		relationSystem.AddRuleToMask("BillTherese", "Partner", "chat",0.0f);
-		relationSystem.AddRuleToMask("BillJohn", "Enemy", "chat", 0.0f);
-		relationSystem.AddRuleToMask("BillHeather", "Friend", "chat", 0.0f);
-		relationSystem.AddRuleToMask("BillPlayer", "Enemy", "chat", 0.0f);
+		relationSystem.AddRuleToMask("Rivalry", "Enemy", "gossip", -0.2f);
+		relationSystem.AddRuleToMask("Friendship", "Friend", "gossip", -0.2f);
+		relationSystem.AddRuleToMask("RomanticRelationship", "Partner", "gossip", -0.2f);
 
-		relationSystem.AddRuleToMask("JohnHeather", "Partner", "givegift", 0.0f);
-		relationSystem.AddRuleToMask("JohnBill", "Enemy", "givegift", 0.0f);
-		relationSystem.AddRuleToMask("JohnTherese", "Enemy", "givegift", 0.0f);
-		relationSystem.AddRuleToMask("JohnPlayer", "Friend", "givegift", 0.0f);
-		relationSystem.AddRuleToMask("HeatherJohn", "Partner", "givegift", 0.0f);
-		relationSystem.AddRuleToMask("HeatherPlayer", "Partner", "givegift",0.0f);
-		relationSystem.AddRuleToMask("HeatherBill", "Friend", "givegift", 0.0f);
-		relationSystem.AddRuleToMask("HeatherTherese", "Friend", "givegift", 0.0f);
-		relationSystem.AddRuleToMask("ThereseBill", "Partner", "givegift", 0.0f);
-		relationSystem.AddRuleToMask("ThereseJohn", "Enemy", "givegift", 0.0f);
-		relationSystem.AddRuleToMask("ThereseHeather", "Friend", "givegift", 0.0f);
-		relationSystem.AddRuleToMask("TheresePlayer", "Enemy", "givegift", 0.0f);
-		relationSystem.AddRuleToMask("BillTherese", "Partner", "givegift",0.0f);
-		relationSystem.AddRuleToMask("BillJohn", "Enemy", "givegift", 0.0f);
-		relationSystem.AddRuleToMask("BillHeather", "Friend", "givegift", 0.0f);
-		relationSystem.AddRuleToMask("BillPlayer", "Enemy", "givegift", 0.0f);
+		relationSystem.AddRuleToMask("Rivalry", "Enemy", "argue", -0.2f);
+		relationSystem.AddRuleToMask("Friendship", "Friend", "argue", -0.2f);
+		relationSystem.AddRuleToMask("RomanticRelationship", "Partner", "argue", -0.2f);
 
-		relationSystem.AddRuleToMask("JohnHeather", "Partner", "gossip", -0.2f);
-		relationSystem.AddRuleToMask("JohnBill", "Enemy", "gossip", -0.2f);
-		relationSystem.AddRuleToMask("JohnTherese", "Enemy", "gossip", -0.2f);
-		relationSystem.AddRuleToMask("JohnPlayer", "Friend", "gossip", -0.2f);
-		relationSystem.AddRuleToMask("HeatherJohn", "Partner", "gossip", -0.2f);
-		relationSystem.AddRuleToMask("HeatherPlayer", "Partner", "gossip", -0.2f);
-		relationSystem.AddRuleToMask("HeatherBill", "Friend", "gossip", -0.2f);
-		relationSystem.AddRuleToMask("HeatherTherese", "Friend", "gossip", -0.1f);
-		relationSystem.AddRuleToMask("ThereseBill", "Partner", "gossip", -0.2f);
-		relationSystem.AddRuleToMask("ThereseJohn", "Enemy", "gossip", -0.2f);
-		relationSystem.AddRuleToMask("ThereseHeather", "Friend", "gossip", -0.1f);
-		relationSystem.AddRuleToMask("TheresePlayer", "Enemy", "gossip", -0.2f);
-		relationSystem.AddRuleToMask("BillTherese", "Partner", "gossip", -0.2f);
-		relationSystem.AddRuleToMask("BillJohn", "Enemy", "gossip", -0.2f);
-		relationSystem.AddRuleToMask("BillHeather", "Friend", "gossip", -0.2f);
-		relationSystem.AddRuleToMask("BillPlayer", "Enemy", "gossip", -0.2f);
+		relationSystem.AddRuleToMask("Rivalry", "Enemy", "deny", -0.1f);
+		relationSystem.AddRuleToMask("Friendship", "Friend", "deny", -0.1f);
+		relationSystem.AddRuleToMask("RomanticRelationship", "Partner", "deny", -0.1f);
 
-		relationSystem.AddRuleToMask("JohnHeather", "Partner", "argue", -0.2f);
-		relationSystem.AddRuleToMask("JohnBill", "Enemy", "argue", -0.2f);
-		relationSystem.AddRuleToMask("JohnTherese", "Enemy", "argue", -0.2f);
-		relationSystem.AddRuleToMask("JohnPlayer", "Friend", "argue", -0.2f);
-		relationSystem.AddRuleToMask("HeatherJohn", "Partner", "argue", -0.2f);
-		relationSystem.AddRuleToMask("HeatherPlayer", "Partner", "argue", -0.2f);
-		relationSystem.AddRuleToMask("HeatherBill", "Friend", "argue", -0.2f);
-		relationSystem.AddRuleToMask("HeatherTherese", "Friend", "argue", -0.2f);
-		relationSystem.AddRuleToMask("ThereseBill", "Partner", "argue", -0.2f);
-		relationSystem.AddRuleToMask("ThereseJohn", "Enemy", "argue", -0.2f);
-		relationSystem.AddRuleToMask("ThereseHeather", "Friend", "argue", -0.2f);
-		relationSystem.AddRuleToMask("TheresePlayer", "Enemy", "argue", -0.2f);
-		relationSystem.AddRuleToMask("BillTherese", "Partner", "argue", -0.2f);
-		relationSystem.AddRuleToMask("BillJohn", "Enemy", "argue", -0.2f);
-		relationSystem.AddRuleToMask("BillHeather", "Friend", "argue", -0.2f);
-		relationSystem.AddRuleToMask("BillPlayer", "Enemy", "argue", -0.2f);
+		relationSystem.AddRuleToMask("Rivalry", "Enemy", "makedistraction", -0.2f);
+		relationSystem.AddRuleToMask("Friendship", "Friend", "makedistraction", -0.2f);
+		relationSystem.AddRuleToMask("RomanticRelationship", "Partner", "makedistraction", -0.2f);
 
-		relationSystem.AddRuleToMask("JohnHeather", "Partner", "deny", -0.1f);
-		relationSystem.AddRuleToMask("JohnBill", "Enemy", "deny", -0.1f);
-		relationSystem.AddRuleToMask("JohnTherese", "Enemy", "deny", -0.1f);
-		relationSystem.AddRuleToMask("JohnPlayer", "Friend", "deny", -0.1f);
-		relationSystem.AddRuleToMask("HeatherJohn", "Partner", "deny", -0.1f);
-		relationSystem.AddRuleToMask("HeatherPlayer", "Partner", "deny", -0.1f);
-		relationSystem.AddRuleToMask("HeatherBill", "Friend", "deny", -0.1f);
-		relationSystem.AddRuleToMask("HeatherTherese", "Friend", "deny", -0.1f);
-		relationSystem.AddRuleToMask("ThereseBill", "Partner", "deny", -0.1f);
-		relationSystem.AddRuleToMask("ThereseJohn", "Enemy", "deny", -0.1f);
-		relationSystem.AddRuleToMask("ThereseHeather", "Friend", "deny", -0.1f);
-		relationSystem.AddRuleToMask("TheresePlayer", "Enemy", "deny", -0.1f);
-		relationSystem.AddRuleToMask("BillTherese", "Partner", "deny", -0.1f);
-		relationSystem.AddRuleToMask("BillJohn", "Enemy", "deny", -0.1f);
-		relationSystem.AddRuleToMask("BillHeather", "Friend", "deny", -0.1f);
-		relationSystem.AddRuleToMask("BillPlayer", "Enemy", "deny", -0.1f);
+		relationSystem.AddRuleToMask("Rivalry", "Enemy", "makefunof", 0.0f);
+		relationSystem.AddRuleToMask("Friendship", "Friend", "makefunof", 0.0f);
+		relationSystem.AddRuleToMask("RomanticRelationship", "Partner", "makefunof", 0.0f);
 
-		/*relationSystem.AddRuleToMask("JohnHeather", "Partner", "demandtostopbeingfriendwith", -0.4f);
-		relationSystem.AddRuleToMask("JohnBill", "Enemy", "demandtostopbeingfriendwith", -0.4f);
-		relationSystem.AddRuleToMask("JohnTherese", "Enemy", "demandtostopbeingfriendwith", -0.4f);
-		relationSystem.AddRuleToMask("JohnPlayer", "Friend", "demandtostopbeingfriendwith", -0.4f);
-		relationSystem.AddRuleToMask("HeatherJohn", "Partner", "demandtostopbeingfriendwith", -0.4f);
-		relationSystem.AddRuleToMask("HeatherPlayer", "Partner", "demandtostopbeingfriendwith", -0.4f);
-		relationSystem.AddRuleToMask("HeatherBill", "Friend", "demandtostopbeingfriendwith",  -0.4f);
-		relationSystem.AddRuleToMask("HeatherTherese", "Friend", "demandtostopbeingfriendwith", -0.4f);
-		relationSystem.AddRuleToMask("ThereseBill", "Partner", "demandtostopbeingfriendwith", -0.4f);
-		relationSystem.AddRuleToMask("ThereseJohn", "Enemy", "demandtostopbeingfriendwith", -0.4f);
-		relationSystem.AddRuleToMask("ThereseHeather", "Friend", "demandtostopbeingfriendwith", -0.4f);
-		relationSystem.AddRuleToMask("TheresePlayer", "Enemy", "demandtostopbeingfriendwith", -0.4f);
-		relationSystem.AddRuleToMask("BillTherese", "Partner", "demandtostopbeingfriendwith", -0.4f);
-		relationSystem.AddRuleToMask("BillJohn", "Enemy", "demandtostopbeingfriendwith", -0.4f);
-		relationSystem.AddRuleToMask("BillHeather", "Friend", "demandtostopbeingfriendwith", -0.4f);
-		relationSystem.AddRuleToMask("BillPlayer", "Enemy", "demandtostopbeingfriendwith", -0.4f);*/
+		relationSystem.AddRuleToMask("Rivalry", "Enemy", "telljoke", 0.2f);
+		relationSystem.AddRuleToMask("Friendship", "Friend", "telljoke", 0.2f);
+		relationSystem.AddRuleToMask("RomanticRelationship", "Partner", "telljoke", 0.2f);
 
-		relationSystem.AddRuleToMask("JohnHeather", "Partner", "makedistraction", -0.2f);
-		relationSystem.AddRuleToMask("JohnBill", "Enemy", "makedistraction", -0.2f);
-		relationSystem.AddRuleToMask("JohnTherese", "Enemy", "makedistraction", -0.2f);
-		relationSystem.AddRuleToMask("JohnPlayer", "Friend", "makedistraction", -0.2f);
-		relationSystem.AddRuleToMask("HeatherJohn", "Partner", "makedistraction", -0.2f);
-		relationSystem.AddRuleToMask("HeatherPlayer", "Partner", "makedistraction", -0.2f);
-		relationSystem.AddRuleToMask("HeatherBill", "Friend", "makedistraction",  -0.2f);
-		relationSystem.AddRuleToMask("HeatherTherese", "Friend", "makedistraction", -0.2f);
-		relationSystem.AddRuleToMask("ThereseBill", "Partner", "makedistraction", -0.2f);
-		relationSystem.AddRuleToMask("ThereseJohn", "Enemy", "makedistraction", -0.2f);
-		relationSystem.AddRuleToMask("ThereseHeather", "Friend", "makedistraction", -0.2f);
-		relationSystem.AddRuleToMask("TheresePlayer", "Enemy", "makedistraction", -0.2f);
-		relationSystem.AddRuleToMask("BillTherese", "Partner", "makedistraction", -0.2f);
-		relationSystem.AddRuleToMask("BillJohn", "Enemy", "makedistraction", -0.2f);
-		relationSystem.AddRuleToMask("BillHeather", "Friend", "makedistraction", -0.2f);
-		relationSystem.AddRuleToMask("BillPlayer", "Enemy", "makedistraction", -0.2f);
+		relationSystem.AddRuleToMask("Rivalry", "Enemy", "prank", 0.0f);
+		relationSystem.AddRuleToMask("Friendship", "Friend", "prank", 0.0f);
+		relationSystem.AddRuleToMask("RomanticRelationship", "Partner", "prank", 0.0f);
 
-		relationSystem.AddRuleToMask("JohnHeather", "Partner", "makefunof", 0.0f);
-		relationSystem.AddRuleToMask("JohnBill", "Enemy", "makefunof", 0.0f);
-		relationSystem.AddRuleToMask("JohnTherese", "Enemy", "makefunof", 0.0f);
-		relationSystem.AddRuleToMask("JohnPlayer", "Friend", "makefunof", 0.0f);
-		relationSystem.AddRuleToMask("HeatherJohn", "Partner", "makefunof", 0.0f);
-		relationSystem.AddRuleToMask("HeatherPlayer", "Partner", "makefunof", -0.2f);
-		relationSystem.AddRuleToMask("HeatherBill", "Friend", "makefunof",  -0.2f);
-		relationSystem.AddRuleToMask("HeatherTherese", "Friend", "makefunof", -0.2f);
-		relationSystem.AddRuleToMask("ThereseBill", "Partner", "makefunof", -0.2f);
-		relationSystem.AddRuleToMask("ThereseJohn", "Enemy", "makefunof", -0.2f);
-		relationSystem.AddRuleToMask("ThereseHeather", "Friend", "makefunof", -0.2f);
-		relationSystem.AddRuleToMask("TheresePlayer", "Enemy", "makefunof", -0.2f);
-		relationSystem.AddRuleToMask("BillTherese", "Partner", "makefunof", -0.2f);
-		relationSystem.AddRuleToMask("BillJohn", "Enemy", "makefunof", -0.2f);
-		relationSystem.AddRuleToMask("BillHeather", "Friend", "makefunof", -0.2f);
-		relationSystem.AddRuleToMask("BillPlayer", "Enemy", "makefunof", 0.0f);
+		relationSystem.AddRuleToMask("Rivalry", "Enemy", "harass", -0.2f);
+		relationSystem.AddRuleToMask("Friendship", "Friend", "harass", -0.2f);
+		relationSystem.AddRuleToMask("RomanticRelationship", "Partner", "harass", -0.2f);
 
-		relationSystem.AddRuleToMask("JohnHeather", "Partner", "telljoke", -0.2f);
-		relationSystem.AddRuleToMask("JohnBill", "Enemy", "telljoke", -0.2f);
-		relationSystem.AddRuleToMask("JohnTherese", "Enemy", "telljoke", -0.2f);
-		relationSystem.AddRuleToMask("JohnPlayer", "Friend", "telljoke", -0.2f);
-		relationSystem.AddRuleToMask("HeatherJohn", "Partner", "telljoke", -0.2f);
-		relationSystem.AddRuleToMask("HeatherPlayer", "Partner", "telljoke", -0.2f);
-		relationSystem.AddRuleToMask("HeatherBill", "Friend", "telljoke",  -0.2f);
-		relationSystem.AddRuleToMask("HeatherTherese", "Friend", "telljoke", -0.2f);
-		relationSystem.AddRuleToMask("ThereseBill", "Partner", "telljoke", -0.2f);
-		relationSystem.AddRuleToMask("ThereseJohn", "Enemy", "telljoke", -0.2f);
-		relationSystem.AddRuleToMask("ThereseHeather", "Friend", "telljoke", -0.2f);
-		relationSystem.AddRuleToMask("TheresePlayer", "Enemy", "telljoke", -0.2f);
-		relationSystem.AddRuleToMask("BillTherese", "Partner", "telljoke", -0.2f);
-		relationSystem.AddRuleToMask("BillJohn", "Enemy", "telljoke", -0.2f);
-		relationSystem.AddRuleToMask("BillHeather", "Friend", "telljoke", -0.2f);
-		relationSystem.AddRuleToMask("BillPlayer", "Enemy", "telljoke", 0.2f);
+		relationSystem.AddRuleToMask("RomanticRelationship", "Partner", "reminisce", 0.2f);
+		relationSystem.AddRuleToMask("Friendship", "Friend", "reminisce", 0.2f);
 
-		relationSystem.AddRuleToMask("JohnHeather", "Partner", "prank", -0.2f);
-		relationSystem.AddRuleToMask("JohnBill", "Enemy", "prank", -0.2f);
-		relationSystem.AddRuleToMask("JohnTherese", "Enemy", "prank", -0.2f);
-		relationSystem.AddRuleToMask("JohnPlayer", "Friend", "prank", -0.2f);
-		relationSystem.AddRuleToMask("HeatherJohn", "Partner", "prank", -0.2f);
-		relationSystem.AddRuleToMask("HeatherPlayer", "Partner", "prank", -0.2f);
-		relationSystem.AddRuleToMask("HeatherBill", "Friend", "prank",  -0.2f);
-		relationSystem.AddRuleToMask("HeatherTherese", "Friend", "prank", -0.2f);
-		relationSystem.AddRuleToMask("ThereseBill", "Partner", "prank", -0.2f);
-		relationSystem.AddRuleToMask("ThereseJohn", "Enemy", "prank", -0.2f);
-		relationSystem.AddRuleToMask("ThereseHeather", "Friend", "prank", -0.2f);
-		relationSystem.AddRuleToMask("TheresePlayer", "Enemy", "prank", -0.2f);
-		relationSystem.AddRuleToMask("BillTherese", "Partner", "prank", -0.2f);
-		relationSystem.AddRuleToMask("BillJohn", "Enemy", "prank", -0.2f);
-		relationSystem.AddRuleToMask("BillHeather", "Friend", "prank", -0.2f);
-		relationSystem.AddRuleToMask("BillPlayer", "Enemy", "prank", 0.0f);
+		relationSystem.AddRuleToMask("Friendship", "Friend", "enthuseaboutgreatnessofperson", 0.2f);
+		relationSystem.AddRuleToMask("RomanticRelationship", "Partner", "enthuseaboutgreatnessofperson", 0.2f);
 
-		relationSystem.AddRuleToMask("JohnHeather", "Partner", "harass", -0.2f);
-		relationSystem.AddRuleToMask("JohnBill", "Enemy", "harass", -0.2f);
-		relationSystem.AddRuleToMask("JohnTherese", "Enemy", "harass", -0.2f);
-		relationSystem.AddRuleToMask("JohnPlayer", "Friend", "harass", -0.2f);
-		relationSystem.AddRuleToMask("HeatherJohn", "Partner", "harass", -0.2f);
-		relationSystem.AddRuleToMask("HeatherPlayer", "Partner", "harass", -0.2f);
-		relationSystem.AddRuleToMask("HeatherBill", "Friend", "harass",  -0.2f);
-		relationSystem.AddRuleToMask("HeatherTherese", "Friend", "harass", -0.2f);
-		relationSystem.AddRuleToMask("ThereseBill", "Partner", "harass", -0.2f);
-		relationSystem.AddRuleToMask("ThereseJohn", "Enemy", "harass", -0.2f);
-		relationSystem.AddRuleToMask("ThereseHeather", "Friend", "harass", -0.2f);
-		relationSystem.AddRuleToMask("TheresePlayer", "Enemy", "harass", -0.2f);
-		relationSystem.AddRuleToMask("BillTherese", "Partner", "harass", -0.2f);
-		relationSystem.AddRuleToMask("BillJohn", "Enemy", "harass", -0.2f);
-		relationSystem.AddRuleToMask("BillHeather", "Friend", "harass", -0.2f);
-		relationSystem.AddRuleToMask("BillPlayer", "Enemy", "harass", -0.2f);
 
-		relationSystem.AddRuleToMask("JohnHeather", "Partner", "reminisce", 0.2f);
-		relationSystem.AddRuleToMask("JohnPlayer", "Friend", "reminisce", 0.2f);
-		relationSystem.AddRuleToMask("HeatherJohn", "Partner", "reminisce", 0.2f);
-		relationSystem.AddRuleToMask("HeatherPlayer", "Partner", "reminisce", 0.2f);
-		relationSystem.AddRuleToMask("HeatherBill", "Friend", "reminisce",  0.2f);
-		relationSystem.AddRuleToMask("HeatherTherese", "Friend", "reminisce", 0.2f);
-		relationSystem.AddRuleToMask("ThereseBill", "Partner", "reminisce", 0.2f);
-		relationSystem.AddRuleToMask("ThereseHeather", "Friend", "reminisce", 0.2f);
-		relationSystem.AddRuleToMask("BillTherese", "Partner", "reminisce", 0.2f);
-		relationSystem.AddRuleToMask("BillHeather", "Friend", "reminisce", 0.2f);
-
-		relationSystem.AddRuleToMask("JohnHeather", "Partner", "enthuseaboutgreatnessofperson", 0.4f);
-		relationSystem.AddRuleToMask("JohnPlayer", "Friend", "enthuseaboutgreatnessofperson", 0.2f);
-		relationSystem.AddRuleToMask("HeatherJohn", "Partner", "enthuseaboutgreatnessofperson", 0.4f);
-		relationSystem.AddRuleToMask("HeatherPlayer", "Partner", "enthuseaboutgreatnessofperson", 0.4f);
-		relationSystem.AddRuleToMask("HeatherBill", "Friend", "enthuseaboutgreatnessofperson",  0.2f);
-		relationSystem.AddRuleToMask("HeatherTherese", "Friend", "enthuseaboutgreatnessofperson", 0.2f);
-		relationSystem.AddRuleToMask("ThereseBill", "Partner", "enthuseaboutgreatnessofperson", 0.4f);
-		relationSystem.AddRuleToMask("ThereseHeather", "Friend", "enthuseaboutgreatnessofperson", 0.2f);
-		relationSystem.AddRuleToMask("BillTherese", "Partner", "enthuseaboutgreatnessofperson", 0.4f);
-		relationSystem.AddRuleToMask("BillHeather", "Friend", "enthuseaboutgreatnessofperson", 0.2f);
 
 
 	// CULTURE
@@ -1196,30 +1020,30 @@ public partial class Program : MonoBehaviour
 
 		
 		#region LINKS
-		relationSystem.AddLinkToPerson("Bill", new string[] { "Therese" }, TypeMask.interPers, "Partner", "BillTherese", 0.3f);
-		relationSystem.AddLinkToPerson("Bill", new string[] { "John" }, TypeMask.interPers, "Enemy", "BillJohn", 0.4f);
-		relationSystem.AddLinkToPerson("Bill", new string[] { "Heather" }, TypeMask.interPers, "Friend", "BillHeather", 0.2f);
-		relationSystem.AddLinkToPerson("Bill", new string[] { "Player" }, TypeMask.interPers, "Enemy", "BillPlayer", 0.4f);
-
-		relationSystem.AddLinkToPerson("Therese", new string[] { "Bill" }, TypeMask.interPers, "Partner", "ThereseBill", 0.5f);
-		relationSystem.AddLinkToPerson("Therese", new string[] { "John" }, TypeMask.interPers, "Enemy", "ThereseJohn", 0.2f);
-		relationSystem.AddLinkToPerson("Therese", new string[] { "Heather" }, TypeMask.interPers, "Friend", "ThereseHeather", 0.6f);
-		relationSystem.AddLinkToPerson("Therese", new string[] { "Player" }, TypeMask.interPers, "Enemy", "TheresePlayer", 0.3f);
-
-		relationSystem.AddLinkToPerson("John", new string[] { "Bill" }, TypeMask.interPers, "Enemy", "JohnBill", 0.7f);
-		relationSystem.AddLinkToPerson("John", new string[] { "Therese" }, TypeMask.interPers, "Enemy", "JohnTherese", 0.4f);
-		relationSystem.AddLinkToPerson("John", new string[] { "Heather" }, TypeMask.interPers, "Partner", "JohnHeather", 0.8f);
-		relationSystem.AddLinkToPerson("John", new string[] { "Player" }, TypeMask.interPers, "Friend", "JohnPlayer", 0.5f);
-
-		relationSystem.AddLinkToPerson("Heather", new string[] { "Bill" }, TypeMask.interPers, "Friend", "HeatherBill", 0.4f);
-		relationSystem.AddLinkToPerson("Heather", new string[] { "Therese" }, TypeMask.interPers, "Friend", "HeatherTherese", 0.6f);
-		relationSystem.AddLinkToPerson("Heather", new string[] { "John" }, TypeMask.interPers, "Partner", "HeatherJohn", 0.5f);
-		relationSystem.AddLinkToPerson("Heather", new string[] { "Player" }, TypeMask.interPers, "Partner", "HeatherPlayer", 0.5f);
-
-		relationSystem.AddLinkToPerson("Player", new string[] { "Bill" }, TypeMask.interPers, "Enemy", "PlayerBill", 0.4f);
-		relationSystem.AddLinkToPerson("Player", new string[] { "Therese" }, TypeMask.interPers, "Enemy", "PlayerTherese", 0.6f);
-		relationSystem.AddLinkToPerson("Player", new string[] { "John" }, TypeMask.interPers, "Friend", "PlayerJohn", 0.5f);
-		relationSystem.AddLinkToPerson("Player", new string[] { "Heather" }, TypeMask.interPers, "Partner", "Player", 0.5f);
+		relationSystem.AddLinkToPerson("Bill", new string[] { "Therese" }, TypeMask.interPers, "Partner", "RomanticRelationship", 0.3f);
+		relationSystem.AddLinkToPerson("Bill", new string[] { "John" }, TypeMask.interPers, "Enemy", "Rivalry", 0.4f);
+		relationSystem.AddLinkToPerson("Bill", new string[] { "Heather" }, TypeMask.interPers, "Friend", "Friendship", 0.2f);
+		relationSystem.AddLinkToPerson("Bill", new string[] { "Player" }, TypeMask.interPers, "Enemy", "Rivalry", 0.4f);
+		
+		relationSystem.AddLinkToPerson("Therese", new string[] { "Bill" }, TypeMask.interPers, "Partner", "RomanticRelationship", 0.5f);
+		relationSystem.AddLinkToPerson("Therese", new string[] { "John" }, TypeMask.interPers, "Enemy", "Rivalry", 0.2f);
+		relationSystem.AddLinkToPerson("Therese", new string[] { "Heather" }, TypeMask.interPers, "Friend", "Friendship", 0.6f);
+		relationSystem.AddLinkToPerson("Therese", new string[] { "Player" }, TypeMask.interPers, "Enemy", "Rivalry", 0.3f);
+		
+		relationSystem.AddLinkToPerson("John", new string[] { "Bill" }, TypeMask.interPers, "Enemy", "Rivalry", 0.7f);
+		relationSystem.AddLinkToPerson("John", new string[] { "Therese" }, TypeMask.interPers, "Enemy", "Rivalry", 0.4f);
+		relationSystem.AddLinkToPerson("John", new string[] { "Heather" }, TypeMask.interPers, "Partner", "RomanticRelationship", 0.8f);
+		relationSystem.AddLinkToPerson("John", new string[] { "Player" }, TypeMask.interPers, "Friend", "Friendship", 0.5f);
+		
+		relationSystem.AddLinkToPerson("Heather", new string[] { "Bill" }, TypeMask.interPers, "Friend", "Friendship", 0.4f);
+		relationSystem.AddLinkToPerson("Heather", new string[] { "Therese" }, TypeMask.interPers, "Friend", "Friendship", 0.6f);
+		relationSystem.AddLinkToPerson("Heather", new string[] { "John" }, TypeMask.interPers, "Partner", "RomanticRelationship", 0.5f);
+		relationSystem.AddLinkToPerson("Heather", new string[] { "Player" }, TypeMask.interPers, "Partner", "RomanticRelationship", 0.5f);
+		
+		relationSystem.AddLinkToPerson("Player", new string[] { "Bill" }, TypeMask.interPers, "Enemy", "Rivalry", 0.4f);
+		relationSystem.AddLinkToPerson("Player", new string[] { "Therese" }, TypeMask.interPers, "Enemy", "Rivalry", 0.6f);
+		relationSystem.AddLinkToPerson("Player", new string[] { "John" }, TypeMask.interPers, "Friend", "Friendship", 0.5f);
+		relationSystem.AddLinkToPerson("Player", new string[] { "Heather" }, TypeMask.interPers, "Partner", "RomanticRelationship", 0.5f);
 		#endregion LINKS 
 
 		#region Opinions
@@ -1285,12 +1109,6 @@ public partial class Program : MonoBehaviour
 		relationSystem.pplAndMasks.GetPerson("player").opinions.Add(new Opinion(TraitTypes.HonestFalse,relationSystem.pplAndMasks.GetPerson("heather"),0.0f));
 		relationSystem.pplAndMasks.GetPerson("player").opinions.Add(new Opinion(TraitTypes.ShyBolsterous,relationSystem.pplAndMasks.GetPerson("heather"),0.0f));
 		#endregion Opinions
-
-
-
-
-
-		
 	}
 
 
