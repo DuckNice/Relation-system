@@ -6,6 +6,7 @@ public class Possession
 {
 	protected string name;
 	public string Name{ get{ return name; } }
+	public string objectName;
 	public float value;
 	public List<object> parameters = new List<object>();
 }
@@ -46,6 +47,7 @@ public class Goods : Possession
 {
 	public Goods(float amount = 0.0f){
 		name = "goods";
+		objectName = "a good";
 		value = amount;
 		parameters.Add (value);
 	}
@@ -56,7 +58,7 @@ public class Company : Possession
 {
 	public Company(string _name){
 		name = "company";
-		string companyName = _name;
+		objectName = _name;
 		value = 1;
 		parameters.Add (value);
 	}
@@ -66,7 +68,7 @@ public class Game : Possession
 {
 	public Game(string _name){
 		name = "game";
-		string gameName = _name;
+		objectName = _name;
 		value = 1;
 		parameters.Add (value);
 	}

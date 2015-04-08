@@ -32,11 +32,13 @@ public class UIFunctions : MonoBehaviour {
 	{
 		text = input.text;
 
-		debug.Write ("Called text command with " + text);
-	
-		program.playerInput (text);
-
-		input.text = "";
+		if (text != "") {
+			debug.Write ("Called text command with " + text);
+			
+			program.playerInput (text);
+			
+			input.text = "";
+		}
 	}
 
 

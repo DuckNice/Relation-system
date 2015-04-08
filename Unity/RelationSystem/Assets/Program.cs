@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 
     //Namespaces
@@ -174,8 +175,8 @@ public partial class Program : MonoBehaviour
 			subject.moods[MoodTypes.hapSad] += Calculator.unboundAdd(0.6f,subject.moods[MoodTypes.hapSad]);
 			subject.moods[MoodTypes.arousDisgus] += Calculator.unboundAdd(0.6f,subject.moods[MoodTypes.arousDisgus]);
 
-			relationSystem.AddLinkToPerson(subject.name,new string[] { direct.name }, TypeMask.interPers,"partner",""+subject.name+direct.name+"new",subject.GetOpinionValue(TraitTypes.NiceNasty,direct));
-			relationSystem.AddLinkToPerson(direct.name,new string[] { subject.name }, TypeMask.interPers,"partner",""+direct.name+subject.name+"new",direct.GetOpinionValue(TraitTypes.NiceNasty,subject));
+			relationSystem.AddLinkToPerson(subject.name,new string[] { direct.name }, TypeMask.interPers,"partner","RomanticRelationship",subject.GetOpinionValue(TraitTypes.NiceNasty,direct));
+			relationSystem.AddLinkToPerson(direct.name,new string[] { subject.name }, TypeMask.interPers,"partner",""+"RomanticRelationship",direct.GetOpinionValue(TraitTypes.NiceNasty,subject));
 
 			if(indPpl != null){
 				foreach(Person p in indPpl){
@@ -193,7 +194,7 @@ public partial class Program : MonoBehaviour
 			direct.moods[MoodTypes.hapSad] += Calculator.unboundAdd(0.3f,direct.moods[MoodTypes.hapSad]);
 			subject.moods[MoodTypes.hapSad] += Calculator.unboundAdd(0.1f,subject.moods[MoodTypes.hapSad]);
 		};
-        relationSystem.AddAction(new MAction("stayAsPartner", 0.3f, 0.3f, relationSystem, stayAsPartner,4f));
+        relationSystem.AddAction(new MAction("stayAsPartner", 0.4f, 0.3f, relationSystem, stayAsPartner,4f));
 
 		ActionInvoker LeavePartner = (subject, direct, indPpl, misc) =>
 		{
@@ -204,7 +205,7 @@ public partial class Program : MonoBehaviour
 			subject.RemoveLink(TypeMask.interPers,subject.interPersonal.Find(x=>x.roleName=="partner" && x.roleRef.Exists(y=>y.name == direct.name)));
 			direct.RemoveLink(TypeMask.interPers,direct.interPersonal.Find(x=>x.roleName=="partner" && x.roleRef.Exists(y=>y.name == subject.name)));
 		};
-        relationSystem.AddAction(new MAction("LeavePartner", 0.3f, -0.7f, relationSystem, LeavePartner,5f));
+        relationSystem.AddAction(new MAction("LeavePartner", -0.3f, -0.7f, relationSystem, LeavePartner,5f));
 
 		ActionInvoker flirt = (subject, direct, indPpl, misc) =>
 		{
@@ -240,17 +241,26 @@ public partial class Program : MonoBehaviour
 
 		ActionInvoker giveGift = (subject, direct, indPpl, misc) =>
 		{
-			direct.AddToOpinionValue(TraitTypes.NiceNasty,subject,0.1f);
+			Possession giftToGive = new Possession();
 			if(misc != null){
-				UIFunctions.WriteGameLine(subject.name + " is giving the gift of "+misc+" to " + direct.name+".");
+				List<Possession> gifts = ((Possession[])misc).ToList();
+				giftToGive = gifts.Find(x=>x.Name == "game" || x.Name == "company");
+				UIFunctions.WriteGameLine(subject.name + " is giving the gift of "+ giftToGive.objectName+" to " + direct.name+".");
 			}
 			else{
 				UIFunctions.WriteGameLine(subject.name + " is giving a gift to " + direct.name+".");
 			}
-			direct.moods[MoodTypes.hapSad] += Calculator.unboundAdd(0.5f,direct.moods[MoodTypes.hapSad]);
 
-			beings.Find(x=>x.name == subject.name).possessions.Find(y=>y.Name=="money").value -= 10f;
-			beings.Find(x=>x.name == direct.name).possessions.Find(y=>y.Name=="money").value += 10f;
+			beings.Find(x=>x.name == subject.name).possessions.Find(y=>y.Name==giftToGive.Name).value -= 1f;
+			if(beings.Find(x=>x.name == direct.name).possessions.Exists(x=>x.Name == giftToGive.Name)){
+				beings.Find(x=>x.name == subject.name).possessions.Find(y=>y.Name==giftToGive.Name).value += 1f;
+			}
+			else{
+				beings.Find(x=>x.name == direct.name).possessions.Add(giftToGive);
+			}
+
+			direct.moods[MoodTypes.hapSad] += Calculator.unboundAdd(0.5f,direct.moods[MoodTypes.hapSad]);
+			direct.AddToOpinionValue(TraitTypes.NiceNasty,subject,0.1f);
 
 		};
         relationSystem.AddAction(new MAction("giveGift", 0.2f, 0.4f, relationSystem, giveGift,5f));
