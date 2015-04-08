@@ -30,7 +30,7 @@ public partial class Program : MonoBehaviour
 		Being Heather = new Being ("Heather", relationSystem);
 		Being Player = new Being ("Player", relationSystem);
 
-
+       
 		roomMan.EnterRoom ("Indgang", relationSystem.pplAndMasks.GetPerson("Bill"));
         roomMan.EnterRoom("Indgang", relationSystem.pplAndMasks.GetPerson("Therese"));
         roomMan.EnterRoom("Indgang", relationSystem.pplAndMasks.GetPerson("John"));
