@@ -8,11 +8,11 @@ namespace NRelationSystem
     {
         public PersCont pplAndMasks = new PersCont();
         public Dictionary<string, MAction> posActions = new Dictionary<string, MAction>();
-
+        public Dictionary<string, List<Person>> updateLists = new Dictionary<string, List<Person>>();
+        public Dictionary<string, List<Person>> activeLists = new Dictionary<string, List<Person>>();
         public List<HistoryItem> historyBook = new List<HistoryItem>();
 
         public Program program;
-
 
 
         public void CreateNewMask(string nameOfMask, float[] _traits = null, bool[] relatives = null, TypeMask maskType = TypeMask.interPers, string[] roles = null) 

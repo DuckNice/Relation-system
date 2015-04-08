@@ -6,6 +6,66 @@ namespace NRelationSystem
 {
     public partial class RelationSystem
     {
+        public void AddListToActives(string name)
+        {
+            if(!activeLists.ContainsKey(name) && updateLists.ContainsKey(name))
+            {
+                activeLists.Add(name, updateLists[name]);
+            }
+        }
+
+
+        public void RemoveListFromActives(string name)
+        {
+            if(activeLists.ContainsKey(name))
+            {
+                activeLists.Remove(name);
+            }
+        }
+
+
+        public void AddUpdateList(string name)
+        {
+            if (!updateLists.ContainsKey(name))
+            {
+                updateLists.Add(name, new List<Person>());
+            }
+        }
+
+
+        public void RemoveUpdateList(string name)
+        {
+            if (updateLists.ContainsKey(name))
+            {
+                updateLists.Remove(name);
+            }
+        }
+
+
+        public void AddPersonToUpdateList(string name, Person person)
+        {
+            if(updateLists.ContainsKey(name) && person != null)
+            {
+                if(!updateLists[name].Contains(person))
+                {
+                    updateLists[name].Add(person);
+                }
+            }
+        }
+
+
+        public void RemovePersonFromUpdateList(string name, Person person)
+        {
+            if (updateLists.ContainsKey(name) && person != null)
+            {
+                if (updateLists[name].Contains(person))
+                {
+                    updateLists[name].Remove(person);
+                }
+            }
+        }
+
+
         public void AddRolesToMask(string maskName, string[] roles = null)
         {
             maskName = maskName.ToLower();
