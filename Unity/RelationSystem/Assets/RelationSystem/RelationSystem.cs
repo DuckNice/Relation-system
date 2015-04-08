@@ -15,6 +15,26 @@ namespace NRelationSystem
         public Program program;
 
 
+        public List<Person> createActiveListsList()
+        {
+            List<Person> list = new List<Person>();
+
+            foreach(List<Person> people in activeLists.Values)
+            {
+                foreach (Person person in people)
+                {
+                    if (!list.Contains(person))
+                    {
+                        list.Add(person);
+                    }
+                }
+            }
+
+            return list;
+        }
+
+
+
         public void CreateNewMask(string nameOfMask, float[] _traits = null, bool[] relatives = null, TypeMask maskType = TypeMask.interPers, string[] roles = null) 
         {
             nameOfMask = nameOfMask.ToLower();

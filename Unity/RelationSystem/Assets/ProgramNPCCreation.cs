@@ -13,11 +13,12 @@ public partial class Program : MonoBehaviour
 
 	public void CreateFirstRooms()
 	{
-		roomMan = new RoomManager();
-		roomMan.NewRoom ("Indgang");
-		roomMan.NewRoom ("Stue");
-		roomMan.NewRoom ("Gang");
-		roomMan.NewRoom ("Køkken");
+		roomMan = new RoomManager(relationSystem);
+
+		relationSystem.AddUpdateList ("Indgang");
+		relationSystem.AddUpdateList ("Stue");
+		relationSystem.AddUpdateList ("Gang");
+		relationSystem.AddUpdateList ("Køkken");
 	}
 
 
@@ -29,11 +30,14 @@ public partial class Program : MonoBehaviour
 		Being Heather = new Being ("Heather", relationSystem);
 		Being Player = new Being ("Player", relationSystem);
 
-		roomMan.EnterRoom ("Indgang", Bill);
-		roomMan.EnterRoom ("Indgang", Therese);
-		roomMan.EnterRoom ("Indgang", John);
-		roomMan.EnterRoom ("Indgang", Player);
-		
+
+		roomMan.EnterRoom ("Indgang", relationSystem.pplAndMasks.GetPerson("Bill"));
+        roomMan.EnterRoom("Indgang", relationSystem.pplAndMasks.GetPerson("Therese"));
+        roomMan.EnterRoom("Indgang", relationSystem.pplAndMasks.GetPerson("John"));
+        roomMan.EnterRoom("Indgang", relationSystem.pplAndMasks.GetPerson("Player"));
+
+        relationSystem.AddListToActives("Indgang");
+
 		beings.Add (Bill);
 		beings.Add (Therese);
 		beings.Add (John);
@@ -459,13 +463,19 @@ public partial class Program : MonoBehaviour
 			return false; };
 
 		RuleConditioner moveToStueCondition = (self, other, indPpl) =>
-		{	if(!(roomMan.GetRoomIAmIn(beings.Find(x=>x.name == self.name)).name == "Stue")) { return true; }
+		{	
+            Person person = relationSystem.pplAndMasks.GetPerson(name);
+            if(person != null && !(roomMan.GetRoomIAmIn(person) == "Stue")) { return true; }
 			return false; };
 		RuleConditioner moveToIndgangCondition = (self, other, indPpl) =>
-		{	if(!(roomMan.GetRoomIAmIn(beings.Find(x=>x.name == self.name)).name == "Indgang")) { return true; }
+        {
+            Person person = relationSystem.pplAndMasks.GetPerson(name);
+            if (person != null && !(roomMan.GetRoomIAmIn(person) == "Indgang")) { return true; }
 			return false; };
 		RuleConditioner moveToKøkkenCondition = (self, other, indPpl) =>
-		{	if(!(roomMan.GetRoomIAmIn(beings.Find(x=>x.name == self.name)).name == "Køkken")) { return true; }
+        {
+            Person person = relationSystem.pplAndMasks.GetPerson(name);
+            if (person != null && !(roomMan.GetRoomIAmIn(person) == "Køkken")) { return true; }
 			return false; };
 
 		#endregion adding Conditions

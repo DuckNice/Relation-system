@@ -30,7 +30,7 @@ namespace NRelationSystem
             if (selfOther.ContainsKey(self)) 
                 selfOther.Remove(self);
             
-            List<Person> people = actionToTrigger.relationSystem.pplAndMasks.people.Values.ToList();
+            List<Person> people = actionToTrigger.relationSystem.createActiveListsList();
 
             if(reacters != null && reacters.Count > 0)
             {

@@ -54,15 +54,19 @@ namespace NRelationSystem
         }
 
 
-        public void RemovePersonFromUpdateList(string name, Person person)
+        public bool RemovePersonFromUpdateList(string name, Person person)
         {
             if (updateLists.ContainsKey(name) && person != null)
             {
                 if (updateLists[name].Contains(person))
                 {
                     updateLists[name].Remove(person);
+
+                    return true;
                 }
             }
+
+            return false;
         }
 
 

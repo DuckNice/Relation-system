@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 using NRelationSystem;
 
@@ -8,11 +9,21 @@ public class RoomManager {
 
     RelationSystem relSys;
 
+    public RoomManager(RelationSystem _relSys)
+    {
+        relSys = _relSys;
+    }
+
     public void EnterRoom(string roomName, Person person)
     {
-        foreach (string key in relSys.updateLists.Keys)
+        for (int i = 0; i < relSys.updateLists.Count; i++ )
         {
-            relSys.RemovePersonFromUpdateList(key, person);
+            string key = relSys.updateLists.Keys.ToArray()[i];
+
+            if(relSys.RemovePersonFromUpdateList(key, person))
+            {
+                i--;
+            }
         }
 
         relSys.AddPersonToUpdateList(roomName, person);
