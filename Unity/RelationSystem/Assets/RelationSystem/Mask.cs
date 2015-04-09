@@ -103,7 +103,6 @@ namespace NRelationSystem
 						}
 					}
 				}
-				
 			}
 			//debug.Write ("RETURNING " + chosenAction.chosenRule.ruleName);
 			return chosenAction;

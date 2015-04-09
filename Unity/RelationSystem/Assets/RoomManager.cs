@@ -39,4 +39,14 @@ public class RoomManager {
 
         return "";
     }
+
+	public bool IsPersonInSameRoomAsMe(Person self, Person other){
+		foreach (string key in relSys.updateLists.Keys) {
+			if (relSys.updateLists [key].Contains (self) && relSys.updateLists [key].Contains (other)) {
+				return true;
+			} 
+		}
+		return false;
+	}
+
 }
