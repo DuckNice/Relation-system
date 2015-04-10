@@ -19,6 +19,7 @@ public partial class Program : MonoBehaviour
 		relationSystem.AddUpdateList ("Stue");
 		relationSystem.AddUpdateList ("Gang");
 		relationSystem.AddUpdateList ("Køkken");
+		relationSystem.AddUpdateList ("Jail");
 	}
 
 
@@ -30,13 +31,15 @@ public partial class Program : MonoBehaviour
 		Being Heather = new Being ("Heather", relationSystem);
 		Being Player = new Being ("Player", relationSystem);
 
-       
 		roomMan.EnterRoom ("Indgang", relationSystem.pplAndMasks.GetPerson("Bill"));
         roomMan.EnterRoom("Indgang", relationSystem.pplAndMasks.GetPerson("Therese"));
         roomMan.EnterRoom("Indgang", relationSystem.pplAndMasks.GetPerson("John"));
+		roomMan.EnterRoom("Indgang", relationSystem.pplAndMasks.GetPerson("Heather"));
         roomMan.EnterRoom("Indgang", relationSystem.pplAndMasks.GetPerson("Player"));
 
         relationSystem.AddListToActives("Indgang");
+		relationSystem.AddListToActives("Stue");
+		relationSystem.AddListToActives("Køkken");
 
 		beings.Add (Bill);
 		beings.Add (Therese);
@@ -132,7 +135,7 @@ public partial class Program : MonoBehaviour
 		{ if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["greet"] && x.GetSubject()==self && x.GetDirect()==other))
 			{ return false; }
 
-		  if(self != other){
+		  if(self != other && roomMan.IsPersonInSameRoomAsMe(self, other)){
 				if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > -0.5f){
 					return true;
 				} else{ return false; }
@@ -150,21 +153,22 @@ public partial class Program : MonoBehaviour
 
 		RuleConditioner kissCondition = (self, other, indPpl) =>
 		{	if(self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name && y.interPersonal.Exists(z=>z.roleName == "partner" && z.roleRef.Exists(s=>s.name == self.name))) && x.roleName == "partner")){
-				if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.4f && self.moods[MoodTypes.arousDisgus] > 0.4f){ return true; }
+				if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.4f && self.moods[MoodTypes.arousDisgus] > 0.4f  && roomMan.IsPersonInSameRoomAsMe(self, other) ){ return true; }
 			}
 			else{
 				if (self != other  && self.moods[MoodTypes.energTired] > 0.2f)
-				{ if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.7f && self.moods[MoodTypes.arousDisgus] > 0.5f){ return true; }}
+				{ if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.7f && self.moods[MoodTypes.arousDisgus] > 0.5f  && roomMan.IsPersonInSameRoomAsMe(self, other) ){ return true; }}
 			}					
 			return false;
 		};
 
 		RuleConditioner askAboutPartnerStatusCondition = (self, other, indPpl) =>
 		{	if((relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["kiss"] && x.GetSubject() == other && x.GetDirect() != self)
-			      && (self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name && y.interPersonal.Exists(z=>z.roleName == "partner" && z.roleRef.Exists(s=>s.name == self.name))) && x.roleName == "partner")))){
+			      && (self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name && y.interPersonal.Exists(z=>z.roleName == "partner" && z.roleRef.Exists(s=>s.name == self.name))) && x.roleName == "partner")))
+			     && roomMan.IsPersonInSameRoomAsMe(self, other)){
 				return true;
 			}
-			if(!(self.interPersonal.Exists(x=>x.roleName=="partner"))){
+			if(!(self.interPersonal.Exists(x=>x.roleName=="partner")) && self != other && roomMan.IsPersonInSameRoomAsMe(self, other)){
 				if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.7f){
 					return true;
 				}
@@ -177,13 +181,13 @@ public partial class Program : MonoBehaviour
 			}
 
 			if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["askaboutpartnerstatus"] && x.GetSubject() == other && x.GetDirect() == self && x.GetTime() < 10f)){
-				if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.3) && self.moods[MoodTypes.arousDisgus] > 0.3f && self != other){
+				if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.3) && self.moods[MoodTypes.arousDisgus] > 0.3f && self != other  && roomMan.IsPersonInSameRoomAsMe(self, other)){
 					if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.5f)
 						{  return true; }
 				}
 			}
 			if(self.interPersonal.Exists(x => x.roleName != "partner") && other.interPersonal.Exists(x => x.roleName != "partner")){
-				if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.5f) && self.moods[MoodTypes.arousDisgus] > 0.3f && self != other){
+				if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.5f) && self.moods[MoodTypes.arousDisgus] > 0.3f && self != other && roomMan.IsPersonInSameRoomAsMe(self, other)){
 					if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.5f)
 						{  return true; }
 				}
@@ -192,7 +196,8 @@ public partial class Program : MonoBehaviour
 
 		RuleConditioner stayAsPartnerCondition = (self, other, indPpl) =>
 		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["askaboutpartnerstatus"] && x.GetSubject() == other && x.GetDirect() == self && x.GetTime() < 10f)){
-				if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.3) && self.interPersonal.Exists(x => x.roleName == "partner") && other.interPersonal.Exists(x => x.roleName == "partner") && self != other){
+				if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.3) && self.interPersonal.Exists(x => x.roleName == "partner") && other.interPersonal.Exists(x => x.roleName == "partner") && self != other
+				   && roomMan.IsPersonInSameRoomAsMe(self, other)){
 					if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.5f)
 						{ return true; }
 				}
@@ -201,7 +206,7 @@ public partial class Program : MonoBehaviour
 
 		RuleConditioner LeavePartnerCondition = (self, other, indPpl) =>
 		{	if(self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name && y.interPersonal.Exists(z=>z.roleName == "partner" && z.roleRef.Exists(s=>s.name == self.name))) && x.roleName == "partner")){
-				if((self.interPersonal.Exists(x=>x.GetlvlOfInfl() < 0.3f) && self != other)){
+				if((self.interPersonal.Exists(x=>x.GetlvlOfInfl() < 0.3f) && self != other) && roomMan.IsPersonInSameRoomAsMe(self, other)){
 					return true;
 				}
 			}
@@ -209,14 +214,14 @@ public partial class Program : MonoBehaviour
 
 		RuleConditioner flirtCondition = (self, other, indPpl) =>
 		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.5) && self.interPersonal.Exists(x => x.roleName != "partner") && 
-			     other.interPersonal.Exists(x => x.roleName != "partner") && self.moods[MoodTypes.arousDisgus] > 0.1f  && self != other )
+			     other.interPersonal.Exists(x => x.roleName != "partner") && self.moods[MoodTypes.arousDisgus] > 0.1f  && self != other && roomMan.IsPersonInSameRoomAsMe(self, other))
 			{ if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.3f) 
 				return true;}
 			return false; };
 
 		RuleConditioner chatCondition = (self, other, indPpl) =>
 		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() >= 0.2) && self.moods[MoodTypes.hapSad] >= -0.2f && self != other &&
-			     self.moods[MoodTypes.energTired] > -0.4f){
+			     self.moods[MoodTypes.energTired] > -0.4f && roomMan.IsPersonInSameRoomAsMe(self, other)){
 				if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.0f){
 					return true;
 				}
@@ -226,7 +231,7 @@ public partial class Program : MonoBehaviour
 		RuleConditioner giveGiftCondition = (self, other, indPpl) =>
 		{	
 			if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.5f) && (self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name)))  &&
-			   self.moods[MoodTypes.energTired] > -0.4f && self != other){
+			   self.moods[MoodTypes.energTired] > -0.4f && self != other && roomMan.IsPersonInSameRoomAsMe(self, other)){
 				if(beings.Find(x=>x.name == self.name).possessions.Exists(y=>y.Name=="game" || y.Name=="company") && self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.4f){
 					if(beings.Find(x=>x.name == self.name).possessions.Find(y=>y.Name=="game" || y.Name=="company").value > 0f){
 						return true;
@@ -238,7 +243,7 @@ public partial class Program : MonoBehaviour
 
 		RuleConditioner poisonCondition = (self, other, indPpl) =>
 		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() < 0.5f) && (self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name))) && self.moods[MoodTypes.angryFear] < -0.7f
-			   && self != other  ){
+			     && self != other  && roomMan.IsPersonInSameRoomAsMe(self, other)){
 				if(self.GetOpinionValue(TraitTypes.NiceNasty,other) < -0.3f)
 				return true;
 			}
@@ -246,14 +251,14 @@ public partial class Program : MonoBehaviour
 
 		RuleConditioner gossipCondition = (self, other, indPpl) =>
 		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.1f) && (self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name))) && self != other  &&
-			     self.moods[MoodTypes.energTired] > -0.4f){
+			     self.moods[MoodTypes.energTired] > -0.4f && roomMan.IsPersonInSameRoomAsMe(self, other)){
 				return true;
 			}
 			return false; };
 
 		RuleConditioner argueCondition = (self, other, indPpl) =>
 		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.1f) && (self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name))) && self != other){
-				if(self.GetOpinionValue(TraitTypes.NiceNasty,other) < 0.0f || self.moods[MoodTypes.angryFear] < -0.1f)
+				if(self.GetOpinionValue(TraitTypes.NiceNasty,other) < 0.0f || self.moods[MoodTypes.angryFear] < -0.1f && roomMan.IsPersonInSameRoomAsMe(self, other))
 					return true;
 			}
 			return false; };
@@ -269,7 +274,7 @@ public partial class Program : MonoBehaviour
 		
 		RuleConditioner makeDistractionCondition = (self, other, indPpl) =>
 		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["askforhelpinillicitactivity"] && x.GetSubject()==other && x.GetDirect()==self) 
-			     && self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() < 0.0f  && self.moods[MoodTypes.energTired] > -0.4f)
+			     && self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() < 0.0f  && self.moods[MoodTypes.energTired] > -0.4f && roomMan.IsPersonInSameRoomAsMe(self, other))
 				if(self.GetOpinionValue(TraitTypes.NiceNasty,other) < 0.0f)
 					{ return true; }
 			return false; };
@@ -277,14 +282,14 @@ public partial class Program : MonoBehaviour
 		RuleConditioner reminisceCondition = (self, other, indPpl) =>
 		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["chat"] && x.GetSubject() == other && 
 			     self.interPersonal.Exists(z=>z.GetlvlOfInfl() > 0.4f) && (self.interPersonal.Exists(y=>y.roleRef.Exists(yy=>yy.name == other.name)))) && self != other  &&
-			     self.moods[MoodTypes.energTired] > -0.4f)
+			     self.moods[MoodTypes.energTired] > -0.4f && roomMan.IsPersonInSameRoomAsMe(self, other))
 				if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.2f)
 					{ return true; }
 			return false; };
 
 		RuleConditioner denyCondition = (self, other, indPpl) =>
 		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() < 0.8f) && (self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name))) && 
-			     self != other)
+			     self != other && roomMan.IsPersonInSameRoomAsMe(self, other))
 				if((self.moods[MoodTypes.arousDisgus] < 0.0f ||
 				    self.moods[MoodTypes.hapSad] < 0.0f ||
 				    self.moods[MoodTypes.angryFear] < 0.0f ||
@@ -293,7 +298,7 @@ public partial class Program : MonoBehaviour
 			return false; };
 
 		RuleConditioner enthuseAboutGreatnessofPersonCondition = (self, other, indPpl) =>
-		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.5f) && (self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name))) && self.moods[MoodTypes.hapSad] > 0.0f) 
+		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.5f) && (self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name))) && self.moods[MoodTypes.hapSad] > 0.0f && roomMan.IsPersonInSameRoomAsMe(self, other)) 
 				if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.6f)
 					{ return true; }
 			return false; };
@@ -303,12 +308,12 @@ public partial class Program : MonoBehaviour
 		
 		RuleConditioner convictCondition = (self, other, indPpl) =>
 		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["steal"] && x.GetDirect()==self && (x.GetSubject()==other && x.GetSubject()!=self)) ||
-			   relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["fight"] && x.GetDirect()==self && (x.GetSubject()==other && x.GetSubject()!=self))  )
+			   relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["fight"] && x.GetDirect()==self && (x.GetSubject()==other && x.GetSubject()!=self))   && roomMan.IsPersonInSameRoomAsMe(self, other))
 			{	return true; }
 			return false; };
 
 		RuleConditioner fightCondition = (self, other, indPpl) =>
-		{	if(self != other){
+		{	if(self != other && roomMan.IsPersonInSameRoomAsMe(self, other)){
 				if((self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() < 0.0 || self.moods[MoodTypes.angryFear] < -0.7f) && self.GetOpinionValue(TraitTypes.NiceNasty,other) < -0.5f  &&
 				   self.moods[MoodTypes.energTired] > -0.6f){
 					return true; 
@@ -318,20 +323,20 @@ public partial class Program : MonoBehaviour
 		
 		RuleConditioner bribeCondition = (self, other, indPpl) =>
 		{	//MONEY
-			if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["convict"] && x.GetDirect()==self && x.GetSubject()==other)  && self != other){
+			if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["convict"] && x.GetDirect()==self && x.GetSubject()==other)  && self != other && roomMan.IsPersonInSameRoomAsMe(self, other)){
 				return true; 
 			}
 			return false; };
 
 		RuleConditioner argueInnocenceCondition = (self, other, indPpl) =>
 		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["convict"] && x.GetSubject()==other) && self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() > 0.0f
-			     && self != other)
+			     && self != other && roomMan.IsPersonInSameRoomAsMe(self, other))
 				{ return true; }
 			return false; };
 
 		RuleConditioner argueGuiltinessCondition = (self, other, indPpl) =>
 		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["convict"] && x.GetSubject()==other) && self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() < 0.0f
-			     && self != other)
+			     && self != other && roomMan.IsPersonInSameRoomAsMe(self, other))
 				{ return true; }
 			return false; };
 
@@ -348,7 +353,7 @@ public partial class Program : MonoBehaviour
 			return false; };
 
 		RuleConditioner askForHelpInIllicitActivityCondition = (self, other, indPpl) =>
-		{	if(self.moods[MoodTypes.angryFear] < -0.2f && self.GetAbilityy() < 1.0f && self != other)
+		{	if(self.moods[MoodTypes.angryFear] < -0.2f && self.GetAbilityy() < 1.0f && self != other && roomMan.IsPersonInSameRoomAsMe(self, other))
 			if(self.GetOpinionValue(TraitTypes.HonestFalse,other) > 0.4f)
 				{ return true; }
 			return false; };
@@ -359,27 +364,27 @@ public partial class Program : MonoBehaviour
 			return false; };*/
 
 		RuleConditioner makefunofCondition = (self, other, indPpl) =>
-		{	if(self != other  && self.moods[MoodTypes.energTired] > -0.6f && self.moods[MoodTypes.hapSad] > -0.8f && self.moods[MoodTypes.hapSad] < 0.0f) 
+		{	if(self != other  && self.moods[MoodTypes.energTired] > -0.6f && self.moods[MoodTypes.hapSad] > -0.8f && self.moods[MoodTypes.hapSad] < 0.0f && roomMan.IsPersonInSameRoomAsMe(self, other)) 
 			{ return true; }
 			return false; };
 
 		RuleConditioner telljokeCondition = (self, other, indPpl) =>
-		{	if(self != other  && self.moods[MoodTypes.energTired] > -0.2f && self.moods[MoodTypes.hapSad] > -0.2f) 
+		{	if(self != other  && self.moods[MoodTypes.energTired] > -0.2f && self.moods[MoodTypes.hapSad] > -0.2f && roomMan.IsPersonInSameRoomAsMe(self, other)) 
 			{ return true; }
 			return false; };
 
 		RuleConditioner prankCondition = (self, other, indPpl) =>
-		{	if(self != other  && self.moods[MoodTypes.energTired] > -0.5f && self.moods[MoodTypes.hapSad] > -0.4f) 
+		{	if(self != other  && self.moods[MoodTypes.energTired] > -0.5f && self.moods[MoodTypes.hapSad] > -0.4f && roomMan.IsPersonInSameRoomAsMe(self, other)) 
 			{ if(self.GetOpinionValue(TraitTypes.NiceNasty,other) < 0.0f) {return true;} }
 			return false; };
 
 		RuleConditioner harassCondition = (self, other, indPpl) =>
-		{	if(self != other  && self.moods[MoodTypes.energTired] > -0.7f && self.moods[MoodTypes.hapSad] > -0.8f && self.moods[MoodTypes.hapSad] < 0.0f) 
+		{	if(self != other  && self.moods[MoodTypes.energTired] > -0.7f && self.moods[MoodTypes.hapSad] > -0.8f && self.moods[MoodTypes.hapSad] < 0.0f && roomMan.IsPersonInSameRoomAsMe(self, other)) 
 			{ if(self.GetOpinionValue(TraitTypes.NiceNasty,other) < 0.0f) {return true;} }
 			return false; };
 
 		RuleConditioner playgameCondition = (self, other, indPpl) =>
-		{	if(beings.Find(x=>x.name == self.name).possessions.Exists(y=>y.Name=="game")){
+		{	if(beings.Find(x=>x.name == self.name).possessions.Exists(y=>y.Name=="game") && roomMan.IsPersonInSameRoomAsMe(self, other)){
 				if(beings.Find(x=>x.name == self.name).possessions.Find(y=>y.Name=="game").value > 0){
 					if(self != other  && self.moods[MoodTypes.energTired] > -0.2f) 
 					{ if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.4f) {return true;} }
@@ -390,7 +395,7 @@ public partial class Program : MonoBehaviour
 		RuleConditioner orderCondition = (self, other, indPpl) =>
 		{	if(self != other && 
 			     (self.interPersonal.Exists(x => x.roleName != "bunce") || self.interPersonal.Exists(x => x.roleName != "buncess")) && 
-			     other.interPersonal.Exists(x => x.roleName != "bunsant"))
+			     other.interPersonal.Exists(x => x.roleName != "bunsant") && roomMan.IsPersonInSameRoomAsMe(self, other))
 			{ if(self.GetOpinionValue(TraitTypes.NiceNasty,other) < 0.4f) {return true;} }
 			return false; };
 
@@ -429,12 +434,12 @@ public partial class Program : MonoBehaviour
 
 		RuleConditioner buyCompanyCondition = (self, other, indPpl) =>
 		{	if(beings.Find(x=>x.name == self.name).possessions.Find(y=>y.Name=="money").value >= 100f && beings.Find(x=>x.name == other.name).possessions.Find(y=>y.Name=="company").value >= 1f
-			     && self != other) { return true; }
+			     && self != other && roomMan.IsPersonInSameRoomAsMe(self, other)) { return true; }
 			return false; };
 
 		RuleConditioner sellCompanyCondition = (self, other, indPpl) =>
 		{	if(beings.Find(x=>x.name == other.name).possessions.Find(y=>y.Name=="money").value >= 100f && beings.Find(x=>x.name == self.name).possessions.Find(y=>y.Name=="company").value >= 1f
-			     && self != other) { return true; }
+			     && self != other && roomMan.IsPersonInSameRoomAsMe(self, other)) { return true; }
 			return false; };
 
 		RuleConditioner sabotageCondition = (self, other, indPpl) =>
@@ -445,51 +450,74 @@ public partial class Program : MonoBehaviour
 			return false; };
 
 		RuleConditioner advertiseCondition = (self, other, indPpl) =>
-		{	if(self != other  && self.moods[MoodTypes.energTired] > -0.4f) { return true; }
+		{	if(self != other  && self.moods[MoodTypes.energTired] > -0.4f && roomMan.IsPersonInSameRoomAsMe(self, other)) { return true; }
 			return false; };
 
 		RuleConditioner convinceToLeaveGuildCondition = (self, other, indPpl) =>
-		{	if(self != other  &&  self.moods[MoodTypes.energTired] > -0.4f && beings.Find(x=>x.name == other.name).possessions.Find(y=>y.Name=="money").value <= 0f) 
-			if(self.GetOpinionValue(TraitTypes.NiceNasty,other) < 0)
-				{ return true; }
+		{	if(self != other  &&  self.moods[MoodTypes.energTired] > -0.4f && beings.Find(x=>x.name == other.name).possessions.Find(y=>y.Name=="money").value <= 0f && roomMan.IsPersonInSameRoomAsMe(self, other)){
+				if(self.GetOpinionValue(TraitTypes.NiceNasty,other) < 0)
+					{ return true; }
+			} 
+
 			return false; };
 
 		RuleConditioner DemandtoLeaveGuildCondition = (self, other, indPpl) =>
 		{	if((self.moods[MoodTypes.angryFear] > 0.3f || self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() < -0.3f) && self != other &&
-			      beings.Find(x=>x.name == other.name).possessions.Find(y=>y.Name=="money").value <= 0f) 
-				if(self.GetOpinionValue(TraitTypes.NiceNasty,other) < 0)
-					{ return true; }
+			    beings.Find(x=>x.name == other.name).possessions.Find(y=>y.Name=="money").value <= 0f && roomMan.IsPersonInSameRoomAsMe(self, other)){
+					if(self.GetOpinionValue(TraitTypes.NiceNasty,other) < 0)
+						{ return true; }
+			} 
+				
 			return false; };
 
 		RuleConditioner askForHelpCondition = (self, other, indPpl) =>
-		{	if(self != other && beings.Find(x=>x.name == self.name).possessions.Find(y=>y.Name=="goods").value <= 0f) 
+		{	if(self != other && beings.Find(x=>x.name == self.name).possessions.Find(y=>y.Name=="goods").value <= 0f && roomMan.IsPersonInSameRoomAsMe(self, other)) 
 				if(self.GetOpinionValue(TraitTypes.HonestFalse,other) > 0.2f)
 					{ return true; }
 			return false; };
 
 		RuleConditioner buyGoodsCondition = (self, other, indPpl) =>
 		{	if(beings.Find(x=>x.name == self.name).possessions.Find(y=>y.Name=="goods").value < 2f && beings.Find(x=>x.name == self.name).possessions.Find(y=>y.Name=="money").value > 30f
-			     && self != other && self.moods[MoodTypes.energTired] > -0.4f) { return true; }
+			     && self != other && self.moods[MoodTypes.energTired] > -0.4f && roomMan.IsPersonInSameRoomAsMe(self, other)) { return true; }
 			return false; };
 
 		RuleConditioner sellGoodsCondition = (self, other, indPpl) =>
-		{	if(beings.Find(x=>x.name == self.name).possessions.Find(y=>y.Name=="goods").value > 1f && self != other && self.moods[MoodTypes.energTired] > -0.4f) { return true; }
+		{	if(beings.Find(x=>x.name == self.name).possessions.Find(y=>y.Name=="goods").value > 1f && self != other && self.moods[MoodTypes.energTired] > -0.4f && roomMan.IsPersonInSameRoomAsMe(self, other)) { return true; }
 			return false; };
 
 		RuleConditioner moveToStueCondition = (self, other, indPpl) =>
 		{	
-            Person person = relationSystem.pplAndMasks.GetPerson(name);
-            if(person != null && !(roomMan.GetRoomIAmIn(person) == "Stue")) { return true; }
+			if(self != null && !(roomMan.GetRoomIAmIn(self) == "Stue"))
+				if((self.moods[MoodTypes.energTired] < -0.4f)){
+					return true;
+				}
+				else if(roomMan.GetRoomIAmIn(other) == "Stue" && self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.5f){
+					return true;
+				}
 			return false; };
+
 		RuleConditioner moveToIndgangCondition = (self, other, indPpl) =>
         {
-            Person person = relationSystem.pplAndMasks.GetPerson(name);
-            if (person != null && !(roomMan.GetRoomIAmIn(person) == "Indgang")) { return true; }
+			if (self != null && (roomMan.GetRoomIAmIn(self) == "Stue")) { 
+				if((self.moods[MoodTypes.energTired] < -0.4f)){
+					return true;
+				}
+				else if(roomMan.GetRoomIAmIn(other) == "Indgang" && self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.5f){
+					return true;
+				}
+			}
 			return false; };
+
 		RuleConditioner moveToKøkkenCondition = (self, other, indPpl) =>
         {
-            Person person = relationSystem.pplAndMasks.GetPerson(name);
-            if (person != null && !(roomMan.GetRoomIAmIn(person) == "Køkken")) { return true; }
+            if (self != null && (roomMan.GetRoomIAmIn(self) == "Stue")) { 
+				if((self.moods[MoodTypes.energTired] < -0.4f || self.moods[MoodTypes.angryFear] < -0.6f || self.moods[MoodTypes.angryFear] > 0.6f)){
+					return true;
+				}
+				else if(roomMan.GetRoomIAmIn(other) == "Køkken" && self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.5f){
+					return true;
+				}
+			}
 			return false; };
 
 		#endregion adding Conditions
@@ -561,16 +589,16 @@ public partial class Program : MonoBehaviour
 		relationSystem.CreateNewRule("orderfcess", "order", orderCondition);
 		relationSystem.CreateNewRule("orderfbunsant", "order", orderCondition);
 
-	/*	relationSystem.CreateNewRule("moveToStuefbunce", "moveToStue", emptyCondition);
-		relationSystem.CreateNewRule("moveToStuefcess", "moveToStue", emptyCondition);
-		relationSystem.CreateNewRule("moveToStuefbunsant", "moveToStue", emptyCondition);
-		relationSystem.CreateNewRule("moveToKøkkenfbunce", "moveToKøkken", emptyCondition);
-		relationSystem.CreateNewRule("moveToKøkkenfcess", "moveToKøkken", emptyCondition);
-		relationSystem.CreateNewRule("moveToKøkkenfbunsant", "moveToKøkken", emptyCondition);
-		relationSystem.CreateNewRule("moveToIndgangfbunce", "moveToIndgang", emptyCondition);
-		relationSystem.CreateNewRule("moveToIndgangfcess", "moveToIndgang", emptyCondition);
-		relationSystem.CreateNewRule("moveToIndgangfbunsant", "moveToIndgang", emptyCondition);
-*//*
+		relationSystem.CreateNewRule("moveToStuefbunce", "moveToStue", moveToStueCondition);
+		relationSystem.CreateNewRule("moveToStuefcess", "moveToStue", moveToStueCondition);
+		relationSystem.CreateNewRule("moveToStuefbunsant", "moveToStue", moveToStueCondition);
+		relationSystem.CreateNewRule("moveToKøkkenfbunce", "moveToKøkken", moveToKøkkenCondition);
+		relationSystem.CreateNewRule("moveToKøkkenfcess", "moveToKøkken", moveToKøkkenCondition);
+		relationSystem.CreateNewRule("moveToKøkkenfbunsant", "moveToKøkken", moveToKøkkenCondition);
+		relationSystem.CreateNewRule("moveToIndgangfbunce", "moveToIndgang", moveToIndgangCondition);
+		relationSystem.CreateNewRule("moveToIndgangfcess", "moveToIndgang", moveToIndgangCondition);
+		relationSystem.CreateNewRule("moveToIndgangfbunsant", "moveToIndgang", moveToIndgangCondition);
+		/*
 		relationSystem.CreateNewRule("praisecult", "praisecult", PraiseCultCondition);
 		relationSystem.CreateNewRule("praisecultfleader", "praisecult", PraiseCultCondition);
 		relationSystem.CreateNewRule("praisecultffollower", "praisecult", PraiseCultCondition);
@@ -910,9 +938,9 @@ public partial class Program : MonoBehaviour
 		relationSystem.AddRuleToMask("Bungary", "Bunsant", "greetfbunsant", 0.5f);
 		relationSystem.AddRuleToMask("Bungary", "Bunsant", "playgamefbunsant", 0.2f);
 		relationSystem.AddRuleToMask("Bungary", "Bunsant", "orderfbunsant", -0.5f);
-	//	relationSystem.AddRuleToMask("Bungary", "Bunsant", "moveToStuefbunsant", 0.0f);
-	//	relationSystem.AddRuleToMask("Bungary", "Bunsant", "moveToKøkkenfbunsant", 0.0f);
-	//	relationSystem.AddRuleToMask("Bungary", "Bunsant", "moveToIndgangfbunsant", 0.0f);
+		relationSystem.AddRuleToMask("Bungary", "Bunsant", "moveToStuefbunsant", 0.0f);
+		relationSystem.AddRuleToMask("Bungary", "Bunsant", "moveToKøkkenfbunsant", 0.0f);
+		relationSystem.AddRuleToMask("Bungary", "Bunsant", "moveToIndgangfbunsant", 0.0f);
 
 		relationSystem.AddRuleToMask("Bungary", "Bunce", "bribefbunce", 0.3f);
 		relationSystem.AddRuleToMask("Bungary", "Bunce", "convictfbunce", 0.0f);
@@ -923,9 +951,9 @@ public partial class Program : MonoBehaviour
 		relationSystem.AddRuleToMask("Bungary", "Bunce", "greetfbunce", 1.0f);
 		relationSystem.AddRuleToMask("Bungary", "Bunce", "playgamefbunce", 0.2f);
 		relationSystem.AddRuleToMask("Bungary", "Bunce", "orderfbunce", 0.5f);
-	//	relationSystem.AddRuleToMask("Bungary", "Bunce", "moveToStuefbunce", 0.5f);
-	//	relationSystem.AddRuleToMask("Bungary", "Bunce", "moveToKøkkenfbunce", 0.1f);
-	//	relationSystem.AddRuleToMask("Bungary", "Bunce", "moveToIndgangfbunce", 0.3f);
+		relationSystem.AddRuleToMask("Bungary", "Bunce", "moveToStuefbunce", 0.5f);
+		relationSystem.AddRuleToMask("Bungary", "Bunce", "moveToKøkkenfbunce", 0.1f);
+		relationSystem.AddRuleToMask("Bungary", "Bunce", "moveToIndgangfbunce", 0.3f);
 
 		relationSystem.AddRuleToMask("Bungary", "Buncess", "bribefcess", 0.3f);
 		relationSystem.AddRuleToMask("Bungary", "Buncess", "convictfcess", 0.0f);
@@ -936,9 +964,9 @@ public partial class Program : MonoBehaviour
 		relationSystem.AddRuleToMask("Bungary", "Buncess", "greetfcess", 1.0f);
 		relationSystem.AddRuleToMask("Bungary", "Buncess", "playgamefbuncess", 0.2f);
 		relationSystem.AddRuleToMask("Bungary", "Buncess", "orderfcess", 0.5f);
-	//	relationSystem.AddRuleToMask("Bungary", "Buncess", "moveToStuefcess", 0.6f);
-	//	relationSystem.AddRuleToMask("Bungary", "Buncess", "moveToKøkkenfcess", 0.2f);
-	//	relationSystem.AddRuleToMask("Bungary", "Buncess", "moveToIndgangfcess", 0.3f);
+		relationSystem.AddRuleToMask("Bungary", "Buncess", "moveToStuefcess", 0.6f);
+		relationSystem.AddRuleToMask("Bungary", "Buncess", "moveToKøkkenfcess", 0.2f);
+		relationSystem.AddRuleToMask("Bungary", "Buncess", "moveToIndgangfcess", 0.3f);
 /*
 		relationSystem.AddRuleToMask("Cult", "Leader", "praisecultfleader", 0.6f);
 		relationSystem.AddRuleToMask("Cult", "Follower", "praisecultffollower", 0.4f);
