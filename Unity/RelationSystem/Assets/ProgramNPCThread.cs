@@ -23,11 +23,17 @@ public partial class Program : MonoBehaviour
         {
             if (shouldPlay)
             {
+                List<Person> people = relationSystem.createActiveListsList();
+
                 foreach (Being being in beings)
                 {
 					if(being.name != "player"){
 						being.NPCAction(time);
 					}
+                    if (people.Exists(x => x.name == being.name) && being.name != "player")
+                    {
+                        being.NPCAction(time);
+                    }
                 }
             }
 
