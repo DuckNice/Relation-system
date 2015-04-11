@@ -52,7 +52,7 @@ public class Being
 
             if (currentRule != null && actionStartTime + currentRule.actionToTrigger.duration > time)
             {
-                currentRule.SustainAction(self, currentRule.selfOther[self], currentRule, misc: possessions.ToArray());
+                currentRule.SustainAction(self, currentRule.selfOther[self].person, currentRule, misc: possessions.ToArray());
             }
             else
             {
@@ -105,14 +105,14 @@ public class Being
 					debug.Write("DOING REACTION");
 				}
 
-				debug.Write("DOING ACTION '" + _rule.actionToTrigger.name + "' FROM " + name + ". Rule: "+_rule.ruleName+". Role: "+_rule.role+". To: "+_rule.selfOther[self].name);
+				debug.Write("DOING ACTION '" + _rule.actionToTrigger.name + "' FROM " + name + ". Rule: "+_rule.ruleName+". Role: "+_rule.role+". To: "+_rule.selfOther[self].person.name);
 
                 if (_rule.actionToTrigger.name.ToLower() != "empty")
                 {
                     currentRule = _rule;
                     actionStartTime = Time.time;
 
-                    _rule.DoAction(self, _rule.selfOther[self], _rule, misc: possessions.ToArray());
+                    _rule.DoAction(self, _rule.selfOther[self].person, _rule, misc: possessions.ToArray());
                 }
                 else
                 {

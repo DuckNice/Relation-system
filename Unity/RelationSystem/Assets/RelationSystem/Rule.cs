@@ -13,9 +13,10 @@ namespace NRelationSystem
         public List<Rule> rulesThatMightHappen = new List<Rule>();
         float strength = 0.0f;
         public string role = "none";
-        public Dictionary<Person, Person> selfOther = new Dictionary<Person,Person>();
+        public Dictionary<Person, PersonAndPreference> selfOther = new Dictionary<Person, PersonAndPreference>();
         private RuleConditioner ruleCondition;
         public RulePreference rulePreference;
+        
 
 
         public Rule(string _ruleName, MAction act, RuleConditioner _ruleCondition, RulePreference _rulePreference)
@@ -68,7 +69,7 @@ namespace NRelationSystem
                         }
                         else
                         {
-                            selfOther.Add(self, personToAdd);
+                            selfOther.Add(self, new PersonAndPreference(personToAdd, 1.0f));
 
                             return true;
                         }
@@ -82,7 +83,7 @@ namespace NRelationSystem
 
             if (personToAdd != self)
             {
-                selfOther.Add(self, personToAdd);
+                selfOther.Add(self, new PersonAndPreference(personToAdd, strength));
 
                 return true;
             }

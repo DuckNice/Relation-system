@@ -27,6 +27,18 @@ namespace NRelationSystem
         public float strOfAct;
     };
 
+    public struct PersonAndPreference
+    {
+        public Person person;
+        public float pref;
+
+        public PersonAndPreference(Person _person, float _pref)
+        {
+            person = _person;
+            pref = _pref;
+        }
+    }
+
 
     public enum TraitTypes
     {
