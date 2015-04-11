@@ -170,7 +170,7 @@ namespace NRelationSystem
 			}
 			debug.Write ("Error in GetRule from Person. Rule not found. Check spelling. Returning Empty.");
 			
-			return new Rule("Empty", new MAction("Empty", 0.0f,0.0f), null);
+			return new Rule("Empty", new MAction("Empty", 0.0f,0.0f), null, null);
 		}
 
 

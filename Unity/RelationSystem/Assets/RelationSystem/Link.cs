@@ -40,7 +40,7 @@ namespace NRelationSystem
             {
 				debug.Write("Catching actionForLink Error.");
                 actionToSend = new RuleAndStr();
-                actionToSend.chosenRule = new Rule("Empty", new MAction("Empty", 0.0f,0.0f), null);
+                actionToSend.chosenRule = new Rule("Empty", new MAction("Empty", 0.0f,0.0f), null, null);
                 actionToSend.strOfAct = 0.0f;
             }
 

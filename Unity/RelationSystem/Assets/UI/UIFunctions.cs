@@ -1,17 +1,20 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class UIFunctions : MonoBehaviour {
 	public static UIFunctions instance;
 
 	string text;
-	public UnityEngine.UI.InputField input;
-	public UnityEngine.UI.Text GameBox;
-	public UnityEngine.UI.Text PlayerBox;
-	public UnityEngine.UI.Scrollbar GameScrollbar;
-	public UnityEngine.UI.Scrollbar PlayerScrollbar;
-	public UnityEngine.UI.Text StatText;
-    public UnityEngine.UI.Toggle pauseToggle;
+	public InputField input;
+	public Text GameBox;
+	public Text PlayerBox;
+	public Scrollbar GameScrollbar;
+	public Scrollbar PlayerScrollbar;
+	public Text StatText;
+    public Toggle pauseToggle;
+    public GameObject graphicActionPanel;
+    public DynamicActionsUI graphicActionPanelScript;
 	public Program program;
     private bool pauseThroughTextEnter = false;
 
@@ -29,6 +32,20 @@ public class UIFunctions : MonoBehaviour {
 		}
 	}
 
+    
+    public void ActivateGraphicActions()
+    {
+        if (program.shouldPlay)
+        {
+            program.shouldPlay = false;
+            pauseThroughTextEnter = true;
+            pauseToggle.isOn = true;
+        }
+
+        graphicActionPanel.SetActive(true);
+        graphicActionPanelScript.UpdateButtons();
+    }
+
 
     public void enterCommandStart()
     {
@@ -39,6 +56,7 @@ public class UIFunctions : MonoBehaviour {
             pauseToggle.isOn = true;
         }
     }
+        
 
 
 	public void enteredCommand()

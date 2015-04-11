@@ -15,13 +15,15 @@ namespace NRelationSystem
         public string role = "none";
         public Dictionary<Person, Person> selfOther = new Dictionary<Person,Person>();
         private RuleConditioner ruleCondition;
+        public RulePreference rulePreference;
 
 
-        public Rule(string _ruleName, MAction act, RuleConditioner _ruleCondition)
+        public Rule(string _ruleName, MAction act, RuleConditioner _ruleCondition, RulePreference _rulePreference)
         {
             ruleName = _ruleName;
             actionToTrigger = act;
             ruleCondition = _ruleCondition;
+            rulePreference = _rulePreference;
         }
 
 
@@ -44,21 +46,45 @@ namespace NRelationSystem
                 }
             }
 
+            float strength = 0.0f;
+            Person personToAdd = self;
+
             foreach(Person other in people)
             {
                 try
                 {
-                    if (ruleCondition(self, other))
+                    if (ruleCondition == null || ruleCondition(self, other))
                     {
-                        selfOther.Add(self, other);
+                        if(rulePreference != null)
+                        {
+                            float _strength = rulePreference(self, other);
+                        
+                            if(_strength > strength)
+                            {
+                                strength = _strength;
 
-                        return true;
+                                personToAdd = other;
+                            }
+                        }
+                        else
+                        {
+                            selfOther.Add(self, personToAdd);
+
+                            return true;
+                        }
                     }
                 }
                 catch
                 {
                     debug.Write("Warning: ruleCondition for " + other.name + " in " + ruleName + " returned and error. Skipping condition.");
                 }
+            }
+
+            if (personToAdd != self)
+            {
+                selfOther.Add(self, personToAdd);
+
+                return true;
             }
 
             return false;
@@ -73,7 +99,7 @@ namespace NRelationSystem
 			actionToTrigger.DoSustainAction (subject, dirObject,_rule, indPpl, misc);
 		}
 
-		public float GetRuleStrength(){ return strength; }
+        public float GetRuleStrength() { return strength; }
 		public void SetRuleStrength(float inp){ strength = inp; }
 		public void AddToRuleStrength(float inp){ strength += inp; }
     }

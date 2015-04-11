@@ -64,7 +64,7 @@ public partial class Program : MonoBehaviour
         {
             currentPlayerAction = action;
             actionStartTime = Time.time;
-            action.DoAction(relationSystem.pplAndMasks.GetPerson("Player"), target, new Rule("Empty", new MAction("Empty", 0.0f, 0.0f), null));
+            action.DoAction(relationSystem.pplAndMasks.GetPerson("Player"), target, new Rule("Empty", new MAction("Empty", 0.0f, 0.0f), null, null));
         }
         else
         {

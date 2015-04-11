@@ -120,4 +120,6 @@ namespace NRelationSystem
     public delegate void ActionInvoker(Person subject, Person direct, Person[] indiPpl = null, object[] misc = null);
 
 	public delegate bool RuleConditioner(Person self, Person other, Person[] indiPpl = null);
+
+    public delegate float RulePreference(Person self, Person other);
 }
