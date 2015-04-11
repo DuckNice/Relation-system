@@ -11,10 +11,13 @@ public partial class Program : MonoBehaviour
 {
 	public UnityEngine.UI.Toggle playToggle;
     List<Being> beings = new List<Being>();
-	bool shouldPlay = false;
+	public bool shouldPlay = false;
 	public RoomManager roomMan;
 	public float timePace;
     public float time = 0.0f;
+    public bool actionStored = false;
+    public MAction playerAction;
+    Person playerTarget;
 
 
     IEnumerator NPCUpdate()
@@ -23,6 +26,12 @@ public partial class Program : MonoBehaviour
         {
             if (shouldPlay)
             {
+                if (actionStored)
+                {
+                    PerformAction(playerTarget, playerAction);
+                    actionStored = false;
+                }
+
                 List<Person> people = relationSystem.createActiveListsList();
 
                 foreach (Being being in beings)
@@ -59,7 +68,7 @@ public partial class Program : MonoBehaviour
 
 	public void setPlaying()
 	{
-		shouldPlay = playToggle.isOn;
+		shouldPlay = !playToggle.isOn;
 	}
 
 

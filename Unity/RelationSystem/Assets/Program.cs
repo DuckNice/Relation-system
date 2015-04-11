@@ -41,17 +41,31 @@ public partial class Program : MonoBehaviour
         }
         else if (relationSystem.posActions.ContainsKey(sepInput[0]))
         {
-            MAction actionToDo = relationSystem.posActions[sepInput[0]];
-                
-            if(sepInput.Length > 1)
+            if(!actionStored)
             {
-                Person target = relationSystem.pplAndMasks.GetPerson(sepInput[1]);
-
-                if (target != null)
+                MAction actionToDo = relationSystem.posActions[sepInput[0]];
+                
+                if(sepInput.Length > 1)
                 {
-                    PerformAction(target, actionToDo);
+                    Person target = relationSystem.pplAndMasks.GetPerson(sepInput[1]);
+
+                    if (target != null)
+                    {
+                        playerAction = actionToDo;
+                        playerTarget = target;
+                        actionStored = true;
+                    }
                 }
             }
+            else
+            {
+                UIFunctions.WritePlayerLine("Error: Attempting to make new action when action: " + playerAction.name + " for target: " + playerTarget.name + " has already been selected. Write 'cancel' to cancel current action selection.");
+            }
+        }
+        else if(sepInput[0] == "cancel")
+        {
+            actionStored = false;
+            UIFunctions.WritePlayerLine("Removed current action selection. Ready to assign new action to player.");
         }
         else if(sepInput[0] == "help")
         {

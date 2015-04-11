@@ -12,6 +12,7 @@ public class UIFunctions : MonoBehaviour {
 	public UnityEngine.UI.Scrollbar PlayerScrollbar;
 	public UnityEngine.UI.Text StatText;
 	public Program program;
+    private bool pauseThroughTextEnter = false;
 
 
 	public void Awake()
@@ -28,8 +29,19 @@ public class UIFunctions : MonoBehaviour {
 	}
 
 
+    public void enterCommandStart()
+    {
+        if(program.shouldPlay)
+        {
+            program.shouldPlay = false;
+            pauseThroughTextEnter = true;
+        }
+    }
+
+
 	public void enteredCommand()
 	{
+        
 		text = input.text;
 
 		if (text != "") {
@@ -39,6 +51,12 @@ public class UIFunctions : MonoBehaviour {
 			
 			input.text = "";
 		}
+
+        if (pauseThroughTextEnter)
+        {
+            program.shouldPlay = true;
+            pauseThroughTextEnter = false;
+        }
 	}
 
 
@@ -115,7 +133,4 @@ public class UIFunctions : MonoBehaviour {
 		instance.StatText.text = input;
 
 	}
-
-
-
 }
