@@ -75,7 +75,6 @@ public partial class Program : MonoBehaviour {
                     p.moods[MoodTypes.arousDisgus] += Calculator.unboundAdd(-0.4f, p.moods[MoodTypes.arousDisgus]);
                 }
             }
-
         };
         relationSystem.AddAction(new MAction("askAboutPartnerStatus", 1.0f, 0.5f, relationSystem, askAboutPartnerStatus, 5f));
 
@@ -308,6 +307,23 @@ public partial class Program : MonoBehaviour {
             }
         };
         relationSystem.AddAction(new MAction("deny", 0.4f, -0.4f, relationSystem, deny, 2f));
+
+		ActionInvoker accept = (subject, direct, indPpl, misc) =>
+		{
+			UIFunctions.WriteGameLine(subject.name + " is accepting " + direct.name + "'s wishes.");
+			direct.moods[MoodTypes.hapSad] += Calculator.unboundAdd(0.1f, direct.moods[MoodTypes.hapSad]);
+			direct.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.1f, direct.moods[MoodTypes.energTired]);
+
+			direct.AddToOpinionValue(TraitTypes.NiceNasty, subject, -0.2f);
+			foreach (Link l in subject.interPersonal)
+			{
+				if (l.roleRef.Exists(x => x.name == direct.name))
+				{
+					l.AddToLvlOfInfl(0.1f);
+				}
+			}
+		};
+		relationSystem.AddAction(new MAction("accept", -0.2f, 0.4f, relationSystem, accept, 3f));
 
         ActionInvoker enthuseAboutGreatnessofPerson = (subject, direct, indPpl, misc) =>
         {
