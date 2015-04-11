@@ -523,28 +523,98 @@ public partial class Program : MonoBehaviour
 		#endregion adding Conditions
 
 
+
+		RulePreference greetPreference = (self, other) => { 
+			return self.GetOpinionValue(TraitTypes.NiceNasty,other);
+		};
+
+		RulePreference kissPreference = (self, other) => { 
+			if(self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name && y.interPersonal.Exists(z=>z.roleName == "partner" && z.roleRef.Exists(s=>s.name == self.name))) && x.roleName == "partner")){
+				return 1*self.GetOpinionValue(TraitTypes.NiceNasty,other);
+			}
+			else{
+				return self.GetOpinionValue(TraitTypes.NiceNasty,other)*(0.5f*self.GetOpinionValue(TraitTypes.ShyBolsterous,other)*self.GetOpinionValue(TraitTypes.HonestFalse,other));
+			}
+		};
+
+		RulePreference flirtPreference = (self, other) => { 
+			return self.GetOpinionValue(TraitTypes.NiceNasty,other)*self.moods[MoodTypes.arousDisgus]*self.interPersonal.Find(x=>x.roleRef.Exists(y=>y==other)).GetlvlOfInfl();
+		};
+
+		RulePreference chatPreference = (self, other) => { 
+			return self.GetOpinionValue(TraitTypes.NiceNasty,other)*self.interPersonal.Find(x=>x.roleRef.Exists(y=>y==other)).GetlvlOfInfl();;
+		};
+
+		RulePreference giveGiftPreference = (self, other) => { 
+			return self.GetOpinionValue(TraitTypes.NiceNasty,other)*(0.5f*self.GetOpinionValue(TraitTypes.ShyBolsterous,other)*self.GetOpinionValue(TraitTypes.HonestFalse,other))*self.interPersonal.Find(x=>x.roleRef.Exists(y=>y==other)).GetlvlOfInfl();
+		};
+
+		RulePreference poisonPreference = (self, other) => { 
+			return -(self.GetOpinionValue(TraitTypes.NiceNasty,other)*self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue());
+		};
+
+		RulePreference gossipPreference = (self, other) => { 
+			return self.GetOpinionValue(TraitTypes.NiceNasty,other)*(-self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue()*self.absTraits.traits[TraitTypes.HonestFalse].GetTraitValue());
+		};
+
+		RulePreference arguePreference = (self, other) => { 
+			return -(self.GetOpinionValue(TraitTypes.NiceNasty,other)*self.GetOpinionValue(TraitTypes.HonestFalse,other)*self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue());
+		};
+
+		RulePreference reminiscePreference = (self, other) => { 
+			return self.GetOpinionValue(TraitTypes.NiceNasty,other)*self.interPersonal.Find(x=>x.roleRef.Exists(y=>y==other)).GetlvlOfInfl();
+		};
+
+		RulePreference denyPreference = (self, other) => { 
+			return -(self.GetOpinionValue(TraitTypes.NiceNasty,other)*self.GetOpinionValue(TraitTypes.HonestFalse,other)*self.interPersonal.Find(x=>x.roleRef.Exists(y=>y==other)).GetlvlOfInfl());
+		};
+
+		RulePreference enthuseAboutGreatnessOfPersonPreference = (self, other) => { 
+			return (self.GetOpinionValue(TraitTypes.NiceNasty,other)*self.GetOpinionValue(TraitTypes.HonestFalse,other)*self.interPersonal.Find(x=>x.roleRef.Exists(y=>y==other)).GetlvlOfInfl());
+		};
+
+		//CONVICT
+
+		//FIGHT
+
+		//ARGUE INNOCENCE/GUILT
+
+		RulePreference stealPreference = (self, other) => { 
+			return -(self.GetOpinionValue(TraitTypes.NiceNasty,other)*self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue());
+		};
+
+		//PRACTICE
+
+		//ASK FOR HELP
+
+		//MAKE FUN OF, HARASS, PRANK, PLAYGAME
+
+		RulePreference orderPreference = (self, other) => { 
+			return -(self.GetOpinionValue(TraitTypes.NiceNasty,other)*self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue()*self.moods[MoodTypes.energTired]);
+		};
+
 // ---------------------------------------------------------------------------------------------------------------------- CREATING RULES
 
 
 		#region Rules
 		// INTERPERSONAL RULES
-		relationSystem.CreateNewRule("kiss", "kiss", kissCondition);
+		relationSystem.CreateNewRule("kiss", "kiss", kissCondition,kissPreference);
 		relationSystem.CreateNewRule("chooseanotheraspartner", "chooseanotheraspartner", chooseAnotherAsPartnerCondition);
 		relationSystem.CreateNewRule("stayaspartner", "stayaspartner", stayAsPartnerCondition);
 		relationSystem.CreateNewRule("leavepartner", "leavepartner", LeavePartnerCondition);
 		relationSystem.CreateNewRule("askAboutPartnerStatus", "askAboutPartnerStatus", askAboutPartnerStatusCondition);
 		relationSystem.pplAndMasks.GetRule("leavepartner");
 
-		relationSystem.CreateNewRule("flirt", "flirt", flirtCondition);
-		relationSystem.CreateNewRule("chat", "chat", chatCondition);
-		relationSystem.CreateNewRule("givegift", "givegift", giveGiftCondition);
-		relationSystem.CreateNewRule("gossip", "gossip", gossipCondition);
-		relationSystem.CreateNewRule("argue", "argue", argueCondition);
-		relationSystem.CreateNewRule("deny", "deny", denyCondition);
+		relationSystem.CreateNewRule("flirt", "flirt", flirtCondition,flirtPreference);
+		relationSystem.CreateNewRule("chat", "chat", chatCondition,chatPreference);
+		relationSystem.CreateNewRule("givegift", "givegift", giveGiftCondition,giveGiftPreference);
+		relationSystem.CreateNewRule("gossip", "gossip", gossipCondition,gossipPreference);
+		relationSystem.CreateNewRule("argue", "argue", argueCondition,arguePreference);
+		relationSystem.CreateNewRule("deny", "deny", denyCondition,denyPreference);
 		//relationSystem.CreateNewRule("demandtostopbeingfriendwith", "demandtostopbeingfriendwith", demandToStopBeingFriendWithCondition);
 		relationSystem.CreateNewRule("makedistraction", "makedistraction", makeDistractionCondition);
-		relationSystem.CreateNewRule("reminisce", "reminisce", reminisceCondition);
-		relationSystem.CreateNewRule("enthuseaboutgreatnessofperson", "enthuseaboutgreatnessofperson", enthuseAboutGreatnessofPersonCondition);
+		relationSystem.CreateNewRule("reminisce", "reminisce", reminisceCondition,reminiscePreference);
+		relationSystem.CreateNewRule("enthuseaboutgreatnessofperson", "enthuseaboutgreatnessofperson", enthuseAboutGreatnessofPersonCondition,enthuseAboutGreatnessOfPersonPreference);
 		relationSystem.CreateNewRule("makefunof", "makefunof", makefunofCondition);
 		relationSystem.CreateNewRule("telljoke", "telljoke", telljokeCondition);
 		relationSystem.CreateNewRule("prank", "prank", prankCondition);
@@ -552,10 +622,10 @@ public partial class Program : MonoBehaviour
 
 
 		// CULTURAL RULES
-		relationSystem.CreateNewRule("greet", "greet",  GreetCondition);
-		relationSystem.CreateNewRule("greetfbunce", "greet",  GreetCondition);
-		relationSystem.CreateNewRule("greetfcess", "greet",  GreetCondition);
-		relationSystem.CreateNewRule("greetfbunsant", "greet",  GreetCondition);
+		relationSystem.CreateNewRule("greet", "greet",  GreetCondition,greetPreference);
+		relationSystem.CreateNewRule("greetfbunce", "greet",  GreetCondition,greetPreference);
+		relationSystem.CreateNewRule("greetfcess", "greet",  GreetCondition,greetPreference);
+		relationSystem.CreateNewRule("greetfbunsant", "greet",  GreetCondition,greetPreference);
 		relationSystem.CreateNewRule("convict", "convict",  convictCondition);
 		relationSystem.CreateNewRule("convictfcess", "convict",  convictCondition);
 		relationSystem.CreateNewRule("convictfbunce", "convict",  convictCondition);
@@ -576,18 +646,18 @@ public partial class Program : MonoBehaviour
 	//	relationSystem.CreateNewRule("searchforthief", "searchforthief", searchForThiefCondition);
 	//	relationSystem.CreateNewRule("searchforthieffbunce", "searchforthief", searchForThiefCondition);
 	//	relationSystem.CreateNewRule("searchforthieffcess", "searchforthief", searchForThiefCondition);
-		relationSystem.CreateNewRule("poison", "poison", poisonCondition);
-		relationSystem.CreateNewRule("poisonfbunce", "poison", poisonCondition);
-		relationSystem.CreateNewRule("poisonfcess", "poison", poisonCondition);
-		relationSystem.CreateNewRule("poisonfbunsant", "poison", poisonCondition);
+		relationSystem.CreateNewRule("poison", "poison", poisonCondition,poisonPreference);
+		relationSystem.CreateNewRule("poisonfbunce", "poison", poisonCondition,poisonPreference);
+		relationSystem.CreateNewRule("poisonfcess", "poison", poisonCondition,poisonPreference);
+		relationSystem.CreateNewRule("poisonfbunsant", "poison", poisonCondition,poisonPreference);
 		relationSystem.CreateNewRule("playgame", "playgame", playgameCondition);
 		relationSystem.CreateNewRule("playgamefbunce", "playgame", playgameCondition);
 		relationSystem.CreateNewRule("playgamefcess", "playgame", playgameCondition);
 		relationSystem.CreateNewRule("playgamefbunsant", "playgame", playgameCondition);
-		relationSystem.CreateNewRule("order", "order", orderCondition);
-		relationSystem.CreateNewRule("orderfbunce", "order", orderCondition);
-		relationSystem.CreateNewRule("orderfcess", "order", orderCondition);
-		relationSystem.CreateNewRule("orderfbunsant", "order", orderCondition);
+		relationSystem.CreateNewRule("order", "order", orderCondition,orderPreference);
+		relationSystem.CreateNewRule("orderfbunce", "order", orderCondition,orderPreference);
+		relationSystem.CreateNewRule("orderfcess", "order", orderCondition,orderPreference);
+		relationSystem.CreateNewRule("orderfbunsant", "order", orderCondition,orderPreference);
 
 		relationSystem.CreateNewRule("moveToStuefbunce", "moveToStue", moveToStueCondition);
 		relationSystem.CreateNewRule("moveToStuefcess", "moveToStue", moveToStueCondition);
@@ -663,7 +733,7 @@ public partial class Program : MonoBehaviour
 
 		List<Rule> argueRulesToTrigger = new List<Rule>(); argueRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("argue")); argueRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("fight"));
 		argueRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("sabotage")); argueRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("order")); 
-		argueRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("deny"));
+		argueRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("deny")); argueRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("harass"));
 		relationSystem.pplAndMasks.AddPossibleRulesToRule("argue",argueRulesToTrigger);
 
 		List<Rule> denyRulesToTrigger = new List<Rule>(); denyRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("argue")); denyRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("poison")); 
@@ -706,6 +776,7 @@ public partial class Program : MonoBehaviour
 
 		// ------------- CULTURE
 		List<Rule> greetRulesToTrigger = new List<Rule>(); greetRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("chat")); greetRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("kiss"));
+		greetRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("greet"));
 		relationSystem.pplAndMasks.AddPossibleRulesToRule("greet",greetRulesToTrigger);
 		relationSystem.pplAndMasks.AddPossibleRulesToRule("greetfcess",greetRulesToTrigger);
 		relationSystem.pplAndMasks.AddPossibleRulesToRule("greetfbunce",greetRulesToTrigger);

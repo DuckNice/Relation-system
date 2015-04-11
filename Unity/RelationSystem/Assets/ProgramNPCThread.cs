@@ -133,8 +133,6 @@ public partial class Program : MonoBehaviour
 
 		int i = 0;
 
-		//updateLists[key].Contains(person)
-
 		foreach (string s in relationSystem.activeLists.Keys) {
 			statsString += s+": \n";
 			foreach(Person p in relationSystem.activeLists[s]){
@@ -142,15 +140,6 @@ public partial class Program : MonoBehaviour
 			}
 			statsString += "\n";
 		}
-
-	/*	foreach (List<Person> s in relationSystem.activeLists.Values) {
-			statsString += "Room "+i+"\n";
-			foreach(Person p in s){
-				statsString += p.name+" ";
-			}
-			statsString += "\n";
-			i++;
-		}*/
 	}
 
 

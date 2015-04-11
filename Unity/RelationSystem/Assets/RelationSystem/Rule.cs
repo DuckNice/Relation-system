@@ -69,7 +69,7 @@ namespace NRelationSystem
                         }
                         else
                         {
-                            selfOther.Add(self, new PersonAndPreference(other, 1.0f));
+                            selfOther.Add(self, new PersonAndPreference(other, 0.0f));
 
                             return true;
                         }

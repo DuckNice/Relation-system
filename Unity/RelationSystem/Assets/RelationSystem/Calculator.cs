@@ -66,7 +66,7 @@ namespace NRelationSystem
         {
 			float returner = (calculateEgo(impulsivity, ability, rule, rulesThatWillTrigger, foci) * rationality) + (calculateSuperEgo(rule, rulesThatWillTrigger, maskInfl) * morality);
 
-			debug.Write("L: "+returner);
+			//debug.Write("L: "+returner);
 
 			return returner;
         }
@@ -118,5 +118,13 @@ namespace NRelationSystem
                 return unboundedNumber * (float)dist;
             }
         }
+
+		/*float boundedTransform(double unboundedNumber) {
+		 if (unboundedNumber > 0.0)
+		   return 1 - (1 / (1 + unboundedNumber));
+		  else
+		   return (1 / (1 - unboundedNumber)) - 1;
+		}
+*/
     }
 }
