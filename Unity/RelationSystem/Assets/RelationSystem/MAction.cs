@@ -14,10 +14,15 @@ namespace NRelationSystem
         ActionInvoker sustainActionInvoker;
         public RelationSystem relationSystem;
         float Duration = 2.0f;
+        protected bool needsDirect = true;
+        protected bool needsIndirect = false;
+
+        public bool NeedsIndirect { get { return needsIndirect; } }
+        public bool NeedsDirect { get { return needsDirect; } }
         public float duration { get { return Duration; } set { Duration = value; } }
 
 
-		public MAction(string _efDesc, float _selfGain, float _againstGain, RelationSystem _relationSystem, ActionInvoker _actionInvoker = null, float _duration = 2.0f, ActionInvoker _sustainActionInvoker = null)
+		public MAction(string _efDesc, float _selfGain, float _againstGain, RelationSystem _relationSystem, ActionInvoker _actionInvoker = null, float _duration = 2.0f, ActionInvoker _sustainActionInvoker = null, bool _needsDirect = true, bool _needsIndirect = false)
         {
             selfGain = _selfGain;
             againstGain = _againstGain;
@@ -26,6 +31,8 @@ namespace NRelationSystem
             actionInvoker = _actionInvoker;
             sustainActionInvoker = _sustainActionInvoker;
 			duration = _duration;
+            needsDirect = _needsDirect;
+            needsIndirect = _needsIndirect;
         }
 
 

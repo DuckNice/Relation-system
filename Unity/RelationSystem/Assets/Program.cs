@@ -55,6 +55,19 @@ public partial class Program : MonoBehaviour
                         playerTarget = target;
                         actionStored = true;
                     }
+                    else
+                    {
+                        UIFunctions.WritePlayerLine("Error: didn't recognize '" + sepInput[1] + "' as valid target. Not doing action.");
+                    }
+                }
+                else if(!actionToDo.NeedsDirect)
+                {
+                    playerAction = actionToDo;
+                    actionStored = true;
+                }
+                else
+                {
+                    UIFunctions.WritePlayerLine("Error: Action does not support no intended target. Not doing action.");
                 }
             }
             else
