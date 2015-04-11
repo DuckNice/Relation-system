@@ -118,16 +118,4 @@ public partial class Program : MonoBehaviour
 			UIFunctions.WritePlayerLine("Error: No command '" + sepInput[0] + "' recognized.\nWrite 'help' for list of commands.");
         }
     }
-
-
-    
-
-    void PerformAction(Person target, MAction action)
-    {
-		action.DoAction(relationSystem.pplAndMasks.GetPerson("Player"), target,new Rule("Empty", new MAction("Empty", 0.0f, 0.0f), null));
-		    //passing empty rule because I don't know how to pass rules from player.
-    }
-
-
-	
 }

@@ -18,7 +18,8 @@ public partial class Program : MonoBehaviour
     public bool actionStored = false;
     public MAction playerAction;
     Person playerTarget;
-
+    public MAction currentPlayerAction;
+    public float actionStartTime = 0.0f;
 
     IEnumerator NPCUpdate()
 	{
@@ -57,24 +58,36 @@ public partial class Program : MonoBehaviour
 	}
 
 
+    void PerformAction(Person target, MAction action)
+    {
+        if (currentPlayerAction == null || actionStartTime + currentPlayerAction.duration < time)
+        {
+            currentPlayerAction = action;
+            actionStartTime = Time.time;
+            action.DoAction(relationSystem.pplAndMasks.GetPerson("Player"), target, new Rule("Empty", new MAction("Empty", 0.0f, 0.0f), null));
+        }
+        else
+        {
+            UIFunctions.WritePlayerLine("Warning: You are currently " + currentPlayerAction.name + "ing. Please wait for your action do finish.");
+        }
+    }
+
+
     public void Update()
     {
-        if(shouldPlay)
+        if (shouldPlay)
         {
             time += Time.deltaTime;
         }
     }
 
 
-	public void setPlaying()
-	{
-		shouldPlay = !playToggle.isOn;
-	}
-
-
-
+    public void setPlaying()
+    {
+        shouldPlay = !playToggle.isOn;
+    }
 	
-	
+
 	void UpdateStats(){
 		statsString = "";
 		
