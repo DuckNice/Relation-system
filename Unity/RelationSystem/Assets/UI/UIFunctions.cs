@@ -11,6 +11,7 @@ public class UIFunctions : MonoBehaviour {
 	public UnityEngine.UI.Scrollbar GameScrollbar;
 	public UnityEngine.UI.Scrollbar PlayerScrollbar;
 	public UnityEngine.UI.Text StatText;
+    public UnityEngine.UI.Toggle pauseToggle;
 	public Program program;
     private bool pauseThroughTextEnter = false;
 
@@ -35,13 +36,13 @@ public class UIFunctions : MonoBehaviour {
         {
             program.shouldPlay = false;
             pauseThroughTextEnter = true;
+            pauseToggle.isOn = true;
         }
     }
 
 
 	public void enteredCommand()
 	{
-        
 		text = input.text;
 
 		if (text != "") {
@@ -56,6 +57,7 @@ public class UIFunctions : MonoBehaviour {
         {
             program.shouldPlay = true;
             pauseThroughTextEnter = false;
+            pauseToggle.isOn = false;
         }
 	}
 
