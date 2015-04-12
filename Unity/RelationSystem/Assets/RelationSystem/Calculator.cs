@@ -119,12 +119,10 @@ namespace NRelationSystem
             }
         }
 
-		/*float boundedTransform(double unboundedNumber) {
-		 if (unboundedNumber > 0.0)
-		   return 1 - (1 / (1 + unboundedNumber));
-		  else
-		   return (1 / (1 - unboundedNumber)) - 1;
+		public static float NegPosTransform(float inp){
+			return inp-(1-inp);
 		}
-*/
+
+
     }
 }
