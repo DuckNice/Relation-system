@@ -10,7 +10,7 @@ using NRelationSystem;
 
 public partial class Program : MonoBehaviour
 {       
-    RelationSystem relationSystem = new RelationSystem ();
+    public RelationSystem relationSystem = new RelationSystem ();
  
         //Threading work.
 	public void Start()

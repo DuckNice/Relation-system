@@ -16,7 +16,7 @@ public class UIFunctions : MonoBehaviour {
     public GameObject graphicActionPanel;
     public DynamicActionsUI graphicActionPanelScript;
 	public Program program;
-    private bool pauseThroughTextEnter = false;
+    public bool pauseThroughTextEnter = false;
 
 
 	public void Awake()
