@@ -64,7 +64,7 @@ namespace NRelationSystem
         }
         
 
-        public RuleAndStr CalculateActionToUse(List<MAction> notPosActions, List<PosActionItem> possibleActions, Person self, float rat, float mor, float imp, float abi, float maskInfl, List<float> foci, string role)
+        public RuleAndStr CalculateActionToUse(List<MAction> notPosActions, List<PosActionItem> possibleActions, Person self, float rat, float mor, float imp, float abi, float maskInfl, List<float> foci, string role, List<Person> roleRef)
         {
             RuleAndStr chosenAction = new RuleAndStr();
 			chosenAction.chosenRule = new Rule("Empty", new MAction("Empty", 0.0f, 0.0f), null, null);
@@ -82,6 +82,14 @@ namespace NRelationSystem
                         reactPeople = possibleActions[index].reactToPerson;
                     else
                         continue;
+                }
+
+                if(roleRef != null && roleRef.Count > 0)
+                {
+                    foreach (Person person in roleRef)
+                    {
+                        reactPeople.Add(person);
+                    }
                 }
 
                 bool notPosAct = false;
