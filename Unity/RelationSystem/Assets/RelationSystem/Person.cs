@@ -197,22 +197,8 @@ namespace NRelationSystem
 
             foreach(Link link in culture)
             {
-                bool sharesCulturePresent = false;
-
-                foreach(Person person in activePeople)
-                {
-                    if(person.culture.Exists(x => x.roleMask == link.roleMask))
-                    {
-                        sharesCulturePresent = true;
-                        break;
-                    }
-                }
-
-                if(sharesCulturePresent)
-                {
-                    float go = link.roleMask.maskOverlay.traits[traitType].GetTraitValue();
-                    baseVal += Calculator.unboundAdd(go, baseVal);
-                }
+                float go = link.roleMask.maskOverlay.traits[traitType].GetTraitValue();
+                baseVal += Calculator.unboundAdd(go, baseVal);
             }
 
             return baseVal;
