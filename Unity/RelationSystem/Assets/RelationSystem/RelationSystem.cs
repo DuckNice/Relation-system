@@ -129,7 +129,7 @@ namespace NRelationSystem
                 intPpl.Add(new Link(intPers.role, intPers.linkPpl, pplAndMasks.GetMask(intPers.mask), intPers.lvlOfInfl));
             }
 
-            Person person = new Person(selfMask.mask, selfPersMask, intPpl, cults, rational, moral, impulse);
+            Person person = new Person(selfMask.mask, selfPersMask, intPpl, cults, rational, moral, impulse, this);
 			Overlay persOverlay = new Overlay (traits);
 			person.absTraits = persOverlay;
 			person.moods = moods;

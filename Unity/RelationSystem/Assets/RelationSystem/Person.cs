@@ -12,6 +12,7 @@ namespace NRelationSystem
         public Overlay absTraits;
 		public Dictionary<MoodTypes, float> moods = new Dictionary<MoodTypes, float> ();
 		public List<Opinion> opinions = new List<Opinion> ();
+        public RelationSystem relationSystem;
 
 		public string name;
 
@@ -21,7 +22,7 @@ namespace NRelationSystem
 		float ability; 
 
 
-        public Person(string _name, Link _selfPer, List<Link> _interpers, List<Link> _culture, float _ratio, float _moral, float _impulse)
+        public Person(string _name, Link _selfPer, List<Link> _interpers, List<Link> _culture, float _ratio, float _moral, float _impulse, RelationSystem _relationSystem)
         {
             name = _name;
             selfPerception = _selfPer;
@@ -30,6 +31,7 @@ namespace NRelationSystem
             rationality = _ratio;
             morality = _moral;
             impulsivity = _impulse;
+            relationSystem = _relationSystem;
         }
 
         public Person Copy()
@@ -178,16 +180,39 @@ namespace NRelationSystem
         {
             float baseVal = absTraits.traits[traitType].GetTraitValue();
 
+            List<Person> activePeople = relationSystem.createActiveListsList();
+
             foreach(Link link in interPersonal)
             {
-                float go = link.roleMask.maskOverlay.traits[traitType].GetTraitValue();
-                baseVal += Calculator.unboundAdd(go, baseVal);
+                foreach (Person person in link.roleRef)
+                {
+                    if (activePeople.Contains(person))
+                    {
+                        float go = link.roleMask.maskOverlay.traits[traitType].GetTraitValue();
+                        baseVal += Calculator.unboundAdd(go, baseVal);
+                        break;
+                    }
+                }
             }
 
             foreach(Link link in culture)
             {
-                float go = link.roleMask.maskOverlay.traits[traitType].GetTraitValue();
-                baseVal += Calculator.unboundAdd(go, baseVal);
+                bool sharesCulturePresent = false;
+
+                foreach(Person person in activePeople)
+                {
+                    if(person.culture.Exists(x => x.roleMask == link.roleMask))
+                    {
+                        sharesCulturePresent = true;
+                        break;
+                    }
+                }
+
+                if(sharesCulturePresent)
+                {
+                    float go = link.roleMask.maskOverlay.traits[traitType].GetTraitValue();
+                    baseVal += Calculator.unboundAdd(go, baseVal);
+                }
             }
 
             return baseVal;
