@@ -73,48 +73,48 @@ public partial class Program : MonoBehaviour
 
 	public void CreateFirstMasks()
 	{
-		relationSystem.CreateNewMask("Player", new float[]{}, new bool[]{}, TypeMask.selfPerc, new string[]{});
+		relationSystem.CreateNewMask("Player", new float[]{}, TypeMask.selfPerc, new string[]{});
 
-		relationSystem.CreateNewMask("Bungary", new float[] { 0.0f, -0.2f }, new bool[] { }, TypeMask.culture, new string[] { "Bunce", "Buncess", "Bunsant" });
-		relationSystem.CreateNewMask("Cult", new float[] { 0.0f, -0.2f }, new bool[] { }, TypeMask.culture, new string[] { "Leader", "Follower", "Skeptic" });
-		relationSystem.CreateNewMask("MerchantGuild", new float[] { 0.0f, -0.2f }, new bool[] { }, TypeMask.culture, new string[] { "Member" });
+		relationSystem.CreateNewMask("Bungary", new float[] { 0.0f, -0.2f }, TypeMask.culture, new string[] { "Bunce", "Buncess", "Bunsant" });
+		relationSystem.CreateNewMask("Cult", new float[] { 0.0f, -0.2f }, TypeMask.culture, new string[] { "Leader", "Follower", "Skeptic" });
+		relationSystem.CreateNewMask("MerchantGuild", new float[] { 0.0f, -0.2f }, TypeMask.culture, new string[] { "Member" });
 
-		relationSystem.CreateNewMask("Bill", new float[] { 0.0f, 0.0f }, new bool[] { }, TypeMask.selfPerc, new string[] { "" });
-		relationSystem.CreateNewMask("Therese", new float[] { 0.0f, 0.0f }, new bool[] { }, TypeMask.selfPerc, new string[] { "" });
-		relationSystem.CreateNewMask("John", new float[] { 0.0f, 0.0f }, new bool[] { }, TypeMask.selfPerc, new string[] { "" });
-		relationSystem.CreateNewMask("Heather", new float[] { 0.0f, 0.0f }, new bool[] { }, TypeMask.selfPerc, new string[] { "" });
+		relationSystem.CreateNewMask("Bill", new float[] { 0.0f, 0.0f }, TypeMask.selfPerc, new string[] { "" });
+		relationSystem.CreateNewMask("Therese", new float[] { 0.0f, 0.0f }, TypeMask.selfPerc, new string[] { "" });
+		relationSystem.CreateNewMask("John", new float[] { 0.0f, 0.0f }, TypeMask.selfPerc, new string[] { "" });
+		relationSystem.CreateNewMask("Heather", new float[] { 0.0f, 0.0f }, TypeMask.selfPerc, new string[] { "" });
 		
-		relationSystem.CreateNewMask("BillTherese", new float[] { 0.2f, -0.2f }, new bool[] { }, TypeMask.interPers, new string[] { "Partner" });
-		relationSystem.CreateNewMask("ThereseBill", new float[] { 0.3f, 0.2f }, new bool[] { }, TypeMask.interPers, new string[] { "Partner" });
+		relationSystem.CreateNewMask("BillTherese", new float[] { 0.2f, -0.2f }, TypeMask.interPers, new string[] { "Partner" });
+		relationSystem.CreateNewMask("ThereseBill", new float[] { 0.3f, 0.2f }, TypeMask.interPers, new string[] { "Partner" });
 		
-		relationSystem.CreateNewMask("BillJohn", new float[] { -0.2f, -0.2f }, new bool[] { }, TypeMask.interPers, new string[] { "Enemy" });
-		relationSystem.CreateNewMask("JohnBill", new float[] { -0.2f, -0.2f }, new bool[] { }, TypeMask.interPers, new string[] { "Enemy" });
+		relationSystem.CreateNewMask("BillJohn", new float[] { -0.2f, -0.2f }, TypeMask.interPers, new string[] { "Enemy" });
+		relationSystem.CreateNewMask("JohnBill", new float[] { -0.2f, -0.2f }, TypeMask.interPers, new string[] { "Enemy" });
 		
-		relationSystem.CreateNewMask("JohnTherese", new float[] { 0.2f, -0.2f }, new bool[] { }, TypeMask.interPers, new string[] { "Enemy" });
-		relationSystem.CreateNewMask("ThereseJohn", new float[] { -0.2f, -0.2f }, new bool[] { }, TypeMask.interPers, new string[] { "Enemy" });
+		relationSystem.CreateNewMask("JohnTherese", new float[] { 0.2f, -0.2f }, TypeMask.interPers, new string[] { "Enemy" });
+		relationSystem.CreateNewMask("ThereseJohn", new float[] { -0.2f, -0.2f }, TypeMask.interPers, new string[] { "Enemy" });
 
-		relationSystem.CreateNewMask("BillHeather", new float[] { 0.4f, 0.4f }, new bool[] { }, TypeMask.interPers, new string[] { "Friend" });
-		relationSystem.CreateNewMask("HeatherBill", new float[] { 0.2f, 0.5f }, new bool[] { }, TypeMask.interPers, new string[] { "Friend" });
+		relationSystem.CreateNewMask("BillHeather", new float[] { 0.4f, 0.4f }, TypeMask.interPers, new string[] { "Friend" });
+		relationSystem.CreateNewMask("HeatherBill", new float[] { 0.2f, 0.5f }, TypeMask.interPers, new string[] { "Friend" });
 
-		relationSystem.CreateNewMask("HeatherTherese", new float[] { 0.2f, 0.2f }, new bool[] { }, TypeMask.interPers, new string[] { "Friend" });
-		relationSystem.CreateNewMask("ThereseHeather", new float[] { 0.2f, 0.0f }, new bool[] { }, TypeMask.interPers, new string[] { "Friend" });
+		relationSystem.CreateNewMask("HeatherTherese", new float[] { 0.2f, 0.2f }, TypeMask.interPers, new string[] { "Friend" });
+		relationSystem.CreateNewMask("ThereseHeather", new float[] { 0.2f, 0.0f }, TypeMask.interPers, new string[] { "Friend" });
 
-		relationSystem.CreateNewMask("JohnHeather", new float[] { 0.6f, 0.0f }, new bool[] { }, TypeMask.interPers, new string[] { "Partner" });
-		relationSystem.CreateNewMask("HeatherJohn", new float[] { 0.2f, 0.0f }, new bool[] { }, TypeMask.interPers, new string[] { "Partner" });
+		relationSystem.CreateNewMask("JohnHeather", new float[] { 0.6f, 0.0f }, TypeMask.interPers, new string[] { "Partner" });
+		relationSystem.CreateNewMask("HeatherJohn", new float[] { 0.2f, 0.0f }, TypeMask.interPers, new string[] { "Partner" });
 
-		relationSystem.CreateNewMask("BillPlayer", new float[] { -0.4f, 0.0f }, new bool[] { }, TypeMask.interPers, new string[] { "Partner" });
-		relationSystem.CreateNewMask("HeatherPlayer", new float[] { 0.5f, 0.0f }, new bool[] { }, TypeMask.interPers, new string[] { "Partner" });
-		relationSystem.CreateNewMask("TheresePlayer", new float[] { -0.2f, 0.0f }, new bool[] { }, TypeMask.interPers, new string[] { "Enemy" });
-		relationSystem.CreateNewMask("JohnPlayer", new float[] { 0.2f, 0.0f }, new bool[] { }, TypeMask.interPers, new string[] { "Friend" });
+		relationSystem.CreateNewMask("BillPlayer", new float[] { -0.4f, 0.0f }, TypeMask.interPers, new string[] { "Partner" });
+		relationSystem.CreateNewMask("HeatherPlayer", new float[] { 0.5f, 0.0f }, TypeMask.interPers, new string[] { "Partner" });
+		relationSystem.CreateNewMask("TheresePlayer", new float[] { -0.2f, 0.0f }, TypeMask.interPers, new string[] { "Enemy" });
+		relationSystem.CreateNewMask("JohnPlayer", new float[] { 0.2f, 0.0f }, TypeMask.interPers, new string[] { "Friend" });
 
-		relationSystem.CreateNewMask("PlayerBill", new float[] { -0.4f, 0.0f }, new bool[] { }, TypeMask.interPers, new string[] { "Enemy" });
-		relationSystem.CreateNewMask("PlayerHeather", new float[] { 0.5f, 0.0f }, new bool[] { }, TypeMask.interPers, new string[] { "Partner" });
-		relationSystem.CreateNewMask("PlayerTherese", new float[] { -0.2f, 0.0f }, new bool[] { }, TypeMask.interPers, new string[] { "Enemy" });
-		relationSystem.CreateNewMask("PlayerJohn", new float[] { 0.2f, 0.0f }, new bool[] { }, TypeMask.interPers, new string[] { "Friend" });
+		relationSystem.CreateNewMask("PlayerBill", new float[] { -0.4f, 0.0f }, TypeMask.interPers, new string[] { "Enemy" });
+		relationSystem.CreateNewMask("PlayerHeather", new float[] { 0.5f, 0.0f }, TypeMask.interPers, new string[] { "Partner" });
+		relationSystem.CreateNewMask("PlayerTherese", new float[] { -0.2f, 0.0f }, TypeMask.interPers, new string[] { "Enemy" });
+		relationSystem.CreateNewMask("PlayerJohn", new float[] { 0.2f, 0.0f }, TypeMask.interPers, new string[] { "Friend" });
 
-		relationSystem.CreateNewMask("RomanticRelationship", new float[] { 0.2f, 0.0f, 0.0f }, new bool[] { }, TypeMask.interPers, new string[] { "Partner" });
-		relationSystem.CreateNewMask("Friendship", new float[] { 0.1f, 0.2f, 0.0f }, new bool[] { }, TypeMask.interPers, new string[] { "Friend" });
-		relationSystem.CreateNewMask("Rivalry", new float[] { -0.2f, -0.2f, 0.2f }, new bool[] { }, TypeMask.interPers, new string[] { "Enemy" });
+		relationSystem.CreateNewMask("RomanticRelationship", new float[] { 0.2f, 0.0f, 0.0f }, TypeMask.interPers, new string[] { "Partner" });
+		relationSystem.CreateNewMask("Friendship", new float[] { 0.1f, 0.2f, 0.0f }, TypeMask.interPers, new string[] { "Friend" });
+		relationSystem.CreateNewMask("Rivalry", new float[] { -0.2f, -0.2f, 0.2f }, TypeMask.interPers, new string[] { "Enemy" });
 	}
 
 

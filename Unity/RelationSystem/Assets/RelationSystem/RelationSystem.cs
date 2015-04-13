@@ -35,7 +35,7 @@ namespace NRelationSystem
 
 
 
-        public void CreateNewMask(string nameOfMask, float[] _traits = null, bool[] relatives = null, TypeMask maskType = TypeMask.interPers, string[] roles = null) 
+        public void CreateNewMask(string nameOfMask, float[] _traits = null, TypeMask maskType = TypeMask.interPers, string[] roles = null) 
         {
             nameOfMask = nameOfMask.ToLower();
 
@@ -44,14 +44,11 @@ namespace NRelationSystem
             for(int i = 0; i < Enum.GetNames(typeof(TraitTypes)).Length; i++)
             {
                 float insertTrait = 0.0f;
-                bool insertRelative = true;
 
                 if(i < _traits.Length && _traits[i] >= -1.0f && _traits[i] <= 1.0f)
                     insertTrait = _traits[i];
-                if(relatives.Length > i)
-                    insertRelative = relatives[i];
 
-                traits.Add(new Trait((TraitTypes)i, insertTrait, insertRelative));
+                traits.Add(new Trait((TraitTypes)i, insertTrait));
             }
 
             pplAndMasks.CreateNewMask(nameOfMask, maskType, new Overlay(traits));
@@ -91,12 +88,11 @@ namespace NRelationSystem
 			for(int i = 0; i < Enum.GetNames(typeof(TraitTypes)).Length; i++)
 			{
 				float insertTrait = 0.0f;
-				bool insertRelative = true;
 				
 				if(i < _traits.Length && _traits[i] >= -1.0f && _traits[i] <= 1.0f)
 					insertTrait = _traits[i];
 				
-				traits.Add(new Trait((TraitTypes)i, insertTrait, insertRelative));
+				traits.Add(new Trait((TraitTypes)i, insertTrait));
 			}
 
 

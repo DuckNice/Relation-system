@@ -188,7 +188,7 @@ namespace NRelationSystem
                 {
                     if (activePeople.Contains(person))
                     {
-                        float go = link.roleMask.maskOverlay.traits[traitType].GetTraitValue();
+                        float go = link.roleMask.maskOverlay.traits[traitType].GetTraitValue() * link.GetlvlOfInfl();
                         baseVal += Calculator.unboundAdd(go, baseVal);
                         break;
                     }
@@ -197,7 +197,7 @@ namespace NRelationSystem
 
             foreach(Link link in culture)
             {
-                float go = link.roleMask.maskOverlay.traits[traitType].GetTraitValue();
+                float go = link.roleMask.maskOverlay.traits[traitType].GetTraitValue() * link.GetlvlOfInfl();
                 baseVal += Calculator.unboundAdd(go, baseVal);
             }
 

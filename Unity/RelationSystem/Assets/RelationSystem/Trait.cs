@@ -7,14 +7,11 @@ namespace NRelationSystem
     {
         public TraitTypes name;
         float value;
-            //True: The trait is relative. False: the trait is absolute.
-        bool relative;
 
-        public Trait(TraitTypes _name, float _value, bool _relative)
+        public Trait(TraitTypes _name, float _value)
         {
             name = _name;
             value = _value;
-            relative = _relative;
         }
 
 		public float GetTraitValue(){ return value; }
