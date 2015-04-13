@@ -98,7 +98,7 @@ namespace NRelationSystem
                     notPosAct = true;
 
 				if(rule.role.Equals(role)){
-					debug.Write("Checking condition "+rule.ruleName+"   "+rule.Condition(self,reactPeople));
+					//debug.Write("Checking condition "+rule.ruleName+"   "+rule.Condition(self,reactPeople));
 					if(!notPosAct && rule.Condition(self, reactPeople))
 					{
 						debug.Write("Calculating "+rule.actionToTrigger.name+" to "+rule.selfOther[self].person.name);
@@ -106,7 +106,7 @@ namespace NRelationSystem
 						float maskCalculation = Calculator.CalculateRule(rat, mor, imp, abi, rule, rule.rulesThatMightHappen, maskInfl, foci);
 				
 						float newActionStrength = maskCalculation + Calculator.unboundAdd(rule.selfOther[self].pref,maskCalculation);
-						debug.Write(maskCalculation+"   "+rule.selfOther[self].pref+"     "+newActionStrength);
+						debug.Write(maskCalculation+"  +  "+rule.selfOther[self].pref+"  =  "+newActionStrength);
 						if (newActionStrength > chosenAction.strOfAct)
 						{
 							chosenAction.strOfAct = newActionStrength;
