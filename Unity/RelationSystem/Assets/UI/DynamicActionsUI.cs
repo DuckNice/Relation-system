@@ -24,6 +24,7 @@ public class DynamicActionsUI : MonoBehaviour
     Vector2 widthHeightOfInput = new Vector2(240, 30);
     Vector2 widthHeightOfSubmitCancel = new Vector2(100, 30);
 
+
     void Start()
     {
         #region textField, submit & cancel buttons
@@ -75,6 +76,7 @@ public class DynamicActionsUI : MonoBehaviour
         #endregion
     }
 
+
 	public void UpdateButtons()
     {
         for(int q = actionsButtons.Count - 1; q >= 0; q--)
@@ -116,9 +118,10 @@ public class DynamicActionsUI : MonoBehaviour
                 buttonWidth, 
                 buttonHeight
                 );
-            buttonButton.onClick.AddListener(() => { ActionButtonPressed(action);});
-            actionsButtons.Add(buttonButton);
 
+
+            buttonButton.onClick.AddListener(() => { ActionButtonPressed(button.name);});
+            actionsButtons.Add(buttonButton);
             i++;
         }
 
@@ -129,8 +132,14 @@ public class DynamicActionsUI : MonoBehaviour
             GameObject button = Instantiate(_button);
             RectTransform buttonTrans = button.GetComponent<RectTransform>();
             Button buttonButton = button.GetComponent<Button>();
-            button.name = person;
-            button.GetComponentInChildren<Text>().text = person;
+
+            if (person != "player")
+                button.name = person;
+            else
+                button.name = "";
+
+            button.GetComponentInChildren<Text>().text = button.name;
+
 
             button.transform.SetParent(this.transform);
             button.transform.position = new Vector3(
@@ -143,7 +152,8 @@ public class DynamicActionsUI : MonoBehaviour
                 buttonHeight
                 );
 
-            buttonButton.onClick.AddListener(() => { PersonButtonPressed(person);});
+
+            buttonButton.onClick.AddListener(() => { PersonButtonPressed(button.name); });
             targets.Add(buttonButton);
 
             i++;
@@ -173,7 +183,10 @@ public class DynamicActionsUI : MonoBehaviour
 
     public void SubmitPressed()
     {
-        program.playerInput(chosenAction + " " + chosenPerson);
+        if (chosenPerson != "")
+            program.playerInput(chosenAction + " " + chosenPerson);
+        else
+            program.playerInput(chosenAction);
 
         if (uiFunctions.pauseThroughTextEnter)
         {
