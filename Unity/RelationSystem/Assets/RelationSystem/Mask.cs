@@ -68,7 +68,7 @@ namespace NRelationSystem
         {
             RuleAndStr chosenAction = new RuleAndStr();
 			chosenAction.chosenRule = new Rule("Empty", new MAction("Empty", 0.0f, 0.0f), null, null);
-            chosenAction.strOfAct = -99999999999f;
+            chosenAction.strOfAct = -999999999999999f;
 
             foreach(Rule rule in rules.Values.ToList())
             {
@@ -77,7 +77,7 @@ namespace NRelationSystem
                 if(possibleActions != null && possibleActions.Count > 0)
                 {
                     int index = possibleActions.FindIndex(x => x.action == rule.actionToTrigger);
-
+				
                     if (index >= 0)
                         reactPeople = possibleActions[index].reactToPerson;
                     else
@@ -98,13 +98,13 @@ namespace NRelationSystem
                     notPosAct = true;
 
 				if(rule.role.Equals(role)){
-					//debug.Write("Checking condition "+rule.ruleName);
+					debug.Write("Checking condition "+rule.ruleName+"   "+rule.Condition(self,reactPeople));
 					if(!notPosAct && rule.Condition(self, reactPeople))
 					{
 						debug.Write("Calculating "+rule.actionToTrigger.name+" to "+rule.selfOther[self].person.name);
-
+				
 						float maskCalculation = Calculator.CalculateRule(rat, mor, imp, abi, rule, rule.rulesThatMightHappen, maskInfl, foci);
-
+				
 						float newActionStrength = maskCalculation + Calculator.unboundAdd(rule.selfOther[self].pref,maskCalculation);
 						debug.Write(maskCalculation+"   "+rule.selfOther[self].pref+"     "+newActionStrength);
 						if (newActionStrength > chosenAction.strOfAct)

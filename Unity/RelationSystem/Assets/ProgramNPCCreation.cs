@@ -487,6 +487,9 @@ public partial class Program : MonoBehaviour
 
 		RuleConditioner moveToStueCondition = (self, other, indPpl) =>
 		{	
+			if(relationSystem.historyBook.Find(x=> (x.GetAction()==relationSystem.posActions["movetostue"] || x.GetAction()==relationSystem.posActions["movetokøkken"] || x.GetAction()==relationSystem.posActions["movetoindgang"]) && x.GetSubject()==self).GetTime() < 10f){
+				return false;
+			}
 			if(self != null && !(roomMan.GetRoomIAmIn(self) == "Stue"))
 				if((self.moods[MoodTypes.energTired] < -0.4f)){
 					return true;
@@ -498,6 +501,9 @@ public partial class Program : MonoBehaviour
 
 		RuleConditioner moveToIndgangCondition = (self, other, indPpl) =>
         {
+			if(relationSystem.historyBook.Find(x=> (x.GetAction()==relationSystem.posActions["movetostue"] || x.GetAction()==relationSystem.posActions["movetokøkken"] || x.GetAction()==relationSystem.posActions["movetoindgang"]) && x.GetSubject()==self).GetTime() < 10f){
+				return false;
+			}
 			if (self != null && (roomMan.GetRoomIAmIn(self) == "Stue")) { 
 				if((self.moods[MoodTypes.energTired] < -0.4f)){
 					return true;
@@ -510,6 +516,9 @@ public partial class Program : MonoBehaviour
 
 		RuleConditioner moveToKøkkenCondition = (self, other, indPpl) =>
         {
+			if(relationSystem.historyBook.Find(x=> (x.GetAction()==relationSystem.posActions["movetostue"] || x.GetAction()==relationSystem.posActions["movetokøkken"] || x.GetAction()==relationSystem.posActions["movetoindgang"]) && x.GetSubject()==self).GetTime() < 10f){
+					return false;
+				}
             if (self != null && (roomMan.GetRoomIAmIn(self) == "Stue")) { 
 				if((self.moods[MoodTypes.energTired] < -0.4f || self.moods[MoodTypes.angryFear] < -0.6f || self.moods[MoodTypes.angryFear] > 0.6f)){
 					return true;
@@ -522,7 +531,9 @@ public partial class Program : MonoBehaviour
 
 		#endregion adding Conditions
 
-
+		RulePreference doNothingPreference = (self, other) => { 
+			return (-1 + Calculator.unboundAdd((-self.moods[MoodTypes.energTired]),-1));
+		};
 
 		RulePreference greetPreference = (self, other) => { 
 			return self.GetOpinionValue(TraitTypes.NiceNasty,other);
@@ -562,7 +573,7 @@ public partial class Program : MonoBehaviour
 		};
 
 		RulePreference reminiscePreference = (self, other) => { 
-			return self.GetOpinionValue(TraitTypes.NiceNasty,other)*Calculator.NegPosTransform(self.interPersonal.Find(x=>x.roleRef.Exists(y=>y==other)).GetlvlOfInfl());
+			return self.GetOpinionValue(TraitTypes.NiceNasty,other)*Calculator.NegPosTransform(self.interPersonal.Find(x=>x.roleRef.Exists(y=>y==other)).GetlvlOfInfl()*(-self.moods[MoodTypes.energTired])*self.moods[MoodTypes.hapSad]);
 		};
 
 		RulePreference denyPreference = (self, other) => { 
@@ -725,7 +736,7 @@ public partial class Program : MonoBehaviour
 		relationSystem.CreateNewRule("argueguiltinessfbunce", "argueguiltiness", argueGuiltinessCondition,argueGuiltinessPreference);
 		relationSystem.CreateNewRule("argueguiltinessfcess", "argueguiltiness", argueGuiltinessCondition,argueGuiltinessPreference);
 		relationSystem.CreateNewRule("steal", "steal", stealCondition,stealPreference);
-		relationSystem.CreateNewRule("practicestealing", "practicestealing", practiceStealingCondition,practiceStealingPreference);
+	//	relationSystem.CreateNewRule("practicestealing", "practicestealing", practiceStealingCondition,practiceStealingPreference);
 		relationSystem.CreateNewRule("askforhelpinillicitactivity", "askforhelpinillicitactivity", askForHelpInIllicitActivityCondition);
 	//	relationSystem.CreateNewRule("searchforthief", "searchforthief", searchForThiefCondition);
 	//	relationSystem.CreateNewRule("searchforthieffbunce", "searchforthief", searchForThiefCondition);
@@ -772,7 +783,7 @@ public partial class Program : MonoBehaviour
 		relationSystem.CreateNewRule("sellgoods", "sellgoods", sellGoodsCondition,sellGoodsPreference);
 
 		//SELF RULES
-		relationSystem.CreateNewRule("donothing", "donothing", emptyCondition);
+		relationSystem.CreateNewRule("donothing", "donothing", emptyCondition, doNothingPreference);
 		relationSystem.CreateNewRule("flee", "flee", fleeCondition);
 
 
@@ -899,10 +910,10 @@ public partial class Program : MonoBehaviour
 		stealRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("fight")); stealRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("convict"));
 		relationSystem.pplAndMasks.AddPossibleRulesToRule("steal",stealRulesToTrigger); relationSystem.pplAndMasks.AddPossibleRulesToRule("buygoods",stealRulesToTrigger);
 
-		List<Rule> practicestealingRulesToTrigger = new List<Rule>(); practicestealingRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("steal"));
+/*		List<Rule> practicestealingRulesToTrigger = new List<Rule>(); practicestealingRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("steal"));
 		practicestealingRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("argue"));
 		relationSystem.pplAndMasks.AddPossibleRulesToRule("practicestealing",practicestealingRulesToTrigger);
-
+*/
 		List<Rule> askforhelpinillicitactivityRulesToTrigger = new List<Rule>(); askforhelpinillicitactivityRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("steal"));
 		askforhelpinillicitactivityRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("makedistraction"));
 		relationSystem.pplAndMasks.AddPossibleRulesToRule("askforhelpinillicitactivity",askforhelpinillicitactivityRulesToTrigger);
@@ -1087,7 +1098,7 @@ public partial class Program : MonoBehaviour
 		relationSystem.AddRuleToMask("Bungary", "Bunsant", "fight", -0.5f);
 		relationSystem.AddRuleToMask("Bungary", "Bunsant", "bribefbunsant", -0.1f);
 		relationSystem.AddRuleToMask("Bungary", "Bunsant", "steal", -0.5f);
-		relationSystem.AddRuleToMask("Bungary", "Bunsant", "practicestealing", -0.3f);
+//		relationSystem.AddRuleToMask("Bungary", "Bunsant", "practicestealing", -0.3f);
 		relationSystem.AddRuleToMask("Bungary", "Bunsant", "askforhelpinillicitactivity", -0.1f);
 		relationSystem.AddRuleToMask("Bungary", "Bunsant", "poisonfbunsant", -0.8f);
 		relationSystem.AddRuleToMask("Bungary", "Bunsant", "greetfbunsant", 0.5f);

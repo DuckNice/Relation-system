@@ -105,7 +105,7 @@ public class Being
 					debug.Write("DOING REACTION");
 				}
 
-				debug.Write("DOING ACTION '" + _rule.actionToTrigger.name + "' FROM " + name + ". Rule: "+_rule.ruleName+". Role: "+_rule.role+". To: "+_rule.selfOther[self].person.name);
+				debug.Write("DOING ACTION '" + _rule.actionToTrigger.name + "' FROM " + name + ". Rule: "+_rule.ruleName+". Role: "+_rule.role);
 
                 if (_rule.actionToTrigger.name.ToLower() != "empty")
                 {
