@@ -47,7 +47,7 @@ namespace NRelationSystem
                 }
             }
 
-            float strength = 0.0f;
+            float strength = -10.0f;
             Person personToAdd = self;
 
             foreach(Person other in people)

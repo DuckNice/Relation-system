@@ -174,6 +174,26 @@ namespace NRelationSystem
 		}
 
 
+        public float CalculateTraitType(TraitTypes traitType)
+        {
+            float baseVal = absTraits.traits[traitType].GetTraitValue();
+
+            foreach(Link link in interPersonal)
+            {
+                float go = link.roleMask.maskOverlay.traits[traitType].GetTraitValue();
+                baseVal += Calculator.unboundAdd(go, baseVal);
+            }
+
+            foreach(Link link in culture)
+            {
+                float go = link.roleMask.maskOverlay.traits[traitType].GetTraitValue();
+                baseVal += Calculator.unboundAdd(go, baseVal);
+            }
+
+            return baseVal;
+        }
+
+
 		public float GetOpinionValue(TraitTypes traittype, Person pers){
 			foreach(Opinion o in opinions ){
 				if(o.pers == pers && o.trait == traittype){

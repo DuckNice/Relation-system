@@ -11,7 +11,7 @@ namespace NRelationSystem
         TypeMask maskType;
         public Dictionary<string, Rule> rules;
         public List<string> roles;
-        Overlay maskOverlay;
+        public Overlay maskOverlay;
 
 
         public Mask(TypeMask _maskType, Overlay _maskOverlay, string _name)
