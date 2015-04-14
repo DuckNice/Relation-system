@@ -92,7 +92,7 @@ namespace NRelationSystem
 
                 if (roleRef != null && roleRef.Count > 0)
                     if (reactors)
-                        for (int i = reactPeople.Count; i >= 0; i-- )
+                        for (int i = reactPeople.Count - 1; i >= 0; i-- )
                             if(!roleRef.Contains(reactPeople[i]))
                                 reactPeople.RemoveAt(i);
                     else
