@@ -53,13 +53,13 @@ namespace NRelationSystem
         }
 
 
-        public void CreateNewRule(string ruleName, MAction posAction, RuleConditioner ruleCondition = null, RulePreference rulePreference = null)
+        public void CreateNewRule(string ruleName, MAction posAction, RuleConditioner ruleCondition = null, RulePreference rulePreference = null, VisibilityCalculator visCalc = null)
         {
             ruleName = ruleName.ToLower();
 
             if (!instRules.Keys.Contains(ruleName))
             {
-                instRules.Add(ruleName, new Rule(ruleName.ToLower(), posAction, ruleCondition, rulePreference));
+                instRules.Add(ruleName, new Rule(ruleName.ToLower(), posAction, ruleCondition, rulePreference, visCalc));
             }
             else
             {

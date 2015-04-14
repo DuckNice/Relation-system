@@ -15,16 +15,21 @@ namespace NRelationSystem
         public string role = "none";
         public Dictionary<Person, PersonAndPreference> selfOther = new Dictionary<Person, PersonAndPreference>();
         private RuleConditioner ruleCondition;
-        public RulePreference rulePreference;
+        private RulePreference rulePreference;
+        public VisibilityCalculator visCalc;
         
 
 
-        public Rule(string _ruleName, MAction act, RuleConditioner _ruleCondition, RulePreference _rulePreference)
+        public Rule(string _ruleName, MAction act, RuleConditioner _ruleCondition, RulePreference _rulePreference, VisibilityCalculator _visCalc = null)
         {
             ruleName = _ruleName;
             actionToTrigger = act;
             ruleCondition = _ruleCondition;
             rulePreference = _rulePreference;
+            if (_visCalc == null)
+                visCalc = new VisibilityCalculator(x => { return 1.0f; });
+            else
+                visCalc = _visCalc;
         }
 
 

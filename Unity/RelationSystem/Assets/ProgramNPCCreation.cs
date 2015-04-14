@@ -47,11 +47,6 @@ public partial class Program : MonoBehaviour
 		beings.Add (John);
 		beings.Add (Heather);
 		beings.Add (Player);
-		Bill.FindFocusToAll (beings);
-		Therese.FindFocusToAll (beings);
-		John.FindFocusToAll (beings);
-		Heather.FindFocusToAll (beings);
-		Player.FindFocusToAll (beings);
 
 		Bill.possessions.Add (new Money (100f));
 		Bill.possessions.Add (new Goods (5f));

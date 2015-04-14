@@ -6,24 +6,17 @@ namespace NRelationSystem
 {
     public class Calculator
     {
-        public static float calculateEgo(float impulsivity, float ability, Rule curRule, List<Rule> rulesThatWillTrigger, List<float> foci)
+        public static float calculateEgo(float impulsivity, float ability, Rule curRule, List<Rule> rulesThatWillTrigger)
         {
             float tempEgo = 1.0f;
 
             if (rulesThatWillTrigger != null)
             {
-				float visibility = new float();
-
-				foreach(float f in foci){
-					visibility += f;
-				}
-
-				visibility /= foci.Count;
-
-                foreach (Rule r in rulesThatWillTrigger)
+                foreach (Rule rule in rulesThatWillTrigger)
                 {
+                    float visibility = rule.visCalc();
 
-					tempEgo += r.GetRuleStrength() * r.actionToTrigger.EstimationOfSuccess(ability) * visibility * CalculateGain(r, false);
+					tempEgo += rule.GetRuleStrength() * rule.actionToTrigger.EstimationOfSuccess(ability) * visibility * CalculateGain(rule, false);
 
                     //probability is just r.strength for now. let's leave it like that for simplicity
 					//right now it just check visibility for all people in world, not just the people involved in the action considered.
@@ -62,9 +55,9 @@ namespace NRelationSystem
         }
 
 
-        public static float CalculateRule(float rationality, float morality, float impulsivity, float ability, Rule rule, List<Rule> rulesThatWillTrigger, float maskInfl, List<float> foci)
+        public static float CalculateRule(float rationality, float morality, float impulsivity, float ability, Rule rule, List<Rule> rulesThatWillTrigger, float maskInfl)
         {
-			float returner = (calculateEgo(impulsivity, ability, rule, rulesThatWillTrigger, foci) * rationality) + (calculateSuperEgo(rule, rulesThatWillTrigger, maskInfl) * morality);
+			float returner = (calculateEgo(impulsivity, ability, rule, rulesThatWillTrigger) * rationality) + (calculateSuperEgo(rule, rulesThatWillTrigger, maskInfl) * morality);
 
 			//debug.Write("L: "+returner);
 

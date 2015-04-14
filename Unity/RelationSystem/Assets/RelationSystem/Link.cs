@@ -27,20 +27,20 @@ namespace NRelationSystem
         }
 
 
-        public RuleAndStr actionForLink(List<MAction> notPosActions, List<PosActionItem> possibleActions, Person self, float rat, float mor, float imp, float abi, List<float> foci) 
+        public RuleAndStr actionForLink(List<MAction> notPosActions, List<PosActionItem> possibleActions, Person self, float rat, float mor, float imp, float abi) 
         {
             RuleAndStr actionToSend;
 
             try
             {
-				actionToSend = roleMask.CalculateActionToUse(notPosActions, possibleActions, self, rat, mor, imp, abi, lvlOfInfl, foci, roleName, roleRef);
+				actionToSend = roleMask.CalculateActionToUse(notPosActions, possibleActions, self, rat, mor, imp, abi, lvlOfInfl, roleName, roleRef);
 					//debug.Write ("Trying from link "+self.name+" Maskname: "+ roleMask.GetMaskName() +" Rolename: "+roleName);
             }
             catch
             {
 				debug.Write("Catching actionForLink Error.");
                 actionToSend = new RuleAndStr();
-                actionToSend.chosenRule = new Rule("Empty", new MAction("Empty", 0.0f,0.0f), null, null);
+                actionToSend.chosenRule = new Rule("Empty", new MAction("Empty", 0.0f, 0.0f), null, null);
                 actionToSend.strOfAct = 0.0f;
             }
 

@@ -99,14 +99,14 @@ namespace NRelationSystem
         }
 
 
-        public Rule GetAction(List<MAction> notPosActions, List<PosActionItem> posAction, List<float> foci) 
+        public Rule GetAction(List<MAction> notPosActions, List<PosActionItem> posAction) 
         {					
 
-            RuleAndStr chosenAction = selfPerception.actionForLink(notPosActions, posAction, this, rationality, morality, impulsivity, ability, foci);
+            RuleAndStr chosenAction = selfPerception.actionForLink(notPosActions, posAction, this, rationality, morality, impulsivity, ability);
 
             foreach(Link curLink in interPersonal)
             {
-				RuleAndStr curAction = curLink.actionForLink(notPosActions, posAction, this, rationality, morality, impulsivity, ability, foci);
+				RuleAndStr curAction = curLink.actionForLink(notPosActions, posAction, this, rationality, morality, impulsivity, ability);
 
                 if(curAction.strOfAct > chosenAction.strOfAct)
                 {
@@ -116,7 +116,7 @@ namespace NRelationSystem
 
             foreach (Link curLink in culture)
             {
-				RuleAndStr curAction = curLink.actionForLink(notPosActions, posAction, this, rationality, morality, impulsivity, ability, foci);
+				RuleAndStr curAction = curLink.actionForLink(notPosActions, posAction, this, rationality, morality, impulsivity, ability);
 
                 if (curAction.strOfAct > chosenAction.strOfAct)
                 {

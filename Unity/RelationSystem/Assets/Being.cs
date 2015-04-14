@@ -10,7 +10,6 @@ using NRelationSystem;
 public class Being
 {
 	public string name;
-	public Dictionary<Being, float> focus;
 	public RelationSystem maskSystem;
 	public List<Possession> possessions = new List<Possession>();
 	List<MAction> notPossibleActions;
@@ -23,26 +22,12 @@ public class Being
 	public Being (string _name, RelationSystem relsys)
 	{
 		name = _name;
-		focus = new Dictionary<Being,float> ();
 		maskSystem = relsys;
 
 		possessions.Add (new Axe(1.0f, "Lead", 10.0f, 0.5f));
 	}
 
-
-	//Use in beginning for all Beings, to set initial focus for all beings in the world.
-	public void FindFocusToAll(List<Being> beingsInWorld){
-		foreach (Being b in beingsInWorld) {
-			focus.Add(b,1);
-		}
-	}
-
-
-	public void SetFocusToOther(Being otherPerson, float f){
-		focus [otherPerson] = f;
-	}
-
-
+    
 	public void NPCAction(float time)
 	{
         if (name.ToLower() != "player")
@@ -58,7 +43,6 @@ public class Being
             {
                 List<PosActionItem> possibleActions = new List<PosActionItem>();
                 //debug.Write("BEFORE LOOP "+maskSystem.historyBook.Count);
-
 
                 for (int i = maskSystem.historyBook.Count - 1; i >= 0; i--)
                 {
@@ -96,11 +80,11 @@ public class Being
                 }
                 debug.Write("---------- " + self.name + "'s TURN.");
 
-                Rule _rule = self.GetAction(notPossibleActions, possibleActions, focus.Values.ToList());
+                Rule _rule = self.GetAction(notPossibleActions, possibleActions);
 				//debug.Write("ACTION FROM "+name+" "+possibleActions.Count);
 				if(_rule == null || _rule.ruleName.ToLower() == "empty"){
 					debug.Write("COULD NOT DO REACTION "+name+" ");
-					_rule = self.GetAction(notPossibleActions, null, focus.Values.ToList());
+					_rule = self.GetAction(notPossibleActions, null);
 				}else{
 					debug.Write("DOING REACTION");
 				}
