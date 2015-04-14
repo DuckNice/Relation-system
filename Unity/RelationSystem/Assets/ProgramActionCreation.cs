@@ -145,8 +145,8 @@ public partial class Program : MonoBehaviour {
         {
             debug.Write(subject.name + "   " + direct.name);
             UIFunctions.WriteGameLine(subject.name + " is chatting with " + direct.name + ".");
-            direct.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.2f, direct.moods[MoodTypes.energTired]);
-            subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.2f, subject.moods[MoodTypes.energTired]);
+            direct.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.1f, direct.moods[MoodTypes.energTired]);
+            subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.1f, subject.moods[MoodTypes.energTired]);
 
             foreach (Link l in subject.interPersonal)
             {
@@ -211,8 +211,8 @@ public partial class Program : MonoBehaviour {
         ActionInvoker gossip = (subject, direct, indPpl, misc) =>
         {
             UIFunctions.WriteGameLine(subject.name + " is gossiping with " + direct.name);
-            direct.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.2f, direct.moods[MoodTypes.energTired]);
-            subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.2f, subject.moods[MoodTypes.energTired]);
+            direct.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.1f, direct.moods[MoodTypes.energTired]);
+            subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.1f, subject.moods[MoodTypes.energTired]);
         };
         relationSystem.AddAction(new MAction("gossip", 0.1f, 0.1f, relationSystem, gossip, 7f));
 
@@ -221,8 +221,8 @@ public partial class Program : MonoBehaviour {
             UIFunctions.WriteGameLine(subject.name + " is arguing with " + direct.name + "!");
             direct.moods[MoodTypes.angryFear] += Calculator.unboundAdd(0.3f, direct.moods[MoodTypes.angryFear]);
             subject.moods[MoodTypes.angryFear] += Calculator.unboundAdd(0.3f, subject.moods[MoodTypes.angryFear]);
-            direct.moods[MoodTypes.energTired] += Calculator.unboundAdd(0.3f, direct.moods[MoodTypes.energTired]);
-            subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(0.3f, subject.moods[MoodTypes.energTired]);
+            direct.moods[MoodTypes.energTired] += Calculator.unboundAdd(0.2f, direct.moods[MoodTypes.energTired]);
+            subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(0.2f, subject.moods[MoodTypes.energTired]);
             direct.moods[MoodTypes.hapSad] += Calculator.unboundAdd(-0.1f, direct.moods[MoodTypes.hapSad]);
             subject.moods[MoodTypes.hapSad] += Calculator.unboundAdd(-0.1f, subject.moods[MoodTypes.hapSad]);
 
@@ -290,8 +290,8 @@ public partial class Program : MonoBehaviour {
             UIFunctions.WriteGameLine(subject.name + " is reminiscing about old times with " + direct.name + "!");
             direct.moods[MoodTypes.hapSad] += Calculator.unboundAdd(0.2f, direct.moods[MoodTypes.hapSad]);
             subject.moods[MoodTypes.hapSad] += Calculator.unboundAdd(0.2f, subject.moods[MoodTypes.hapSad]);
-            subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(0.1f, subject.moods[MoodTypes.energTired]);
-            direct.moods[MoodTypes.energTired] += Calculator.unboundAdd(0.1f, direct.moods[MoodTypes.energTired]);
+            subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.1f, subject.moods[MoodTypes.energTired]);
+            direct.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.1f, direct.moods[MoodTypes.energTired]);
         };
         relationSystem.AddAction(new MAction("reminisce", 0.1f, 0.1f, relationSystem, reminisce, 9f));
 
@@ -462,10 +462,10 @@ public partial class Program : MonoBehaviour {
         {
             UIFunctions.WriteGameLine(subject.name + " is telling a joke to " + direct.name + ". It's funny!");
 
-            subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.2f, subject.moods[MoodTypes.energTired]);
+            subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.1f, subject.moods[MoodTypes.energTired]);
             subject.moods[MoodTypes.hapSad] += Calculator.unboundAdd(0.2f, subject.moods[MoodTypes.hapSad]);
             direct.moods[MoodTypes.hapSad] += Calculator.unboundAdd(0.1f, direct.moods[MoodTypes.hapSad]);
-            direct.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.2f, direct.moods[MoodTypes.energTired]);
+            direct.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.1f, direct.moods[MoodTypes.energTired]);
         };
         relationSystem.AddAction(new MAction("telljoke", 0.1f, 0.1f, relationSystem, telljoke, 5f));
 
@@ -473,7 +473,7 @@ public partial class Program : MonoBehaviour {
         {
             UIFunctions.WriteGameLine(subject.name + " is harassing " + direct.name + ". Ugh, how annoying.");
 
-            subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.3f, subject.moods[MoodTypes.energTired]);
+            subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.2f, subject.moods[MoodTypes.energTired]);
             subject.moods[MoodTypes.hapSad] += Calculator.unboundAdd(0.2f, subject.moods[MoodTypes.hapSad]);
             subject.moods[MoodTypes.arousDisgus] += Calculator.unboundAdd(0.2f, subject.moods[MoodTypes.arousDisgus]);
             direct.moods[MoodTypes.hapSad] += Calculator.unboundAdd(-0.4f, direct.moods[MoodTypes.hapSad]);
@@ -490,7 +490,7 @@ public partial class Program : MonoBehaviour {
             subject.moods[MoodTypes.hapSad] += Calculator.unboundAdd(0.3f, subject.moods[MoodTypes.hapSad]);
             subject.moods[MoodTypes.arousDisgus] += Calculator.unboundAdd(0.2f, subject.moods[MoodTypes.arousDisgus]);
             direct.moods[MoodTypes.hapSad] += Calculator.unboundAdd(-0.5f, direct.moods[MoodTypes.hapSad]);
-            direct.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.3f, direct.moods[MoodTypes.energTired]);
+            direct.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.2f, direct.moods[MoodTypes.energTired]);
             direct.AddToOpinionValue(TraitTypes.NiceNasty, subject, -0.3f);
             direct.AddToOpinionValue(TraitTypes.HonestFalse, subject, -0.3f);
         };
@@ -500,10 +500,10 @@ public partial class Program : MonoBehaviour {
         {
             UIFunctions.WriteGameLine(subject.name + " is playing a game with " + direct.name);
 
-            subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.3f, subject.moods[MoodTypes.energTired]);
+            subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.2f, subject.moods[MoodTypes.energTired]);
             subject.moods[MoodTypes.hapSad] += Calculator.unboundAdd(0.3f, subject.moods[MoodTypes.hapSad]);
             direct.moods[MoodTypes.hapSad] += Calculator.unboundAdd(0.3f, direct.moods[MoodTypes.hapSad]);
-            direct.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.3f, direct.moods[MoodTypes.energTired]);
+            direct.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.2f, direct.moods[MoodTypes.energTired]);
             direct.AddToOpinionValue(TraitTypes.NiceNasty, subject, 0.1f);
             direct.AddToOpinionValue(TraitTypes.HonestFalse, subject, 0.1f);
         };
@@ -720,7 +720,7 @@ public partial class Program : MonoBehaviour {
         ActionInvoker moveToStue = (subject, direct, indPpl, misc) =>
         {
             UIFunctions.WriteGameLine(subject.name + " is going into the Living Room.");
-			subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(0.3f, subject.moods[MoodTypes.energTired]);
+			subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(0.2f, subject.moods[MoodTypes.energTired]);
             roomMan.EnterRoom("Stue", relationSystem.pplAndMasks.GetPerson(subject.name));
         };
         relationSystem.AddAction(new MAction("moveToStue", 0.4f, 0.0f, relationSystem, moveToStue, 5f, _needsDirect: false));
@@ -728,7 +728,7 @@ public partial class Program : MonoBehaviour {
         ActionInvoker moveToKøkken = (subject, direct, indPpl, misc) =>
         {
             UIFunctions.WriteGameLine(subject.name + " is going into the Kitchen.");
-			subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(0.3f, subject.moods[MoodTypes.energTired]);
+			subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(0.2f, subject.moods[MoodTypes.energTired]);
             roomMan.EnterRoom("Køkken",  relationSystem.pplAndMasks.GetPerson(subject.name));
         };
         relationSystem.AddAction(new MAction("moveToKøkken", 0.2f, 0.0f, relationSystem, moveToKøkken, 5f, _needsDirect: false));
@@ -736,7 +736,7 @@ public partial class Program : MonoBehaviour {
         ActionInvoker moveToIndgang = (subject, direct, indPpl, misc) =>
         {
             UIFunctions.WriteGameLine(subject.name + " is going into the Entry Hallway.");
-			subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(0.3f, subject.moods[MoodTypes.energTired]);
+			subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(0.2f, subject.moods[MoodTypes.energTired]);
             roomMan.EnterRoom("Indgang", relationSystem.pplAndMasks.GetPerson(subject.name));
         };
         relationSystem.AddAction(new MAction("moveToIndgang", 0.1f, 0.0f, relationSystem, moveToIndgang, 5f, _needsDirect:false));
