@@ -33,14 +33,14 @@ namespace NRelationSystem
         }
 
 
-        public bool Condition(Person self, List<Person> reacters = null)
+        public bool Condition(Person self, List<Person> reacters = null, bool reaction = false)
         {
             if (selfOther.ContainsKey(self)) 
                 selfOther.Remove(self);
             
             List<Person> people = actionToTrigger.relationSystem.createActiveListsList();
 
-            if(reacters != null && reacters.Count > 0)
+            if (reaction)
             {
                 for (int i = 0; i < people.Count; i++)
                 {

@@ -77,21 +77,20 @@ namespace NRelationSystem
 
                 List<Person> reactPeople = new List<Person>();
 
-                bool reactors = false;
+                bool reaction = false;
                 if(possibleActions != null && possibleActions.Count > 0)
                 {
                     int index = possibleActions.FindIndex(x => x.action == rule.actionToTrigger);
-				
+                    reaction = true;
+
                     if (index >= 0)
                         reactPeople = possibleActions[index].reactToPerson;
                     else
                         continue;
-
-                    reactors = true;
                 }
 
                 if (roleRef != null && roleRef.Count > 0)
-                    if (reactors)
+                    if (reaction)
                         for (int i = reactPeople.Count - 1; i >= 0; i-- )
                             if(!roleRef.Contains(reactPeople[i]))
                                 reactPeople.RemoveAt(i);
@@ -101,7 +100,7 @@ namespace NRelationSystem
                 
 				if(rule.role.Equals(role)){
 					//debug.Write("Checking condition "+rule.ruleName+"   "+rule.Condition(self,reactPeople));
-					if(rule.Condition(self, reactPeople))
+					if(rule.Condition(self, reactPeople, reaction))
 					{
 						debug.Write("Calculating "+rule.actionToTrigger.name+" to "+rule.selfOther[self].person.name);
 				

@@ -58,15 +58,13 @@ public class Being
 						continue;
                     }
 
-
-                    foreach (Rule rule in item.GetRule().rulesThatMightHappen)
+                    Person subject = item.GetSubject();
+                    if (subject.name != name)
                     {
-                        int index = possibleActions.FindIndex(x => x.action == rule.actionToTrigger);
-
-                        Person subject = item.GetSubject();
-
-						if (subject.name != name)
+                        foreach (Rule rule in item.GetRule().rulesThatMightHappen)
                         {
+                            int index = possibleActions.FindIndex(x => x.action == rule.actionToTrigger);
+						
                             if (index < 0)
                             {
                                 possibleActions.Add(new PosActionItem(rule.actionToTrigger, subject));
@@ -87,7 +85,14 @@ public class Being
 					debug.Write("COULD NOT DO REACTION "+name+" ");
 					_rule = self.GetAction(notPossibleActions, null);
 				}else{
-					debug.Write("DOING REACTION");
+                    if (possibleActions.Count > 0)
+                    {
+					    debug.Write("DOING REACTION");
+                    }
+                    else
+                    {
+                        debug.Write("DOING NORMAL ACTION");
+                    }
 				}
 
 				debug.Write("DOING ACTION '" + _rule.actionToTrigger.name + "' FROM " + name + ". Rule: "+_rule.ruleName+". Role: "+_rule.role);
