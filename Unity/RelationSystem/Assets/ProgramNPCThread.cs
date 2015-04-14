@@ -128,8 +128,6 @@ public partial class Program : MonoBehaviour
 		}
 		statsString += "\nSpaces\n";
 
-		int i = 0;
-
 		foreach (string s in relationSystem.activeLists.Keys) {
 			statsString += s+": \n";
 			foreach(Person p in relationSystem.activeLists[s]){
