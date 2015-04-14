@@ -72,8 +72,10 @@ namespace NRelationSystem
 
             foreach(Rule rule in rules.Values.ToList())
             {
-                List<Person> reactPeople = new List<Person>();
+                if (notPosActions != null && notPosActions.Contains(rule.actionToTrigger))
+                    continue;
 
+                List<Person> reactPeople = new List<Person>();
 
                 bool reactors = false;
                 if(possibleActions != null && possibleActions.Count > 0)
@@ -97,18 +99,9 @@ namespace NRelationSystem
                         foreach (Person person in roleRef)
                             reactPeople.Add(person);
                 
-                
-
-                
-
-                bool notPosAct = false;
-
-                if(notPosActions != null && notPosActions.Contains(rule.actionToTrigger))
-                    notPosAct = true;
-
 				if(rule.role.Equals(role)){
 					//debug.Write("Checking condition "+rule.ruleName+"   "+rule.Condition(self,reactPeople));
-					if(!notPosAct && rule.Condition(self, reactPeople))
+					if(rule.Condition(self, reactPeople))
 					{
 						debug.Write("Calculating "+rule.actionToTrigger.name+" to "+rule.selfOther[self].person.name);
 				
