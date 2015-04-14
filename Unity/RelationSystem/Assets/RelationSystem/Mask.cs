@@ -66,14 +66,16 @@ namespace NRelationSystem
 
         public RuleAndStr CalculateActionToUse(List<MAction> notPosActions, List<PosActionItem> possibleActions, Person self, float rat, float mor, float imp, float abi, float maskInfl, string role, List<Person> roleRef)
         {
-            RuleAndStr chosenAction = new RuleAndStr();
-			chosenAction.chosenRule = new Rule("Empty", new MAction("Empty", 0.0f, 0.0f), null, null);
-            chosenAction.strOfAct = -999999999999999f;
+            RuleAndStr chosenRule = new RuleAndStr();
+			chosenRule.chosenRule = new Rule("Empty", new MAction("Empty", 0.0f, 0.0f), null, null);
+            chosenRule.strOfAct = -999999999999999f;
 
             foreach(Rule rule in rules.Values.ToList())
             {
                 List<Person> reactPeople = new List<Person>();
-                
+
+
+                bool reactors = false;
                 if(possibleActions != null && possibleActions.Count > 0)
                 {
                     int index = possibleActions.FindIndex(x => x.action == rule.actionToTrigger);
@@ -82,15 +84,22 @@ namespace NRelationSystem
                         reactPeople = possibleActions[index].reactToPerson;
                     else
                         continue;
+
+                    reactors = true;
                 }
 
-                if(roleRef != null && roleRef.Count > 0)
-                {
-                    foreach (Person person in roleRef)
-                    {
-                        reactPeople.Add(person);
-                    }
-                }
+                if (roleRef != null && roleRef.Count > 0)
+                    if (reactors)
+                        for (int i = reactPeople.Count; i >= 0; i-- )
+                            if(!roleRef.Contains(reactPeople[i]))
+                                reactPeople.RemoveAt(i);
+                    else
+                        foreach (Person person in roleRef)
+                            reactPeople.Add(person);
+                
+                
+
+                
 
                 bool notPosAct = false;
 
@@ -107,16 +116,17 @@ namespace NRelationSystem
 				
 						float newActionStrength = maskCalculation + Calculator.unboundAdd(rule.selfOther[self].pref,maskCalculation);
 						debug.Write(maskCalculation+"  +  "+rule.selfOther[self].pref+"  =  "+newActionStrength);
-						if (newActionStrength > chosenAction.strOfAct)
+						if (newActionStrength > chosenRule.strOfAct)
 						{
-							chosenAction.strOfAct = newActionStrength;
-							chosenAction.chosenRule = rule;
+							chosenRule.strOfAct = newActionStrength;
+							chosenRule.chosenRule = rule;
 						}
 					}
 				}
 			}
+
 			//debug.Write ("RETURNING " + chosenAction.chosenRule.ruleName);
-			return chosenAction;
+			return chosenRule;
 		}
 		
 		public TypeMask GetMaskType(){ return maskType; }

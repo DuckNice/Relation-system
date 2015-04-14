@@ -78,6 +78,7 @@ public class Being
                         }
                     }
                 }
+
                 debug.Write("---------- " + self.name + "'s TURN.");
 
                 Rule _rule = self.GetAction(notPossibleActions, possibleActions);
