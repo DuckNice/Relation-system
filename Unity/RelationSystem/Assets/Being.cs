@@ -98,7 +98,7 @@ public class Being
 
                 Rule _rule = self.GetAction(notPossibleActions, possibleActions, focus.Values.ToList());
 				//debug.Write("ACTION FROM "+name+" "+possibleActions.Count);
-				if(_rule == null || _rule.ruleName == "Empty"){
+				if(_rule == null || _rule.ruleName.ToLower() == "empty"){
 					debug.Write("COULD NOT DO REACTION "+name+" ");
 					_rule = self.GetAction(notPossibleActions, null, focus.Values.ToList());
 				}else{

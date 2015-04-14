@@ -15,6 +15,7 @@ public partial class Program : MonoBehaviour {
         ActionInvoker flee = (subject, direct, indPpl, misc) =>
         {
             UIFunctions.WriteGameLine(subject.name + " is fleeing the scene!");
+			roomMan.EnterRoom("Jail",subject);
         };
         relationSystem.AddAction(new MAction("flee", 1.0f, -0.5f, relationSystem, flee, 10f, _needsDirect:false));
 
@@ -307,7 +308,7 @@ public partial class Program : MonoBehaviour {
                 }
             }
         };
-        relationSystem.AddAction(new MAction("deny", 0.4f, -0.4f, relationSystem, deny, 2f));
+        relationSystem.AddAction(new MAction("deny", 0.4f, -0.4f, relationSystem, deny, 3f));
 
         ActionInvoker enthuseAboutGreatnessofPerson = (subject, direct, indPpl, misc) =>
         {
@@ -528,6 +529,7 @@ public partial class Program : MonoBehaviour {
 			subject.moods[MoodTypes.arousDisgus] += Calculator.unboundAdd(-0.5f, subject.moods[MoodTypes.arousDisgus]);
 			subject.moods[MoodTypes.hapSad] += Calculator.unboundAdd(-0.5f, subject.moods[MoodTypes.hapSad]);
 			subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.5f, subject.moods[MoodTypes.hapSad]);
+			roomMan.EnterRoom("Jail",direct);
 		};
 		relationSystem.AddAction(new MAction("kill", -0.9f, -0.8f, relationSystem, kill, 7f));
 

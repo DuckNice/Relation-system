@@ -289,13 +289,17 @@ public partial class Program : MonoBehaviour
 			return false; };
 
 		RuleConditioner denyCondition = (self, other, indPpl) =>
-		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() < 0.8f) && (self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name))) && 
-			     self != other && roomMan.IsPersonInSameRoomAsMe(self, other))
-				if((self.moods[MoodTypes.arousDisgus] < 0.0f ||
-				    self.moods[MoodTypes.hapSad] < 0.0f ||
-				    self.moods[MoodTypes.angryFear] < 0.0f ||
-				    self.GetOpinionValue(TraitTypes.NiceNasty,other) < -0.4f))
-					{ return true; }
+		{	if(relationSystem.historyBook.Find(x=>x.GetDirect()==self && x.GetSubject()==other).GetTime() < 2f){
+				if(self != other && roomMan.IsPersonInSameRoomAsMe(self, other)){
+					if((self.moods[MoodTypes.arousDisgus] < 0.0f ||
+					    self.moods[MoodTypes.hapSad] < 0.0f ||
+					    self.moods[MoodTypes.angryFear] < 0.0f ||
+					    self.GetOpinionValue(TraitTypes.NiceNasty,other) < -0.3f))
+					{	debug.Write("HELLO I CAN DENY");
+						return true; }
+				}
+			}
+
 			return false; };
 
 		RuleConditioner enthuseAboutGreatnessofPersonCondition = (self, other, indPpl) =>
@@ -1140,7 +1144,7 @@ public partial class Program : MonoBehaviour
 		relationSystem.AddRuleToMask("Bungary", "Bunsant", "killfbunsant", -0.9f);
 
 		relationSystem.AddRuleToMask("Bungary", "Bunce", "bribefbunce", 0.3f);
-		relationSystem.AddRuleToMask("Bungary", "Bunce", "convictfbunce", 0.0f);
+		relationSystem.AddRuleToMask("Bungary", "Bunce", "convictfbunce", 1.0f);
 		relationSystem.AddRuleToMask("Bungary", "Bunce", "argueinnocencefbunce", 0.0f);
 		relationSystem.AddRuleToMask("Bungary", "Bunce", "argueguiltinessfbunce", 0.0f);
 		//relationSystem.AddRuleToMask("Bungary", "Bunce", "searchforthieffbunce", 0.8f);
@@ -1154,7 +1158,7 @@ public partial class Program : MonoBehaviour
 		relationSystem.AddRuleToMask("Bungary", "Bunce", "killfbunce", -0.8f);
 
 		relationSystem.AddRuleToMask("Bungary", "Buncess", "bribefcess", 0.3f);
-		relationSystem.AddRuleToMask("Bungary", "Buncess", "convictfcess", 0.0f);
+		relationSystem.AddRuleToMask("Bungary", "Buncess", "convictfcess", 0.8f);
 		relationSystem.AddRuleToMask("Bungary", "Buncess", "argueinnocencefcess", 0.2f);
 		relationSystem.AddRuleToMask("Bungary", "Buncess", "argueguiltinessfcess", -0.1f);
 		//relationSystem.AddRuleToMask("Bungary", "Buncess", "searchforthieffcess", 0.3f);
