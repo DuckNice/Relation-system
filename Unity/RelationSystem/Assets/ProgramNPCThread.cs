@@ -37,9 +37,6 @@ public partial class Program : MonoBehaviour
 
                 foreach (Being being in beings)
                 {
-					if(being.name != "player"){
-						being.NPCAction(time);
-					}
                     if (people.Exists(x => x.name == being.name) && being.name != "player")
                     {
                         being.NPCAction(time);
