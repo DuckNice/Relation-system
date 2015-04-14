@@ -143,7 +143,6 @@ public partial class Program : MonoBehaviour {
 
         ActionInvoker chat = (subject, direct, indPpl, misc) =>
         {
-            debug.Write(subject.name + "   " + direct.name);
             UIFunctions.WriteGameLine(subject.name + " is chatting with " + direct.name + ".");
             direct.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.1f, direct.moods[MoodTypes.energTired]);
             subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.1f, subject.moods[MoodTypes.energTired]);

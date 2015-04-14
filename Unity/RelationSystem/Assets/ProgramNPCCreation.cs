@@ -270,7 +270,7 @@ public partial class Program : MonoBehaviour
 		
 		RuleConditioner makeDistractionCondition = (self, other, indPpl) =>
 		{	
-		    if(self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() < 0.0f  && self.moods[MoodTypes.energTired] > -0.4f && roomMan.IsPersonInSameRoomAsMe(self, other))
+		    if(self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() < 0.0f  && self.moods[MoodTypes.energTired] > -0.4f && roomMan.IsPersonInSameRoomAsMe(self, other) && self != other)
 				if(self.GetOpinionValue(TraitTypes.NiceNasty,other) < 0.0f)
 					{ return true; }
 			return false; };
@@ -290,8 +290,7 @@ public partial class Program : MonoBehaviour
 					    self.moods[MoodTypes.hapSad] < 0.0f ||
 					    self.moods[MoodTypes.angryFear] < 0.0f ||
 					    self.GetOpinionValue(TraitTypes.NiceNasty,other) < -0.3f))
-					{	debug.Write("HELLO I CAN DENY");
-						return true; }
+					{	return true; }
 				}
 			}
 
