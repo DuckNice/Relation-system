@@ -135,7 +135,7 @@ public partial class Program : MonoBehaviour {
             {
                 if (l.GetRoleRefPpl().Exists(x => x.name == direct.name))
                 {
-                    l.AddToLvlOfInfl(0.1f);
+                    l.AddToLvlOfInfl(0.1f,direct);
                 }
             }
         };
@@ -151,7 +151,7 @@ public partial class Program : MonoBehaviour {
             {
                 if (l.GetRoleRefPpl().Exists(x => x.name == direct.name))
                 {
-                    l.AddToLvlOfInfl(0.1f);
+                    l.AddToLvlOfInfl(0.1f,direct);
                 }
             }
         };
@@ -201,7 +201,7 @@ public partial class Program : MonoBehaviour {
             {
                 if (l.GetRoleRefPpl().Exists(x => x.name == direct.name))
                 {
-                    l.AddToLvlOfInfl(-0.4f);
+                    l.AddToLvlOfInfl(-0.4f,direct);
                 }
             }
         };
@@ -231,7 +231,7 @@ public partial class Program : MonoBehaviour {
             {
                 if (l.GetRoleRefPpl().Exists(x => x.name == direct.name))
                 {
-                    l.AddToLvlOfInfl(0.3f);
+                    l.AddToLvlOfInfl(0.3f,direct);
                 }
             }
         };
@@ -259,11 +259,12 @@ public partial class Program : MonoBehaviour {
                 UIFunctions.WriteGameLine("It was a success! They are very distracted");
                 direct.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.5f, direct.moods[MoodTypes.energTired]);
                 subject.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(0.3f, subject.moods[MoodTypes.hapSad]);
+
                 foreach (Link l in direct.interPersonal)
                 {
                     if (l.GetRoleRefPpl().Exists(x => x.name == subject.name))
                     {
-                        l.AddToLvlOfInfl(0.4f);
+                        l.AddToLvlOfInfl(0.4f,subject);
                     }
                 }
             }
@@ -273,11 +274,12 @@ public partial class Program : MonoBehaviour {
                 direct.moods[MoodTypes.energTired] += Calculator.UnboundAdd(0.3f, direct.moods[MoodTypes.energTired]);
                 direct.moods[MoodTypes.angryFear] += Calculator.UnboundAdd(-0.3f, direct.moods[MoodTypes.angryFear]);
                 subject.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(-0.4f, subject.moods[MoodTypes.hapSad]);
+
                 foreach (Link l in direct.interPersonal)
                 {
                     if (l.GetRoleRefPpl().Exists(x => x.name == subject.name))
                     {
-                        l.AddToLvlOfInfl(-0.6f);
+                        l.AddToLvlOfInfl(-0.6f,subject);
                     }
                 }
             }
@@ -299,11 +301,12 @@ public partial class Program : MonoBehaviour {
             UIFunctions.WriteGameLine(subject.name + " is denying " + direct.name + " their wishes.");
             direct.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(-0.4f, direct.moods[MoodTypes.hapSad]);
             direct.AddToOpinionValue(TraitTypes.NiceNasty, subject, -0.2f);
+
             foreach (Link l in subject.interPersonal)
             {
                 if (l.GetRoleRefPpl().Exists(x => x.name == direct.name))
                 {
-                    l.AddToLvlOfInfl(0.2f);
+                    l.AddToLvlOfInfl(0.2f,direct);
                 }
             }
         };
@@ -322,7 +325,7 @@ public partial class Program : MonoBehaviour {
             {
                 if (l.GetRoleRefPpl().Exists(x => x.name == subject.name))
                 {
-                    l.AddToLvlOfInfl(0.1f);
+                    l.AddToLvlOfInfl(0.1f,subject);
                 }
             }
 
@@ -347,7 +350,7 @@ public partial class Program : MonoBehaviour {
             {
                 if (l.GetRoleRefPpl().Exists(x => x.name == subject.name))
                 {
-                    l.AddToLvlOfInfl(0.3f);
+                    l.AddToLvlOfInfl(0.3f,subject);
                 }
             }
         };
@@ -364,7 +367,7 @@ public partial class Program : MonoBehaviour {
             {
                 if (l.GetRoleRefPpl().Exists(x => x.name == subject.name))
                 {
-                    l.AddToLvlOfInfl(0.4f);
+                    l.AddToLvlOfInfl(0.4f,subject);
                 }
             }
         };
@@ -382,7 +385,7 @@ public partial class Program : MonoBehaviour {
             {
                 if (l.GetRoleRefPpl().Exists(x => x.name == subject.name))
                 {
-                    l.AddToLvlOfInfl(-0.1f);
+                    l.AddToLvlOfInfl(-0.1f,subject);
                 }
             }
         };
@@ -417,7 +420,7 @@ public partial class Program : MonoBehaviour {
             {
                 if (l.GetRoleRefPpl().Exists(x => x.name == subject.name))
                 {
-                    l.AddToLvlOfInfl(-0.1f);
+                    l.AddToLvlOfInfl(-0.1f,subject);
                 }
             }
         };
@@ -632,7 +635,7 @@ public partial class Program : MonoBehaviour {
             {
                 if (l.GetRoleRefPpl().Exists(x => x.name == direct.name))
                 {
-                    l.AddToLvlOfInfl(0.4f);
+                    l.AddToLvlOfInfl(0.4f,direct);
                 }
             }
         };
@@ -672,7 +675,7 @@ public partial class Program : MonoBehaviour {
             {
                 if (l.GetRoleRefPpl().Exists(x => x.name == direct.name))
                 {
-                    l.AddToLvlOfInfl(-0.9f);
+                    l.AddToLvlOfInfl(-0.9f,direct);
                 }
             }
         };
