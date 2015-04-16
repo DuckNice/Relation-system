@@ -103,20 +103,15 @@ namespace NRelationSystem
             pplAndMasks.AddPossibleRulesToRule(ruleName, possibleRules);
         }
 
-        public void AddLinkToPerson(string persName, string[] linkRel, TypeMask maskType, string role, string mask, float str)
+        public void AddLinkToPerson(string persName, TypeMask maskType, string role, string mask, float genStr, string linkRel = "", float str = 0)
         {
             persName = persName.ToLower();
             role = role.ToLower();
 			mask = mask.ToLower ();
 
-            List<Person> peopleRelated = new List<Person>();
-
-            foreach (string linkRelation in linkRel)
-            {
-                peopleRelated.Add(pplAndMasks.GetPerson(linkRelation.ToLower()));
-            }
-
-            pplAndMasks.GetPerson(persName).AddLink(maskType, new Link(role, peopleRelated, pplAndMasks.GetMask(mask), str));
+            Person personRelated = pplAndMasks.GetPerson(linkRel.ToLower());
+          
+            pplAndMasks.GetPerson(persName).AddLink(maskType, new Link(role, pplAndMasks.GetMask(mask), genStr, personRelated, str));
         }
 
 

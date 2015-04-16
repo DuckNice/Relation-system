@@ -33,14 +33,14 @@ namespace NRelationSystem
         }
 
 
-        public bool Condition(Person self, List<Person> reacters = null, bool reaction = false)
+        public bool Condition(Person self, List<Person> reacters = null)
         {
             if (selfOther.ContainsKey(self)) 
                 selfOther.Remove(self);
             
             List<Person> people = actionToTrigger.relationSystem.createActiveListsList();
 
-            if (reaction)
+            if (reacters != null && reacters.Count > 0)
             {
                 for (int i = 0; i < people.Count; i++)
                 {
@@ -80,9 +80,9 @@ namespace NRelationSystem
                         }
                     }
                 }
-                catch
+                catch(Exception e)
                 {
-                    debug.Write("Warning: ruleCondition for " + other.name + " in " + ruleName + " returned and error. Skipping condition.");
+                    debug.Write("Warning: ruleCondition for " + other.name + " in " + ruleName + " returned and error with code: '" + e + "'. Skipping condition.");
                 }
             }
 

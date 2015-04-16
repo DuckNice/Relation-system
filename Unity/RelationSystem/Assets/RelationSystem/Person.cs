@@ -184,12 +184,12 @@ namespace NRelationSystem
 
             foreach(Link link in interPersonal)
             {
-                foreach (Person person in link.roleRef)
+                foreach (Person person in link.GetRoleRefPpl())
                 {
                     if (activePeople.Contains(person))
                     {
-                        float go = link.roleMask.maskOverlay.traits[traitType].GetTraitValue() * link.GetlvlOfInfl();
-                        baseVal += Calculator.unboundAdd(go, baseVal);
+                        float go = link.roleMask.maskOverlay.traits[traitType].GetTraitValue() * link.GetlvlOfInfl(person);
+                        baseVal += Calculator.UnboundAdd(go, baseVal);
                         break;
                     }
                 }
@@ -198,7 +198,7 @@ namespace NRelationSystem
             foreach(Link link in culture)
             {
                 float go = link.roleMask.maskOverlay.traits[traitType].GetTraitValue() * link.GetlvlOfInfl();
-                baseVal += Calculator.unboundAdd(go, baseVal);
+                baseVal += Calculator.UnboundAdd(go, baseVal);
             }
 
             return baseVal;
@@ -227,7 +227,7 @@ namespace NRelationSystem
 		public void AddToOpinionValue(TraitTypes traittype, Person pers, float valToAdd){
 			foreach (Opinion o in opinions) {
 				if (o.pers == pers && o.trait == traittype) {
-					o.value += Calculator.unboundAdd (valToAdd, o.value);
+					o.value += Calculator.UnboundAdd (valToAdd, o.value);
 					return;
 				}
 			}

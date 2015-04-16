@@ -64,7 +64,7 @@ namespace NRelationSystem
         }
         
 
-        public RuleAndStr CalculateActionToUse(List<MAction> notPosActions, List<PosActionItem> possibleActions, Person self, float rat, float mor, float imp, float abi, float maskInfl, string role, List<Person> roleRef)
+        public RuleAndStr CalculateActionToUse(List<MAction> notPosActions, List<PosActionItem> possibleActions, Person self, float rat, float mor, float imp, float abi, string role, float genLvlOfInfl, Dictionary<Person, float> roleRef)
         {
             RuleAndStr chosenRule = new RuleAndStr();
 			chosenRule.chosenRule = new Rule("Empty", new MAction("Empty", 0.0f, 0.0f), null, null);
@@ -92,21 +92,26 @@ namespace NRelationSystem
                 if (roleRef != null && roleRef.Count > 0)
                     if (reaction)
                         for (int i = reactPeople.Count - 1; i >= 0; i-- )
-                            if(!roleRef.Contains(reactPeople[i]))
+                            if(!roleRef.ContainsKey(reactPeople[i]))
                                 reactPeople.RemoveAt(i);
                     else
-                        foreach (Person person in roleRef)
+                        foreach (Person person in roleRef.Keys)
                             reactPeople.Add(person);
                 
 				if(rule.role.Equals(role)){
 					//debug.Write("Checking condition "+rule.ruleName+"   "+rule.Condition(self,reactPeople));
-					if(rule.Condition(self, reactPeople, reaction))
+					if(rule.Condition(self, reactPeople))
 					{
 						debug.Write("Calculating "+rule.actionToTrigger.name+" to "+rule.selfOther[self].person.name);
 				
-						float maskCalculation = Calculator.CalculateRule(rat, mor, imp, abi, rule, rule.rulesThatMightHappen, maskInfl);
+                        float maskCalculation;
+
+                        if (roleRef != null && roleRef.ContainsKey(rule.selfOther[self].person))
+                            maskCalculation = Calculator.CalculateRule(rat, mor, imp, abi, rule, rule.rulesThatMightHappen, roleRef[rule.selfOther[self].person]);
+                        else
+						    maskCalculation = Calculator.CalculateRule(rat, mor, imp, abi, rule, rule.rulesThatMightHappen, genLvlOfInfl);
 				
-						float newActionStrength = maskCalculation + Calculator.unboundAdd(rule.selfOther[self].pref,maskCalculation);
+						float newActionStrength = maskCalculation + Calculator.UnboundAdd(rule.selfOther[self].pref, maskCalculation);
 						debug.Write(maskCalculation+"  +  "+rule.selfOther[self].pref+"  =  "+newActionStrength);
 						if (newActionStrength > chosenRule.strOfAct)
 						{

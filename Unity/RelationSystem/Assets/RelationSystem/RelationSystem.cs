@@ -107,22 +107,22 @@ namespace NRelationSystem
 				
 				moods.Add((MoodTypes)i, insertMood);
 			}
-			
-			
-			Link selfPersMask = new Link(selfMask.role, selfMask.linkPpl, pplAndMasks.GetMask(selfMask.mask), selfMask.lvlOfInfl);
+
+
+            Link selfPersMask = new Link(selfMask.role, pplAndMasks.GetMask(selfMask.mask), selfMask.genlvlOfInfl, selfMask.linkPers, selfMask.lvlOfInfl);
 
             List<Link> cults = new List<Link>();
 
             foreach(MaskAdds cult in _cults)
             {
-                cults.Add(new Link(cult.role, cult.linkPpl, pplAndMasks.GetMask(cult.mask), cult.lvlOfInfl));
+                cults.Add(new Link(cult.role, pplAndMasks.GetMask(cult.mask), cult.genlvlOfInfl, cult.linkPers, cult.lvlOfInfl));
             }
 
             List<Link> intPpl = new List<Link>();
 
             foreach(MaskAdds intPers in _intPpl)
             {
-                intPpl.Add(new Link(intPers.role, intPers.linkPpl, pplAndMasks.GetMask(intPers.mask), intPers.lvlOfInfl));
+                intPpl.Add(new Link(intPers.role, pplAndMasks.GetMask(intPers.mask), intPers.genlvlOfInfl, intPers.linkPers, intPers.lvlOfInfl));
             }
 
             Person person = new Person(selfMask.mask, selfPersMask, intPpl, cults, rational, moral, impulse, this);

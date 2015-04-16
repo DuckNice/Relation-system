@@ -6,7 +6,7 @@ namespace NRelationSystem
 {
     public class Calculator
     {
-        public static float calculateEgo(float impulsivity, float ability, Rule curRule, List<Rule> rulesThatWillTrigger)
+        public static float CalculateEgo(float impulsivity, float ability, Rule curRule, List<Rule> rulesThatWillTrigger)
         {
             float tempEgo = 1.0f;
 
@@ -33,7 +33,7 @@ namespace NRelationSystem
         }
 
 
-        public static float calculateSuperEgo(Rule rule, List<Rule> rules, float maskInfl)
+        public static float CalculateSuperEgo(Rule rule, List<Rule> rules, float maskInfl)
         {
             float superEgo = 0.0f;
 
@@ -57,7 +57,7 @@ namespace NRelationSystem
 
         public static float CalculateRule(float rationality, float morality, float impulsivity, float ability, Rule rule, List<Rule> rulesThatWillTrigger, float maskInfl)
         {
-			float returner = (calculateEgo(impulsivity, ability, rule, rulesThatWillTrigger) * rationality) + (calculateSuperEgo(rule, rulesThatWillTrigger, maskInfl) * morality);
+			float returner = (CalculateEgo(impulsivity, ability, rule, rulesThatWillTrigger) * rationality) + (CalculateSuperEgo(rule, rulesThatWillTrigger, maskInfl) * morality);
 
 			//debug.Write("L: "+returner);
 
@@ -80,7 +80,7 @@ namespace NRelationSystem
         }
 
 
-        public static float unboundAdd(float unboundedNumber, float curValue)
+        public static float UnboundAdd(float unboundedNumber, float curValue)
         {
             if (curValue > 0)
             {

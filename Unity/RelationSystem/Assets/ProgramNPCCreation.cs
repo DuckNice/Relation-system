@@ -148,7 +148,7 @@ public partial class Program : MonoBehaviour
 			return false; };
 
 		RuleConditioner kissCondition = (self, other, indPpl) =>
-		{	if(self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name && y.interPersonal.Exists(z=>z.roleName == "partner" && z.roleRef.Exists(s=>s.name == self.name))) && x.roleName == "partner")){
+		{	if(self.interPersonal.Exists(x=>x.GetRoleRefPpl().Exists(y=>y.name == other.name && y.interPersonal.Exists(z=>z.roleName == "partner" && z.GetRoleRefPpl().Exists(s=>s.name == self.name))) && x.roleName == "partner")){
 				if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.4f && self.moods[MoodTypes.arousDisgus] > 0.4f  && roomMan.IsPersonInSameRoomAsMe(self, other) ){ return true; }
 			}
 			else{
@@ -160,7 +160,7 @@ public partial class Program : MonoBehaviour
 
 		RuleConditioner askAboutPartnerStatusCondition = (self, other, indPpl) =>
 		{	if((relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["kiss"] && x.GetSubject() == other && x.GetDirect() != self)
-			      && (self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name && y.interPersonal.Exists(z=>z.roleName == "partner" && z.roleRef.Exists(s=>s.name == self.name))) && x.roleName == "partner")))
+			      && (self.interPersonal.Exists(x=>x.GetRoleRefPpl().Exists(y=>y.name == other.name && y.interPersonal.Exists(z=>z.roleName == "partner" && z.GetRoleRefPpl().Exists(s=>s.name == self.name))) && x.roleName == "partner")))
 			     && roomMan.IsPersonInSameRoomAsMe(self, other)){
 				return true;
 			}
@@ -172,7 +172,7 @@ public partial class Program : MonoBehaviour
 			return false; };
 
 		RuleConditioner chooseAnotherAsPartnerCondition = (self, other, indPpl) =>
-		{	if(self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name && y.interPersonal.Exists(z=>z.roleName == "partner" && z.roleRef.Exists(s=>s.name == self.name))) && x.roleName == "partner")){
+		{	if(self.interPersonal.Exists(x=>x.GetRoleRefPpl().Exists(y=>y.name == other.name && y.interPersonal.Exists(z=>z.roleName == "partner" && z.GetRoleRefPpl().Exists(s=>s.name == self.name))) && x.roleName == "partner")){
 				return false;
 			}
 
@@ -201,7 +201,7 @@ public partial class Program : MonoBehaviour
 			return false; };
 
 		RuleConditioner LeavePartnerCondition = (self, other, indPpl) =>
-		{	if(self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name && y.interPersonal.Exists(z=>z.roleName == "partner" && z.roleRef.Exists(s=>s.name == self.name))) && x.roleName == "partner")){
+		{	if(self.interPersonal.Exists(x=>x.GetRoleRefPpl().Exists(y=>y.name == other.name && y.interPersonal.Exists(z=>z.roleName == "partner" && z.GetRoleRefPpl().Exists(s=>s.name == self.name))) && x.roleName == "partner")){
 				if((self.interPersonal.Exists(x=>x.GetlvlOfInfl() < 0.3f) && self != other) && roomMan.IsPersonInSameRoomAsMe(self, other)){
 					return true;
 				}
@@ -226,7 +226,7 @@ public partial class Program : MonoBehaviour
 
 		RuleConditioner giveGiftCondition = (self, other, indPpl) =>
 		{	
-			if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.5f) && (self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name)))  &&
+			if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.5f) && (self.interPersonal.Exists(x=>x.GetRoleRefPpl().Exists(y=>y.name == other.name)))  &&
 			   self.moods[MoodTypes.energTired] > -0.4f && self != other && roomMan.IsPersonInSameRoomAsMe(self, other)){
 				if(beings.Find(x=>x.name == self.name).possessions.Exists(y=>y.Name=="game" || y.Name=="company") && self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.4f){
 					if(beings.Find(x=>x.name == self.name).possessions.Find(y=>y.Name=="game" || y.Name=="company").value > 0f){
@@ -238,7 +238,7 @@ public partial class Program : MonoBehaviour
 			return false; };
 
 		RuleConditioner poisonCondition = (self, other, indPpl) =>
-		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() < 0.5f) && (self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name))) && self.moods[MoodTypes.angryFear] < -0.7f
+		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() < 0.5f) && (self.interPersonal.Exists(x=>x.GetRoleRefPpl().Exists(y=>y.name == other.name))) && self.moods[MoodTypes.angryFear] < -0.7f
 			     && self != other  && roomMan.IsPersonInSameRoomAsMe(self, other)){
 				if(self.GetOpinionValue(TraitTypes.NiceNasty,other) < -0.3f)
 				return true;
@@ -246,14 +246,14 @@ public partial class Program : MonoBehaviour
 			return false; };
 
 		RuleConditioner gossipCondition = (self, other, indPpl) =>
-		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.1f) && (self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name))) && self != other  &&
+		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.1f) && (self.interPersonal.Exists(x=>x.GetRoleRefPpl().Exists(y=>y.name == other.name))) && self != other  &&
 			     self.moods[MoodTypes.energTired] > -0.4f && roomMan.IsPersonInSameRoomAsMe(self, other)){
 				return true;
 			}
 			return false; };
 
 		RuleConditioner argueCondition = (self, other, indPpl) =>
-		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.1f) && (self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name))) && self != other){
+		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.1f) && (self.interPersonal.Exists(x=>x.GetRoleRefPpl().Exists(y=>y.name == other.name))) && self != other){
 				if(self.GetOpinionValue(TraitTypes.NiceNasty,other) < 0.0f || self.moods[MoodTypes.angryFear] < -0.1f && roomMan.IsPersonInSameRoomAsMe(self, other))
 					return true;
 			}
@@ -277,7 +277,7 @@ public partial class Program : MonoBehaviour
 
 		RuleConditioner reminisceCondition = (self, other, indPpl) =>
 		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["chat"] && x.GetSubject() == other && 
-			     self.interPersonal.Exists(z=>z.GetlvlOfInfl() > 0.4f) && (self.interPersonal.Exists(y=>y.roleRef.Exists(yy=>yy.name == other.name)))) && self != other  &&
+			     self.interPersonal.Exists(z=>z.GetlvlOfInfl() > 0.4f) && (self.interPersonal.Exists(y=>y.GetRoleRefPpl().Exists(yy=>yy.name == other.name)))) && self != other  &&
 			     self.moods[MoodTypes.energTired] > -0.4f && roomMan.IsPersonInSameRoomAsMe(self, other))
 				if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.2f)
 					{ return true; }
@@ -297,7 +297,7 @@ public partial class Program : MonoBehaviour
 			return false; };
 
 		RuleConditioner enthuseAboutGreatnessofPersonCondition = (self, other, indPpl) =>
-		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.5f) && (self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name))) && self.moods[MoodTypes.hapSad] > 0.0f && roomMan.IsPersonInSameRoomAsMe(self, other)) 
+		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl() > 0.5f) && (self.interPersonal.Exists(x=>x.GetRoleRefPpl().Exists(y=>y.name == other.name))) && self.moods[MoodTypes.hapSad] > 0.0f && roomMan.IsPersonInSameRoomAsMe(self, other)) 
 				if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.6f)
 					{ return true; }
 			return false; };
@@ -427,15 +427,15 @@ public partial class Program : MonoBehaviour
 			return false; };
 
 		RuleConditioner enterCultCondition = (self, other, indPpl) =>
-		{	if(self.culture.Exists(x=>x.roleRef.Exists(y=>y.name=="cult") && (x.roleName != "follower" || x.roleName != "leader") && x.GetlvlOfInfl() > 0.5f)) { return true; }
+		{	if(self.culture.Exists(x=>x.GetRoleRefPpl().Exists(y=>y.name=="cult") && (x.roleName != "follower" || x.roleName != "leader") && x.GetlvlOfInfl() > 0.5f)) { return true; }
 			return false; };
 
 		RuleConditioner exitCultCondition = (self, other, indPpl) =>
-		{	if(self.culture.Exists(x=>x.roleRef.Exists(y=>y.name=="cult") && (x.roleName == "follower" || x.roleName == "leader") && x.GetlvlOfInfl() < 0.1f)) { return true; }
+		{	if(self.culture.Exists(x=>x.GetRoleRefPpl().Exists(y=>y.name=="cult") && (x.roleName == "follower" || x.roleName == "leader") && x.GetlvlOfInfl() < 0.1f)) { return true; }
 			return false; };
 
 		RuleConditioner damnCultCondition = (self, other, indPpl) =>
-		{	if(self.culture.Exists(x=>x.roleRef.Exists(y=>y.name=="cult") && x.GetlvlOfInfl() < 0.4f) && self != other) { return true; }
+		{	if(self.culture.Exists(x=>x.GetRoleRefPpl().Exists(y=>y.name=="cult") && x.GetlvlOfInfl() < 0.4f) && self != other) { return true; }
 			return false; };
 
 		RuleConditioner excommunicateFromCultCondition = (self, other, indPpl) =>
@@ -558,7 +558,7 @@ public partial class Program : MonoBehaviour
 		#endregion adding Conditions
 
 		RulePreference doNothingPreference = (self, other) => { 
-			return (-1 + Calculator.unboundAdd((-self.moods[MoodTypes.energTired]),-1));
+			return (-1 + Calculator.UnboundAdd((-self.moods[MoodTypes.energTired]),-1));
 		};
 
 		RulePreference greetPreference = (self, other) => { 
@@ -566,122 +566,122 @@ public partial class Program : MonoBehaviour
 		};
 
 		RulePreference kissPreference = (self, other) => { 
-			if(self.interPersonal.Exists(x=>x.roleRef.Exists(y=>y.name == other.name && y.interPersonal.Exists(z=>z.roleName == "partner" && z.roleRef.Exists(s=>s.name == self.name))) && x.roleName == "partner")){
+			if(self.interPersonal.Exists(x=>x.GetRoleRefPpl().Exists(y=>y.name == other.name && y.interPersonal.Exists(z=>z.roleName == "partner" && z.GetRoleRefPpl().Exists(s=>s.name == self.name))) && x.roleName == "partner")){
 				return self.GetOpinionValue(TraitTypes.NiceNasty,other);
 			}
 			else{
-				float ret = 0 + Calculator.unboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),(0.5f*self.GetOpinionValue(TraitTypes.ShyBolsterous,other)));
-				ret += Calculator.unboundAdd(self.GetOpinionValue(TraitTypes.HonestFalse,other),ret);
+				float ret = 0 + Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),(0.5f*self.GetOpinionValue(TraitTypes.ShyBolsterous,other)));
+				ret += Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.HonestFalse,other),ret);
 				return ret;
 			}
 		};
 
 		RulePreference flirtPreference = (self, other) => { 
-			float r = Calculator.unboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),self.moods[MoodTypes.arousDisgus]);
-			r += Calculator.unboundAdd(Calculator.NegPosTransform(self.interPersonal.Find(x=>x.roleRef.Exists(y=>y==other)).GetlvlOfInfl()),r);
+			float r = Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),self.moods[MoodTypes.arousDisgus]);
+			r += Calculator.UnboundAdd(Calculator.NegPosTransform(self.interPersonal.Find(x=>x.GetRoleRefPpl().Exists(y=>y==other)).GetlvlOfInfl()),r);
 			return r;
 		};
 
 		RulePreference chatPreference = (self, other) => { 
-			return Calculator.unboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),Calculator.NegPosTransform(self.interPersonal.Find(x=>x.roleRef.Exists(y=>y==other)).GetlvlOfInfl()));
+			return Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),Calculator.NegPosTransform(self.interPersonal.Find(x=>x.GetRoleRefPpl().Exists(y=>y==other)).GetlvlOfInfl()));
 		};
 
 		RulePreference giveGiftPreference = (self, other) => { 
-			float r = Calculator.unboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),(0.5f*self.GetOpinionValue(TraitTypes.ShyBolsterous,other)));
-			r += Calculator.unboundAdd( (0.5f*self.GetOpinionValue(TraitTypes.HonestFalse,other)),r);
-			r += Calculator.unboundAdd(Calculator.NegPosTransform(self.interPersonal.Find(x=>x.roleRef.Exists(y=>y==other)).GetlvlOfInfl()),r);
+			float r = Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),(0.5f*self.GetOpinionValue(TraitTypes.ShyBolsterous,other)));
+			r += Calculator.UnboundAdd( (0.5f*self.GetOpinionValue(TraitTypes.HonestFalse,other)),r);
+			r += Calculator.UnboundAdd(Calculator.NegPosTransform(self.interPersonal.Find(x=>x.GetRoleRefPpl().Exists(y=>y==other)).GetlvlOfInfl()),r);
 			return r;
 		};
 
 		RulePreference poisonPreference = (self, other) => { 
-			return Calculator.unboundAdd(-(self.GetOpinionValue(TraitTypes.NiceNasty,other)),-(self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue()));
+			return Calculator.UnboundAdd(-(self.GetOpinionValue(TraitTypes.NiceNasty,other)),-(self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue()));
 		};
 
 		RulePreference gossipPreference = (self, other) => { 
-			float r = Calculator.unboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),-self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue());
-			r += Calculator.unboundAdd(-self.absTraits.traits[TraitTypes.HonestFalse].GetTraitValue(),r);
+			float r = Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),-self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue());
+			r += Calculator.UnboundAdd(-self.absTraits.traits[TraitTypes.HonestFalse].GetTraitValue(),r);
 			return r;
 		};
 
 		RulePreference arguePreference = (self, other) => { 
-			float r = Calculator.unboundAdd(-(self.GetOpinionValue(TraitTypes.NiceNasty,other)),-self.GetOpinionValue(TraitTypes.HonestFalse,other));
-			r += Calculator.unboundAdd(-self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue(),r);
+			float r = Calculator.UnboundAdd(-(self.GetOpinionValue(TraitTypes.NiceNasty,other)),-self.GetOpinionValue(TraitTypes.HonestFalse,other));
+			r += Calculator.UnboundAdd(-self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue(),r);
 			return r;
 		};
 
 		RulePreference reminiscePreference = (self, other) => { 
-			float r = Calculator.unboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),Calculator.NegPosTransform(self.interPersonal.Find(x=>x.roleRef.Exists(y=>y==other)).GetlvlOfInfl()));
-			r += Calculator.unboundAdd(-self.moods[MoodTypes.energTired],r);
-			r += Calculator.unboundAdd(self.moods[MoodTypes.hapSad],r);
+			float r = Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),Calculator.NegPosTransform(self.interPersonal.Find(x=>x.GetRoleRefPpl().Exists(y=>y==other)).GetlvlOfInfl()));
+			r += Calculator.UnboundAdd(-self.moods[MoodTypes.energTired],r);
+			r += Calculator.UnboundAdd(self.moods[MoodTypes.hapSad],r);
 			return r;
 		};
 
 		RulePreference denyPreference = (self, other) => { 
-			float r = Calculator.unboundAdd(-self.GetOpinionValue(TraitTypes.NiceNasty,other),-self.GetOpinionValue(TraitTypes.HonestFalse,other));
-			r += Calculator.unboundAdd(-Calculator.NegPosTransform(self.interPersonal.Find(x=>x.roleRef.Exists(y=>y==other)).GetlvlOfInfl()),r);
+			float r = Calculator.UnboundAdd(-self.GetOpinionValue(TraitTypes.NiceNasty,other),-self.GetOpinionValue(TraitTypes.HonestFalse,other));
+			r += Calculator.UnboundAdd(-Calculator.NegPosTransform(self.interPersonal.Find(x=>x.GetRoleRefPpl().Exists(y=>y==other)).GetlvlOfInfl()),r);
 			return r;
 		};
 
 		RulePreference enthuseAboutGreatnessOfPersonPreference = (self, other) => { 
-			float r = Calculator.unboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),self.GetOpinionValue(TraitTypes.HonestFalse,other));
-			r += Calculator.unboundAdd(Calculator.NegPosTransform(self.interPersonal.Find(x=>x.roleRef.Exists(y=>y==other)).GetlvlOfInfl()),r);
+			float r = Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),self.GetOpinionValue(TraitTypes.HonestFalse,other));
+			r += Calculator.UnboundAdd(Calculator.NegPosTransform(self.interPersonal.Find(x=>x.GetRoleRefPpl().Exists(y=>y==other)).GetlvlOfInfl()),r);
 			return r;
 		};
 
 		RulePreference askAboutPartnerStatusPreference = (self, other) => { 
-			return Calculator.unboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),Calculator.NegPosTransform(self.interPersonal.Find(x=>x.roleRef.Exists(y=>y==other)).GetlvlOfInfl()));
+			return Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),Calculator.NegPosTransform(self.interPersonal.Find(x=>x.GetRoleRefPpl().Exists(y=>y==other)).GetlvlOfInfl()));
 		};
 
 		RulePreference chooseAnotherAsPartnerPreference = (self, other) => { 
-			float r = Calculator.unboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),self.GetOpinionValue(TraitTypes.HonestFalse,other));
-			r += Calculator.unboundAdd(Calculator.NegPosTransform(self.interPersonal.Find(x=>x.roleRef.Exists(y=>y==other)).GetlvlOfInfl()),r);
-			r += Calculator.unboundAdd(self.moods[MoodTypes.arousDisgus],r);
+			float r = Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),self.GetOpinionValue(TraitTypes.HonestFalse,other));
+			r += Calculator.UnboundAdd(Calculator.NegPosTransform(self.interPersonal.Find(x=>x.GetRoleRefPpl().Exists(y=>y==other)).GetlvlOfInfl()),r);
+			r += Calculator.UnboundAdd(self.moods[MoodTypes.arousDisgus],r);
 			return r;
 		};
 
 		RulePreference StayAsPartnerPreference = (self, other) => { 
-			float r = Calculator.unboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),self.GetOpinionValue(TraitTypes.HonestFalse,other));
-			r += Calculator.unboundAdd(Calculator.NegPosTransform(self.interPersonal.Find(x=>x.roleRef.Exists(y=>y==other)).GetlvlOfInfl()),r);
+			float r = Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),self.GetOpinionValue(TraitTypes.HonestFalse,other));
+			r += Calculator.UnboundAdd(Calculator.NegPosTransform(self.interPersonal.Find(x=>x.GetRoleRefPpl().Exists(y=>y==other)).GetlvlOfInfl()),r);
 			return r;
 		};
 
 		RulePreference LeavePartnerPreference = (self, other) => { 
-			float r = Calculator.unboundAdd(-self.GetOpinionValue(TraitTypes.NiceNasty,other),-self.GetOpinionValue(TraitTypes.HonestFalse,other));
-			r += Calculator.unboundAdd(-Calculator.NegPosTransform(self.interPersonal.Find(x=>x.roleRef.Exists(y=>y==other)).GetlvlOfInfl()),r);
+			float r = Calculator.UnboundAdd(-self.GetOpinionValue(TraitTypes.NiceNasty,other),-self.GetOpinionValue(TraitTypes.HonestFalse,other));
+			r += Calculator.UnboundAdd(-Calculator.NegPosTransform(self.interPersonal.Find(x=>x.GetRoleRefPpl().Exists(y=>y==other)).GetlvlOfInfl()),r);
 			return r;
 		};
 
 		RulePreference convictPreference = (self, other) => { 
-			return -Calculator.unboundAdd(-0.5f,((Calculator.unboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),(self.moods[MoodTypes.hapSad]))*0.5f)));
+			return -Calculator.UnboundAdd(-0.5f,((Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),(self.moods[MoodTypes.hapSad]))*0.5f)));
 		};
 
 		RulePreference fightPreference = (self, other) => { 
-			float r = Calculator.unboundAdd(-self.GetOpinionValue(TraitTypes.NiceNasty,other),-self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue());
-			r += Calculator.unboundAdd(-self.moods[MoodTypes.angryFear],r);
+			float r = Calculator.UnboundAdd(-self.GetOpinionValue(TraitTypes.NiceNasty,other),-self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue());
+			r += Calculator.UnboundAdd(-self.moods[MoodTypes.angryFear],r);
 			return r;
 		};
 
 		RulePreference bribePreference = (self, other) => { 
-			float r = Calculator.unboundAdd(self.GetOpinionValue(TraitTypes.HonestFalse,other),-self.absTraits.traits[TraitTypes.HonestFalse].GetTraitValue());
-			r += Calculator.unboundAdd(-self.moods[MoodTypes.angryFear],r);
-			r += Calculator.unboundAdd(-self.moods[MoodTypes.energTired],r);
+			float r = Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.HonestFalse,other),-self.absTraits.traits[TraitTypes.HonestFalse].GetTraitValue());
+			r += Calculator.UnboundAdd(-self.moods[MoodTypes.angryFear],r);
+			r += Calculator.UnboundAdd(-self.moods[MoodTypes.energTired],r);
 			return r;
 		};
 
 		RulePreference argueInnocencePreference = (self, other) => { 
-			float r = Calculator.unboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue());
-			r += Calculator.unboundAdd(self.GetOpinionValue(TraitTypes.HonestFalse,other),r);
+			float r = Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue());
+			r += Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.HonestFalse,other),r);
 			return r;
 		};
 
 		RulePreference argueGuiltinessPreference = (self, other) => { 
-			float r = Calculator.unboundAdd(-self.GetOpinionValue(TraitTypes.NiceNasty,other),-self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue());
-			r += Calculator.unboundAdd(-self.GetOpinionValue(TraitTypes.HonestFalse,other),r);
+			float r = Calculator.UnboundAdd(-self.GetOpinionValue(TraitTypes.NiceNasty,other),-self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue());
+			r += Calculator.UnboundAdd(-self.GetOpinionValue(TraitTypes.HonestFalse,other),r);
 			return r;
 		};
 
 		RulePreference stealPreference = (self, other) => { 
-			float r = Calculator.unboundAdd(-self.GetOpinionValue(TraitTypes.NiceNasty,other),-self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue());
+			float r = Calculator.UnboundAdd(-self.GetOpinionValue(TraitTypes.NiceNasty,other),-self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue());
 			return r;
 		};
 
@@ -691,74 +691,74 @@ public partial class Program : MonoBehaviour
 
 		//MAKE FUN OF, HARASS, PRANK, PLAYGAME
 		RulePreference makeFunOfPreference = (self, other) => { 
-			float r = Calculator.unboundAdd(-self.GetOpinionValue(TraitTypes.NiceNasty,other),-self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue());
-			r += Calculator.unboundAdd(-self.moods[MoodTypes.angryFear],r);
-			r += Calculator.unboundAdd(-self.moods[MoodTypes.hapSad],r);
+			float r = Calculator.UnboundAdd(-self.GetOpinionValue(TraitTypes.NiceNasty,other),-self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue());
+			r += Calculator.UnboundAdd(-self.moods[MoodTypes.angryFear],r);
+			r += Calculator.UnboundAdd(-self.moods[MoodTypes.hapSad],r);
 			return r;
 		};
 
 		RulePreference telljokePreference = (self, other) => { 
-			float r = Calculator.unboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),self.moods[MoodTypes.hapSad]);
-			r += Calculator.unboundAdd(self.moods[MoodTypes.energTired],r);
+			float r = Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),self.moods[MoodTypes.hapSad]);
+			r += Calculator.UnboundAdd(self.moods[MoodTypes.energTired],r);
 			return r;
 		};
 
 		RulePreference harassPreference = (self, other) => { 
-			float r = Calculator.unboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue());
-			r += Calculator.unboundAdd(self.moods[MoodTypes.angryFear]*self.moods[MoodTypes.hapSad],r);
+			float r = Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue());
+			r += Calculator.UnboundAdd(self.moods[MoodTypes.angryFear]*self.moods[MoodTypes.hapSad],r);
 			return -r;
 		};
 
 		RulePreference prankPreference = (self, other) => { 
-			float r = Calculator.unboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue());
-			r += Calculator.unboundAdd(self.moods[MoodTypes.angryFear],r);
-			r += Calculator.unboundAdd(self.moods[MoodTypes.hapSad],r);
+			float r = Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue());
+			r += Calculator.UnboundAdd(self.moods[MoodTypes.angryFear],r);
+			r += Calculator.UnboundAdd(self.moods[MoodTypes.hapSad],r);
 			return -r;
 		};
 
 		RulePreference playgamePreference = (self, other) => { 
-			float r = Calculator.unboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue());
-			r += Calculator.unboundAdd(self.moods[MoodTypes.hapSad],r);
+			float r = Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue());
+			r += Calculator.UnboundAdd(self.moods[MoodTypes.hapSad],r);
 			return r;
 		};
 
 
 		RulePreference orderPreference = (self, other) => { 
-			float r = Calculator.unboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue());
-			r += Calculator.unboundAdd(self.moods[MoodTypes.energTired],r);
+			float r = Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue());
+			r += Calculator.UnboundAdd(self.moods[MoodTypes.energTired],r);
 			return -r;
 		};
 
 		RulePreference killPreference = (self, other) => { 
-			float ret = Calculator.unboundAdd(-self.GetOpinionValue(TraitTypes.NiceNasty,other),0);
-			 	 ret += Calculator.unboundAdd(-self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue(),ret);
-			 	 ret += Calculator.unboundAdd(-self.moods[MoodTypes.angryFear],ret);
+			float ret = Calculator.UnboundAdd(-self.GetOpinionValue(TraitTypes.NiceNasty,other),0);
+			 	 ret += Calculator.UnboundAdd(-self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue(),ret);
+			 	 ret += Calculator.UnboundAdd(-self.moods[MoodTypes.angryFear],ret);
 			return ret;
 		};
 
 
 		RulePreference buyCompanyPreference = (self, other) => { 
-			return Calculator.unboundAdd(self.absTraits.traits[TraitTypes.ShyBolsterous].GetTraitValue(),(-self.GetOpinionValue(TraitTypes.NiceNasty,other)));
+			return Calculator.UnboundAdd(self.absTraits.traits[TraitTypes.ShyBolsterous].GetTraitValue(),(-self.GetOpinionValue(TraitTypes.NiceNasty,other)));
 		};
 
 		RulePreference sellCompanyPreference = (self, other) => { 
-			return -(Calculator.unboundAdd(self.absTraits.traits[TraitTypes.ShyBolsterous].GetTraitValue(),(-self.GetOpinionValue(TraitTypes.NiceNasty,other))));
+			return -(Calculator.UnboundAdd(self.absTraits.traits[TraitTypes.ShyBolsterous].GetTraitValue(),(-self.GetOpinionValue(TraitTypes.NiceNasty,other))));
 		};
 
 		RulePreference advertisePreference = (self, other) => { 
-			return Calculator.unboundAdd(self.absTraits.traits[TraitTypes.ShyBolsterous].GetTraitValue(),self.moods[MoodTypes.hapSad]);
+			return Calculator.UnboundAdd(self.absTraits.traits[TraitTypes.ShyBolsterous].GetTraitValue(),self.moods[MoodTypes.hapSad]);
 		};
 
 		RulePreference sabotagePreference = (self, other) => { 
-			float r = Calculator.unboundAdd(self.absTraits.traits[TraitTypes.ShyBolsterous].GetTraitValue(),-self.moods[MoodTypes.angryFear]);
-			r += Calculator.unboundAdd(-self.GetOpinionValue(TraitTypes.NiceNasty,other),r);
-			r += Calculator.unboundAdd(-self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue(),r);
+			float r = Calculator.UnboundAdd(self.absTraits.traits[TraitTypes.ShyBolsterous].GetTraitValue(),-self.moods[MoodTypes.angryFear]);
+			r += Calculator.UnboundAdd(-self.GetOpinionValue(TraitTypes.NiceNasty,other),r);
+			r += Calculator.UnboundAdd(-self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue(),r);
 			return r;
 		};
 
 		RulePreference demandoLeaveGuildPreference = (self, other) => { 
-			float r = Calculator.unboundAdd(self.absTraits.traits[TraitTypes.ShyBolsterous].GetTraitValue(),-self.GetOpinionValue(TraitTypes.NiceNasty,other));
-			r += Calculator.unboundAdd(-self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue(),r);
+			float r = Calculator.UnboundAdd(self.absTraits.traits[TraitTypes.ShyBolsterous].GetTraitValue(),-self.GetOpinionValue(TraitTypes.NiceNasty,other));
+			r += Calculator.UnboundAdd(-self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue(),r);
 			return r;
 		};
 
@@ -1250,54 +1250,52 @@ public partial class Program : MonoBehaviour
 		#endregion Rules
 
 
-
 //  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 		//PEOPLE
 
-
 		
 		#region AddingPlayer
-		MaskAdds selfPersMask = new MaskAdds("Self", "Player", 0.0f, new List<Person>());
-		
+		MaskAdds selfPersMask = new MaskAdds("Self", "Player", 0.0f);
+	
 		relationSystem.CreateNewPerson(selfPersMask, new List<MaskAdds>(), new List<MaskAdds>(), 0f, 0f, 0f, new float[] { 0f, 0f, 0f },new float[]{0.0f,0.0f,0.0f});
 		#endregion AddingPlayer
 		
 		#region AddingBill
-		selfPersMask = new MaskAdds("Self", "Bill", 0.0f, new List<Person>());
+		selfPersMask = new MaskAdds("Self", "Bill", 0.0f);
 		
 		List<MaskAdds>  culture = new List<MaskAdds>();
-		culture.Add(new MaskAdds("Bunce", "Bungary", 0.5f, new List<Person>()));
+		culture.Add(new MaskAdds("Bunce", "Bungary", 0.5f));
 		//culture.Add(new MaskAdds("Follower", "Cult", 0.4f,new List<Person>()));
-		culture.Add(new MaskAdds("Member", "MerchantGuild", 0.6f,new List<Person>()));
+		culture.Add(new MaskAdds("Member", "MerchantGuild", 0.6f));
 		
 		relationSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.6f, 0.4f, 0.7f, new float[] { -0.2f, 0.5f, 0.1f },new float[]{0.0f,0.0f,0.0f});
 		#endregion AddingBill
 		
 		#region AddingTerese
-		selfPersMask = new MaskAdds("Self", "Therese", 0.0f, new List<Person>());
+		selfPersMask = new MaskAdds("Self", "Therese", 0.0f);
 		
 		culture = new List<MaskAdds>();
-		culture.Add(new MaskAdds("Buncess", "Bungary", 0.6f, new List<Person>()));
+		culture.Add(new MaskAdds("Buncess", "Bungary", 0.6f));
 		//culture.Add(new MaskAdds("Sceptic", "Cult", 0.1f,new List<Person>()));
 		
 		relationSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.3f, 0.7f, 0.2f, new float[] { 0.6f, -0.5f, 0.6f },new float[]{0.0f,0.0f,0.0f});
 		#endregion AddingTerese
 		
 		#region AddingJohn
-		selfPersMask = new MaskAdds("Self", "John", 0.0f, new List<Person>());
+		selfPersMask = new MaskAdds("Self", "John", 0.0f);
 		
 		culture = new List<MaskAdds>();
 		//culture.Add(new MaskAdds("Follower", "Cult", 0.4f,new List<Person>()));
-		culture.Add(new MaskAdds("Bunsant", "Bungary", 0.1f, new List<Person>()));
+		culture.Add(new MaskAdds("Bunsant", "Bungary", 0.1f));
 		
 		relationSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.5f, 0.5f, 0.4f, new float[] { 0.0f, 0.8f, -0.4f },new float[]{0.0f,0.0f,0.0f});
 		#endregion AddingJohn
 		
 		#region AddingHeather
-		selfPersMask = new MaskAdds("Self", "Heather", 0.0f, new List<Person>());
+		selfPersMask = new MaskAdds("Self", "Heather", 0.0f);
 		
 		culture = new List<MaskAdds>();
-		culture.Add(new MaskAdds("Bunsant", "Bungary", 0.3f, new List<Person>()));
+		culture.Add(new MaskAdds("Bunsant", "Bungary", 0.3f));
 		//culture.Add(new MaskAdds("Leader", "Cult", 0.6f,new List<Person>()));
 		
 		relationSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.2f, 0.8f, 0.8f, new float[] { 0.2f, 0.4f, 0.0f },new float[]{0.0f,0.0f,0.0f});
@@ -1308,32 +1306,31 @@ public partial class Program : MonoBehaviour
 		//relationSystem.pplAndMasks.GetPerson("john").GetLinks(TypeMask.culture).Find(x=>x.roleMask.GetMaskName() == "cult").AddRoleRef(relationSystem.pplAndMasks.GetPerson("heather"));
 		#endregion rolerefs
 
-		
 		#region LINKS
-		relationSystem.AddLinkToPerson("Bill", new string[] { "Therese" }, TypeMask.interPers, "Partner", "RomanticRelationship", 0.3f);
-		relationSystem.AddLinkToPerson("Bill", new string[] { "John" }, TypeMask.interPers, "Enemy", "Rivalry", 0.4f);
-		relationSystem.AddLinkToPerson("Bill", new string[] { "Heather" }, TypeMask.interPers, "Friend", "Friendship", 0.2f);
-		relationSystem.AddLinkToPerson("Bill", new string[] { "Player" }, TypeMask.interPers, "Enemy", "Rivalry", 0.4f);
+		    relationSystem.AddLinkToPerson("Bill", TypeMask.interPers, "Partner", "RomanticRelationship", 0, "Therese", 0.3f);
+		    relationSystem.AddLinkToPerson("Bill", TypeMask.interPers, "Enemy", "Rivalry", 0, "John", 0.4f);
+		    relationSystem.AddLinkToPerson("Bill", TypeMask.interPers, "Friend", "Friendship",0, "Heather", 0.2f);
+		    relationSystem.AddLinkToPerson("Bill", TypeMask.interPers, "Enemy", "Rivalry", 0, "Player", 0.4f);
 		
-		relationSystem.AddLinkToPerson("Therese", new string[] { "Bill" }, TypeMask.interPers, "Partner", "RomanticRelationship", 0.5f);
-		relationSystem.AddLinkToPerson("Therese", new string[] { "John" }, TypeMask.interPers, "Enemy", "Rivalry", 0.2f);
-		relationSystem.AddLinkToPerson("Therese", new string[] { "Heather" }, TypeMask.interPers, "Friend", "Friendship", 0.6f);
-		relationSystem.AddLinkToPerson("Therese", new string[] { "Player" }, TypeMask.interPers, "Enemy", "Rivalry", 0.3f);
+		    relationSystem.AddLinkToPerson("Therese", TypeMask.interPers, "Partner", "RomanticRelationship", 0, "Bill", 0.5f);
+		    relationSystem.AddLinkToPerson("Therese", TypeMask.interPers, "Enemy", "Rivalry", 0, "John", 0.2f);
+		    relationSystem.AddLinkToPerson("Therese", TypeMask.interPers, "Friend", "Friendship", 0, "Heather", 0.6f);
+		    relationSystem.AddLinkToPerson("Therese", TypeMask.interPers, "Enemy", "Rivalry", 0, "Player", 0.3f);
 		
-		relationSystem.AddLinkToPerson("John", new string[] { "Bill" }, TypeMask.interPers, "Enemy", "Rivalry", 0.7f);
-		relationSystem.AddLinkToPerson("John", new string[] { "Therese" }, TypeMask.interPers, "Enemy", "Rivalry", 0.4f);
-		relationSystem.AddLinkToPerson("John", new string[] { "Heather" }, TypeMask.interPers, "Partner", "RomanticRelationship", 0.8f);
-		relationSystem.AddLinkToPerson("John", new string[] { "Player" }, TypeMask.interPers, "Friend", "Friendship", 0.5f);
+		    relationSystem.AddLinkToPerson("John", TypeMask.interPers, "Enemy", "Rivalry", 0, "Bill", 0.7f);
+		    relationSystem.AddLinkToPerson("John", TypeMask.interPers, "Enemy", "Rivalry", 0, "Therese", 0.4f);
+		    relationSystem.AddLinkToPerson("John", TypeMask.interPers, "Partner", "RomanticRelationship", 0, "Heather", 0.8f);
+		    relationSystem.AddLinkToPerson("John", TypeMask.interPers, "Friend", "Friendship", 0, "Player", 0.5f);
 		
-		relationSystem.AddLinkToPerson("Heather", new string[] { "Bill" }, TypeMask.interPers, "Friend", "Friendship", 0.4f);
-		relationSystem.AddLinkToPerson("Heather", new string[] { "Therese" }, TypeMask.interPers, "Friend", "Friendship", 0.6f);
-		relationSystem.AddLinkToPerson("Heather", new string[] { "John" }, TypeMask.interPers, "Partner", "RomanticRelationship", 0.5f);
-		relationSystem.AddLinkToPerson("Heather", new string[] { "Player" }, TypeMask.interPers, "Partner", "RomanticRelationship", 0.5f);
+		    relationSystem.AddLinkToPerson("Heather", TypeMask.interPers, "Friend", "Friendship", 0, "Bill", 0.4f);
+		    relationSystem.AddLinkToPerson("Heather", TypeMask.interPers, "Friend", "Friendship", 0, "Therese", 0.6f);
+		    relationSystem.AddLinkToPerson("Heather", TypeMask.interPers, "Partner", "RomanticRelationship", 0, "John", 0.5f);
+            relationSystem.AddLinkToPerson("Heather", TypeMask.interPers, "Partner", "RomanticRelationship", 0, "Player", 0.5f);
 		
-		relationSystem.AddLinkToPerson("Player", new string[] { "Bill" }, TypeMask.interPers, "Enemy", "Rivalry", 0.4f);
-		relationSystem.AddLinkToPerson("Player", new string[] { "Therese" }, TypeMask.interPers, "Enemy", "Rivalry", 0.6f);
-		relationSystem.AddLinkToPerson("Player", new string[] { "John" }, TypeMask.interPers, "Friend", "Friendship", 0.5f);
-		relationSystem.AddLinkToPerson("Player", new string[] { "Heather" }, TypeMask.interPers, "Partner", "RomanticRelationship", 0.5f);
+		    relationSystem.AddLinkToPerson("Player", TypeMask.interPers, "Enemy", "Rivalry", 0, "Bill", 0.4f);
+		    relationSystem.AddLinkToPerson("Player", TypeMask.interPers, "Enemy", "Rivalry", 0, "Therese", 0.6f);
+            relationSystem.AddLinkToPerson("Player", TypeMask.interPers, "Friend", "Friendship", 0, "John", 0.5f);
+            relationSystem.AddLinkToPerson("Player", TypeMask.interPers, "Partner", "RomanticRelationship", 0, "Heather", 0.5f);
 		#endregion LINKS 
 
 		#region Opinions
