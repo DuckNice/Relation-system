@@ -270,7 +270,7 @@ public partial class Program : MonoBehaviour
 		
 		RuleConditioner makeDistractionCondition = (self, other, indPpl) =>
 		{	
-		    if(self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() < 0.0f  && self.moods[MoodTypes.energTired] > -0.4f && roomMan.IsPersonInSameRoomAsMe(self, other) && self != other)
+		    if(self.CalculateTraitType(TraitTypes.NiceNasty) < 0.0f  && self.moods[MoodTypes.energTired] > -0.4f && roomMan.IsPersonInSameRoomAsMe(self, other) && self != other)
 				if(self.GetOpinionValue(TraitTypes.NiceNasty,other) < 0.0f)
 					{ return true; }
 			return false; };
@@ -313,7 +313,7 @@ public partial class Program : MonoBehaviour
 
 		RuleConditioner fightCondition = (self, other, indPpl) =>
 		{	if(self != other && roomMan.IsPersonInSameRoomAsMe(self, other)){
-				if((self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() < 0.0 || self.moods[MoodTypes.angryFear] < -0.7f) && self.GetOpinionValue(TraitTypes.NiceNasty,other) < -0.5f  &&
+				if((self.CalculateTraitType(TraitTypes.NiceNasty) < 0.0 || self.moods[MoodTypes.angryFear] < -0.7f) && self.GetOpinionValue(TraitTypes.NiceNasty,other) < -0.5f  &&
 				   self.moods[MoodTypes.energTired] > -0.6f){
 					return true; 
 				}
@@ -328,13 +328,13 @@ public partial class Program : MonoBehaviour
 			return false; };
 
 		RuleConditioner argueInnocenceCondition = (self, other, indPpl) =>
-		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["convict"] && x.GetSubject()==other) && self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() > 0.0f
+		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["convict"] && x.GetSubject()==other) && self.CalculateTraitType(TraitTypes.NiceNasty) > 0.0f
 			     && self != other && roomMan.IsPersonInSameRoomAsMe(self, other))
 				{ return true; }
 			return false; };
 
 		RuleConditioner argueGuiltinessCondition = (self, other, indPpl) =>
-		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["convict"] && x.GetSubject()==other) && self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() < 0.0f
+		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["convict"] && x.GetSubject()==other) && self.CalculateTraitType(TraitTypes.NiceNasty) < 0.0f
 			     && self != other && roomMan.IsPersonInSameRoomAsMe(self, other))
 				{ return true; }
 			return false; };
@@ -404,7 +404,7 @@ public partial class Program : MonoBehaviour
 			{	return true; }
 
 			if(self != other){
-				if(self.GetOpinionValue(TraitTypes.NiceNasty,other) < -0.7 && self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() < -0.6){
+				if(self.GetOpinionValue(TraitTypes.NiceNasty,other) < -0.7 && self.CalculateTraitType(TraitTypes.NiceNasty) < -0.6){
 					return true;
 				}
 			}
@@ -461,7 +461,7 @@ public partial class Program : MonoBehaviour
 		RuleConditioner sabotageCondition = (self, other, indPpl) =>
 		{	if(beings.Find(x=>x.name == other.name).possessions.Exists(y=>y.Name=="company")){
 				if(beings.Find(x=>x.name == other.name).possessions.Find(y=>y.Name=="company").value > 0f){
-					if(self.moods[MoodTypes.angryFear] > 0.5f || self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() < -0.5f && self != other  &&
+					if(self.moods[MoodTypes.angryFear] > 0.5f || self.CalculateTraitType(TraitTypes.NiceNasty) < -0.5f && self != other  &&
 					   self.moods[MoodTypes.energTired] > -0.4f){
 						if(self.GetOpinionValue(TraitTypes.NiceNasty,other) < -0.2f)
 						{ return true; }
@@ -482,7 +482,7 @@ public partial class Program : MonoBehaviour
 	//		return false; };
 
 		RuleConditioner DemandtoLeaveGuildCondition = (self, other, indPpl) =>
-		{	if((self.moods[MoodTypes.angryFear] > 0.3f || self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue() < -0.3f) && self != other &&
+		{	if((self.moods[MoodTypes.angryFear] > 0.3f || self.CalculateTraitType(TraitTypes.NiceNasty) < -0.3f) && self != other &&
 			    beings.Find(x=>x.name == other.name).possessions.Find(y=>y.Name=="money").value <= 0f && roomMan.IsPersonInSameRoomAsMe(self, other)){
 					if(self.GetOpinionValue(TraitTypes.NiceNasty,other) < 0)
 						{ return true; }
@@ -594,18 +594,18 @@ public partial class Program : MonoBehaviour
 		};
 
 		RulePreference poisonPreference = (self, other) => { 
-			return Calculator.UnboundAdd(-(self.GetOpinionValue(TraitTypes.NiceNasty,other)),-(self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue()));
+			return Calculator.UnboundAdd(-(self.GetOpinionValue(TraitTypes.NiceNasty,other)),-(self.CalculateTraitType(TraitTypes.NiceNasty)));
 		};
 
 		RulePreference gossipPreference = (self, other) => { 
-			float r = Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),-self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue());
-			r += Calculator.UnboundAdd(-self.absTraits.traits[TraitTypes.HonestFalse].GetTraitValue(),r);
+			float r = Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),-self.CalculateTraitType(TraitTypes.NiceNasty));
+			r += Calculator.UnboundAdd(-self.CalculateTraitType(TraitTypes.HonestFalse),r);
 			return r;
 		};
 
 		RulePreference arguePreference = (self, other) => { 
 			float r = Calculator.UnboundAdd(-(self.GetOpinionValue(TraitTypes.NiceNasty,other)),-self.GetOpinionValue(TraitTypes.HonestFalse,other));
-			r += Calculator.UnboundAdd(-self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue(),r);
+			r += Calculator.UnboundAdd(-self.CalculateTraitType(TraitTypes.NiceNasty),r);
 			return r;
 		};
 
@@ -656,42 +656,42 @@ public partial class Program : MonoBehaviour
 		};
 
 		RulePreference fightPreference = (self, other) => { 
-			float r = Calculator.UnboundAdd(-self.GetOpinionValue(TraitTypes.NiceNasty,other),-self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue());
+			float r = Calculator.UnboundAdd(-self.GetOpinionValue(TraitTypes.NiceNasty,other),-self.CalculateTraitType(TraitTypes.NiceNasty));
 			r += Calculator.UnboundAdd(-self.moods[MoodTypes.angryFear],r);
 			return r;
 		};
 
 		RulePreference bribePreference = (self, other) => { 
-			float r = Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.HonestFalse,other),-self.absTraits.traits[TraitTypes.HonestFalse].GetTraitValue());
+			float r = Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.HonestFalse,other),-self.CalculateTraitType(TraitTypes.HonestFalse));
 			r += Calculator.UnboundAdd(-self.moods[MoodTypes.angryFear],r);
 			r += Calculator.UnboundAdd(-self.moods[MoodTypes.energTired],r);
 			return r;
 		};
 
 		RulePreference argueInnocencePreference = (self, other) => { 
-			float r = Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue());
+			float r = Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),self.CalculateTraitType(TraitTypes.NiceNasty));
 			r += Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.HonestFalse,other),r);
 			return r;
 		};
 
 		RulePreference argueGuiltinessPreference = (self, other) => { 
-			float r = Calculator.UnboundAdd(-self.GetOpinionValue(TraitTypes.NiceNasty,other),-self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue());
+			float r = Calculator.UnboundAdd(-self.GetOpinionValue(TraitTypes.NiceNasty,other),-self.CalculateTraitType(TraitTypes.NiceNasty));
 			r += Calculator.UnboundAdd(-self.GetOpinionValue(TraitTypes.HonestFalse,other),r);
 			return r;
 		};
 
 		RulePreference stealPreference = (self, other) => { 
-			float r = Calculator.UnboundAdd(-self.GetOpinionValue(TraitTypes.NiceNasty,other),-self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue());
+			float r = Calculator.UnboundAdd(-self.GetOpinionValue(TraitTypes.NiceNasty,other),-self.CalculateTraitType(TraitTypes.NiceNasty));
 			return r;
 		};
 
 	//	RulePreference practiceStealingPreference = (self, other) => { 
-	//		return self.absTraits.traits[TraitTypes.ShyBolsterous].GetTraitValue()*self.moods[MoodTypes.angryFear];
+	//		return self.CalculateTraitType(TraitTypes.ShyBolsterous)*self.moods[MoodTypes.angryFear];
 	//	};
 
 		//MAKE FUN OF, HARASS, PRANK, PLAYGAME
 		RulePreference makeFunOfPreference = (self, other) => { 
-			float r = Calculator.UnboundAdd(-self.GetOpinionValue(TraitTypes.NiceNasty,other),-self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue());
+			float r = Calculator.UnboundAdd(-self.GetOpinionValue(TraitTypes.NiceNasty,other),-self.CalculateTraitType(TraitTypes.NiceNasty));
 			r += Calculator.UnboundAdd(-self.moods[MoodTypes.angryFear],r);
 			r += Calculator.UnboundAdd(-self.moods[MoodTypes.hapSad],r);
 			return r;
@@ -704,70 +704,70 @@ public partial class Program : MonoBehaviour
 		};
 
 		RulePreference harassPreference = (self, other) => { 
-			float r = Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue());
+			float r = Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),self.CalculateTraitType(TraitTypes.NiceNasty));
 			r += Calculator.UnboundAdd(self.moods[MoodTypes.angryFear]*self.moods[MoodTypes.hapSad],r);
 			return -r;
 		};
 
 		RulePreference prankPreference = (self, other) => { 
-			float r = Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue());
+			float r = Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),self.CalculateTraitType(TraitTypes.NiceNasty));
 			r += Calculator.UnboundAdd(self.moods[MoodTypes.angryFear],r);
 			r += Calculator.UnboundAdd(self.moods[MoodTypes.hapSad],r);
 			return -r;
 		};
 
 		RulePreference playgamePreference = (self, other) => { 
-			float r = Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue());
+			float r = Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),self.CalculateTraitType(TraitTypes.NiceNasty));
 			r += Calculator.UnboundAdd(self.moods[MoodTypes.hapSad],r);
 			return r;
 		};
 
 
 		RulePreference orderPreference = (self, other) => { 
-			float r = Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue());
+			float r = Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),self.CalculateTraitType(TraitTypes.NiceNasty));
 			r += Calculator.UnboundAdd(self.moods[MoodTypes.energTired],r);
 			return -r;
 		};
 
 		RulePreference killPreference = (self, other) => { 
 			float ret = Calculator.UnboundAdd(-self.GetOpinionValue(TraitTypes.NiceNasty,other),0);
-			 	 ret += Calculator.UnboundAdd(-self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue(),ret);
+			 	 ret += Calculator.UnboundAdd(-self.CalculateTraitType(TraitTypes.NiceNasty),ret);
 			 	 ret += Calculator.UnboundAdd(-self.moods[MoodTypes.angryFear],ret);
 			return ret;
 		};
 
 
 		RulePreference buyCompanyPreference = (self, other) => { 
-			return Calculator.UnboundAdd(self.absTraits.traits[TraitTypes.ShyBolsterous].GetTraitValue(),(-self.GetOpinionValue(TraitTypes.NiceNasty,other)));
+			return Calculator.UnboundAdd(self.CalculateTraitType(TraitTypes.ShyBolsterous),(-self.GetOpinionValue(TraitTypes.NiceNasty,other)));
 		};
 
 		RulePreference sellCompanyPreference = (self, other) => { 
-			return -(Calculator.UnboundAdd(self.absTraits.traits[TraitTypes.ShyBolsterous].GetTraitValue(),(-self.GetOpinionValue(TraitTypes.NiceNasty,other))));
+			return -(Calculator.UnboundAdd(self.CalculateTraitType(TraitTypes.ShyBolsterous),(-self.GetOpinionValue(TraitTypes.NiceNasty,other))));
 		};
 
 		RulePreference advertisePreference = (self, other) => { 
-			return Calculator.UnboundAdd(self.absTraits.traits[TraitTypes.ShyBolsterous].GetTraitValue(),self.moods[MoodTypes.hapSad]);
+			return Calculator.UnboundAdd(self.CalculateTraitType(TraitTypes.ShyBolsterous),self.moods[MoodTypes.hapSad]);
 		};
 
 		RulePreference sabotagePreference = (self, other) => { 
-			float r = Calculator.UnboundAdd(self.absTraits.traits[TraitTypes.ShyBolsterous].GetTraitValue(),-self.moods[MoodTypes.angryFear]);
+			float r = Calculator.UnboundAdd(self.CalculateTraitType(TraitTypes.ShyBolsterous),-self.moods[MoodTypes.angryFear]);
 			r += Calculator.UnboundAdd(-self.GetOpinionValue(TraitTypes.NiceNasty,other),r);
-			r += Calculator.UnboundAdd(-self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue(),r);
+			r += Calculator.UnboundAdd(-self.CalculateTraitType(TraitTypes.NiceNasty),r);
 			return r;
 		};
 
 		RulePreference demandoLeaveGuildPreference = (self, other) => { 
-			float r = Calculator.UnboundAdd(self.absTraits.traits[TraitTypes.ShyBolsterous].GetTraitValue(),-self.GetOpinionValue(TraitTypes.NiceNasty,other));
-			r += Calculator.UnboundAdd(-self.absTraits.traits[TraitTypes.NiceNasty].GetTraitValue(),r);
+			float r = Calculator.UnboundAdd(self.CalculateTraitType(TraitTypes.ShyBolsterous),-self.GetOpinionValue(TraitTypes.NiceNasty,other));
+			r += Calculator.UnboundAdd(-self.CalculateTraitType(TraitTypes.NiceNasty),r);
 			return r;
 		};
 
 		RulePreference buyGoodsPreference = (self, other) => { 
-			return 0.5f*self.absTraits.traits[TraitTypes.ShyBolsterous].GetTraitValue();
+			return 0.5f*self.CalculateTraitType(TraitTypes.ShyBolsterous);
 		};
 
 		RulePreference sellGoodsPreference = (self, other) => { 
-			return -(0.5f*self.absTraits.traits[TraitTypes.ShyBolsterous].GetTraitValue());
+			return -(0.5f*self.CalculateTraitType(TraitTypes.ShyBolsterous));
 		};
 
 
