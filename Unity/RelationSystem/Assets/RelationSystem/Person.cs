@@ -233,6 +233,14 @@ namespace NRelationSystem
 			}
 		}
 
+		public void AddToInterPersonalLvlOfInfl(Person p,float val){
+			foreach(Link l in interPersonal){
+				if(l.roleRef_LvlOfInfl.ContainsKey(p)){
+					l.roleRef_LvlOfInfl[p] += Calculator.UnboundAdd(val,l.roleRef_LvlOfInfl[p]);
+				}
+			}
+		}
+
 
     }
 }

@@ -43,7 +43,7 @@ namespace NRelationSystem
     public enum TraitTypes
     {
         NiceNasty,
-        ShyBolsterous,
+        CharitableGreedy,
         HonestFalse
     }
 

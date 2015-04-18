@@ -102,7 +102,7 @@ namespace NRelationSystem
 					//debug.Write("Checking condition "+rule.ruleName+"   "+rule.Condition(self,reactPeople));
 					if(rule.Condition(self, reactPeople))
 					{
-						debug.Write("Calculating "+rule.actionToTrigger.name+" to "+rule.selfOther[self].person.name);
+						debug.Write("Calculating "+rule.actionToTrigger.name+" to "+rule.selfOther[self].person.name+" in "+maskName);
 				
                         float maskCalculation;
 
