@@ -391,6 +391,7 @@ public partial class Program : MonoBehaviour {
             direct.moods[MoodTypes.angryFear] += Calculator.UnboundAdd(0.2f, direct.moods[MoodTypes.angryFear]);
             direct.AddToOpinionValue(TraitTypes.NiceNasty, subject, -0.2f);
             direct.AddToOpinionValue(TraitTypes.HonestFalse, subject, -0.1f);
+			direct.AddToInterPersonalLvlOfInfl(direct,0.1f);
         };
         relationSystem.AddAction(new MAction("makefunof", 0.4f, -0.6f, relationSystem, makefunof, 4f));
 
@@ -402,29 +403,31 @@ public partial class Program : MonoBehaviour {
             subject.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(0.2f, subject.moods[MoodTypes.hapSad]);
             direct.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(0.1f, direct.moods[MoodTypes.hapSad]);
             direct.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.1f, direct.moods[MoodTypes.energTired]);
+			subject.AddToOpinionValue(TraitTypes.NiceNasty,direct,0.1f);
+			direct.AddToOpinionValue(TraitTypes.NiceNasty,subject,0.2f);
+
         };
         relationSystem.AddAction(new MAction("telljoke", 0.1f, 0.1f, relationSystem, telljoke, 5f));
 
         ActionInvoker harass = (subject, direct, indPpl, misc) =>
         {
             UIFunctions.WriteGameLine(subject.name + " is harassing " + direct.name + ". Ugh, how annoying.");
-
-            subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.2f, subject.moods[MoodTypes.energTired]);
+			subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.2f, subject.moods[MoodTypes.energTired]);
             subject.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(0.2f, subject.moods[MoodTypes.hapSad]);
-            subject.moods[MoodTypes.arousDisgus] += Calculator.UnboundAdd(0.2f, subject.moods[MoodTypes.arousDisgus]);
             direct.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(-0.4f, direct.moods[MoodTypes.hapSad]);
             direct.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.2f, direct.moods[MoodTypes.energTired]);
             direct.AddToOpinionValue(TraitTypes.NiceNasty, subject, -0.3f);
+			direct.AddToOpinionValue(TraitTypes.HonestFalse, subject, -0.2f);
         };
         relationSystem.AddAction(new MAction("harass", 0.4f, -0.4f, relationSystem, harass, 4f));
 
         ActionInvoker prank = (subject, direct, indPpl, misc) =>
         {
             UIFunctions.WriteGameLine(subject.name + " is pulling a prank on " + direct.name);
-
             subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.1f, subject.moods[MoodTypes.energTired]);
             subject.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(0.3f, subject.moods[MoodTypes.hapSad]);
-            subject.moods[MoodTypes.arousDisgus] += Calculator.UnboundAdd(0.2f, subject.moods[MoodTypes.arousDisgus]);
+			direct.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.1f, direct.moods[MoodTypes.energTired]);
+			direct.moods[MoodTypes.angryFear] += Calculator.UnboundAdd(0.2f, direct.moods[MoodTypes.angryFear]);
             direct.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(-0.5f, direct.moods[MoodTypes.hapSad]);
             direct.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.2f, direct.moods[MoodTypes.energTired]);
             direct.AddToOpinionValue(TraitTypes.NiceNasty, subject, -0.3f);
@@ -435,7 +438,6 @@ public partial class Program : MonoBehaviour {
         ActionInvoker playgame = (subject, direct, indPpl, misc) =>
         {
             UIFunctions.WriteGameLine(subject.name + " is playing a game with " + direct.name);
-
             subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.2f, subject.moods[MoodTypes.energTired]);
             subject.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(0.3f, subject.moods[MoodTypes.hapSad]);
             direct.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(0.3f, direct.moods[MoodTypes.hapSad]);
@@ -448,12 +450,12 @@ public partial class Program : MonoBehaviour {
         ActionInvoker order = (subject, direct, indPpl, misc) =>
         {
             UIFunctions.WriteGameLine(subject.name + " is ordering " + direct.name + " to do something! How dare they?");
-
             subject.moods[MoodTypes.arousDisgus] += Calculator.UnboundAdd(0.2f, subject.moods[MoodTypes.arousDisgus]);
             subject.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(0.3f, subject.moods[MoodTypes.hapSad]);
-            direct.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(-0.5f, direct.moods[MoodTypes.hapSad]);
+            direct.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(-0.4f, direct.moods[MoodTypes.hapSad]);
             direct.moods[MoodTypes.angryFear] += Calculator.UnboundAdd(0.4f, direct.moods[MoodTypes.angryFear]);
             direct.AddToOpinionValue(TraitTypes.NiceNasty, subject, -0.3f);
+			direct.AddToOpinionValue(TraitTypes.CharitableGreedy, subject, -0.3f);
         };
         relationSystem.AddAction(new MAction("order", 0.5f, -0.5f, relationSystem, order, 5f));
 
@@ -461,7 +463,6 @@ public partial class Program : MonoBehaviour {
 		ActionInvoker kill = (subject, direct, indPpl, misc) =>
 		{
 			UIFunctions.WriteGameLine(subject.name + " HAS KILLED " + direct.name + "!!");
-			
 			subject.moods[MoodTypes.arousDisgus] += Calculator.UnboundAdd(-0.5f, subject.moods[MoodTypes.arousDisgus]);
 			subject.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(-0.5f, subject.moods[MoodTypes.hapSad]);
 			subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.5f, subject.moods[MoodTypes.hapSad]);
@@ -542,6 +543,7 @@ public partial class Program : MonoBehaviour {
             beings.Find(x => x.name == direct.name).possessions.Find(y => y.Name == "company").value -= 1f;
             beings.Find(x => x.name == subject.name).possessions.Find(y => y.Name == "company").value += 1f;
             direct.AddToOpinionValue(TraitTypes.NiceNasty, subject, -0.4f);
+			direct.AddToOpinionValue(TraitTypes.CharitableGreedy, subject, -0.2f);
         };
         relationSystem.AddAction(new MAction("buyCompany", 0.4f, -0.4f, relationSystem, buyCompany, 6f));
 
@@ -553,6 +555,7 @@ public partial class Program : MonoBehaviour {
             beings.Find(x => x.name == direct.name).possessions.Find(y => y.Name == "money").value -= 100f;
             beings.Find(x => x.name == direct.name).possessions.Find(y => y.Name == "company").value += 1f;
             beings.Find(x => x.name == subject.name).possessions.Find(y => y.Name == "company").value -= 1f;
+			direct.AddToOpinionValue(TraitTypes.CharitableGreedy, subject, -0.2f);
         };
         relationSystem.AddAction(new MAction("sellCompany", -0.4f, 0.4f, relationSystem, sellCompany, 6f));
 
@@ -562,16 +565,12 @@ public partial class Program : MonoBehaviour {
             direct.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(-0.6f, direct.moods[MoodTypes.hapSad]);
             direct.moods[MoodTypes.angryFear] += Calculator.UnboundAdd(0.4f, direct.moods[MoodTypes.angryFear]);
             subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.3f, subject.moods[MoodTypes.energTired]);
-
+			subject.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(0.1f, subject.moods[MoodTypes.hapSad]);
             direct.AddToOpinionValue(TraitTypes.NiceNasty, subject, -0.4f);
-            beings.Find(x => x.name == direct.name).possessions.Find(y => y.Name == "company").value -= 1f;
-            foreach (Link l in subject.interPersonal)
-            {
-                if (l.GetRoleRefPpl().Exists(x => x.name == direct.name))
-                {
-                    l.AddToLvlOfInfl(0.4f,direct);
-                }
-            }
+			direct.AddToOpinionValue(TraitTypes.CharitableGreedy, subject, -0.4f);
+
+			direct.AddToInterPersonalLvlOfInfl(direct,0.4f);
+			beings.Find(x => x.name == direct.name).possessions.Find(y => y.Name == "company").value -= 1f;
         };
         relationSystem.AddAction(new MAction("sabotage", 0.5f, -0.5f, relationSystem, sabotage, 10f));
 
@@ -582,6 +581,8 @@ public partial class Program : MonoBehaviour {
             direct.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.1f, direct.moods[MoodTypes.energTired]);
             direct.moods[MoodTypes.angryFear] += Calculator.UnboundAdd(0.2f, direct.moods[MoodTypes.angryFear]);
             direct.AddToOpinionValue(TraitTypes.NiceNasty, subject, -0.1f);
+			direct.AddToOpinionValue(TraitTypes.CharitableGreedy, subject, -0.1f);
+			direct.AddToInterPersonalLvlOfInfl(direct,0.1f);
         };
         relationSystem.AddAction(new MAction("advertise", 0.3f, -0.1f, relationSystem, advertise, 7f));
 		/*
@@ -605,13 +606,11 @@ public partial class Program : MonoBehaviour {
             UIFunctions.WriteGameLine(subject.name + " is demanding " + direct.name + " to leave the merchant's guild!");
             direct.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(-0.5f, direct.moods[MoodTypes.hapSad]);
             direct.AddToOpinionValue(TraitTypes.NiceNasty, subject, -0.4f);
-            foreach (Link l in subject.interPersonal)
-            {
-                if (l.GetRoleRefPpl().Exists(x => x.name == direct.name))
-                {
-                    l.AddToLvlOfInfl(-0.9f,direct);
-                }
-            }
+			direct.AddToOpinionValue(TraitTypes.CharitableGreedy, subject, -0.4f);
+			subject.AddToOpinionValue(TraitTypes.NiceNasty, direct, -0.1f);
+			direct.moods[MoodTypes.angryFear] += Calculator.UnboundAdd(0.3f, direct.moods[MoodTypes.angryFear]);
+
+			direct.RemoveLink(TypeMask.culture,subject.culture.Find(x => x.roleMask.GetMaskName() == "merchantguild"));
         };
         relationSystem.AddAction(new MAction("DemandtoLeaveGuild", 0.4f, -0.5f, relationSystem, DemandtoLeaveGuild, 4f));
 
@@ -637,6 +636,8 @@ public partial class Program : MonoBehaviour {
             beings.Find(x => x.name == subject.name).possessions.Find(y => y.Name == "money").value -= 30f;
             beings.Find(x => x.name == subject.name).possessions.Find(y => y.Name == "goods").value += 1f;
             subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.1f, subject.moods[MoodTypes.energTired]);
+			subject.AddToOpinionValue(TraitTypes.CharitableGreedy,direct,0.1f);
+			direct.AddToOpinionValue(TraitTypes.CharitableGreedy,subject,0.1f);
         };
         relationSystem.AddAction(new MAction("buyGoods", 0.4f, 0.2f, relationSystem, buyGoods, 3f));
 
@@ -646,9 +647,10 @@ public partial class Program : MonoBehaviour {
             beings.Find(x => x.name == subject.name).possessions.Find(y => y.Name == "money").value += 30f;
             beings.Find(x => x.name == subject.name).possessions.Find(y => y.Name == "goods").value -= 1f;
             subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.1f, subject.moods[MoodTypes.energTired]);
+			subject.AddToOpinionValue(TraitTypes.CharitableGreedy,direct,0.1f);
+			direct.AddToOpinionValue(TraitTypes.CharitableGreedy,subject,0.1f);
         };
         relationSystem.AddAction(new MAction("sellGoods", 0.7f, 0.2f, relationSystem, sellGoods, 3f));
-
 
 
         // ROOM ACTIONS
