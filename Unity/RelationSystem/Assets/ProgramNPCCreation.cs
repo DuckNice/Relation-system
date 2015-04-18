@@ -273,15 +273,6 @@ public partial class Program : MonoBehaviour
 			}
 			return false; };
 
-		//RuleConditioner demandToStopBeingFriendWithCondition = (self, other, indPpl) =>
-		//{	
-			//PROBABLY NEED OPINIONS FOR THIS ONE
-			//foreach(Person p in indPpl){
-			//	if( p.interPersonal.Exists(x=>x.GetlvlOfInfl() < 0.3))
-			//	   { return true; }
-			//}
-			//return false; };
-		
 		RuleConditioner makeDistractionCondition = (self, other, indPpl) =>
 		{	
 		    if(self.CalculateTraitType(TraitTypes.NiceNasty) < 0.4f  && self.moods[MoodTypes.energTired] > -0.4f && roomMan.IsPersonInSameRoomAsMe(self, other) && self != other)
@@ -309,7 +300,7 @@ public partial class Program : MonoBehaviour
 			}
 			return false; };
 
-		RuleConditioner enthuseAboutGreatnessofPersonCondition = (self, other, indPpl) =>
+		RuleConditioner praiseCondition = (self, other, indPpl) =>
 		{	if(self.interPersonal.Exists(x=>x.GetlvlOfInfl(other) > 0.5f) && (self.interPersonal.Exists(x=>x.GetRoleRefPpl().Exists(y=>y.name == other.name))) && self.moods[MoodTypes.hapSad] > 0.0f && roomMan.IsPersonInSameRoomAsMe(self, other)) 
 				if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.6f)
 					{ return true; }
@@ -358,22 +349,6 @@ public partial class Program : MonoBehaviour
 			   && beings.Find(x=>x.name == other.name).possessions.Find(y=>y.Name=="money").value >= 50f && self.CalculateTraitType(TraitTypes.CharitableGreedy) < 0.2f)
 				  { return true; }
 			return false; };
-
-	//	RuleConditioner practiceStealingCondition = (self, other, indPpl) =>
-	//	{	if(self.moods[MoodTypes.hapSad] < -0.2f && self.GetAbilityy() < 1.0f  &&
-	//		     self.moods[MoodTypes.energTired] > -0.4f){ return true; }
-	//		return false; };
-
-	/*	RuleConditioner askForHelpInIllicitActivityCondition = (self, other, indPpl) =>
-		{	if(self.moods[MoodTypes.angryFear] < -0.2f && self.GetAbilityy() < 1.0f && self != other && roomMan.IsPersonInSameRoomAsMe(self, other))
-			if(self.GetOpinionValue(TraitTypes.HonestFalse,other) > 0.4f)
-				{ return true; }
-			return false; };
-*/
-	/*	RuleConditioner searchForThiefCondition = (self, other, indPpl) =>
-		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["steal"]) && self != other  &&
-			     self.moods[MoodTypes.energTired] > -0.4f) { return true; }
-			return false; };*/
 
 		RuleConditioner makefunofCondition = (self, other, indPpl) =>
 		{	if(self != other  && self.moods[MoodTypes.energTired] > -0.6f && self.moods[MoodTypes.hapSad] > -0.8f && self.moods[MoodTypes.hapSad] < 0.4f && roomMan.IsPersonInSameRoomAsMe(self, other)) 
@@ -430,39 +405,6 @@ public partial class Program : MonoBehaviour
 
 			return false; };
 
-
-/*
-// -------------- CULTURAL (CULT) ACTIONS
-
-		RuleConditioner PraiseCultCondition = (self, other, indPpl) =>
-		{	if(self.culture.Exists(x=>x.GetlvlOfInfl() > 0.5f && x.roleName == "follower" || x.roleName == "leader")  &&
-			     self.moods[MoodTypes.energTired] > -0.4f && other.culture.Exists(x=>x.roleMask.GetMaskName() == "cult" && (x.roleName == "follower" || x.roleName == "leader")) && self != other) 
-				{ return true; }
-			if(self.culture.Exists(x=>x.GetlvlOfInfl() > 0.5f && x.roleName == "follower" || x.roleName == "leader")  &&
-			   self.moods[MoodTypes.energTired] > -0.4f && other.culture.Exists(x=>x.roleMask.GetMaskName() == "cult" && (x.roleName != "follower" || x.roleName != "leader")) && 
-			   self != other && self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.5f)
-				{ return true; }
-
-			return false; };
-
-		RuleConditioner enterCultCondition = (self, other, indPpl) =>
-		{	if(self.culture.Exists(x=>x.GetRoleRefPpl().Exists(y=>y.name=="cult") && (x.roleName != "follower" || x.roleName != "leader") && x.GetlvlOfInfl() > 0.5f)) { return true; }
-			return false; };
-
-		RuleConditioner exitCultCondition = (self, other, indPpl) =>
-		{	if(self.culture.Exists(x=>x.GetRoleRefPpl().Exists(y=>y.name=="cult") && (x.roleName == "follower" || x.roleName == "leader") && x.GetlvlOfInfl() < 0.1f)) { return true; }
-			return false; };
-
-		RuleConditioner damnCultCondition = (self, other, indPpl) =>
-		{	if(self.culture.Exists(x=>x.GetRoleRefPpl().Exists(y=>y.name=="cult") && x.GetlvlOfInfl() < 0.4f) && self != other) { return true; }
-			return false; };
-
-		RuleConditioner excommunicateFromCultCondition = (self, other, indPpl) =>
-		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["damncult"] && x.GetSubject() == other) && self != other) { return true; }
-			return false; };*/
-
-// --------------- CULTURAL (MERCHANT) ACTIONS
-
 		RuleConditioner buyCompanyCondition = (self, other, indPpl) =>
 		{	if(beings.Find(x=>x.name == other.name).possessions.Exists(y=>y.Name=="company")){
 				if(beings.Find(x=>x.name == self.name).possessions.Find(y=>y.Name=="money").value >= 100f && beings.Find(x=>x.name == other.name).possessions.Find(y=>y.Name=="company").value >= 1f
@@ -492,13 +434,6 @@ public partial class Program : MonoBehaviour
 		{	if(self != other  && self.moods[MoodTypes.energTired] > -0.4f && roomMan.IsPersonInSameRoomAsMe(self, other)) { return true; }
 			return false; };
 
-	//	RuleConditioner convinceToLeaveGuildCondition = (self, other, indPpl) =>
-	//	{	if(self != other  &&  self.moods[MoodTypes.energTired] > -0.4f && beings.Find(x=>x.name == other.name).possessions.Find(y=>y.Name=="money").value <= 0f && roomMan.IsPersonInSameRoomAsMe(self, other)){
-	//			if(self.GetOpinionValue(TraitTypes.NiceNasty,other) < 0)
-	//				{ return true; }
-	//		} 
-	//		return false; };
-
 		RuleConditioner DemandtoLeaveGuildCondition = (self, other, indPpl) =>
 		{	if(self.CalculateTraitType(TraitTypes.NiceNasty) < -0.3f && self != other &&
 			    beings.Find(x=>x.name == other.name).possessions.Find(y=>y.Name=="money").value <= 0f && roomMan.IsPersonInSameRoomAsMe(self, other)){
@@ -506,12 +441,6 @@ public partial class Program : MonoBehaviour
 			} 
 			return false; };
 
-	/*	RuleConditioner askForHelpCondition = (self, other, indPpl) =>
-		{	if(self != other && beings.Find(x=>x.name == self.name).possessions.Find(y=>y.Name=="goods").value <= 0f && roomMan.IsPersonInSameRoomAsMe(self, other)) 
-				if(self.GetOpinionValue(TraitTypes.HonestFalse,other) > 0.2f)
-					{ return true; }
-			return false; };
-*/
 		RuleConditioner buyGoodsCondition = (self, other, indPpl) =>
 		{	if(beings.Find(x=>x.name == self.name).possessions.Exists(y=>y.Name=="goods")){
 				if(beings.Find(x=>x.name == self.name).possessions.Find(y=>y.Name=="goods").value < 2f && beings.Find(x=>x.name == self.name).possessions.Find(y=>y.Name=="money").value > 30f
@@ -527,9 +456,9 @@ public partial class Program : MonoBehaviour
 			}
 			return false; };
 
-		RuleConditioner moveToStueCondition = (self, other, indPpl) =>
+		RuleConditioner movetolivingroomCondition = (self, other, indPpl) =>
 		{	
-			if(relationSystem.historyBook.Find(x=> (x.GetAction()==relationSystem.posActions["movetostue"] || x.GetAction()==relationSystem.posActions["movetokøkken"] || x.GetAction()==relationSystem.posActions["movetoindgang"]) && x.GetSubject()==self).GetTime() < 10f){
+			if(relationSystem.historyBook.Find(x=> (x.GetAction()==relationSystem.posActions["movetolivingroom"] || x.GetAction()==relationSystem.posActions["movetokitchen"] || x.GetAction()==relationSystem.posActions["movetoentryhall"]) && x.GetSubject()==self).GetTime() < 10f){
 				return false;
 			}
 			if(self != null && !(roomMan.GetRoomIAmIn(self) == "Stue"))
@@ -541,9 +470,9 @@ public partial class Program : MonoBehaviour
 				}
 			return false; };
 
-		RuleConditioner moveToIndgangCondition = (self, other, indPpl) =>
+		RuleConditioner movetoentryhallCondition = (self, other, indPpl) =>
         {
-			if(relationSystem.historyBook.Find(x=> (x.GetAction()==relationSystem.posActions["movetostue"] || x.GetAction()==relationSystem.posActions["movetokøkken"] || x.GetAction()==relationSystem.posActions["movetoindgang"]) && x.GetSubject()==self).GetTime() < 10f){
+			if(relationSystem.historyBook.Find(x=> (x.GetAction()==relationSystem.posActions["movetolivingroom"] || x.GetAction()==relationSystem.posActions["movetokitchen"] || x.GetAction()==relationSystem.posActions["movetoentryhall"]) && x.GetSubject()==self).GetTime() < 10f){
 				return false;
 			}
 			if (self != null && (roomMan.GetRoomIAmIn(self) == "Stue")) { 
@@ -556,9 +485,9 @@ public partial class Program : MonoBehaviour
 			}
 			return false; };
 
-		RuleConditioner moveToKøkkenCondition = (self, other, indPpl) =>
+		RuleConditioner movetokitchenCondition = (self, other, indPpl) =>
         {
-			if(relationSystem.historyBook.Find(x=> (x.GetAction()==relationSystem.posActions["movetostue"] || x.GetAction()==relationSystem.posActions["movetokøkken"] || x.GetAction()==relationSystem.posActions["movetoindgang"]) && x.GetSubject()==self).GetTime() < 10f){
+			if(relationSystem.historyBook.Find(x=> (x.GetAction()==relationSystem.posActions["movetolivingroom"] || x.GetAction()==relationSystem.posActions["movetokitchen"] || x.GetAction()==relationSystem.posActions["movetoentryhall"]) && x.GetSubject()==self).GetTime() < 10f){
 					return false;
 				}
             if (self != null && (roomMan.GetRoomIAmIn(self) == "Stue")) { 
@@ -645,7 +574,7 @@ public partial class Program : MonoBehaviour
 			return r;
 		};
 
-		RulePreference enthuseAboutGreatnessOfPersonPreference = (self, other) => { 
+		RulePreference praisePreference = (self, other) => { 
 			float r = Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),self.GetOpinionValue(TraitTypes.HonestFalse,other));
 			r += Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.CharitableGreedy,other),r);
 			r += Calculator.UnboundAdd(Calculator.NegPosTransform(self.interPersonal.Find(x=>x.GetRoleRefPpl().Exists(y=>y==other)).GetlvlOfInfl(other)),r);
@@ -719,11 +648,6 @@ public partial class Program : MonoBehaviour
 			return r;
 		};
 
-	//	RulePreference practiceStealingPreference = (self, other) => { 
-	//		return self.CalculateTraitType(TraitTypes.CharitableGreedy)*self.moods[MoodTypes.angryFear];
-	//	};
-
-		//MAKE FUN OF, HARASS, PRANK, PLAYGAME
 		RulePreference makeFunOfPreference = (self, other) => { 
 			float r = Calculator.UnboundAdd(-self.GetOpinionValue(TraitTypes.NiceNasty,other),-self.CalculateTraitType(TraitTypes.NiceNasty));
 			r += Calculator.UnboundAdd(-self.moods[MoodTypes.angryFear],r);
@@ -824,10 +748,9 @@ public partial class Program : MonoBehaviour
 		relationSystem.CreateNewRule("gossip", "gossip", gossipCondition,gossipPreference);
 		relationSystem.CreateNewRule("argue", "argue", argueCondition,arguePreference);
 		relationSystem.CreateNewRule("deny", "deny", denyCondition,denyPreference);
-		//relationSystem.CreateNewRule("demandtostopbeingfriendwith", "demandtostopbeingfriendwith", demandToStopBeingFriendWithCondition);
 		relationSystem.CreateNewRule("makedistraction", "makedistraction", makeDistractionCondition);
 		relationSystem.CreateNewRule("reminisce", "reminisce", reminisceCondition,reminiscePreference);
-		relationSystem.CreateNewRule("enthuseaboutgreatnessofperson", "enthuseaboutgreatnessofperson", enthuseAboutGreatnessofPersonCondition,enthuseAboutGreatnessOfPersonPreference);
+		relationSystem.CreateNewRule("praise", "praise", praiseCondition,praisePreference);
 		relationSystem.CreateNewRule("makefunof", "makefunof", makefunofCondition,makeFunOfPreference);
 		relationSystem.CreateNewRule("telljoke", "telljoke", telljokeCondition,telljokePreference);
 		relationSystem.CreateNewRule("prank", "prank", prankCondition,prankPreference);
@@ -858,11 +781,6 @@ public partial class Program : MonoBehaviour
 		relationSystem.CreateNewRule("killfbunsant", "kill",killCondition,killPreference);
 		relationSystem.CreateNewRule("killfbunce", "kill",killCondition,killPreference);
 		relationSystem.CreateNewRule("killfcess", "kill",killCondition,killPreference);
-	//	relationSystem.CreateNewRule("practicestealing", "practicestealing", practiceStealingCondition,practiceStealingPreference);
-	//	relationSystem.CreateNewRule("askforhelpinillicitactivity", "askforhelpinillicitactivity", askForHelpInIllicitActivityCondition);
-	//	relationSystem.CreateNewRule("searchforthief", "searchforthief", searchForThiefCondition);
-	//	relationSystem.CreateNewRule("searchforthieffbunce", "searchforthief", searchForThiefCondition);
-	//	relationSystem.CreateNewRule("searchforthieffcess", "searchforthief", searchForThiefCondition);
 		relationSystem.CreateNewRule("poison", "poison", poisonCondition,poisonPreference);
 		relationSystem.CreateNewRule("poisonfbunce", "poison", poisonCondition,poisonPreference);
 		relationSystem.CreateNewRule("poisonfcess", "poison", poisonCondition,poisonPreference);
@@ -876,30 +794,19 @@ public partial class Program : MonoBehaviour
 		relationSystem.CreateNewRule("orderfcess", "order", orderCondition,orderPreference);
 		relationSystem.CreateNewRule("orderfbunsant", "order", orderCondition,orderPreference);
 
-		relationSystem.CreateNewRule("moveToStuefbunce", "moveToStue", moveToStueCondition);
-		relationSystem.CreateNewRule("moveToStuefcess", "moveToStue", moveToStueCondition);
-		relationSystem.CreateNewRule("moveToStuefbunsant", "moveToStue", moveToStueCondition);
-		relationSystem.CreateNewRule("moveToKøkkenfbunce", "moveToKøkken", moveToKøkkenCondition);
-		relationSystem.CreateNewRule("moveToKøkkenfcess", "moveToKøkken", moveToKøkkenCondition);
-		relationSystem.CreateNewRule("moveToKøkkenfbunsant", "moveToKøkken", moveToKøkkenCondition);
-		relationSystem.CreateNewRule("moveToIndgangfbunce", "moveToIndgang", moveToIndgangCondition);
-		relationSystem.CreateNewRule("moveToIndgangfcess", "moveToIndgang", moveToIndgangCondition);
-		relationSystem.CreateNewRule("moveToIndgangfbunsant", "moveToIndgang", moveToIndgangCondition);
-		/*
-		relationSystem.CreateNewRule("praisecult", "praisecult", PraiseCultCondition);
-		relationSystem.CreateNewRule("praisecultfleader", "praisecult", PraiseCultCondition);
-		relationSystem.CreateNewRule("praisecultffollower", "praisecult", PraiseCultCondition);
-		relationSystem.CreateNewRule("entercult", "entercult", enterCultCondition);
-		relationSystem.CreateNewRule("exitcult", "exitcult", exitCultCondition);
-		relationSystem.CreateNewRule("damncult", "damncult", damnCultCondition);
-		relationSystem.CreateNewRule("excommunicatefromcult", "excommunicatefromcult", excommunicateFromCultCondition);
-		*/
+		relationSystem.CreateNewRule("movetolivingroomfbunce", "movetolivingroom", movetolivingroomCondition);
+		relationSystem.CreateNewRule("movetolivingroomfcess", "movetolivingroom", movetolivingroomCondition);
+		relationSystem.CreateNewRule("movetolivingroomfbunsant", "movetolivingroom", movetolivingroomCondition);
+		relationSystem.CreateNewRule("movetokitchenfbunce", "movetokitchen", movetokitchenCondition);
+		relationSystem.CreateNewRule("movetokitchenfcess", "movetokitchen", movetokitchenCondition);
+		relationSystem.CreateNewRule("movetokitchenfbunsant", "movetokitchen", movetokitchenCondition);
+		relationSystem.CreateNewRule("movetoentryhallfbunce", "movetoentryhall", movetoentryhallCondition);
+		relationSystem.CreateNewRule("movetoentryhallfcess", "movetoentryhall", movetoentryhallCondition);
+		relationSystem.CreateNewRule("movetoentryhallfbunsant", "movetoentryhall", movetoentryhallCondition);
 		relationSystem.CreateNewRule("buycompany", "buycompany", buyCompanyCondition,buyCompanyPreference);
 		relationSystem.CreateNewRule("sabotage", "sabotage", sabotageCondition,sabotagePreference);
 		relationSystem.CreateNewRule("advertise", "advertise", advertiseCondition,advertisePreference);
-	//	relationSystem.CreateNewRule("convincetoleaveguild", "convincetoleaveguild", convinceToLeaveGuildCondition);
 		relationSystem.CreateNewRule("demandtoleaveguild", "demandtoleaveguild", DemandtoLeaveGuildCondition,demandoLeaveGuildPreference);
-	//	relationSystem.CreateNewRule("askforhelp", "askforhelp", askForHelpCondition);
 		relationSystem.CreateNewRule("sellcompany", "sellcompany", sellCompanyCondition,sellCompanyPreference);
 		relationSystem.CreateNewRule("buygoods", "buygoods", buyGoodsCondition,buyCompanyPreference);
 		relationSystem.CreateNewRule("sellgoods", "sellgoods", sellGoodsCondition,sellGoodsPreference);
@@ -957,10 +864,6 @@ public partial class Program : MonoBehaviour
 		denyRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("fight"));
 		relationSystem.pplAndMasks.AddPossibleRulesToRule("deny",denyRulesToTrigger);
 
-		//List<Rule> demandtostopbeingfriendwithRulesToTrigger = new List<Rule>(); demandtostopbeingfriendwithRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("argue")); demandtostopbeingfriendwithRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("poison")); 
-		//demandtostopbeingfriendwithRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("fight"));
-	
-
 		List<Rule> makedistractionRulesToTrigger = new List<Rule>(); makedistractionRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("argue")); makedistractionRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("poison")); 
 		makedistractionRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("steal")); makedistractionRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("deny")); makedistractionRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("sabotage"));
 		relationSystem.pplAndMasks.AddPossibleRulesToRule("makedistraction",makedistractionRulesToTrigger);
@@ -969,9 +872,9 @@ public partial class Program : MonoBehaviour
 		reminisceRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("flirt"));
 		relationSystem.pplAndMasks.AddPossibleRulesToRule("reminisce",reminisceRulesToTrigger);
 
-		List<Rule> enthuseaboutgreatnessofpersonRulesToTrigger = new List<Rule>(); enthuseaboutgreatnessofpersonRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("chat"));
-		enthuseaboutgreatnessofpersonRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("flirt")); enthuseaboutgreatnessofpersonRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("fight"));
-		relationSystem.pplAndMasks.AddPossibleRulesToRule("enthuseaboutgreatnessofperson",enthuseaboutgreatnessofpersonRulesToTrigger);
+		List<Rule> praiseRulesToTrigger = new List<Rule>(); praiseRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("chat"));
+		praiseRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("flirt")); praiseRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("fight"));
+		relationSystem.pplAndMasks.AddPossibleRulesToRule("praise",praiseRulesToTrigger);
 
 		List<Rule> makefunofRulesToTrigger = new List<Rule>(); makefunofRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("makefunof")); makefunofRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("argue"));
 		makefunofRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("harass")); makefunofRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("deny"));
@@ -979,7 +882,7 @@ public partial class Program : MonoBehaviour
 		relationSystem.pplAndMasks.AddPossibleRulesToRule("makefunof",makefunofRulesToTrigger);
 
 		List<Rule> telljokeRulesToTrigger = new List<Rule>(); telljokeRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("makefunof")); telljokeRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("telljoke")); 
-		telljokeRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("chat")); telljokeRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("enthuseaboutgreatnessofperson")); 
+		telljokeRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("chat")); telljokeRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("praise")); 
 		relationSystem.pplAndMasks.AddPossibleRulesToRule("telljoke",telljokeRulesToTrigger);
 
 		List<Rule> prankRulesToTrigger = new List<Rule>(); prankRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("makefunof")); prankRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("deny"));
@@ -1032,19 +935,6 @@ public partial class Program : MonoBehaviour
 		stealRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("fight")); stealRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("convict"));
 		relationSystem.pplAndMasks.AddPossibleRulesToRule("steal",stealRulesToTrigger); relationSystem.pplAndMasks.AddPossibleRulesToRule("buygoods",stealRulesToTrigger);
 
-/*		List<Rule> practicestealingRulesToTrigger = new List<Rule>(); practicestealingRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("steal"));
-		practicestealingRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("argue"));
-		relationSystem.pplAndMasks.AddPossibleRulesToRule("practicestealing",practicestealingRulesToTrigger);
-*/
-//		List<Rule> askforhelpinillicitactivityRulesToTrigger = new List<Rule>(); askforhelpinillicitactivityRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("steal"));
-//		askforhelpinillicitactivityRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("makedistraction"));
-//		relationSystem.pplAndMasks.AddPossibleRulesToRule("askforhelpinillicitactivity",askforhelpinillicitactivityRulesToTrigger);
-
-	/*	List<Rule> searchforthiefRulesToTrigger = new List<Rule>(); searchforthiefRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("argue"));
-		relationSystem.pplAndMasks.AddPossibleRulesToRule("searchforthief",searchforthiefRulesToTrigger);
-		relationSystem.pplAndMasks.AddPossibleRulesToRule("searchforthieffbunce",searchforthiefRulesToTrigger);
-		relationSystem.pplAndMasks.AddPossibleRulesToRule("searchforthieffcess",searchforthiefRulesToTrigger);
-*/
 		List<Rule> poisonRulesToTrigger = new List<Rule>(); poisonRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("fight")); poisonRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("argue"));
 		poisonRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("sabotage"));
 		relationSystem.pplAndMasks.AddPossibleRulesToRule("poison",poisonRulesToTrigger);
@@ -1073,37 +963,6 @@ public partial class Program : MonoBehaviour
 		relationSystem.pplAndMasks.AddPossibleRulesToRule("killfcess",killRulesToTrigger);
 		relationSystem.pplAndMasks.AddPossibleRulesToRule("killfbunce",killRulesToTrigger);
 
-/*		// ------------- CULT RULES
-
-		List<Rule> praisecultRulesToTrigger = new List<Rule>(); praisecultRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("enthuseaboutgreatnessofperson"));
-		praisecultRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("argue")); praisecultRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("deny")); praisecultRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("leavecult"));  
-		praisecultRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("entercult"));  
-		relationSystem.pplAndMasks.AddPossibleRulesToRule("praisecult",praisecultRulesToTrigger);
-		relationSystem.pplAndMasks.AddPossibleRulesToRule("praisecultffollower",praisecultRulesToTrigger);
-		List<Rule> praisecultfleaderRulesToTrigger = new List<Rule>(); poisonRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("enthuseaboutgreatnessofperson"));
-		relationSystem.pplAndMasks.AddPossibleRulesToRule("praisecultfleader",praisecultfleaderRulesToTrigger);
-
-		List<Rule> entercultRulesToTrigger = new List<Rule>(); entercultRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("enthuseaboutgreatnessofperson"));
-		entercultRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("argue")); entercultRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("fight"));
-		entercultRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("leavepartner"));
-		relationSystem.pplAndMasks.AddPossibleRulesToRule("entercult",entercultRulesToTrigger);
-
-		List<Rule> exitcultRulesToTrigger = new List<Rule>(); exitcultRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("enthuseaboutgreatnessofperson"));
-		exitcultRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("argue")); exitcultRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("fight"));
-		exitcultRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("askAboutPartnerStatus"));
-		exitcultRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("poison"));
-		relationSystem.pplAndMasks.AddPossibleRulesToRule("exitcult",exitcultRulesToTrigger);
-
-		List<Rule> damncultRulesToTrigger = new List<Rule>();
-		damncultRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("argue"));
-		damncultRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("askAboutPartnerStatus"));
-		relationSystem.pplAndMasks.AddPossibleRulesToRule("damncult",damncultRulesToTrigger);
-
-		List<Rule> excommunicatefromcultRulesToTrigger = new List<Rule>();
-		excommunicatefromcultRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("argue")); excommunicatefromcultRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("fight"));
-		excommunicatefromcultRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("askAboutPartnerStatus"));
-		relationSystem.pplAndMasks.AddPossibleRulesToRule("excommunicatefromcult",excommunicatefromcultRulesToTrigger);
-*/
 		// ------------- MERCHANT GUILD RULES
 
 		List<Rule> buycompanyRulesToTrigger = new List<Rule>();
@@ -1121,23 +980,12 @@ public partial class Program : MonoBehaviour
 		sellcompanyRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("deny"));
 		relationSystem.pplAndMasks.AddPossibleRulesToRule("advertise",advertiseRulesToTrigger);
 
-	//	List<Rule> convincetoleaveguildRulesToTrigger = new List<Rule>();
-	//	convincetoleaveguildRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("argue")); convincetoleaveguildRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("poison")); 
-	//	convincetoleaveguildRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("order")); convincetoleaveguildRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("deny")); 
-	//	relationSystem.pplAndMasks.AddPossibleRulesToRule("demandtoleaveguild",convincetoleaveguildRulesToTrigger); 
-
 		List<Rule> demandtoleaveguildRulesToTrigger = new List<Rule>();
 		demandtoleaveguildRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("argue")); demandtoleaveguildRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("poison")); 
 		demandtoleaveguildRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("fight")); demandtoleaveguildRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("deny")); 
 		demandtoleaveguildRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("order")); 
 		relationSystem.pplAndMasks.AddPossibleRulesToRule("demandtoleaveguild",demandtoleaveguildRulesToTrigger);
 
-/*		List<Rule> askforhelpRulesToTrigger = new List<Rule>(); 
-		askforhelpRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("argue")); askforhelpRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("chat"));
-		askforhelpRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("sellgoods")); askforhelpRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("buygoods"));
-		askforhelpRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("order"));
-		relationSystem.pplAndMasks.AddPossibleRulesToRule("askforhelp",askforhelpRulesToTrigger);
-*/
 		List<Rule> buygoodsRulesToTrigger = new List<Rule>(); 
 		buygoodsRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("chat"));
 		buygoodsRulesToTrigger.Add(relationSystem.pplAndMasks.GetRule("advertise"));
@@ -1217,8 +1065,8 @@ public partial class Program : MonoBehaviour
 		relationSystem.AddRuleToMask("RomanticRelationship", "Partner", "reminisce", 0.2f);
 		relationSystem.AddRuleToMask("Friendship", "Friend", "reminisce", 0.2f);
 
-		relationSystem.AddRuleToMask("Friendship", "Friend", "enthuseaboutgreatnessofperson", 0.2f);
-		relationSystem.AddRuleToMask("RomanticRelationship", "Partner", "enthuseaboutgreatnessofperson", 0.2f);
+		relationSystem.AddRuleToMask("Friendship", "Friend", "praise", 0.2f);
+		relationSystem.AddRuleToMask("RomanticRelationship", "Partner", "praise", 0.2f);
 
 
 
@@ -1227,58 +1075,46 @@ public partial class Program : MonoBehaviour
 		relationSystem.AddRuleToMask("Bungary", "Bunsant", "fight", -0.5f);
 		relationSystem.AddRuleToMask("Bungary", "Bunsant", "bribefbunsant", -0.1f);
 		relationSystem.AddRuleToMask("Bungary", "Bunsant", "steal", -0.5f);
-//		relationSystem.AddRuleToMask("Bungary", "Bunsant", "practicestealing", -0.3f);
 		relationSystem.AddRuleToMask("Bungary", "Bunsant", "askforhelpinillicitactivity", -0.1f);
 		relationSystem.AddRuleToMask("Bungary", "Bunsant", "poisonfbunsant", -0.8f);
 		relationSystem.AddRuleToMask("Bungary", "Bunsant", "greetfbunsant", 0.5f);
 		relationSystem.AddRuleToMask("Bungary", "Bunsant", "playgamefbunsant", 0.2f);
 		relationSystem.AddRuleToMask("Bungary", "Bunsant", "orderfbunsant", -0.5f);
-		relationSystem.AddRuleToMask("Bungary", "Bunsant", "moveToStuefbunsant", 0.0f);
-		relationSystem.AddRuleToMask("Bungary", "Bunsant", "moveToKøkkenfbunsant", 0.0f);
-		relationSystem.AddRuleToMask("Bungary", "Bunsant", "moveToIndgangfbunsant", 0.0f);
+		relationSystem.AddRuleToMask("Bungary", "Bunsant", "movetolivingroomfbunsant", 0.0f);
+		relationSystem.AddRuleToMask("Bungary", "Bunsant", "movetokitchenfbunsant", 0.0f);
+		relationSystem.AddRuleToMask("Bungary", "Bunsant", "movetoentryhallfbunsant", 0.0f);
 		relationSystem.AddRuleToMask("Bungary", "Bunsant", "killfbunsant", -0.9f);
 
 		relationSystem.AddRuleToMask("Bungary", "Bunce", "bribefbunce", 0.3f);
 		relationSystem.AddRuleToMask("Bungary", "Bunce", "convictfbunce", 1.0f);
 		relationSystem.AddRuleToMask("Bungary", "Bunce", "argueinnocencefbunce", 0.0f);
 		relationSystem.AddRuleToMask("Bungary", "Bunce", "argueguiltinessfbunce", 0.0f);
-		//relationSystem.AddRuleToMask("Bungary", "Bunce", "searchforthieffbunce", 0.8f);
 		relationSystem.AddRuleToMask("Bungary", "Bunce", "poisonfbunce", -0.8f);
 		relationSystem.AddRuleToMask("Bungary", "Bunce", "greetfbunce", 1.0f);
 		relationSystem.AddRuleToMask("Bungary", "Bunce", "playgamefbunce", 0.2f);
 		relationSystem.AddRuleToMask("Bungary", "Bunce", "orderfbunce", 0.5f);
-		relationSystem.AddRuleToMask("Bungary", "Bunce", "moveToStuefbunce", 0.5f);
-		relationSystem.AddRuleToMask("Bungary", "Bunce", "moveToKøkkenfbunce", 0.1f);
-		relationSystem.AddRuleToMask("Bungary", "Bunce", "moveToIndgangfbunce", 0.3f);
+		relationSystem.AddRuleToMask("Bungary", "Bunce", "movetolivingroomfbunce", 0.5f);
+		relationSystem.AddRuleToMask("Bungary", "Bunce", "movetokitchenfbunce", 0.1f);
+		relationSystem.AddRuleToMask("Bungary", "Bunce", "movetoentryhallfbunce", 0.3f);
 		relationSystem.AddRuleToMask("Bungary", "Bunce", "killfbunce", -0.8f);
 
 		relationSystem.AddRuleToMask("Bungary", "Buncess", "bribefcess", 0.3f);
 		relationSystem.AddRuleToMask("Bungary", "Buncess", "convictfcess", 0.8f);
 		relationSystem.AddRuleToMask("Bungary", "Buncess", "argueinnocencefcess", 0.2f);
 		relationSystem.AddRuleToMask("Bungary", "Buncess", "argueguiltinessfcess", -0.1f);
-		//relationSystem.AddRuleToMask("Bungary", "Buncess", "searchforthieffcess", 0.3f);
 		relationSystem.AddRuleToMask("Bungary", "Buncess", "poisonfcess", -0.8f);
 		relationSystem.AddRuleToMask("Bungary", "Buncess", "greetfcess", 1.0f);
 		relationSystem.AddRuleToMask("Bungary", "Buncess", "playgamefbuncess", 0.2f);
 		relationSystem.AddRuleToMask("Bungary", "Buncess", "orderfcess", 0.5f);
-		relationSystem.AddRuleToMask("Bungary", "Buncess", "moveToStuefcess", 0.6f);
-		relationSystem.AddRuleToMask("Bungary", "Buncess", "moveToKøkkenfcess", 0.2f);
-		relationSystem.AddRuleToMask("Bungary", "Buncess", "moveToIndgangfcess", 0.3f);
+		relationSystem.AddRuleToMask("Bungary", "Buncess", "movetolivingroomfcess", 0.6f);
+		relationSystem.AddRuleToMask("Bungary", "Buncess", "movetokitchenfcess", 0.2f);
+		relationSystem.AddRuleToMask("Bungary", "Buncess", "movetoentryhallfcess", 0.3f);
 		relationSystem.AddRuleToMask("Bungary", "Buncess", "killfcess", -0.9f);
-/*
-		relationSystem.AddRuleToMask("Cult", "Leader", "praisecultfleader", 0.6f);
-		relationSystem.AddRuleToMask("Cult", "Follower", "praisecultffollower", 0.4f);
-		relationSystem.AddRuleToMask("Cult", "Follower", "entercult", 0.3f);
-		relationSystem.AddRuleToMask("Cult", "Follower", "exitcult", -0.8f);
-		relationSystem.AddRuleToMask("Cult", "Follower", "damncult", -0.4f);
-		relationSystem.AddRuleToMask("Cult", "Leader", "excommunicatefromcult", 0.1f);
-*/
+
 		relationSystem.AddRuleToMask("MerchantGuild", "Member", "buycompany", 0.2f);
 		relationSystem.AddRuleToMask("MerchantGuild", "Member", "sabotage", -0.5f);
 		relationSystem.AddRuleToMask("MerchantGuild", "Member", "advertise", 0.5f);
-	//	relationSystem.AddRuleToMask("MerchantGuild", "Member", "convincetoleaveguild", -0.1f);
 		relationSystem.AddRuleToMask("MerchantGuild", "Member", "demandtoleaveguild", -0.3f);
-	//	relationSystem.AddRuleToMask("MerchantGuild", "Member", "askforhelp", 0.2f);
 		relationSystem.AddRuleToMask("MerchantGuild", "Member", "sellcompany", -0.5f);
 		relationSystem.AddRuleToMask("MerchantGuild", "Member", "buygoods", 0.5f);
 		relationSystem.AddRuleToMask("MerchantGuild", "Member", "sellgoods", 0.7f);

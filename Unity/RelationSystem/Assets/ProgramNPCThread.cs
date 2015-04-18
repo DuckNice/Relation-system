@@ -111,26 +111,35 @@ public partial class Program : MonoBehaviour
 			statsString += ""+p.selfPerception.roleName+" "+p.selfPerception.GetlvlOfInfl()+"\n";
 
 			foreach(Link l in p.culture){
-				statsString += l.roleName+" "+l.GetlvlOfInfl();
-				if(l.roleRef_LvlOfInfl.Count == 0){ statsString += "\n"; }
+				statsString += l.roleName;
+				if(l.roleRef_LvlOfInfl.Count == 0){ statsString += " "+l.GetlvlOfInfl()+"\n"; }
 				foreach(Person rr in l.GetRoleRefPpl()){
-					statsString += " "+rr.name+"\n";
+					statsString += " "+l.GetlvlOfInfl(rr)+"\n";
 				}
 			}
 			foreach(Link l in p.interPersonal){
-				statsString += l.roleName+" "+l.GetlvlOfInfl();
+				statsString += l.roleName;
 				if(l.roleRef_LvlOfInfl.Count == 0){ statsString += "\n"; }
 				foreach(Person rr in l.GetRoleRefPpl()){
-					statsString += " "+rr.name+"\n";
+					statsString += " "+l.GetlvlOfInfl(rr)+"\n";
 				}
 			}
 			statsString += "\n";
 		}
 		statsString += "\nSpaces\n";
 
-		foreach (string s in relationSystem.activeLists.Keys) {
+
+		/*foreach(Link l in interPersonal){
+				if(l.roleRef_LvlOfInfl.ContainsKey(p)){
+					l.roleRef_LvlOfInfl[p] += Calculator.UnboundAdd(val,l.roleRef_LvlOfInfl[p]);
+				}
+			}
+			*/
+
+
+		foreach (string s in relationSystem.updateLists.Keys) {
 			statsString += s+": \n";
-			foreach(Person p in relationSystem.activeLists[s]){
+			foreach(Person p in relationSystem.updateLists[s]){
 				statsString += p.name+" ";
 			}
 			statsString += "\n";

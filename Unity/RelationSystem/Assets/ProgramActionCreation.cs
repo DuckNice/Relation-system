@@ -202,20 +202,7 @@ public partial class Program : MonoBehaviour {
         };
         relationSystem.AddAction(new MAction("argue", -0.2f, -0.4f, relationSystem, argue, 8f));
 
-        /*		ActionInvoker demandToStopBeingFriendWith = (subject, direct, indPpl, misc) =>
-                {
-                    UIFunctions.WriteGameLine(subject.name + " is demanding that " + direct.name+" stops being friends with ");
-                    //I HAVE NO WAY OF TESTING IF THIS WORKS
-                    foreach(Person p in indPpl){
-                        UIFunctions.WriteGameLine(p.name+" ");
-                        foreach(Link l in p.interPersonal){
-                            if(l.roleRef.Contains(direct)){ direct.interPersonal.Remove(l); }
-                        }
-                    }
-                };
-                relationSystem.AddAction(new MAction("demandToStopBeingFriendWith", 0.3f, -0.5f, relationSystem, demandToStopBeingFriendWith,4f));
-        */
-        ActionInvoker makeDistraction = (subject, direct, indPpl, misc) =>
+		ActionInvoker makeDistraction = (subject, direct, indPpl, misc) =>
         {
             UIFunctions.WriteGameLine(subject.name + " is making a distraction for " + direct.name + "!");
             int rand = UnityEngine.Random.Range(0, 2); //SHOULD PROBABLY BASE THIS ON ABILITY
@@ -263,7 +250,7 @@ public partial class Program : MonoBehaviour {
         };
         relationSystem.AddAction(new MAction("deny", 0.4f, -0.4f, relationSystem, deny, 3f));
 
-        ActionInvoker enthuseAboutGreatnessofPerson = (subject, direct, indPpl, misc) =>
+        ActionInvoker praise = (subject, direct, indPpl, misc) =>
         {
             UIFunctions.WriteGameLine(subject.name + " is saying how great a person " + direct.name + " is!");
             direct.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(0.3f, direct.moods[MoodTypes.hapSad]);
@@ -275,7 +262,7 @@ public partial class Program : MonoBehaviour {
 			direct.AddToInterPersonalLvlOfInfl(subject,0.1f);
 			subject.AddToInterPersonalLvlOfInfl(direct,0.1f);
         };
-        relationSystem.AddAction(new MAction("enthuseAboutGreatnessofPerson", 0.4f, 0.2f, relationSystem, enthuseAboutGreatnessofPerson, 4f));
+		relationSystem.AddAction(new MAction("praise", 0.4f, 0.2f, relationSystem, praise, 4f));
 
         // --------------- CULTURAL ACTIONS
 
@@ -359,27 +346,6 @@ public partial class Program : MonoBehaviour {
 			//Right now they just discover it immediately. I can't do information, but I can do chance of it being discovered instead. chance thing again.
         };
         relationSystem.AddAction(new MAction("steal", 0.7f, -0.5f, relationSystem, steal, 10f));
-
-  /*      ActionInvoker practiceStealing = (subject, direct, indPpl, misc) =>
-        {
-            UIFunctions.WriteGameLine(subject.name + " is practicing the arts of stealth. What are they intending!");
-            subject.AddToAbility(Calculator.unboundAdd(0.2f, subject.GetAbilityy()));
-            subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.2f, subject.moods[MoodTypes.energTired]);
-        };
-        relationSystem.AddAction(new MAction("practiceStealing", 0.2f, 0.0f, relationSystem, practiceStealing, 6f));
-*/
-   /*     ActionInvoker askForHelpInIllicitActivity = (subject, direct, indPpl, misc) =>
-        {
-            UIFunctions.WriteGameLine(subject.name + " is asking " + direct.name + " for help in something... dangerous.");
-        };
-        relationSystem.AddAction(new MAction("askForHelpInIllicitActivity", 0.4f, 0.1f, relationSystem, askForHelpInIllicitActivity, 8f));*/
-
-        /*ActionInvoker searchForThief = (subject, direct, indPpl, misc) => 
-        {
-            UIFunctions.WriteGameLine(subject.name + " is searching for the thief!");
-            subject.moods[MoodTypes.energTired] += Calculator.unboundAdd(-0.3f,subject.moods[MoodTypes.energTired]);
-        };
-        relationSystem.AddAction(new MAction("searchForThief", 0.6f,-0.5f, relationSystem, searchForThief,10f));*/
 
         ActionInvoker makefunof = (subject, direct, indPpl, misc) =>
         {
@@ -470,68 +436,6 @@ public partial class Program : MonoBehaviour {
 		};
 		relationSystem.AddAction(new MAction("kill", -0.9f, -0.8f, relationSystem, kill, 7f));
 
-
-
-
-
-        // ----------- CULTURAL (CULT) ACTIONS
-        /*
-                ActionInvoker praiseCult = (subject, direct, indPpl, misc) => 
-                {
-                    UIFunctions.WriteGameLine(subject.name + " is saying how great this cult is to "+direct.name);
-
-                    if(direct.culture.Exists(x=>x.roleMask.GetMaskName() == "cult" && (x.roleName == "follower" || x.roleName == "leader"))){
-                        direct.culture.Find(x=>x.roleMask.GetMaskName() == "cult").AddToLvlOfInfl(0.1f);
-                    }
-                };
-                relationSystem.AddAction(new MAction("praiseCult", 0.1f,-0.1f, relationSystem, praiseCult,4f));
-
-                ActionInvoker enterCult = (subject, direct, indPpl, misc) => 
-                {
-                    UIFunctions.WriteGameLine(subject.name + " is entering the cult.");
-                    foreach(Link l in subject.interPersonal){
-                        if(l.roleRef.Exists(x=>x.name == direct.name)){
-                            l.AddToLvlOfInfl(0.4f);
-                        }
-                    }
-                };
-                relationSystem.AddAction(new MAction("enterCult", 0.0f,0.0f, relationSystem, enterCult,10f));
-
-                ActionInvoker exitCult = (subject, direct, indPpl, misc) => 
-                {
-                    UIFunctions.WriteGameLine(subject.name + " is exiting the cult!");
-                    foreach(Link l in subject.interPersonal){
-                        if(l.roleRef.Exists(x=>x.name == direct.name)){
-                            l.AddToLvlOfInfl(-0.4f);
-                        }
-                    }
-                };
-                relationSystem.AddAction(new MAction("exitCult", 0.0f,0.0f, relationSystem, exitCult,5f));
-
-                ActionInvoker damnCult = (subject, direct, indPpl, misc) => 
-                {
-                    UIFunctions.WriteGameLine(subject.name + " is damning the cult!");
-                    foreach(Link l in subject.interPersonal){
-                        if(l.roleRef.Exists(x=>x.name == direct.name)){
-                            l.AddToLvlOfInfl(-0.4f);
-                        }
-                    }
-                };
-                relationSystem.AddAction(new MAction("damnCult", -0.2f,0.0f, relationSystem, damnCult,4f));
-
-                ActionInvoker excommunicateFromCult = (subject, direct, indPpl, misc) => 
-                {
-                    UIFunctions.WriteGameLine(subject.name + " is excommunicating "+direct.name+" from the cult");
-                    foreach(Link l in subject.interPersonal){
-                        if(l.roleRef.Exists(x=>x.name == direct.name)){
-                            l.AddToLvlOfInfl(-0.9f);
-                        }
-                    }
-                };
-                relationSystem.AddAction(new MAction("excommunicateFromCult", 0.0f,-0.6f, relationSystem, excommunicateFromCult,6f));
-        */
-
-
         // ------------ CULTURAL (MERCHANT) ACTIONS
 
         ActionInvoker buyCompany = (subject, direct, indPpl, misc) =>
@@ -585,23 +489,8 @@ public partial class Program : MonoBehaviour {
 			direct.AddToInterPersonalLvlOfInfl(direct,0.1f);
         };
         relationSystem.AddAction(new MAction("advertise", 0.3f, -0.1f, relationSystem, advertise, 7f));
-		/*
-        ActionInvoker convinceToLeaveGuild = (subject, direct, indPpl, misc) =>
-        {
-            UIFunctions.WriteGameLine(subject.name + " is convincing " + direct.name + " to leave the merchant's guild!");
-            direct.moods[MoodTypes.hapSad] += Calculator.unboundAdd(-0.2f, direct.moods[MoodTypes.hapSad]);
-            direct.AddToOpinionValue(TraitTypes.NiceNasty, subject, -0.2f);
-            foreach (Link l in subject.interPersonal)
-            {
-                if (l.roleRef.Exists(x => x.name == direct.name))
-                {
-                    l.AddToLvlOfInfl(-0.6f);
-                }
-            }
-        };
-        relationSystem.AddAction(new MAction("convinceToLeaveGuild", 0.4f, -0.3f, relationSystem, convinceToLeaveGuild, 5f));
-*/
-        ActionInvoker DemandtoLeaveGuild = (subject, direct, indPpl, misc) =>
+
+		ActionInvoker DemandtoLeaveGuild = (subject, direct, indPpl, misc) =>
         {
             UIFunctions.WriteGameLine(subject.name + " is demanding " + direct.name + " to leave the merchant's guild!");
             direct.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(-0.5f, direct.moods[MoodTypes.hapSad]);
@@ -614,23 +503,7 @@ public partial class Program : MonoBehaviour {
         };
         relationSystem.AddAction(new MAction("DemandtoLeaveGuild", 0.4f, -0.5f, relationSystem, DemandtoLeaveGuild, 4f));
 
-     /*   ActionInvoker askForHelp = (subject, direct, indPpl, misc) =>
-        {
-            UIFunctions.WriteGameLine(subject.name + " is asking " + direct.name + " for help");
-            direct.moods[MoodTypes.hapSad] += Calculator.unboundAdd(-0.6f, direct.moods[MoodTypes.hapSad]);
-            direct.AddToOpinionValue(TraitTypes.NiceNasty, subject, 0.1f);
-            direct.AddToOpinionValue(TraitTypes.ShyBolsterous, subject, -0.4f);
-            foreach (Link l in subject.interPersonal)
-            {
-                if (l.roleRef.Exists(x => x.name == direct.name))
-                {
-                    l.AddToLvlOfInfl(0.2f);
-                }
-            }
-        };
-        relationSystem.AddAction(new MAction("askForHelp", 0.5f, 0.2f, relationSystem, askForHelp, 4f));
-*/
-        ActionInvoker buyGoods = (subject, direct, indPpl, misc) =>
+		ActionInvoker buyGoods = (subject, direct, indPpl, misc) =>
         {
             UIFunctions.WriteGameLine(subject.name + " is buying goods from " + direct.name);
             beings.Find(x => x.name == subject.name).possessions.Find(y => y.Name == "money").value -= 30f;
@@ -655,29 +528,29 @@ public partial class Program : MonoBehaviour {
 
         // ROOM ACTIONS
 
-        ActionInvoker moveToStue = (subject, direct, indPpl, misc) =>
+        ActionInvoker moveToLivingRoom = (subject, direct, indPpl, misc) =>
         {
             UIFunctions.WriteGameLine(subject.name + " is going into the Living Room.");
 			subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(0.2f, subject.moods[MoodTypes.energTired]);
             roomMan.EnterRoom("Stue", relationSystem.pplAndMasks.GetPerson(subject.name));
         };
-        relationSystem.AddAction(new MAction("moveToStue", 0.4f, 0.0f, relationSystem, moveToStue, 5f, _needsDirect: false));
+		relationSystem.AddAction(new MAction("moveToLivingRoom", 0.4f, 0.0f, relationSystem, moveToLivingRoom, 5f, _needsDirect: false));
 
-        ActionInvoker moveToKøkken = (subject, direct, indPpl, misc) =>
+        ActionInvoker moveToKitchen = (subject, direct, indPpl, misc) =>
         {
             UIFunctions.WriteGameLine(subject.name + " is going into the Kitchen.");
 			subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(0.2f, subject.moods[MoodTypes.energTired]);
             roomMan.EnterRoom("Køkken",  relationSystem.pplAndMasks.GetPerson(subject.name));
         };
-        relationSystem.AddAction(new MAction("moveToKøkken", 0.2f, 0.0f, relationSystem, moveToKøkken, 5f, _needsDirect: false));
+		relationSystem.AddAction(new MAction("moveToKitchen", 0.2f, 0.0f, relationSystem, moveToKitchen, 5f, _needsDirect: false));
 
-        ActionInvoker moveToIndgang = (subject, direct, indPpl, misc) =>
+        ActionInvoker moveToEntryHall = (subject, direct, indPpl, misc) =>
         {
             UIFunctions.WriteGameLine(subject.name + " is going into the Entry Hallway.");
 			subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(0.2f, subject.moods[MoodTypes.energTired]);
             roomMan.EnterRoom("Indgang", relationSystem.pplAndMasks.GetPerson(subject.name));
         };
-        relationSystem.AddAction(new MAction("moveToIndgang", 0.1f, 0.0f, relationSystem, moveToIndgang, 5f, _needsDirect:false));
+		relationSystem.AddAction(new MAction("moveToEntryHall", 0.1f, 0.0f, relationSystem, moveToEntryHall, 5f, _needsDirect:false));
 
 
     }
