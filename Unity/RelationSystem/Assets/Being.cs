@@ -30,10 +30,10 @@ public class Being
     
 	public void NPCAction(float time)
 	{
-        if (name.ToLower() != "player")
+		if (name.ToLower() != "player" || debug.inst.playerActive)
         {
             Person self = maskSystem.pplAndMasks.GetPerson(name);
-
+			//UIFunctions.WritePlayerLine(""+debug.inst.playerActive);
 
             if (currentRule != null && actionStartTime + currentRule.actionToTrigger.duration > time)
             {

@@ -31,7 +31,7 @@ public partial class Program : MonoBehaviour {
         {
             UIFunctions.WriteGameLine(subject.name + " greets " + direct.name);
         };
-        relationSystem.AddAction(new MAction("Greet", 0.1f, 0.1f, relationSystem, greet, 2f));
+        relationSystem.AddAction(new MAction("Greet", 0.7f, 0.5f, relationSystem, greet, 2f));
 
         ActionInvoker kiss = (subject, direct, indPpl, misc) =>
         {
@@ -285,7 +285,7 @@ public partial class Program : MonoBehaviour {
         {
             UIFunctions.WriteGameLine(subject.name + " praises " + direct.name + ".");
             direct.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(0.3f, direct.moods[MoodTypes.hapSad]);
-            subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.1f, subject.moods[MoodTypes.energTired]);
+            subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.2f, subject.moods[MoodTypes.energTired]);
             direct.moods[MoodTypes.energTired] += Calculator.UnboundAdd(0.1f, direct.moods[MoodTypes.energTired]);
             direct.AddToOpinionValue(TraitTypes.NiceNasty, subject, 0.1f);
 
@@ -293,7 +293,7 @@ public partial class Program : MonoBehaviour {
 			direct.AddToInterPersonalLvlOfInfl(subject,0.1f);
 			subject.AddToInterPersonalLvlOfInfl(direct,0.1f);
         };
-		relationSystem.AddAction(new MAction("praise", 0.4f, 0.2f, relationSystem, praise, 4f));
+		relationSystem.AddAction(new MAction("praise", 0.4f, 0.2f, relationSystem, praise, 5f));
 
 		ActionInvoker cry = (subject, direct, indPpl, misc) =>
 		{
