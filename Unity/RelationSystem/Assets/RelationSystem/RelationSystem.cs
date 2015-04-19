@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 
 namespace NRelationSystem
@@ -148,5 +149,14 @@ namespace NRelationSystem
                 UIFunctions.WritePlayerLine("Nothing here yet.");
             }
         }
+
+		public string CapitalizeName(string s){
+			if (String.IsNullOrEmpty(s))
+				throw new ArgumentException("ARGH!");
+			return s.First().ToString().ToUpper() + s.Substring(1);
+		}
+
+
+
     }
 }
