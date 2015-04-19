@@ -28,7 +28,7 @@ namespace NRelationSystem
         {
             _ruleRoleName = _ruleRoleName.ToLower();
 
-            rules.Add(_ruleRoleName, _rule);
+            rules.Add(_ruleRoleName, _rule.HalfDeepCopy());
         }
 
 

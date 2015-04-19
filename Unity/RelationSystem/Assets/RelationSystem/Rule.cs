@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 
 namespace NRelationSystem
@@ -18,7 +20,16 @@ namespace NRelationSystem
         private RulePreference rulePreference;
         public VisibilityCalculator visCalc;
         
+        public Rule HalfDeepCopy()
+        {
+            Rule other = (Rule)this.MemberwiseClone();
+            other.ruleName = String.Copy(ruleName);
+            other.role = String.Copy(role);
+            other.selfOther = new Dictionary<Person, PersonAndPreference>();
 
+            return other;
+        }
+        
 
         public Rule(string _ruleName, MAction act, RuleConditioner _ruleCondition, RulePreference _rulePreference, VisibilityCalculator _visCalc = null)
         {
@@ -38,7 +49,7 @@ namespace NRelationSystem
             if (selfOther.ContainsKey(self)) 
                 selfOther.Remove(self);
             
-            List<Person> people = actionToTrigger.relationSystem.createActiveListsList();
+            List<Person> people = MAction.relationSystem.createActiveListsList();
 
             if (reacters != null && reacters.Count > 0)
             {

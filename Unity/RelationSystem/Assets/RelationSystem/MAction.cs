@@ -12,7 +12,7 @@ namespace NRelationSystem
         public string name { get { return Name; } set { Name = value.ToLower(); } }
         ActionInvoker actionInvoker;
         ActionInvoker sustainActionInvoker;
-        public RelationSystem relationSystem;
+        public static RelationSystem relationSystem;
         float Duration = 2.0f;
         protected bool needsDirect = true;
         protected bool needsIndirect = false;
