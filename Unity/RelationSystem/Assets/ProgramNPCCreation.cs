@@ -758,21 +758,21 @@ public partial class Program : MonoBehaviour
 		};
 
 		RulePreference moveToLivingRoomPreference = (self, other) => { 
-			float r = Calculator.UnboundAdd(0.1,-self.moods[MoodTypes.energTired]);
+			float r = Calculator.UnboundAdd(0.1f,-self.moods[MoodTypes.energTired]);
 			r += Calculator.UnboundAdd(-self.moods[MoodTypes.hapSad],r);
 			r += Calculator.UnboundAdd(-self.moods[MoodTypes.angryFear],r);
 			return r;
 		};
 
 		RulePreference moveToKitchenPreference = (self, other) => { 
-			float r = Calculator.UnboundAdd(0.1,-self.moods[MoodTypes.energTired]);
+			float r = Calculator.UnboundAdd(0.1f,-self.moods[MoodTypes.energTired]);
 			r += Calculator.UnboundAdd(-self.moods[MoodTypes.hapSad],r);
 			r += Calculator.UnboundAdd(-self.moods[MoodTypes.angryFear],r);
 			return r;
 		};
 
 		RulePreference moveToEntryHallPreference = (self, other) => { 
-			float r = Calculator.UnboundAdd(0.1,-self.moods[MoodTypes.energTired]);
+			float r = Calculator.UnboundAdd(0.1f,-self.moods[MoodTypes.energTired]);
 			r += Calculator.UnboundAdd(-self.moods[MoodTypes.hapSad],r);
 			r += Calculator.UnboundAdd(-self.moods[MoodTypes.angryFear],r);
 			return r;
