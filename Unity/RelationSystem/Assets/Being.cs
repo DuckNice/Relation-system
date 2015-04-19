@@ -77,7 +77,7 @@ public class Being
                     }
                 }
 
-                debug.Write("---------- " + self.name + "'s TURN.");
+                debug.Write("---------------------------------------------------------------------------------------------------------------------------------------------------------- " + self.name + "'s TURN.");
 
                 Rule _rule = self.GetAction(notPossibleActions, possibleActions);
 				//debug.Write("ACTION FROM "+name+" "+possibleActions.Count);

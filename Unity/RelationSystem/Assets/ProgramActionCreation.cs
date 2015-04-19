@@ -260,7 +260,7 @@ public partial class Program : MonoBehaviour {
 
         ActionInvoker reminisce = (subject, direct, indPpl, misc) =>
         {
-            UIFunctions.WriteGameLine(subject.name + " is reminiscing about old times with " + direct.name + "!");
+            UIFunctions.WriteGameLine(subject.name + " reminisces about old times with " + direct.name + ".");
             direct.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(0.2f, direct.moods[MoodTypes.hapSad]);
             subject.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(0.2f, subject.moods[MoodTypes.hapSad]);
             subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.1f, subject.moods[MoodTypes.energTired]);
@@ -283,7 +283,7 @@ public partial class Program : MonoBehaviour {
 
         ActionInvoker praise = (subject, direct, indPpl, misc) =>
         {
-            UIFunctions.WriteGameLine(subject.name + " is saying how great a person " + direct.name + " is!");
+            UIFunctions.WriteGameLine(subject.name + " is praising " + direct.name + ".");
             direct.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(0.3f, direct.moods[MoodTypes.hapSad]);
             subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.1f, subject.moods[MoodTypes.energTired]);
             direct.moods[MoodTypes.energTired] += Calculator.UnboundAdd(0.1f, direct.moods[MoodTypes.energTired]);
