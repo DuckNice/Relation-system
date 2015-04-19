@@ -114,14 +114,14 @@ public partial class Program : MonoBehaviour
 				statsString += l.roleName;
 				if(l.roleRef_LvlOfInfl.Count == 0){ statsString += " "+l.GetlvlOfInfl()+"\n"; }
 				foreach(Person rr in l.GetRoleRefPpl()){
-					statsString += " "+l.GetlvlOfInfl(rr)+"\n";
+					statsString += " "+l.GetlvlOfInfl(rr)+" "+rr.name+"\n";
 				}
 			}
 			foreach(Link l in p.interPersonal){
 				statsString += l.roleName;
 				if(l.roleRef_LvlOfInfl.Count == 0){ statsString += "\n"; }
 				foreach(Person rr in l.GetRoleRefPpl()){
-					statsString += " "+l.GetlvlOfInfl(rr)+"\n";
+					statsString += " "+l.GetlvlOfInfl(rr)+" "+rr.name+"\n";
 				}
 			}
 			statsString += "\n";
