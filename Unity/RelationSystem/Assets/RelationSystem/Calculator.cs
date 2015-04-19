@@ -82,34 +82,16 @@ namespace NRelationSystem
 
         public static float UnboundAdd(float unboundedNumber, float curValue)
         {
-            if (curValue > 0)
+            float dist;
+            if (unboundedNumber > 0)
             {
-                double dist;
-                if (unboundedNumber > 0)
-                {
-                    dist = Math.Abs((1) - curValue);
-                }
-                else
-                {
-                    dist = Math.Abs((-1) - curValue);
-                }
-
-                return unboundedNumber * (float)dist;
+                dist = Math.Abs((1) - curValue);
             }
             else
             {
-                double dist;
-                if (unboundedNumber > 0)
-                {
-                    dist = Math.Abs((1) - curValue);
-                }
-                else
-                {
-                    dist = Math.Abs((-1) - curValue);
-                }
-
-                return unboundedNumber * (float)dist;
+                dist = Math.Abs((-1) - curValue);
             }
+            return unboundedNumber * dist;
         }
 
 		public static float NegPosTransform(float inp){

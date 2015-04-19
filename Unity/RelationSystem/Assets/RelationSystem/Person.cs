@@ -140,7 +140,7 @@ namespace NRelationSystem
 		public void SetImpulsivity(float inp){ impulsivity = inp; }
 		public void AddToImpulsivity(float inp){ impulsivity += inp; }
 
-		public float GetAbilityy(){ return ability; }
+		public float GetAbility(){ return ability; }
 		public void SetAbility(float inp){ ability = inp; }
 		public void AddToAbility(float inp){ ability += inp; }
 
