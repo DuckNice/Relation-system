@@ -90,13 +90,16 @@ namespace NRelationSystem
                 }
 
                 if (roleRef != null && roleRef.Count > 0)
-                    if (reaction)
-                        for (int i = reactPeople.Count - 1; i >= 0; i-- )
-                            if(!roleRef.ContainsKey(reactPeople[i]))
-                                reactPeople.RemoveAt(i);
+                {
+                    if (reaction) { 
+                        for (int i = reactPeople.Count - 1; i >= 0; i--)
+                            if (!roleRef.ContainsKey(reactPeople[i]))
+                               reactPeople.RemoveAt(i);
+                    }
                     else
-                        foreach (Person person in roleRef.Keys)
+                        foreach (Person person in roleRef.Keys.ToList())
                             reactPeople.Add(person);
+                }
                 
 				if(rule.role.Equals(role)){
 					//debug.Write("Checking condition "+rule.ruleName+"   "+rule.Condition(self,reactPeople));
