@@ -106,7 +106,7 @@ public partial class Program : MonoBehaviour
 		statsString += "\n\n\nMask Links: \n";
 
 
-		foreach (Person p in relationSystem.pplAndMasks.people.Values) {
+	/*	foreach (Person p in relationSystem.pplAndMasks.people.Values) {
 			statsString += p.name+"\n";
 			statsString += ""+p.selfPerception.roleName+" "+p.selfPerception.GetlvlOfInfl()+"\n";
 
@@ -127,7 +127,7 @@ public partial class Program : MonoBehaviour
 			statsString += "\n";
 		}
 		statsString += "\nSpaces\n";
-
+*/
 
 		/*foreach(Link l in interPersonal){
 				if(l.roleRef_LvlOfInfl.ContainsKey(p)){

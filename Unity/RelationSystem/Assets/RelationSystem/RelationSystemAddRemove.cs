@@ -110,8 +110,9 @@ namespace NRelationSystem
 			mask = mask.ToLower ();
 
             Person personRelated = pplAndMasks.GetPerson(linkRel.ToLower());
-          
-            pplAndMasks.GetPerson(persName).AddLink(maskType, new Link(role, pplAndMasks.GetMask(mask), genStr, personRelated, str));
+            
+
+			pplAndMasks.GetPerson(persName).AddLink(maskType, new Link(role, pplAndMasks.GetMask(mask), genStr, personRelated, , str));
         }
 
 

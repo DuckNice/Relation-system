@@ -35,9 +35,9 @@ public partial class Program : MonoBehaviour {
 
         ActionInvoker kiss = (subject, direct, indPpl, misc) =>
         {
-			debug.Write(""+subject.interPersonal.Exists(x=>x.roleName == "partner")+
-			            " "+subject.interPersonal.Exists(x => x.GetRoleRefPpl().Exists(y => y.name == direct.name && y.interPersonal.Exists(z => z.roleName == "partner" && z.GetRoleRefPpl().Exists(s => s.name == subject.name))) && x.roleName == "partner"));
-            if (subject.interPersonal.Exists(x => x.GetRoleRefPpl().Exists(y => y.name == direct.name && y.interPersonal.Exists(z => z.roleName == "partner" && z.GetRoleRefPpl().Exists(s => s.name == subject.name))) && x.roleName == "partner"))
+			//debug.Write(""+subject.CheckRoleName("partner",direct)+
+			   //         " "+subject.interPersonal.Exists(x => x.GetRoleRefPpl().Exists(y => y.name == direct.name && y.interPersonal.Exists(z => z.roleName == "partner" && z.GetRoleRefPpl().Exists(s => s.name == subject.name))) && x.roleName == "partner"));
+			if (subject.CheckRoleName("partner",direct))
             {
                 UIFunctions.WriteGameLine(relationSystem.CapitalizeName(subject.name) + " kisses " + relationSystem.CapitalizeName(direct.name));
             }
@@ -56,7 +56,7 @@ public partial class Program : MonoBehaviour {
 
         ActionInvoker askAboutPartnerStatus = (subject, direct, indPpl, misc) =>
         {
-            if (subject.interPersonal.Exists(x => x.GetRoleRefPpl().Exists(y => y.name == direct.name && y.interPersonal.Exists(z => z.roleName == "partner" && z.GetRoleRefPpl().Exists(s => s.name == subject.name))) && x.roleName == "partner"))
+			if (subject.CheckRoleName("partner",direct))
             {
                 UIFunctions.WriteGameLine(relationSystem.CapitalizeName(subject.name) + " asks if " + relationSystem.CapitalizeName(direct.name) + " still wants to be their partner after what they've done.");
 				direct.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(-0.3f, direct.moods[MoodTypes.hapSad]);
@@ -108,10 +108,10 @@ public partial class Program : MonoBehaviour {
             direct.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(-0.7f, direct.moods[MoodTypes.hapSad]);
             subject.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(-0.2f, subject.moods[MoodTypes.hapSad]);
 
-            subject.RemoveLink(TypeMask.interPers, subject.interPersonal.Find(x => x.roleName == "partner" && x.GetRoleRefPpl().Exists(y => y.name == direct.name)));
-            direct.RemoveLink(TypeMask.interPers, direct.interPersonal.Find(x => x.roleName == "partner" && x.GetRoleRefPpl().Exists(y => y.name == subject.name)));
-			relationSystem.AddLinkToPerson (relationSystem.CapitalizeName(subject.name),TypeMask.interPers,"enemy","Rivalry",0,relationSystem.CapitalizeName(direct.name),0.3f);
-			relationSystem.AddLinkToPerson (relationSystem.CapitalizeName(direct.name),TypeMask.interPers,"enemy","Rivalry",0,relationSystem.CapitalizeName(subject.name),0.5f);
+          //  subject.RemoveLink(TypeMask.interPers, subject.interPersonal.Find(x => x.roleName == "partner" && x.GetRoleRefPpl().Exists(y => y.name == direct.name)));
+          //  direct.RemoveLink(TypeMask.interPers, direct.interPersonal.Find(x => x.roleName == "partner" && x.GetRoleRefPpl().Exists(y => y.name == subject.name)));
+			//relationSystem.AddLinkToPerson (relationSystem.CapitalizeName(subject.name),TypeMask.interPers,"enemy","Rivalry",0,direct.name,0.3f);
+			//relationSystem.AddLinkToPerson (relationSystem.CapitalizeName(direct.name),TypeMask.interPers,"enemy","Rivalry",0,subject.name,0.5f);
         };
         relationSystem.AddAction(new MAction("LeavePartner", -0.3f, -0.7f, relationSystem, LeavePartner, 5f));
 
@@ -502,7 +502,7 @@ public partial class Program : MonoBehaviour {
         {
             UIFunctions.WriteGameLine(relationSystem.CapitalizeName(subject.name) + " orders " + relationSystem.CapitalizeName(direct.name) + " to do something! How dare they?");
 
-			if(direct.culture.Exists (x=>x.roleName=="bunce" || x.roleName=="buncess")){
+			if(direct.CheckRoleName("bunce") || direct.CheckRoleName("buncess")){
 				subject.moods[MoodTypes.arousDisgus] += Calculator.UnboundAdd(0.3f, subject.moods[MoodTypes.arousDisgus]);
 				subject.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(0.3f, subject.moods[MoodTypes.hapSad]);
 				direct.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(-0.5f, direct.moods[MoodTypes.hapSad]);
@@ -595,7 +595,7 @@ public partial class Program : MonoBehaviour {
 			subject.AddToOpinionValue(TraitTypes.NiceNasty, direct, -0.1f);
 			direct.moods[MoodTypes.angryFear] += Calculator.UnboundAdd(0.3f, direct.moods[MoodTypes.angryFear]);
 
-			direct.RemoveLink(TypeMask.culture,subject.culture.Find(x => x.droleMask.GetMaskName() == "merchantguild"));
+		//	direct.RemoveLink(TypeMask.culture,subject.culture.Find(x => x.droleMask.GetMaskName() == "merchantguild"));
         };
         relationSystem.AddAction(new MAction("DemandtoLeaveGuild", 0.4f, -0.5f, relationSystem, DemandtoLeaveGuild, 4f));
 

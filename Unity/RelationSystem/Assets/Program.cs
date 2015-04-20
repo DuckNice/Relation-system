@@ -36,11 +36,7 @@ public partial class Program : MonoBehaviour
 
         string[] sepInput = input.Split(seps, StringSplitOptions.RemoveEmptyEntries);
 
-        if(sepInput[0] == "display")
-        {
-            relationSystem.PrintPersonStatus();
-        }
-        else if (relationSystem.posActions.ContainsKey(sepInput[0]))
+        if (relationSystem.posActions.ContainsKey(sepInput[0]))
         {
             if(!actionStored)
             {

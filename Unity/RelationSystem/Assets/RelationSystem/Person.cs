@@ -190,7 +190,7 @@ namespace NRelationSystem
                 {
                     if (activePeople.Contains(person))
                     {
-                        float go = link._roleMask.maskOverlay.traits[traitType].GetTraitValue() * link.GetlvlOfInfl(person);
+                        float go = link._roleMask.maskOverlay.traits[traitType].GetTraitValue() * GetLvlOfInflToPerson(person);
                         baseVal += Calculator.UnboundAdd(go, baseVal);
                         break;
                     }
@@ -199,7 +199,7 @@ namespace NRelationSystem
 
             foreach(Link link in culture)
             {
-                float go = link._roleMask.maskOverlay.traits[traitType].GetTraitValue() * link.GetlvlOfInfl();
+				float go = link._roleMask.maskOverlay.traits[traitType].GetTraitValue() * GetLvlOfInflToPerson();
                 baseVal += Calculator.UnboundAdd(go, baseVal);
             }
 
@@ -238,10 +238,67 @@ namespace NRelationSystem
 		public void AddToInterPersonalLvlOfInfl(Person p,float val){
 			foreach(Link l in interPersonal){
 				if(l._roleRef.ContainsKey(p)){
-					l._roleRef[p] += Calculator.UnboundAdd(val,l._roleRef[p]);
+					foreach(string s in l._roleRef[p].Keys){
+						l._roleRef[p][s] += Calculator.UnboundAdd(val,l._roleRef[p][s]);
+					}
 				}
 			}
 		}
+
+
+		public bool CheckRoleName(string s, Person p = null){
+
+			if(p == null){
+				foreach (Link l in interPersonal) {
+				if (p == null) {
+					p = l.empty;
+				}
+					foreach(Person i in l._roleRef.Keys){
+						if(l._roleRef[i].ContainsKey(s)){
+							return true;
+						}
+					}
+				}
+				foreach (Link l in culture) {
+				if (p == null) {
+					p = l.empty;
+				}
+					foreach(Person i in l._roleRef.Keys){
+						if(l._roleRef[i].ContainsKey(s)){
+							return true;
+						}
+					}
+				}
+			}
+			foreach (Link l in interPersonal) {
+				if(l._roleRef[p].ContainsKey(s)){
+					return true;
+				}
+			}
+			foreach (Link l in culture) {
+				if(l._roleRef[p].ContainsKey(s)){
+					return true;
+				}
+			}
+			return false;
+		}
+
+		public float GetLvlOfInflToPerson(Person p = null){
+			foreach (Link l in interPersonal) {
+				if (p == null) {
+					p = l.empty;
+				}
+				if(l._roleRef.ContainsKey(p)){
+					foreach(string s in l._roleRef[p].Keys){
+						return l._roleRef[p][s];
+					}
+				}
+			}
+			debug.Write ("ERROR. Did not find person to getlvlofInfl from. In Person.cs");
+			return 0.0f;
+		}
+
+
 
 
     }

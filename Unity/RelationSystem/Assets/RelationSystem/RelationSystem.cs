@@ -109,20 +109,20 @@ namespace NRelationSystem
 			}
 
 
-            Link selfPersMask = new Link(selfMask.role, pplAndMasks.GetMask(selfMask.mask), selfMask.genlvlOfInfl, selfMask.linkPers, selfMask.lvlOfInfl);
+            Link selfPersMask = new Link(selfMask.role, pplAndMasks.GetMask(selfMask.mask), selfMask.genlvlOfInfl, selfMask.linkPers,"",selfMask.lvlOfInfl);
 
             List<Link> cults = new List<Link>();
 
             foreach(MaskAdds cult in _cults)
             {
-                cults.Add(new Link(cult.role, pplAndMasks.GetMask(cult.mask), cult.genlvlOfInfl, cult.linkPers, cult.lvlOfInfl));
+				cults.Add(new Link(cult.role, pplAndMasks.GetMask(cult.mask), cult.genlvlOfInfl, cult.linkPers,"", cult.lvlOfInfl));
             }
 
             List<Link> intPpl = new List<Link>();
 
             foreach(MaskAdds intPers in _intPpl)
             {
-                intPpl.Add(new Link(intPers.role, pplAndMasks.GetMask(intPers.mask), intPers.genlvlOfInfl, intPers.linkPers, intPers.lvlOfInfl));
+                intPpl.Add(new Link(intPers.role, pplAndMasks.GetMask(intPers.mask), intPers.genlvlOfInfl, intPers.linkPers,"", intPers.lvlOfInfl));
             }
 
             Person person = new Person(selfMask.mask, selfPersMask, intPpl, cults, rational, moral, impulse, this);
@@ -138,17 +138,6 @@ namespace NRelationSystem
         {
 			historyBook.Add(new HistoryItem(action, subject, direct, program.time, _rule));
 		}
-		
-		
-        public void PrintPersonStatus()
-        {
-            Person personToPrint = pplAndMasks.GetPerson("Bill");
-
-            foreach (Link thisLink in personToPrint.GetLinks(TypeMask.selfPerc))
-            {
-                UIFunctions.WritePlayerLine("Nothing here yet.");
-            }
-        }
 
 		public string CapitalizeName(string s){
 			if (String.IsNullOrEmpty(s))
