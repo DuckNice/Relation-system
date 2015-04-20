@@ -14,7 +14,7 @@ public partial class Program : MonoBehaviour {
 
         ActionInvoker flee = (subject, direct, indPpl, misc) =>
         {
-            UIFunctions.WriteGameLine(relationSystem.CapitalizeName(relationSystem.CapitalizeName(subject.name)) + " flees the scene!");
+            UIFunctions.WriteGameLine(relationSystem.CapitalizeName(subject.name) + " flees the scene!");
 			roomMan.EnterRoom("Jail",subject);
         };
         relationSystem.AddAction(new MAction("flee", 1.0f, -0.5f, relationSystem, flee, 10f, _needsDirect:false));
@@ -35,7 +35,9 @@ public partial class Program : MonoBehaviour {
 
         ActionInvoker kiss = (subject, direct, indPpl, misc) =>
         {
-            if (subject.interPersonal.Exists(x => x.GetRoleRefPpl().Exists(y => y.name == relationSystem.CapitalizeName(direct.name) && y.interPersonal.Exists(z => z.roleName == "partner" && z.GetRoleRefPpl().Exists(s => s.name == relationSystem.CapitalizeName(subject.name)))) && x.roleName == "partner"))
+			debug.Write(""+subject.interPersonal.Exists(x=>x.roleName == "partner")+
+			            " "+subject.interPersonal.Exists(x => x.GetRoleRefPpl().Exists(y => y.name == direct.name && y.interPersonal.Exists(z => z.roleName == "partner" && z.GetRoleRefPpl().Exists(s => s.name == subject.name))) && x.roleName == "partner"));
+            if (subject.interPersonal.Exists(x => x.GetRoleRefPpl().Exists(y => y.name == direct.name && y.interPersonal.Exists(z => z.roleName == "partner" && z.GetRoleRefPpl().Exists(s => s.name == subject.name))) && x.roleName == "partner"))
             {
                 UIFunctions.WriteGameLine(relationSystem.CapitalizeName(subject.name) + " kisses " + relationSystem.CapitalizeName(direct.name));
             }
@@ -54,7 +56,7 @@ public partial class Program : MonoBehaviour {
 
         ActionInvoker askAboutPartnerStatus = (subject, direct, indPpl, misc) =>
         {
-            if (subject.interPersonal.Exists(x => x.GetRoleRefPpl().Exists(y => y.name == relationSystem.CapitalizeName(direct.name) && y.interPersonal.Exists(z => z.roleName == "partner" && z.GetRoleRefPpl().Exists(s => s.name == relationSystem.CapitalizeName(subject.name)))) && x.roleName == "partner"))
+            if (subject.interPersonal.Exists(x => x.GetRoleRefPpl().Exists(y => y.name == direct.name && y.interPersonal.Exists(z => z.roleName == "partner" && z.GetRoleRefPpl().Exists(s => s.name == subject.name))) && x.roleName == "partner"))
             {
                 UIFunctions.WriteGameLine(relationSystem.CapitalizeName(subject.name) + " asks if " + relationSystem.CapitalizeName(direct.name) + " still wants to be their partner after what they've done.");
 				direct.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(-0.3f, direct.moods[MoodTypes.hapSad]);
@@ -106,8 +108,8 @@ public partial class Program : MonoBehaviour {
             direct.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(-0.7f, direct.moods[MoodTypes.hapSad]);
             subject.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(-0.2f, subject.moods[MoodTypes.hapSad]);
 
-            subject.RemoveLink(TypeMask.interPers, subject.interPersonal.Find(x => x.roleName == "partner" && x.GetRoleRefPpl().Exists(y => y.name == relationSystem.CapitalizeName(direct.name))));
-            direct.RemoveLink(TypeMask.interPers, direct.interPersonal.Find(x => x.roleName == "partner" && x.GetRoleRefPpl().Exists(y => y.name == relationSystem.CapitalizeName(subject.name))));
+            subject.RemoveLink(TypeMask.interPers, subject.interPersonal.Find(x => x.roleName == "partner" && x.GetRoleRefPpl().Exists(y => y.name == direct.name)));
+            direct.RemoveLink(TypeMask.interPers, direct.interPersonal.Find(x => x.roleName == "partner" && x.GetRoleRefPpl().Exists(y => y.name == subject.name)));
 			relationSystem.AddLinkToPerson (relationSystem.CapitalizeName(subject.name),TypeMask.interPers,"enemy","Rivalry",0,relationSystem.CapitalizeName(direct.name),0.3f);
 			relationSystem.AddLinkToPerson (relationSystem.CapitalizeName(direct.name),TypeMask.interPers,"enemy","Rivalry",0,relationSystem.CapitalizeName(subject.name),0.5f);
         };
@@ -146,14 +148,14 @@ public partial class Program : MonoBehaviour {
             giftToGive = gifts.Find(x => x.Name == "game" || x.Name == "company");
             UIFunctions.WriteGameLine(relationSystem.CapitalizeName(subject.name) + " gives the gift of " + giftToGive.objectName + " to " + relationSystem.CapitalizeName(direct.name) + ".");
 
-            beings.Find(x => x.name == relationSystem.CapitalizeName(subject.name)).possessions.Find(y => y.Name == giftToGive.Name).value -= 1f;
-            if (beings.Find(x => x.name == relationSystem.CapitalizeName(direct.name)).possessions.Exists(x => x.Name == giftToGive.Name))
+            beings.Find(x => x.name == subject.name).possessions.Find(y => y.Name == giftToGive.Name).value -= 1f;
+            if (beings.Find(x => x.name == direct.name).possessions.Exists(x => x.Name == giftToGive.Name))
             {
-                beings.Find(x => x.name == relationSystem.CapitalizeName(subject.name)).possessions.Find(y => y.Name == giftToGive.Name).value += 1f;
+                beings.Find(x => x.name == subject.name).possessions.Find(y => y.Name == giftToGive.Name).value += 1f;
             }
             else
             {
-                beings.Find(x => x.name == relationSystem.CapitalizeName(direct.name)).possessions.Add(giftToGive);
+                beings.Find(x => x.name == direct.name).possessions.Add(giftToGive);
             }
 
             direct.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(0.3f, direct.moods[MoodTypes.hapSad]);
@@ -335,7 +337,7 @@ public partial class Program : MonoBehaviour {
 			subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.2f, subject.moods[MoodTypes.energTired]);
 
 			roomMan.EnterRoom("Jail",direct);
-			if(relationSystem.CapitalizeName(direct.name) == "player"){
+			if(direct.name == "player"){
 				UIFunctions.WriteGameLine("Player is in Jail! Game Over!");
 			}
         };
@@ -372,8 +374,8 @@ public partial class Program : MonoBehaviour {
 			subject.AddToOpinionValue(TraitTypes.NiceNasty, direct, -0.1f);
 			subject.AddToOpinionValue(TraitTypes.CharitableGreedy, direct, -0.1f);
 
-            beings.Find(x => x.name == relationSystem.CapitalizeName(subject.name)).possessions.Find(y => y.Name == "money").value -= 30f;
-            beings.Find(x => x.name == relationSystem.CapitalizeName(direct.name)).possessions.Find(y => y.Name == "money").value += 30f;
+            beings.Find(x => x.name == subject.name).possessions.Find(y => y.Name == "money").value -= 30f;
+            beings.Find(x => x.name == direct.name).possessions.Find(y => y.Name == "money").value += 30f;
 			direct.AddToInterPersonalLvlOfInfl(subject,-0.1f);
         };
         relationSystem.AddAction(new MAction("bribe", 0.2f, 0.6f, relationSystem, bribe, 5f));
@@ -410,8 +412,8 @@ public partial class Program : MonoBehaviour {
 			float stealAmount = UnityEngine.Random.Range(1,20);
 			stealAmount += subject.GetAbility()*30f;
 			UIFunctions.WriteGameLine(relationSystem.CapitalizeName(subject.name) + " steals "+stealAmount+" bungarian rupees from " + relationSystem.CapitalizeName(direct.name) + ".");
-            beings.Find(x => x.name == relationSystem.CapitalizeName(subject.name)).possessions.Find(y => y.Name == "money").value += stealAmount;
-            beings.Find(x => x.name == relationSystem.CapitalizeName(direct.name)).possessions.Find(y => y.Name == "money").value -= stealAmount;
+            beings.Find(x => x.name == subject.name).possessions.Find(y => y.Name == "money").value += stealAmount;
+            beings.Find(x => x.name == direct.name).possessions.Find(y => y.Name == "money").value -= stealAmount;
 			direct.AddToInterPersonalLvlOfInfl(subject,0.2f); 
         };
         relationSystem.AddAction(new MAction("steal", 0.7f, -0.5f, relationSystem, steal, 10f));
@@ -532,10 +534,10 @@ public partial class Program : MonoBehaviour {
         {
             UIFunctions.WriteGameLine(relationSystem.CapitalizeName(subject.name) + " makes a deal to buy " + relationSystem.CapitalizeName(direct.name) + "'s company");
             subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.1f, subject.moods[MoodTypes.energTired]);
-            beings.Find(x => x.name == relationSystem.CapitalizeName(subject.name)).possessions.Find(y => y.Name == "money").value -= 100f;
-            beings.Find(x => x.name == relationSystem.CapitalizeName(direct.name)).possessions.Find(y => y.Name == "money").value += 100f;
-            beings.Find(x => x.name == relationSystem.CapitalizeName(direct.name)).possessions.Find(y => y.Name == "company").value -= 1f;
-            beings.Find(x => x.name == relationSystem.CapitalizeName(subject.name)).possessions.Find(y => y.Name == "company").value += 1f;
+            beings.Find(x => x.name == subject.name).possessions.Find(y => y.Name == "money").value -= 100f;
+            beings.Find(x => x.name == direct.name).possessions.Find(y => y.Name == "money").value += 100f;
+            beings.Find(x => x.name == direct.name).possessions.Find(y => y.Name == "company").value -= 1f;
+            beings.Find(x => x.name == subject.name).possessions.Find(y => y.Name == "company").value += 1f;
             direct.AddToOpinionValue(TraitTypes.NiceNasty, subject, -0.4f);
 			direct.AddToOpinionValue(TraitTypes.CharitableGreedy, subject, -0.2f);
         };
@@ -545,10 +547,10 @@ public partial class Program : MonoBehaviour {
         {
             UIFunctions.WriteGameLine(relationSystem.CapitalizeName(subject.name) + " makes a deal to sell a company to " + relationSystem.CapitalizeName(direct.name));
             subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.1f, subject.moods[MoodTypes.energTired]);
-            beings.Find(x => x.name == relationSystem.CapitalizeName(subject.name)).possessions.Find(y => y.Name == "money").value += 100f;
-            beings.Find(x => x.name == relationSystem.CapitalizeName(direct.name)).possessions.Find(y => y.Name == "money").value -= 100f;
-            beings.Find(x => x.name == relationSystem.CapitalizeName(direct.name)).possessions.Find(y => y.Name == "company").value += 1f;
-            beings.Find(x => x.name == relationSystem.CapitalizeName(subject.name)).possessions.Find(y => y.Name == "company").value -= 1f;
+            beings.Find(x => x.name == subject.name).possessions.Find(y => y.Name == "money").value += 100f;
+            beings.Find(x => x.name == direct.name).possessions.Find(y => y.Name == "money").value -= 100f;
+            beings.Find(x => x.name == direct.name).possessions.Find(y => y.Name == "company").value += 1f;
+            beings.Find(x => x.name == subject.name).possessions.Find(y => y.Name == "company").value -= 1f;
 			direct.AddToOpinionValue(TraitTypes.CharitableGreedy, subject, -0.2f);
         };
         relationSystem.AddAction(new MAction("sellCompany", -0.4f, 0.4f, relationSystem, sellCompany, 6f));
@@ -564,7 +566,7 @@ public partial class Program : MonoBehaviour {
 			direct.AddToOpinionValue(TraitTypes.CharitableGreedy, subject, -0.4f);
 
 			direct.AddToInterPersonalLvlOfInfl(direct,0.4f);
-			beings.Find(x => x.name == relationSystem.CapitalizeName(direct.name)).possessions.Find(y => y.Name == "company").value -= 1f;
+			beings.Find(x => x.name == direct.name).possessions.Find(y => y.Name == "company").value -= 1f;
         };
         relationSystem.AddAction(new MAction("sabotage", 0.5f, -0.5f, relationSystem, sabotage, 10f));
 
@@ -607,8 +609,8 @@ public partial class Program : MonoBehaviour {
         ActionInvoker sellGoods = (subject, direct, indPpl, misc) =>
         {
             UIFunctions.WriteGameLine(relationSystem.CapitalizeName(subject.name) + " sells goods to " + relationSystem.CapitalizeName(direct.name));
-            beings.Find(x => x.name == relationSystem.CapitalizeName(subject.name)).possessions.Find(y => y.Name == "money").value += 30f;
-            beings.Find(x => x.name == relationSystem.CapitalizeName(subject.name)).possessions.Find(y => y.Name == "goods").value -= 1f;
+            beings.Find(x => x.name == subject.name).possessions.Find(y => y.Name == "money").value += 30f;
+            beings.Find(x => x.name == subject.name).possessions.Find(y => y.Name == "goods").value -= 1f;
             subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.1f, subject.moods[MoodTypes.energTired]);
 			subject.AddToOpinionValue(TraitTypes.CharitableGreedy,direct,0.1f);
 			direct.AddToOpinionValue(TraitTypes.CharitableGreedy,subject,0.1f);
@@ -622,7 +624,7 @@ public partial class Program : MonoBehaviour {
         {
             UIFunctions.WriteGameLine(relationSystem.CapitalizeName(subject.name) + " goes into the Living Room.");
 			subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(0.2f, subject.moods[MoodTypes.energTired]);
-            roomMan.EnterRoom("Stue", relationSystem.pplAndMasks.GetPerson(relationSystem.CapitalizeName(subject.name)));
+            roomMan.EnterRoom("Stue", relationSystem.pplAndMasks.GetPerson(subject.name));
         };
 		relationSystem.AddAction(new MAction("moveToLivingRoom", 0.4f, 0.0f, relationSystem, moveToLivingRoom, 5f, _needsDirect: false));
 
@@ -630,7 +632,7 @@ public partial class Program : MonoBehaviour {
         {
             UIFunctions.WriteGameLine(relationSystem.CapitalizeName(subject.name) + " goes into the Kitchen.");
 			subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(0.2f, subject.moods[MoodTypes.energTired]);
-            roomMan.EnterRoom("Køkken",  relationSystem.pplAndMasks.GetPerson(relationSystem.CapitalizeName(subject.name)));
+            roomMan.EnterRoom("Køkken",  relationSystem.pplAndMasks.GetPerson(subject.name));
         };
 		relationSystem.AddAction(new MAction("moveToKitchen", 0.2f, 0.0f, relationSystem, moveToKitchen, 5f, _needsDirect: false));
 
@@ -638,7 +640,7 @@ public partial class Program : MonoBehaviour {
         {
             UIFunctions.WriteGameLine(relationSystem.CapitalizeName(subject.name) + " goes into the Entry Hallway.");
 			subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(0.2f, subject.moods[MoodTypes.energTired]);
-            roomMan.EnterRoom("Indgang", relationSystem.pplAndMasks.GetPerson(relationSystem.CapitalizeName(subject.name)));
+            roomMan.EnterRoom("Indgang", relationSystem.pplAndMasks.GetPerson(subject.name));
         };
 		relationSystem.AddAction(new MAction("moveToEntryHall", 0.1f, 0.0f, relationSystem, moveToEntryHall, 5f, _needsDirect:false));
 
