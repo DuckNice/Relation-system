@@ -64,18 +64,18 @@ namespace NRelationSystem
         }
         
 
-        public RuleAndStr CalculateActionToUse(List<MAction> notPosActions, List<PosActionItem> possibleActions, Person self, float rat, float mor, float imp, float abi, string role, float genLvlOfInfl, Dictionary<Person, float> roleRef)
+        public RuleAndStr CalculateActionToUse(List<MAction> notPosActions, List<PosActionItem> possibleActions, Person self, float rat, float mor, float imp, float abi, Person empty, Dictionary<Person, Dictionary<string, float>> roleRef)
         {
             RuleAndStr chosenRule = new RuleAndStr();
 			chosenRule.chosenRule = new Rule("Empty", new MAction("Empty", 0.0f, 0.0f), null, null);
-            chosenRule.strOfAct = -999999999999999f;
+            chosenRule.strOfAct = -9999f;
 
             foreach(Rule rule in rules.Values.ToList())
             {
                 if (notPosActions != null && notPosActions.Contains(rule.actionToTrigger))
                     continue;
 
-                List<Person> reactPeople = new List<Person>();
+                List<Person> posPeople = new List<Person>();
 
                 bool reaction = false;
                 if(possibleActions != null && possibleActions.Count > 0)
@@ -84,40 +84,57 @@ namespace NRelationSystem
                     reaction = true;
 
                     if (index >= 0)
-                        reactPeople = possibleActions[index].reactToPerson;
+                        posPeople = possibleActions[index].reactToPeople;
                     else
                         continue;
                 }
 
-                if (roleRef != null && roleRef.Count > 0)
-                    if (reaction)
-                        for (int i = reactPeople.Count - 1; i >= 0; i-- )
-                            if(!roleRef.ContainsKey(reactPeople[i]))
-                                reactPeople.RemoveAt(i);
-                    else
-                        foreach (Person person in roleRef.Keys)
-                            reactPeople.Add(person);
-                
-				if(rule.role.Equals(role)){
-					//debug.Write("Checking condition "+rule.ruleName+"   "+rule.Condition(self,reactPeople, reaction));
-					if(rule.Condition(self, reactPeople, reaction))
-					{
-						debug.Write("Calculating "+rule.actionToTrigger.name+" to "+rule.selfOther[self].person.name+" in "+maskName);
-                       
-                        float maskCalculation;
 
-                        if (roleRef != null && roleRef.ContainsKey(rule.selfOther[self].person))
-                            maskCalculation = Calculator.CalculateRule(rat, mor, imp, abi, rule, rule.rulesThatMightHappen, roleRef[rule.selfOther[self].person]);
-                        else
-						    maskCalculation = Calculator.CalculateRule(rat, mor, imp, abi, rule, rule.rulesThatMightHappen, genLvlOfInfl);
-				
-						float newActionStrength = maskCalculation + Calculator.UnboundAdd(rule.selfOther[self].pref, maskCalculation);
-						debug.Write(maskCalculation+"  (+)  "+rule.selfOther[self].pref+"  =  "+newActionStrength);
-						if (newActionStrength > chosenRule.strOfAct)
-						{
-							chosenRule.strOfAct = newActionStrength;
-							chosenRule.chosenRule = rule;
-						}
+                if (roleRef != null && roleRef.Count > 0)
+                {
+                    if (reaction)
+                    {
+                        for (int i = posPeople.Count - 1; i >= 0; i--)
+                        {
+                            if (!roleRef.ContainsKey(posPeople[i]) || !roleRef[posPeople[i]].ContainsKey(rule.role))
+                                posPeople.RemoveAt(i);
+                        }
+                    }/*
+                    else
+                    {
+                        foreach (Person person in roleRef.Keys)
+                        {
+                            if (roleRef[person].ContainsKey(rule.role))
+                                posPeople.Add(person);
+                        }
+                    }*/
+                }
+                else
+                {
+                    debug.Write("Warning: No roleRefs were passed to mask '" + maskName + "'.");
+                    break;
+                }
+
+				//debug.Write("Checking condition "+rule.ruleName+"   "+rule.Condition(self,reactPeople, reaction));
+				if(rule.Condition(self, posPeople, reaction))
+				{
+					debug.Write("Calculating "+rule.actionToTrigger.name+" to "+rule.selfOther[self].person.name+" in "+maskName);
+                       
+                    float maskCalculation = -99999999999f;
+
+                    if (roleRef != null && roleRef.ContainsKey(rule.selfOther[self].person) && roleRef[rule.selfOther[self].person].ContainsKey(rule.role))
+                        maskCalculation = Calculator.CalculateRule(rat, mor, imp, abi, rule, rule.rulesThatMightHappen, roleRef[rule.selfOther[self].person][rule.role]);
+                    else if (roleRef != null && roleRef.ContainsKey(empty) && roleRef[empty].ContainsKey(rule.role))
+                        maskCalculation = Calculator.CalculateRule(rat, mor, imp, abi, rule, rule.rulesThatMightHappen, roleRef[empty][rule.role]);
+                    else
+                        continue;
+
+					float newActionStrength = maskCalculation + Calculator.UnboundAdd(rule.selfOther[self].pref, maskCalculation);
+					debug.Write(maskCalculation+"  (+)  "+rule.selfOther[self].pref+"  =  "+newActionStrength);
+					if (newActionStrength > chosenRule.strOfAct)
+					{
+						chosenRule.strOfAct = newActionStrength;
+						chosenRule.chosenRule = rule;
 					}
 				}
 			}

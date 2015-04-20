@@ -6,47 +6,46 @@ namespace NRelationSystem
 {
     public class Link
     {
-        public Dictionary<Person, Dictionary<string, float>> roleRef_LvlOfInfl = new Dictionary<Person, Dictionary<string, float>>();
-        public Mask roleMask;
+        public Dictionary<Person, Dictionary<string, float>> _roleRef = new Dictionary<Person, Dictionary<string, float>>();
+        public Mask _roleMask;
+        public Person empty;
 
-        public Link(string _genRoleName, Mask _roleMask, float _genLvlOfInfl, Person _roleRef = null, string _roleName = "", float _lvlOfInfl = 0) 
+        public Link(string _genRoleName, Mask roleMask, float genLvlOfInfl, Person roleRef = null, string roleName = "", float lvlOfInfl = -1) 
         {
-            if (_roleRef != null && _lvlOfInfl > 0 && _roleRef != null && _roleName != "")
+            empty = new Person("none");
+
+            if (roleRef != null && lvlOfInfl >= 0 && roleName != "")
             {
-                roleRef_LvlOfInfl.Add(_roleRef, new Dictionary<string, float>());
-                roleRef_LvlOfInfl[_roleRef].Add(_roleName, _lvlOfInfl);
+                _roleRef.Add(roleRef, new Dictionary<string, float>());
+                _roleRef[roleRef].Add(roleName, lvlOfInfl);
             }
 
-            Person newPerson = new Person("none");
+            Person newPerson = empty;
 
-            roleRef_LvlOfInfl.Add(newPerson, new Dictionary<string, float>());
-            roleRef_LvlOfInfl[newPerson].Add(_genRoleName, _genLvlOfInfl);
-            roleMask = _roleMask;
+            _roleRef.Add(newPerson, new Dictionary<string, float>());
+            _roleRef[newPerson].Add(_genRoleName, genLvlOfInfl);
+            _roleMask = roleMask;
         }
 
 
         public void AddRoleRef(string roleName, float lvlOfInfl, Person roleRef = null)
         {
             
-            if(roleRef == null){
-                roleRef = new Person("none");
+            if(roleRef == null)
+                roleRef = empty;
 
-                if (!roleRef_LvlOfInfl.Keys.ToList().Exists(x => x.name == roleRef.name))
-                {
-                    roleRef_LvlOfInfl.Add(roleRef, new Dictionary<string, float>());
-                    roleRef_LvlOfInfl[roleRef].Add(roleName, lvlOfInfl);
-                }
-                else
-                {
-                    if(!roleRef_LvlOfInfl[roleRef].ContainsKey(roleName))
-                    {
-                        roleRef_LvlOfInfl[roleRef].Add(roleName, lvlOfInfl);
-                    }
-                }
+            if (!_roleRef.Keys.ToList().Exists(x => x.name == roleRef.name))
+            {
+                _roleRef.Add(roleRef, new Dictionary<string, float>());
+                _roleRef[roleRef].Add(roleName, lvlOfInfl);
             }
             else
             {
-
+                if (!_roleRef[roleRef].ContainsKey(roleName))
+                    _roleRef[roleRef].Add(roleName, lvlOfInfl);
+                
+                else
+                    debug.Write("Warning: roleName already associated with this character in link. Not adding role reference.");
             }
         }
 
@@ -57,7 +56,7 @@ namespace NRelationSystem
 
             try
             {
-				actionToSend = roleMask.CalculateActionToUse(notPosActions, possibleActions, self, rat, mor, imp, abi, roleName, genLvlOfInfl, roleRef_LvlOfInfl);
+				actionToSend = _roleMask.CalculateActionToUse(notPosActions, possibleActions, self, rat, mor, imp, abi, empty, _roleRef);
 					//debug.Write ("Trying from link "+self.name+" Maskname: "+ roleMask.GetMaskName() +" Rolename: "+roleName);
             }
             catch(Exception e)
@@ -75,18 +74,19 @@ namespace NRelationSystem
 
         public List<Person> GetRoleRefPpl()
         {
-            return roleRef_LvlOfInfl.Keys.ToList();
+            return _roleRef.Keys.ToList();
         }
 
 
-		public float GetlvlOfInfl(Person roleRef = null)
+		public float GetlvlOfInfl(string roleName, Person roleRef = null)
         { 
             if(roleRef == null){
-                return genLvlOfInfl;
+                roleRef = empty;    
             }
-            else if(roleRef_LvlOfInfl.ContainsKey(roleRef))
+            
+            if(_roleRef.ContainsKey(roleRef) && _roleRef[roleRef].ContainsKey(roleName))
             {
-                return roleRef_LvlOfInfl[roleRef]; 
+                return _roleRef[roleRef][roleName]; 
             }
             else
             {
@@ -94,14 +94,15 @@ namespace NRelationSystem
             }
         }
 
-		public bool SetlvlOfInfl(float inp, Person roleRef = null)//{ lvlOfInfl = inp; }
-        { 
+
+		public bool SetlvlOfInfl(float inp, string roleName, Person roleRef = null)
+        {
             if(roleRef == null){
-                genLvlOfInfl = inp;
+                roleRef = empty;
             }
-            else if(roleRef_LvlOfInfl.ContainsKey(roleRef))
+            else if(_roleRef.ContainsKey(roleRef) && _roleRef[roleRef].ContainsKey(roleName))
             {
-                roleRef_LvlOfInfl[roleRef] = inp;
+                _roleRef[roleRef][roleName] = inp;
             }
             else
             {
@@ -112,15 +113,16 @@ namespace NRelationSystem
             return true;
         }
 
-		public bool AddToLvlOfInfl(float inp, Person roleRef = null)//{ lvlOfInfl += Calculator.unboundAdd(inp,lvlOfInfl); }
+
+		public bool AddToLvlOfInfl(float inp, string roleName, Person roleRef = null)
         {
             if (roleRef == null)
             {
-                genLvlOfInfl += Calculator.UnboundAdd(inp, genLvlOfInfl);
+                roleRef = empty;
             }
-            else if (roleRef_LvlOfInfl.ContainsKey(roleRef))
+            else if (_roleRef.ContainsKey(roleRef) && _roleRef[roleRef].ContainsKey(roleName))
             {
-                roleRef_LvlOfInfl[roleRef] += Calculator.UnboundAdd(inp, roleRef_LvlOfInfl[roleRef]);
+                _roleRef[roleRef][roleName] += Calculator.UnboundAdd(inp, _roleRef[roleRef][roleName]);
             }
             else
             {
@@ -130,6 +132,5 @@ namespace NRelationSystem
 
             return true;
         }
-
     }
 }

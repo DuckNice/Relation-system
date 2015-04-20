@@ -149,7 +149,7 @@ namespace NRelationSystem
 
 		public Rule GetRule(string ruleName) 
 		{ 
-			foreach(Rule r in selfPerception.roleMask.rules.Values){
+			foreach(Rule r in selfPerception._roleMask.rules.Values){
 				if(r.actionToTrigger.name == ruleName){
 					return r;
 				}
@@ -157,7 +157,7 @@ namespace NRelationSystem
 
 			foreach(Link curLink in interPersonal)
 			{
-				foreach(Rule r in curLink.roleMask.rules.Values){
+				foreach(Rule r in curLink._roleMask.rules.Values){
 					if(r.actionToTrigger.name == ruleName){
 						return r;
 					}
@@ -166,7 +166,7 @@ namespace NRelationSystem
 			
 			foreach (Link curLink in culture)
 			{
-				foreach(Rule r in curLink.roleMask.rules.Values){
+				foreach(Rule r in curLink._roleMask.rules.Values){
 					if(r.actionToTrigger.name == ruleName){
 						return r;
 					}
@@ -190,7 +190,7 @@ namespace NRelationSystem
                 {
                     if (activePeople.Contains(person))
                     {
-                        float go = link.roleMask.maskOverlay.traits[traitType].GetTraitValue() * link.GetlvlOfInfl(person);
+                        float go = link._roleMask.maskOverlay.traits[traitType].GetTraitValue() * link.GetlvlOfInfl(person);
                         baseVal += Calculator.UnboundAdd(go, baseVal);
                         break;
                     }
@@ -199,7 +199,7 @@ namespace NRelationSystem
 
             foreach(Link link in culture)
             {
-                float go = link.roleMask.maskOverlay.traits[traitType].GetTraitValue() * link.GetlvlOfInfl();
+                float go = link._roleMask.maskOverlay.traits[traitType].GetTraitValue() * link.GetlvlOfInfl();
                 baseVal += Calculator.UnboundAdd(go, baseVal);
             }
 
@@ -237,8 +237,8 @@ namespace NRelationSystem
 
 		public void AddToInterPersonalLvlOfInfl(Person p,float val){
 			foreach(Link l in interPersonal){
-				if(l.roleRef_LvlOfInfl.ContainsKey(p)){
-					l.roleRef_LvlOfInfl[p] += Calculator.UnboundAdd(val,l.roleRef_LvlOfInfl[p]);
+				if(l._roleRef.ContainsKey(p)){
+					l._roleRef[p] += Calculator.UnboundAdd(val,l._roleRef[p]);
 				}
 			}
 		}

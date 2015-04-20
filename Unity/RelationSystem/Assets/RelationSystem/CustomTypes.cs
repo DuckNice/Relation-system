@@ -85,33 +85,22 @@ namespace NRelationSystem
     public class PosActionItem
     {
         public MAction action;
-        public List<Person> reactToPerson;
+        public List<Person> reactToPeople;
 
         public PosActionItem(MAction _act, Person _rTp)
         {
             action = _act;
-            reactToPerson = new List<Person>();
-            reactToPerson.Add(_rTp);
+            reactToPeople = new List<Person>();
+            reactToPeople.Add(_rTp);
         }
 
         public PosActionItem(MAction _act, List<Person> _rTp)
         {
             action = _act;
-            reactToPerson = _rTp;
+            reactToPeople = _rTp;
         }
     }
 
-    public class LinkRoleRefItem
-    {
-        float lvlOfInfl;
-        string role;
-
-        public LinkRoleRefItem(float _lvlOfInfl, string _role)
-        {
-            lvlOfInfl = _lvlOfInfl;
-            role = _role;
-        }
-    }
 
     public struct HistoryItem
     {

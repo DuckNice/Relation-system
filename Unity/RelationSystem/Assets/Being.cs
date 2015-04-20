@@ -69,9 +69,9 @@ public class Being
                             {
                                 possibleActions.Add(new PosActionItem(rule.actionToTrigger, subject));
                             }
-                            else if (!possibleActions[index].reactToPerson.Contains(subject))
+                            else if (!possibleActions[index].reactToPeople.Contains(subject))
                             {
-                                possibleActions[index].reactToPerson.Add(subject);
+                                possibleActions[index].reactToPeople.Add(subject);
                             }
                         }
                     }

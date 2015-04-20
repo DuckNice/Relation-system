@@ -595,7 +595,7 @@ public partial class Program : MonoBehaviour {
 			subject.AddToOpinionValue(TraitTypes.NiceNasty, direct, -0.1f);
 			direct.moods[MoodTypes.angryFear] += Calculator.UnboundAdd(0.3f, direct.moods[MoodTypes.angryFear]);
 
-			direct.RemoveLink(TypeMask.culture,subject.culture.Find(x => x.roleMask.GetMaskName() == "merchantguild"));
+			direct.RemoveLink(TypeMask.culture,subject.culture.Find(x => x.droleMask.GetMaskName() == "merchantguild"));
         };
         relationSystem.AddAction(new MAction("DemandtoLeaveGuild", 0.4f, -0.5f, relationSystem, DemandtoLeaveGuild, 4f));
 
