@@ -90,16 +90,13 @@ namespace NRelationSystem
                 }
 
                 if (roleRef != null && roleRef.Count > 0)
-                {
-                    if (reaction) { 
-                        for (int i = reactPeople.Count - 1; i >= 0; i--)
-                            if (!roleRef.ContainsKey(reactPeople[i]))
-                               reactPeople.RemoveAt(i);
-                    }
+                    if (reaction)
+                        for (int i = reactPeople.Count - 1; i >= 0; i-- )
+                            if(!roleRef.ContainsKey(reactPeople[i]))
+                                reactPeople.RemoveAt(i);
                     else
-                        foreach (Person person in roleRef.Keys.ToList())
+                        foreach (Person person in roleRef.Keys)
                             reactPeople.Add(person);
-                }
                 
 				if(rule.role.Equals(role)){
 					//debug.Write("Checking condition "+rule.ruleName+"   "+rule.Condition(self,reactPeople, reaction));
@@ -115,7 +112,7 @@ namespace NRelationSystem
 						    maskCalculation = Calculator.CalculateRule(rat, mor, imp, abi, rule, rule.rulesThatMightHappen, genLvlOfInfl);
 				
 						float newActionStrength = maskCalculation + Calculator.UnboundAdd(rule.selfOther[self].pref, maskCalculation);
-						debug.Write(maskCalculation+"  +  "+rule.selfOther[self].pref+"  =  "+newActionStrength);
+						debug.Write(maskCalculation+"  (+)  "+rule.selfOther[self].pref+"  =  "+newActionStrength);
 						if (newActionStrength > chosenRule.strOfAct)
 						{
 							chosenRule.strOfAct = newActionStrength;
