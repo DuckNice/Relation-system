@@ -44,7 +44,7 @@ namespace NRelationSystem
         }
 
 
-        public bool Condition(Person self, List<Person> reacters = null)
+        public bool Condition(Person self, List<Person> reacters = null, bool reaction = false)
         {
             if (selfOther.ContainsKey(self)) 
                 selfOther.Remove(self);
@@ -61,6 +61,10 @@ namespace NRelationSystem
                         i--;
                     }
                 }
+            }
+            else if(reaction)
+            {
+                return false;
             }
 
             float strength = -10.0f;

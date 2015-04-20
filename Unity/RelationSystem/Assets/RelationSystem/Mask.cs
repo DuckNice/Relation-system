@@ -100,10 +100,11 @@ namespace NRelationSystem
                 
 				if(rule.role.Equals(role)){
 					//debug.Write("Checking condition "+rule.ruleName+"   "+rule.Condition(self,reactPeople));
-					if(rule.Condition(self, reactPeople))
+					if(rule.Condition(self, reactPeople, reaction))
 					{
 						debug.Write("Calculating "+rule.actionToTrigger.name+" to "+rule.selfOther[self].person.name+" in "+maskName);
-				
+                        debug.Write("Rule.selfOther is: " + rule.selfOther.Count + " long.");
+
                         float maskCalculation;
 
                         if (roleRef != null && roleRef.ContainsKey(rule.selfOther[self].person))
