@@ -19,7 +19,13 @@ namespace NRelationSystem
         float rationality;
         float morality;
         float impulsivity;
-		float ability; 
+		float ability;
+
+
+        public Person(string name)
+        {
+            this.name = name;
+        }
 
 
         public Person(string _name, Link _selfPer, List<Link> _interpers, List<Link> _culture, float _ratio, float _moral, float _impulse, RelationSystem _relationSystem)
@@ -34,10 +40,6 @@ namespace NRelationSystem
             relationSystem = _relationSystem;
         }
 
-        public Person Copy()
-        {
-            return (Person)this.MemberwiseClone();
-        }
 
 		public float calculateRelation(Person person)
 		{

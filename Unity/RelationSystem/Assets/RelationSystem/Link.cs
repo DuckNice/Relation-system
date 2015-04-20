@@ -6,28 +6,48 @@ namespace NRelationSystem
 {
     public class Link
     {
-        public string roleName;
-        public Dictionary<Person, float> roleRef_LvlOfInfl = new Dictionary<Person,float>();
-        public float genLvlOfInfl;
+        public Dictionary<Person, Dictionary<string, float>> roleRef_LvlOfInfl = new Dictionary<Person, Dictionary<string, float>>();
         public Mask roleMask;
 
-
-        public Link(string _roleName, Mask _roleMask, float _genLvlOfInfl, Person _roleRef = null, float _lvlOfInfl = 0) 
+        public Link(string _genRoleName, Mask _roleMask, float _genLvlOfInfl, Person _roleRef = null, string _roleName = "", float _lvlOfInfl = 0) 
         {
-            roleName = _roleName;
+            if (_roleRef != null && _lvlOfInfl > 0 && _roleRef != null && _roleName != "")
+            {
+                roleRef_LvlOfInfl.Add(_roleRef, new Dictionary<string, float>());
+                roleRef_LvlOfInfl[_roleRef].Add(_roleName, _lvlOfInfl);
+            }
 
-            if(_roleRef != null && _lvlOfInfl > 0)
-                roleRef_LvlOfInfl.Add (_roleRef, _lvlOfInfl);
-                
-            genLvlOfInfl = _genLvlOfInfl;
+            Person newPerson = new Person("none");
 
+            roleRef_LvlOfInfl.Add(newPerson, new Dictionary<string, float>());
+            roleRef_LvlOfInfl[newPerson].Add(_genRoleName, _genLvlOfInfl);
             roleMask = _roleMask;
         }
 
 
-        public void AddRoleRef(Person _roleRef, float _lvlOfInfl)
+        public void AddRoleRef(string roleName, float lvlOfInfl, Person roleRef = null)
         {
-            roleRef_LvlOfInfl.Add(_roleRef, _lvlOfInfl);
+            
+            if(roleRef == null){
+                roleRef = new Person("none");
+
+                if (!roleRef_LvlOfInfl.Keys.ToList().Exists(x => x.name == roleRef.name))
+                {
+                    roleRef_LvlOfInfl.Add(roleRef, new Dictionary<string, float>());
+                    roleRef_LvlOfInfl[roleRef].Add(roleName, lvlOfInfl);
+                }
+                else
+                {
+                    if(!roleRef_LvlOfInfl[roleRef].ContainsKey(roleName))
+                    {
+                        roleRef_LvlOfInfl[roleRef].Add(roleName, lvlOfInfl);
+                    }
+                }
+            }
+            else
+            {
+
+            }
         }
 
 

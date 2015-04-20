@@ -101,6 +101,17 @@ namespace NRelationSystem
         }
     }
 
+    public class LinkRoleRefItem
+    {
+        float lvlOfInfl;
+        string role;
+
+        public LinkRoleRefItem(float _lvlOfInfl, string _role)
+        {
+            lvlOfInfl = _lvlOfInfl;
+            role = _role;
+        }
+    }
 
     public struct HistoryItem
     {
