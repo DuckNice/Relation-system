@@ -238,8 +238,9 @@ public partial class Program : MonoBehaviour {
 		ActionInvoker makeDistraction = (subject, direct, indPpl, misc) =>
         {
             UIFunctions.WriteGameLine(relationSystem.CapitalizeName(subject.name) + " makes a distraction for " + relationSystem.CapitalizeName(direct.name) + "!");
-            int rand = UnityEngine.Random.Range(0, 2); //SHOULD PROBABLY BASE THIS ON ABILITY
-            if (rand == 0)
+            float rand = UnityEngine.Random.Range(0, 2); //SHOULD PROBABLY BASE THIS ON ABILITY
+			rand += subject.GetAbility();
+            if (rand > 1f)
             {
                 UIFunctions.WriteGameLine("It's a success! They are very distracted");
                 direct.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.5f, direct.moods[MoodTypes.energTired]);
