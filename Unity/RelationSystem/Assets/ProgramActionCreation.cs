@@ -485,7 +485,10 @@ public partial class Program : MonoBehaviour {
 
         ActionInvoker playgame = (subject, direct, indPpl, misc) =>
         {
-            UIFunctions.WriteGameLine(relationSystem.CapitalizeName(subject.name) + " plays a game with " + relationSystem.CapitalizeName(direct.name));
+			Possession gameToPlay = new Possession();
+			List<Possession> games = ((Possession[])misc).ToList();
+			gameToPlay = games.Find(x => x.Name == "game");
+			UIFunctions.WriteGameLine(relationSystem.CapitalizeName(subject.name) + " plays a game of "+gameToPlay.objectName+" with " + relationSystem.CapitalizeName(direct.name));
             subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.2f, subject.moods[MoodTypes.energTired]);
             subject.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(0.3f, subject.moods[MoodTypes.hapSad]);
             direct.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(0.3f, direct.moods[MoodTypes.hapSad]);

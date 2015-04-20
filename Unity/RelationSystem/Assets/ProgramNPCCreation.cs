@@ -697,8 +697,7 @@ public partial class Program : MonoBehaviour
 		};
 
 		RulePreference playgamePreference = (self, other) => { 
-			float r = Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),self.CalculateTraitType(TraitTypes.NiceNasty));
-			r += Calculator.UnboundAdd(self.moods[MoodTypes.hapSad],r);
+			float r = Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),-self.moods[MoodTypes.energTired]);
 			r += Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.HonestFalse,other),r);
 			return r;
 		};
@@ -1310,7 +1309,7 @@ public partial class Program : MonoBehaviour
 		relationSystem.pplAndMasks.GetPerson("john").opinions.Add(new Opinion(TraitTypes.HonestFalse,relationSystem.pplAndMasks.GetPerson("heather"),0.4f));
 		relationSystem.pplAndMasks.GetPerson("john").opinions.Add(new Opinion(TraitTypes.CharitableGreedy,relationSystem.pplAndMasks.GetPerson("heather"),0.4f));
 		relationSystem.pplAndMasks.GetPerson("john").opinions.Add(new Opinion(TraitTypes.NiceNasty,relationSystem.pplAndMasks.GetPerson("player"),0.5f));
-		relationSystem.pplAndMasks.GetPerson("john").opinions.Add(new Opinion(TraitTypes.HonestFalse,relationSystem.pplAndMasks.GetPerson("player"),07f));
+		relationSystem.pplAndMasks.GetPerson("john").opinions.Add(new Opinion(TraitTypes.HonestFalse,relationSystem.pplAndMasks.GetPerson("player"),0.5f));
 		relationSystem.pplAndMasks.GetPerson("john").opinions.Add(new Opinion(TraitTypes.CharitableGreedy,relationSystem.pplAndMasks.GetPerson("player"),-0.1f));
 		relationSystem.pplAndMasks.GetPerson("heather").opinions.Add(new Opinion(TraitTypes.NiceNasty,relationSystem.pplAndMasks.GetPerson("bill"),0.4f));
 		relationSystem.pplAndMasks.GetPerson("heather").opinions.Add(new Opinion(TraitTypes.HonestFalse,relationSystem.pplAndMasks.GetPerson("bill"),-0.1f));
