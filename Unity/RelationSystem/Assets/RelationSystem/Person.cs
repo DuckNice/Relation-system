@@ -108,7 +108,7 @@ namespace NRelationSystem
                 if (index < 0)
                     interPersonal.Add(newLink);
                 else
-                    interPersonal[index].AddRoleRef(newLink._roleRef);
+                    interPersonal[index].AddRoleRef(newLink._roleRefs);
             }
             else
             {
@@ -117,7 +117,7 @@ namespace NRelationSystem
                 if (index < 0)
                     culture.Add(newLink);
                 else
-                    culture[index].AddRoleRef(newLink._roleRef);
+                    culture[index].AddRoleRef(newLink._roleRefs);
             }
         }
 
@@ -282,9 +282,9 @@ namespace NRelationSystem
 
 	/*	public void AddToInterPersonalLvlOfInfl(Person p,float val){
 			foreach(Link l in interPersonal){
-				if(l._roleRef.ContainsKey(p)){
-					foreach(string s in l._roleRef[p].Keys){
-						l._roleRef[p][s] += Calculator.UnboundAdd(val,l._roleRef[p][s]);
+				if(l._roleRefs.ContainsKey(p)){
+					foreach(string s in l._roleRefs[p].Keys){
+						l._roleRefs[p][s] += Calculator.UnboundAdd(val,l._roleRefs[p][s]);
 					}
 				}
 			}
@@ -294,56 +294,56 @@ namespace NRelationSystem
 		public bool CheckRoleName(string s, Person p = null){
 			if(p != null)
 				debug.Write(p.name+"   "+s+" ");
-
+			
 			if(p == null){
 				foreach (Link l in interPersonal) {
-				if (p == null) {
-					p = l.empty;
-				}
-					if(l._roleRef.ContainsKey(p)){
-						foreach(Person i in l._roleRef.Keys){
-							if(l._roleRef[i].ContainsKey(s)){
+					if (p == null) {
+						p = l.empty;
+					}
+					if(l._roleRefs.ContainsKey(p)){
+						foreach(Person i in l._roleRefs.Keys){
+							if(l._roleRefs[i].ContainsKey(s)){
 								return true;
 							}
 						}
 					}
+					
+				}
+					foreach (Link l in culture) {
+						if (p == null) {
+							p = l.empty;
+						}
+						if(l._roleRefs.ContainsKey(p)){
+							foreach(Person i in l._roleRefs.Keys){
+								if(l._roleRefs[i].ContainsKey(s)){
+									return true;
+								}
+							}
+						}
+					}
+				}
 
+				foreach (Link l in interPersonal) {
+					if (p == null) {
+						p = l.empty;
+					}
+					if(l._roleRefs.ContainsKey(p)){
+						if(l._roleRefs[p].ContainsKey(s)){
+							return true;
+						}
+					}
 				}
 				foreach (Link l in culture) {
-				if (p == null) {
-					p = l.empty;
-				}
-					if(l._roleRef.ContainsKey(p)){
-						foreach(Person i in l._roleRef.Keys){
-							if(l._roleRef[i].ContainsKey(s)){
-								debug.Write(p.name+"   "+s+" "+l._roleRef[p][s]);
-								return true;
-							}
+					if (p == null) {
+						p = l.empty;
+					}
+					if(l._roleRefs.ContainsKey(p)){
+						if(l._roleRefs[p].ContainsKey(s)){
+							return true;
 						}
 					}
 				}
-			}
-			foreach (Link l in interPersonal) {
-				if (p == null) {
-					p = l.empty;
-				}
-				if(l._roleRef.ContainsKey(p)){
-					if(l._roleRef[p].ContainsKey(s)){
-						return true;
-					}
-				}
-			}
-			foreach (Link l in culture) {
-				if (p == null) {
-					p = l.empty;
-				}
-				if(l._roleRef.ContainsKey(p)){
-					if(l._roleRef[p].ContainsKey(s)){
-						return true;
-					}
-				}
-			}
-			return false;
+				return false;
 		}
 
 		public float GetLvlOfInflToPerson(Person p = null){
@@ -351,9 +351,9 @@ namespace NRelationSystem
 				if (p == null) {
 					p = l.empty;
 				}
-				if(l._roleRef.ContainsKey(p)){
-					foreach(string s in l._roleRef[p].Keys){
-						return l._roleRef[p][s];
+				if(l._roleRefs.ContainsKey(p)){
+					foreach(string s in l._roleRefs[p].Keys){
+						return l._roleRefs[p][s];
 					}
 				}
 			}
