@@ -89,8 +89,8 @@ public partial class Program : MonoBehaviour {
 			direct.AddToInterPersonalLvlOfInfl(subject,0.2f);
 			subject.AddToInterPersonalLvlOfInfl(direct,0.2f);
 
-            relationSystem.AddLinkToPerson(relationSystem.CapitalizeName(subject.name), TypeMask.interPers, "partner", "RomanticRelationship", 0, relationSystem.CapitalizeName(direct.name), 0.5f);
-            relationSystem.AddLinkToPerson(relationSystem.CapitalizeName(direct.name), TypeMask.interPers, "partner", "RomanticRelationship", 0, relationSystem.CapitalizeName(subject.name), 0.5f);
+//            relationSystem.AddLinkToPerson(relationSystem.CapitalizeName(subject.name), TypeMask.interPers, "partner", "RomanticRelationship", 0, relationSystem.CapitalizeName(direct.name), 0.5f);
+//            relationSystem.AddLinkToPerson(relationSystem.CapitalizeName(direct.name), TypeMask.interPers, "partner", "RomanticRelationship", 0, relationSystem.CapitalizeName(subject.name), 0.5f);
         };
         relationSystem.AddAction(new MAction("chooseAnotherAsPartner", 0.4f, 0.6f, relationSystem, chooseAnotherAsPartner, 5f));
 

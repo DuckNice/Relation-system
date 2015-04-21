@@ -1242,36 +1242,45 @@ public partial class Program : MonoBehaviour
 		#endregion rolerefs
 
 		#region LINKS
-	    relationSystem.AddLinkToPerson("Bill", TypeMask.interPers, "Partner", "RomanticRelationship", 0, "Therese", 0.4f);
-	    relationSystem.AddLinkToPerson("Bill", TypeMask.interPers, "Enemy", "Rivalry", 0, "John", 0.6f);
-	    relationSystem.AddLinkToPerson("Bill", TypeMask.interPers, "Friend", "Friendship",0, "Heather", 0.3f);
-		relationSystem.pplAndMasks.GetPerson ("Bill").interPersonal.Find(x=>x._roleMask.GetMaskName()=="rivalry").AddRoleRef("enemy",0.5f,relationSystem.pplAndMasks.GetPerson ("Player"));
-	   // relationSystem.AddLinkToPerson("Bill", TypeMask.interPers, "Enemy", "Rivalry", 0, "Player", 0.5f);
+	    relationSystem.AddLinkToPerson("Bill", TypeMask.interPers, "Partner", "RomanticRelationship", 0);
+		relationSystem.AddLinkToPerson("Bill", TypeMask.interPers, "Enemy", "Rivalry", 0);
+		relationSystem.AddLinkToPerson("Bill", TypeMask.interPers, "Friend", "Friendship",0);
+		relationSystem.AddRefToLinkInPerson("Bill",TypeMask.interPers,"partner","romanticrelationship","Therese",0.4f);
+		relationSystem.AddRefToLinkInPerson("Bill", TypeMask.interPers, "Enemy", "Rivalry","John",0.6f);
+	    relationSystem.AddRefToLinkInPerson("Bill", TypeMask.interPers, "Friend", "Friendship", "Heather", 0.3f);
+		relationSystem.AddRefToLinkInPerson("Bill", TypeMask.interPers, "Enemy", "Rivalry","player",0.5f);
 	
-	    relationSystem.AddLinkToPerson("Therese", TypeMask.interPers, "Partner", "RomanticRelationship", 0, "Bill", 0.5f);
-	    relationSystem.AddLinkToPerson("Therese", TypeMask.interPers, "Enemy", "Rivalry", 0, "John", 0.2f);
-	    relationSystem.AddLinkToPerson("Therese", TypeMask.interPers, "Friend", "Friendship", 0, "Heather", 0.6f);
-		relationSystem.pplAndMasks.GetPerson ("Therese").interPersonal.Find(x=>x._roleMask.GetMaskName()=="rivalry").AddRoleRef("enemy",0.3f,relationSystem.pplAndMasks.GetPerson ("Player"));
-	    //relationSystem.AddLinkToPerson("Therese", TypeMask.interPers, "Enemy", "Rivalry", 0, "Player", 0.3f);
+	    relationSystem.AddLinkToPerson("Therese", TypeMask.interPers, "Partner", "RomanticRelationship", 0);
+	    relationSystem.AddLinkToPerson("Therese", TypeMask.interPers, "Enemy", "Rivalry", 0);
+	    relationSystem.AddLinkToPerson("Therese", TypeMask.interPers, "Friend", "Friendship", 0);
+		relationSystem.AddRefToLinkInPerson("Therese", TypeMask.interPers, "Partner", "RomanticRelationship","Bill",0.5f);
+		relationSystem.AddRefToLinkInPerson("Therese", TypeMask.interPers, "Enemy", "Rivalry", "John", 0.2f);
+		relationSystem.AddRefToLinkInPerson("Therese", TypeMask.interPers, "Friend", "Friendship", "Heather", 0.6f);
+		relationSystem.AddRefToLinkInPerson("Therese", TypeMask.interPers, "Enemy", "Rivalry", "Player", 0.3f);
 		
-	    relationSystem.AddLinkToPerson("John", TypeMask.interPers, "Enemy", "Rivalry", 0, "Bill", 0.7f);
-		relationSystem.pplAndMasks.GetPerson ("John").interPersonal.Find(x=>x._roleMask.GetMaskName()=="rivalry").AddRoleRef("enemy",0.4f,relationSystem.pplAndMasks.GetPerson ("Therese"));
-		//relationSystem.AddLinkToPerson("John", TypeMask.interPers, "Enemy", "Rivalry", 0, "Therese", 0.4f);
-	    relationSystem.AddLinkToPerson("John", TypeMask.interPers, "Partner", "Romanticrelationship", 0, "Heather", 0.8f);
-	    relationSystem.AddLinkToPerson("John", TypeMask.interPers, "Friend", "Friendship", 0, "Player", 0.5f);
+	    relationSystem.AddLinkToPerson("John", TypeMask.interPers, "Enemy", "Rivalry", 0);
+		relationSystem.AddLinkToPerson("John", TypeMask.interPers, "Partner", "Romanticrelationship", 0);
+		relationSystem.AddLinkToPerson("John", TypeMask.interPers, "Friend", "Friendship", 0);
+		relationSystem.AddRefToLinkInPerson("John", TypeMask.interPers, "Enemy", "Rivalry", "Bill", 0.7f);
+		relationSystem.AddRefToLinkInPerson("John", TypeMask.interPers, "Enemy", "Rivalry", "Therese", 0.4f);
+		relationSystem.AddRefToLinkInPerson("John", TypeMask.interPers, "Partner", "Romanticrelationship", "Heather", 0.8f);
+		relationSystem.AddRefToLinkInPerson("John", TypeMask.interPers, "Friend", "Friendship", "Player", 0.5f);	    
 	
-	    relationSystem.AddLinkToPerson("Heather", TypeMask.interPers, "Friend", "Friendship", 0, "Bill", 0.3f);
-		relationSystem.pplAndMasks.GetPerson ("Heather").interPersonal.Find(x=>x._roleMask.GetMaskName()=="friendship").AddRoleRef("friend",0.7f,relationSystem.pplAndMasks.GetPerson ("Therese"));    
-		//relationSystem.AddLinkToPerson("Heather", TypeMask.interPers, "Friend", "Friendship", 0, "Therese", 0.7f);
-	    relationSystem.AddLinkToPerson("Heather", TypeMask.interPers, "Partner", "RomanticRelationship", 0, "John", 0.5f);
-		relationSystem.pplAndMasks.GetPerson ("Heather").interPersonal.Find(x=>x._roleMask.GetMaskName()=="romanticrelationship").AddRoleRef("partner",0.5f,relationSystem.pplAndMasks.GetPerson ("Player"));
-		//relationSystem.AddLinkToPerson("Heather", TypeMask.interPers, "Partner", "RomanticRelationship", 0, "Player", 0.5f);
+	    relationSystem.AddLinkToPerson("Heather", TypeMask.interPers, "Friend", "Friendship", 0);
+		relationSystem.AddLinkToPerson("Heather", TypeMask.interPers, "Partner", "RomanticRelationship", 0);
+		relationSystem.AddRefToLinkInPerson("Heather", TypeMask.interPers, "Friend", "Friendship", "Bill", 0.3f);
+		relationSystem.AddRefToLinkInPerson("Heather", TypeMask.interPers, "Friend", "Friendship", "Therese", 0.7f);
+		relationSystem.AddRefToLinkInPerson("Heather", TypeMask.interPers, "Partner", "RomanticRelationship", "John", 0.5f);
+		relationSystem.AddRefToLinkInPerson("Heather", TypeMask.interPers, "Partner", "RomanticRelationship", "Player", 0.5f);
 	
-	    relationSystem.AddLinkToPerson("Player", TypeMask.interPers, "Enemy", "Rivalry", 0, "Bill", 0.5f);
-		relationSystem.pplAndMasks.GetPerson ("Player").interPersonal.Find(x=>x._roleMask.GetMaskName()=="rivalry").AddRoleRef("enemy",0.3f,relationSystem.pplAndMasks.GetPerson ("Therese"));
-	    //relationSystem.AddLinkToPerson("Player", TypeMask.interPers, "Enemy", "Rivalry", 0, "Therese", 0.3f);
-        relationSystem.AddLinkToPerson("Player", TypeMask.interPers, "Friend", "Friendship", 0, "John", 0.5f);
-        relationSystem.AddLinkToPerson("Player", TypeMask.interPers, "Partner", "RomanticRelationship", 0, "Heather", 0.6f);
+	    relationSystem.AddLinkToPerson("Player", TypeMask.interPers, "Enemy", "Rivalry", 0);
+		relationSystem.AddLinkToPerson("Player", TypeMask.interPers, "Friend", "Friendship", 0);
+		relationSystem.AddLinkToPerson("Player", TypeMask.interPers, "Partner", "RomanticRelationship", 0);
+		relationSystem.AddRefToLinkInPerson("Player", TypeMask.interPers, "Enemy", "Rivalry", "Bill", 0.5f);
+		relationSystem.AddRefToLinkInPerson("Player", TypeMask.interPers, "Enemy", "Rivalry", "Therese", 0.3f);
+		relationSystem.AddRefToLinkInPerson("Player", TypeMask.interPers, "Friend", "Friendship", "John", 0.5f);
+		relationSystem.AddRefToLinkInPerson("Player", TypeMask.interPers, "Partner", "RomanticRelationship", "Heather", 0.6f);
+
 		#endregion LINKS 
 
 		#region Opinions
