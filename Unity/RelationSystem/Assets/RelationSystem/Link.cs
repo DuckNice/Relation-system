@@ -10,20 +10,12 @@ namespace NRelationSystem
         public Mask _roleMask;
         public Person empty;
 
-        public Link(string _genRoleName, Mask roleMask, float genLvlOfInfl, Person roleRef = null, string roleName = "", float lvlOfInfl = -1) 
+        public Link(string _genRoleName, Mask roleMask, float lvlOfInfl) 
         {
             empty = new Person("none");
-
-            if (roleRef != null && lvlOfInfl >= 0 && roleName != "")
-            {
-                _roleRef.Add(roleRef, new Dictionary<string, float>());
-                _roleRef[roleRef].Add(roleName, lvlOfInfl);
-            }
-
-            Person newPerson = empty;
-
-            _roleRef.Add(newPerson, new Dictionary<string, float>());
-            _roleRef[newPerson].Add(_genRoleName, genLvlOfInfl);
+            
+            _roleRef.Add(empty, new Dictionary<string, float>());
+            _roleRef[empty].Add(_genRoleName, lvlOfInfl);
             _roleMask = roleMask;
         }
 
