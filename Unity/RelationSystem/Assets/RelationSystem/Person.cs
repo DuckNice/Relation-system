@@ -67,6 +67,34 @@ namespace NRelationSystem
         }
 
 
+        //TODO: make this work.
+        public void AddRoleRefToLink(TypeMask type, Mask maskRef, string role, Person _ref, float lvlOfInfl)
+        {
+            if (type == TypeMask.selfPerc)
+            {
+                debug.Write("Error: selfPersonMask does not contain roleRefs. Not adding RoleRef.");
+            }
+            else if (type == TypeMask.interPers)
+            {
+                int index = interPersonal.FindIndex(x => x._roleMask == maskRef);
+
+                if (index < 0)
+                    debug.Write("Warning: link doesn't exist. Not Adding roleref.");
+                else
+                    interPersonal[index].AddRoleRef(role, lvlOfInfl, _ref);
+            }
+            else
+            {
+                int index = culture.FindIndex(x => x._roleMask == maskRef);
+
+                if (index < 0)
+                    debug.Write("Warning: link doesn't exist. Not Adding roleref.");
+                else
+                    culture[index].AddRoleRef(role, lvlOfInfl, _ref);
+            }
+        }
+
+
         public void AddLink(TypeMask type, Link newLink) 
         {
             if(type == TypeMask.selfPerc && selfPerception != null)
@@ -75,12 +103,29 @@ namespace NRelationSystem
             }
             else if(type == TypeMask.interPers)
             {
-                interPersonal.Add(newLink);
+                int index = interPersonal.FindIndex(x => x._roleMask == newLink._roleMask);
+
+                if (index < 0)
+                    interPersonal.Add(newLink);
+                else
+                    interPersonal[index].AddRoleRef(newLink._roleRef);
             }
             else
             {
-                culture.Add(newLink);
+                int index = culture.FindIndex(x => x._roleMask == newLink._roleMask);
+
+                if (index < 0)
+                    culture.Add(newLink);
+                else
+                    culture[index].AddRoleRef(newLink._roleRef);
             }
+        }
+
+
+        //TODO: make this function take in mask and remove people and/or roles associated.
+        public void RemoveRoleRef()
+        { 
+
         }
 
 

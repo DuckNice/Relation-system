@@ -63,21 +63,15 @@ namespace NRelationSystem
 
     public struct MaskAdds
     {
-        private string Role;
-        public string role { get { return Role; } set { Role = value.ToLower(); } }
-        private string Mask;
-        public string mask { get { return Mask; } set { Mask = value.ToLower(); } }
-        public float genlvlOfInfl;
+        public string role;
+        public string mask;
         public float lvlOfInfl;
-        public Person linkPers;
 
-        public MaskAdds(string _role, string _mask, float _genLvlOIf, float _lvlOIf = 0, Person _linkPers = null)
+        public MaskAdds(string _role, string _mask, float _lvlOIf)
         {
-            Role = _role.ToLower();
-            Mask = _mask.ToLower();
+            role = _role.ToLower();
+            mask = _mask.ToLower();
             lvlOfInfl = _lvlOIf;
-            genlvlOfInfl = _genLvlOIf;
-            linkPers = _linkPers;
         }
     };
 

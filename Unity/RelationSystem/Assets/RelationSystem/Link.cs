@@ -28,9 +28,18 @@ namespace NRelationSystem
         }
 
 
+        public void AddRoleRef(Dictionary<Person, Dictionary<string, float>> roleRefs)
+        {
+            foreach(KeyValuePair<Person, Dictionary<string, float>> roleref in roleRefs)
+            {
+                foreach (KeyValuePair<string, float> influence in roleref.Value)
+                    AddRoleRef(influence.Key, influence.Value, roleref.Key);
+            }
+        }
+
+
         public void AddRoleRef(string roleName, float lvlOfInfl, Person roleRef = null)
         {
-            
             if(roleRef == null)
                 roleRef = empty;
 
