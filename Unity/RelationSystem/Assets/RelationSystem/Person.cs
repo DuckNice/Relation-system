@@ -280,7 +280,7 @@ namespace NRelationSystem
 			}
 		}
 
-		public void AddToInterPersonalLvlOfInfl(Person p,float val){
+	/*	public void AddToInterPersonalLvlOfInfl(Person p,float val){
 			foreach(Link l in interPersonal){
 				if(l._roleRef.ContainsKey(p)){
 					foreach(string s in l._roleRef[p].Keys){
@@ -290,39 +290,57 @@ namespace NRelationSystem
 			}
 		}
 
-
+*/
 		public bool CheckRoleName(string s, Person p = null){
+			if(p != null)
+				debug.Write(p.name+"   "+s+" ");
 
 			if(p == null){
 				foreach (Link l in interPersonal) {
 				if (p == null) {
 					p = l.empty;
 				}
-					foreach(Person i in l._roleRef.Keys){
-						if(l._roleRef[i].ContainsKey(s)){
-							return true;
+					if(l._roleRef.ContainsKey(p)){
+						foreach(Person i in l._roleRef.Keys){
+							if(l._roleRef[i].ContainsKey(s)){
+								return true;
+							}
 						}
 					}
+
 				}
 				foreach (Link l in culture) {
 				if (p == null) {
 					p = l.empty;
 				}
-					foreach(Person i in l._roleRef.Keys){
-						if(l._roleRef[i].ContainsKey(s)){
-							return true;
+					if(l._roleRef.ContainsKey(p)){
+						foreach(Person i in l._roleRef.Keys){
+							if(l._roleRef[i].ContainsKey(s)){
+								debug.Write(p.name+"   "+s+" "+l._roleRef[p][s]);
+								return true;
+							}
 						}
 					}
 				}
 			}
 			foreach (Link l in interPersonal) {
-				if(l._roleRef[p].ContainsKey(s)){
-					return true;
+				if (p == null) {
+					p = l.empty;
+				}
+				if(l._roleRef.ContainsKey(p)){
+					if(l._roleRef[p].ContainsKey(s)){
+						return true;
+					}
 				}
 			}
 			foreach (Link l in culture) {
-				if(l._roleRef[p].ContainsKey(s)){
-					return true;
+				if (p == null) {
+					p = l.empty;
+				}
+				if(l._roleRef.ContainsKey(p)){
+					if(l._roleRef[p].ContainsKey(s)){
+						return true;
+					}
 				}
 			}
 			return false;

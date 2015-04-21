@@ -119,9 +119,12 @@ public partial class Program : MonoBehaviour
 
 		RuleConditioner kissCondition = (self, other, indPpl) =>
 		{	
-			if(self.CheckRoleName("partner",other)){
-				if(roomMan.IsPersonInSameRoomAsMe(self, other) )
+			if(self != other){
+				debug.Write("CHECKING FROM "+self.name);
+				if(self.CheckRoleName("partner",other)){
+					if(roomMan.IsPersonInSameRoomAsMe(self, other) )
 					{ return true; }
+				}
 			}
 			if (self != other  && self.moods[MoodTypes.energTired] > -0.1f){ 
 				if(self.moods[MoodTypes.arousDisgus] > 0.5f  && roomMan.IsPersonInSameRoomAsMe(self, other) )
@@ -130,21 +133,28 @@ public partial class Program : MonoBehaviour
 		};
 
 		RuleConditioner askAboutPartnerStatusCondition = (self, other, indPpl) =>
-		{	if((relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["kiss"] && x.GetSubject() == other && x.GetDirect() != self)
-			   && (self.CheckRoleName("partner",other)))
-			   && roomMan.IsPersonInSameRoomAsMe(self, other))
-			   		{ return true; }
+		{	if( self != other){
+				if((relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["kiss"] && x.GetSubject() == other && x.GetDirect() != self)
+				    && (self.CheckRoleName("partner",other)))
+				   && roomMan.IsPersonInSameRoomAsMe(self, other))
+				{ return true; }
+			}
 
-			if(!(self.CheckRoleName("partner")) && self != other && roomMan.IsPersonInSameRoomAsMe(self, other)){
-				if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.4f){
-					return true;
+			if(self != other){
+				if(!(self.CheckRoleName("partner")) && roomMan.IsPersonInSameRoomAsMe(self, other)){
+					if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.4f){
+						return true;
+					}
 				}
 			}
+
 			return false; };
 
 		RuleConditioner chooseAnotherAsPartnerCondition = (self, other, indPpl) =>
-		{	if(self.CheckRoleName("partner")){
-				return false;
+		{	if(self != other){
+				if(self.CheckRoleName("partner")){
+					return false;
+				}
 			}
 
 			if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["askaboutpartnerstatus"] && x.GetSubject() == other && x.GetDirect() == self && x.GetTime() < 10f)){
@@ -153,12 +163,15 @@ public partial class Program : MonoBehaviour
 						{  return true; }
 				}
 			}
-			if(!self.CheckRoleName("partner") && !other.CheckRoleName("partner")){
-				if(self != other && roomMan.IsPersonInSameRoomAsMe(self, other)){
-					if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.5f)
+			if(self != other){
+				if(!self.CheckRoleName("partner") && !other.CheckRoleName("partner")){
+					if(self != other && roomMan.IsPersonInSameRoomAsMe(self, other)){
+						if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.5f)
 						{  return true; }
+					}
 				}
 			}
+
 			return false; };
 
 		RuleConditioner stayAsPartnerCondition = (self, other, indPpl) =>
@@ -169,13 +182,16 @@ public partial class Program : MonoBehaviour
 			return false; };
 
 		RuleConditioner LeavePartnerCondition = (self, other, indPpl) =>
-		{	if(self.CheckRoleName("partner",other)){
-				if(self != other && roomMan.IsPersonInSameRoomAsMe(self, other)){
-					if(self.GetOpinionValue(TraitTypes.NiceNasty,other) < 0.5f){
-						return true;
+		{	if(self != other){
+				if(self.CheckRoleName("partner",other)){
+					if(self != other && roomMan.IsPersonInSameRoomAsMe(self, other)){
+						if(self.GetOpinionValue(TraitTypes.NiceNasty,other) < 0.5f){
+							return true;
+						}
 					}
 				}
 			}
+
 			return false; };
 
 		RuleConditioner flirtCondition = (self, other, indPpl) =>
@@ -186,13 +202,16 @@ public partial class Program : MonoBehaviour
 					}
 				}
 			}
-			if(!self.CheckRoleName("partner") && other.CheckRoleName ("partner")){
-				if(self.moods[MoodTypes.arousDisgus] > 0.3f  && self != other && roomMan.IsPersonInSameRoomAsMe(self, other)){
-					if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.4f){
-						return true;
+			if(self != other){
+				if(!self.CheckRoleName("partner") && other.CheckRoleName ("partner")){
+					if(self.moods[MoodTypes.arousDisgus] > 0.3f  && self != other && roomMan.IsPersonInSameRoomAsMe(self, other)){
+						if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.4f){
+							return true;
+						}
 					}
 				}
 			}
+
 			if(self.moods[MoodTypes.arousDisgus] >= 0.0f  && self != other && roomMan.IsPersonInSameRoomAsMe(self, other)){
 				return true;
 			}
@@ -361,10 +380,13 @@ public partial class Program : MonoBehaviour
 			return false; };
 
 		RuleConditioner orderCondition = (self, other, indPpl) =>
-		{	if(self != other && (self.CheckRoleName("bunce") || self.CheckRoleName("buncess")) && roomMan.IsPersonInSameRoomAsMe(self, other)){ 
+		{	if(self != other){
+				if(self != other && (self.CheckRoleName("bunce") || self.CheckRoleName("buncess")) && roomMan.IsPersonInSameRoomAsMe(self, other)){ 
 					if(self.GetOpinionValue(TraitTypes.NiceNasty,other) < 0.4f) 
-						{ return true;} 
+					{ return true;} 
+				}
 			}
+
 			if(self != other && roomMan.IsPersonInSameRoomAsMe(self, other)){
 				if(self.CalculateTraitType(TraitTypes.CharitableGreedy) < 0.1f && self.GetOpinionValue(TraitTypes.NiceNasty,other) < 0.2f){
 					return true;
@@ -499,15 +521,15 @@ public partial class Program : MonoBehaviour
 		};
 
 		RulePreference kissPreference = (self, other) => {
-			if(self.CheckRoleName("partner",other)){
-				return Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),self.moods[MoodTypes.arousDisgus]);
+			if(self != other){
+				if(self.CheckRoleName("partner",other)){
+					return Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),self.moods[MoodTypes.arousDisgus]);
+				}
 			}
-			else{
-				float ret = 0 + Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),(0.5f*self.GetOpinionValue(TraitTypes.CharitableGreedy,other)));
-				ret += Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.HonestFalse,other),ret);
-				ret += Calculator.UnboundAdd(self.moods[MoodTypes.arousDisgus],ret);
-				return ret;
-			}
+			float ret = 0 + Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),(0.5f*self.GetOpinionValue(TraitTypes.CharitableGreedy,other)));
+			ret += Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.HonestFalse,other),ret);
+			ret += Calculator.UnboundAdd(self.moods[MoodTypes.arousDisgus],ret);
+			return ret;
 		};
 
 		RulePreference flirtPreference = (self, other) => { 
@@ -604,14 +626,15 @@ public partial class Program : MonoBehaviour
 		};
 
 		RulePreference askAboutPartnerStatusPreference = (self, other) => {
-			if(self.CheckRoleName("partner",other)){
-				return Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),Calculator.NegPosTransform(self.GetLvlOfInflToPerson(other)));
+			if(self != other){
+				if(self.CheckRoleName("partner",other)){
+					return Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),Calculator.NegPosTransform(self.GetLvlOfInflToPerson(other)));
+				}
 			}
-			else{
-				float r = Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),Calculator.NegPosTransform(self.GetLvlOfInflToPerson(other)));
-				r += Calculator.UnboundAdd(self.moods[MoodTypes.arousDisgus],r);
-				return r;
-			}
+
+			float r = Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),Calculator.NegPosTransform(self.GetLvlOfInflToPerson(other)));
+			r += Calculator.UnboundAdd(self.moods[MoodTypes.arousDisgus],r);
+			return r;
 		};
 
 		RulePreference chooseAnotherAsPartnerPreference = (self, other) => {
