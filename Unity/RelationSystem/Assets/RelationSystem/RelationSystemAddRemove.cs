@@ -119,6 +119,7 @@ namespace NRelationSystem
             persName = persName.ToLower();
             role = role.ToLower();
 			mask = mask.ToLower ();
+			linkRel = linkRel.ToLower ();
 
             Person personRelated = pplAndMasks.GetPerson(linkRel.ToLower());
 
