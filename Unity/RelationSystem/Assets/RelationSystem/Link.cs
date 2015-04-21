@@ -6,7 +6,7 @@ namespace NRelationSystem
 {
     public class Link
     {
-        public Dictionary<Person, Dictionary<string, float>> _roleRef = new Dictionary<Person, Dictionary<string, float>>();
+        public Dictionary<Person, Dictionary<string, float>> _roleRefs = new Dictionary<Person, Dictionary<string, float>>();
         public Mask _roleMask;
         public Person empty;
 
@@ -14,8 +14,8 @@ namespace NRelationSystem
         {
             empty = new Person("none");
             
-            _roleRef.Add(empty, new Dictionary<string, float>());
-            _roleRef[empty].Add(_genRoleName, lvlOfInfl);
+            _roleRefs.Add(empty, new Dictionary<string, float>());
+            _roleRefs[empty].Add(_genRoleName, lvlOfInfl);
             _roleMask = roleMask;
         }
 
@@ -35,15 +35,15 @@ namespace NRelationSystem
             if(roleRef == null)
                 roleRef = empty;
 
-            if (!_roleRef.Keys.ToList().Exists(x => x.name == roleRef.name))
+            if (!_roleRefs.Keys.ToList().Exists(x => x.name == roleRef.name))
             {
-                _roleRef.Add(roleRef, new Dictionary<string, float>());
-                _roleRef[roleRef].Add(roleName, lvlOfInfl);
+                _roleRefs.Add(roleRef, new Dictionary<string, float>());
+                _roleRefs[roleRef].Add(roleName, lvlOfInfl);
             }
             else
             {
-                if (!_roleRef[roleRef].ContainsKey(roleName))
-                    _roleRef[roleRef].Add(roleName, lvlOfInfl);
+                if (!_roleRefs[roleRef].ContainsKey(roleName))
+                    _roleRefs[roleRef].Add(roleName, lvlOfInfl);
                 
                 else
                     debug.Write("Warning: roleName already associated with this character in link. Not adding role reference.");
@@ -57,7 +57,7 @@ namespace NRelationSystem
 
             try
             {
-				actionToSend = _roleMask.CalculateActionToUse(notPosActions, possibleActions, self, rat, mor, imp, abi, empty, _roleRef);
+				actionToSend = _roleMask.CalculateActionToUse(notPosActions, possibleActions, self, rat, mor, imp, abi, empty, _roleRefs);
 					//debug.Write ("Trying from link "+self.name+" Maskname: "+ roleMask.GetMaskName() +" Rolename: "+roleName);
             }
             catch(Exception e)
@@ -75,7 +75,10 @@ namespace NRelationSystem
 
         public List<Person> GetRoleRefPpl()
         {
-            return _roleRef.Keys.ToList();
+            List<Person> roleRefs = _roleRefs.Keys.ToList();
+            roleRefs.Remove(empty);
+
+            return roleRefs;
         }
 
 
@@ -85,9 +88,9 @@ namespace NRelationSystem
                 roleRef = empty;    
             }
             
-            if(_roleRef.ContainsKey(roleRef) && _roleRef[roleRef].ContainsKey(roleName))
+            if(_roleRefs.ContainsKey(roleRef) && _roleRefs[roleRef].ContainsKey(roleName))
             {
-                return _roleRef[roleRef][roleName]; 
+                return _roleRefs[roleRef][roleName]; 
             }
             else
             {
@@ -101,9 +104,9 @@ namespace NRelationSystem
             if(roleRef == null){
                 roleRef = empty;
             }
-            else if(_roleRef.ContainsKey(roleRef) && _roleRef[roleRef].ContainsKey(roleName))
+            else if(_roleRefs.ContainsKey(roleRef) && _roleRefs[roleRef].ContainsKey(roleName))
             {
-                _roleRef[roleRef][roleName] = inp;
+                _roleRefs[roleRef][roleName] = inp;
             }
             else
             {
@@ -121,9 +124,9 @@ namespace NRelationSystem
             {
                 roleRef = empty;
             }
-            else if (_roleRef.ContainsKey(roleRef) && _roleRef[roleRef].ContainsKey(roleName))
+            else if (_roleRefs.ContainsKey(roleRef) && _roleRefs[roleRef].ContainsKey(roleName))
             {
-                _roleRef[roleRef][roleName] += Calculator.UnboundAdd(inp, _roleRef[roleRef][roleName]);
+                _roleRefs[roleRef][roleName] += Calculator.UnboundAdd(inp, _roleRefs[roleRef][roleName]);
             }
             else
             {
