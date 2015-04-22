@@ -101,13 +101,13 @@ public class RoomManager {
     }
 
 	public void UpdateRoomWindow(){
-		roomWindowString = "\nRooms: \n";
+		roomWindowString = "\n <b>Rooms:</b> \n\n";
 		foreach (string s in relSys.updateLists.Keys) {
 			roomWindowString += s+": \n";
 			foreach(Person p in relSys.updateLists[s]){
 				roomWindowString += p.name+" ";
 			}
-			roomWindowString += "\n";
+			roomWindowString += "\n\n";
 		}
 		
 		roomWindowString += "\n";
