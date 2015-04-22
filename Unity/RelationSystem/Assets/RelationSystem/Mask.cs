@@ -97,7 +97,7 @@ namespace NRelationSystem
                             }
                         }
                     }
-                   /* else
+                    else
                     {
                         if (!roleRef[empty].ContainsKey(rule.role)){
                             reaction = true;
@@ -108,7 +108,7 @@ namespace NRelationSystem
                                 }
                             }
                         }
-                    }*/
+                    }
                 }
                 else
                 {
@@ -117,7 +117,7 @@ namespace NRelationSystem
                     break;
                 }
 
-				debug.Write("Checking condition "+rule.ruleName+"  "+self.name+" "+self.CheckRoleName("buncess"));
+			//	debug.Write("Checking condition "+rule.ruleName+"  "+self.name+" "+self.CheckRoleName("buncess"));
 				
                 if(rule.Condition(self, posPeople, reaction))
 				{
