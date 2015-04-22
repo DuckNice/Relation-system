@@ -40,6 +40,7 @@ public partial class Program : MonoBehaviour
                     if (people.Exists(x => x.name == being.name) && (being.name != "player" || debug.inst.playerActive))
                     {
                         being.NPCAction(time);
+						//roomMan.UpdateLvlOfInfl(relationSystem.pplAndMasks.GetPerson(being.name),0.01f);
                     }
                 }
             }
@@ -96,15 +97,26 @@ public partial class Program : MonoBehaviour
 			statsString += "HapSad: "+(p.moods[MoodTypes.hapSad])*100f+"\n";
 			statsString += "\n";
 		}
-		statsString += "Money: \n";
+
+
+		statsString += "\nTraits: \n";
 		
+		foreach (Person p in relationSystem.pplAndMasks.people.Values) {
+			statsString += p.name+"\n";
+			statsString += "NiceNasty: "+p.CalculateTraitType(TraitTypes.NiceNasty)*10f+"\n";
+			statsString += "HonesFals: "+p.CalculateTraitType(TraitTypes.HonestFalse)*10f+"\n";
+			statsString += "CharGreed: "+p.CalculateTraitType(TraitTypes.CharitableGreedy)*10f+"\n";
+		}
+
+
+		statsString += "\nMoney: \n";
 		
 		foreach (Being b in beings) {
 			statsString +=  b.name+"  "+ b.possessions.Find(x=>x.Name == "money").value+"\n";
 		}
 
-		statsString += "\n\n\nMask Links: \n";
 
+		//statsString += "\n\n\nMask Links: \n";
 
 	/*	foreach (Person p in relationSystem.pplAndMasks.people.Values) {
 			statsString += p.name+"\n";
@@ -136,7 +148,7 @@ public partial class Program : MonoBehaviour
 			}
 			*/
 
-
+		statsString += "\nRooms: \n";
 		foreach (string s in relationSystem.updateLists.Keys) {
 			statsString += s+": \n";
 			foreach(Person p in relationSystem.updateLists[s]){
@@ -144,8 +156,20 @@ public partial class Program : MonoBehaviour
 			}
 			statsString += "\n";
 		}
+
+		statsString += "\n";
+
+		statsString += "CONVICT "+HowLongAgo(relationSystem.historyBook.Find(x=>x.GetAction()==relationSystem.posActions["convict"]).GetTime());
 	}
 
+
+
+	public float HowLongAgo(float eventTime){
+		if (eventTime == 0) {
+			return Mathf.Infinity;
+		}
+		return time - eventTime;
+	}
 
 
 

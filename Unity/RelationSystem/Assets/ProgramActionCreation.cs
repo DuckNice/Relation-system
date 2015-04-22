@@ -354,7 +354,6 @@ public partial class Program : MonoBehaviour {
 				UIFunctions.WriteGameLine(relationSystem.CapitalizeName(direct.name)+" is winning!");
 			}
 
-            UIFunctions.WriteGameLine(relationSystem.CapitalizeName(subject.name) + " is attempting to fight " + relationSystem.CapitalizeName(direct.name));
             direct.moods[MoodTypes.angryFear] += Calculator.UnboundAdd(0.4f, direct.moods[MoodTypes.angryFear]);
             direct.moods[MoodTypes.energTired] += Calculator.UnboundAdd(0.5f, direct.moods[MoodTypes.energTired]);
 			subject.moods[MoodTypes.angryFear] += Calculator.UnboundAdd(0.4f, subject.moods[MoodTypes.angryFear]);

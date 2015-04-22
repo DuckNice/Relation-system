@@ -292,9 +292,7 @@ namespace NRelationSystem
 
 */
 		public bool CheckRoleName(string s, Person p = null){
-			if(p != null)
-				debug.Write(p.name+"   "+s+" ");
-			
+
 			if(p == null){
 				foreach (Link l in interPersonal) {
 					if (p == null) {
@@ -307,7 +305,6 @@ namespace NRelationSystem
 							}
 						}
 					}
-					
 				}
 					foreach (Link l in culture) {
 						if (p == null) {

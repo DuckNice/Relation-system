@@ -90,7 +90,6 @@ namespace NRelationSystem
                         else
                         {
                             selfOther.Add(self, new PersonAndPreference(other, 0.0f));
-
                             return true;
                         }
                     }
@@ -104,10 +103,8 @@ namespace NRelationSystem
             if (personToAdd != self)
             {
                 selfOther.Add(self, new PersonAndPreference(personToAdd, strength));
-
                 return true;
             }
-
             return false;
         }
 

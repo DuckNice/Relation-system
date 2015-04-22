@@ -99,7 +99,7 @@ namespace NRelationSystem
                             if (!roleRef.ContainsKey(posPeople[i]) || !roleRef[posPeople[i]].ContainsKey(rule.role))
                                 posPeople.RemoveAt(i);
                         }
-                    }/*
+                    }
                     else
                     {
                         foreach (Person person in roleRef.Keys)
@@ -107,7 +107,7 @@ namespace NRelationSystem
                             if (roleRef[person].ContainsKey(rule.role))
                                 posPeople.Add(person);
                         }
-                    }*/
+                    }
                 }
                 else
                 {
@@ -115,20 +115,24 @@ namespace NRelationSystem
                     break;
                 }
 
-				//debug.Write("Checking condition "+rule.ruleName+"   "+rule.Condition(self,reactPeople, reaction));
+				debug.Write("Checking condition "+rule.ruleName+"  "+self.name+" "+self.CheckRoleName("buncess"));
 				if(rule.Condition(self, posPeople, reaction))
 				{
-					debug.Write("Calculating "+rule.actionToTrigger.name+" to "+rule.selfOther[self].person.name+" in "+maskName);
-                       
                     float maskCalculation = -99999999999f;
 
-                    if (roleRef != null && roleRef.ContainsKey(rule.selfOther[self].person) && roleRef[rule.selfOther[self].person].ContainsKey(rule.role))
-                        maskCalculation = Calculator.CalculateRule(rat, mor, imp, abi, rule, rule.rulesThatMightHappen, roleRef[rule.selfOther[self].person][rule.role]);
-                    else if (roleRef != null && roleRef.ContainsKey(empty) && roleRef[empty].ContainsKey(rule.role))
-                        maskCalculation = Calculator.CalculateRule(rat, mor, imp, abi, rule, rule.rulesThatMightHappen, roleRef[empty][rule.role]);
-                    else
-                        continue;
+					if (roleRef != null && roleRef.ContainsKey(rule.selfOther[self].person) && roleRef[rule.selfOther[self].person].ContainsKey(rule.role)){
+						maskCalculation = Calculator.CalculateRule(rat, mor, imp, abi, rule, rule.rulesThatMightHappen, roleRef[rule.selfOther[self].person][rule.role]);
+					} 
+					else if (roleRef != null && roleRef.ContainsKey(empty) && roleRef[empty].ContainsKey(rule.role)){
+						maskCalculation = Calculator.CalculateRule(rat, mor, imp, abi, rule, rule.rulesThatMightHappen, roleRef[empty][rule.role]);
+					}
+					else{
+						debug.Write("Did not calculate "+rule.ruleName+". Maybe rolerefs did not contain person to check for: "+rule.selfOther[self].person.name);
+						continue;
+					}
+                        
 
+					debug.Write("Calculating "+rule.actionToTrigger.name+" to "+rule.selfOther[self].person.name+" in "+maskName);
 					float newActionStrength = maskCalculation + Calculator.UnboundAdd(rule.selfOther[self].pref, maskCalculation);
 					debug.Write(maskCalculation+"  (+)  "+rule.selfOther[self].pref+"  =  "+newActionStrength);
 					if (newActionStrength > chosenRule.strOfAct)
