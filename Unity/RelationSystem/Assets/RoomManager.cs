@@ -8,6 +8,7 @@ using NRelationSystem;
 public class RoomManager {
 
     RelationSystem relSys;
+	string roomWindowString;
 
     public RoomManager(RelationSystem _relSys)
     {
@@ -28,6 +29,7 @@ public class RoomManager {
         }
 
         relSys.AddPersonToUpdateList(roomName, person);
+		UpdateRoomWindow ();
     }
 
 
@@ -97,4 +99,20 @@ public class RoomManager {
             }
         }
     }
+
+	public void UpdateRoomWindow(){
+		roomWindowString = "\nRooms: \n";
+		foreach (string s in relSys.updateLists.Keys) {
+			roomWindowString += s+": \n";
+			foreach(Person p in relSys.updateLists[s]){
+				roomWindowString += p.name+" ";
+			}
+			roomWindowString += "\n";
+		}
+		
+		roomWindowString += "\n";
+		UIFunctions.WriteRoomsInWindow (roomWindowString);
+	}
+
+
 }

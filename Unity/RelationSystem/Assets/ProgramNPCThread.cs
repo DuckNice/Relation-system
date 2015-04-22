@@ -148,16 +148,7 @@ public partial class Program : MonoBehaviour
 			}
 			*/
 
-		statsString += "\nRooms: \n";
-		foreach (string s in relationSystem.updateLists.Keys) {
-			statsString += s+": \n";
-			foreach(Person p in relationSystem.updateLists[s]){
-				statsString += p.name+" ";
-			}
-			statsString += "\n";
-		}
 
-		statsString += "\n";
 
 		statsString += "CONVICT "+HowLongAgo(relationSystem.historyBook.Find(x=>x.GetAction()==relationSystem.posActions["convict"]).GetTime());
 	}
