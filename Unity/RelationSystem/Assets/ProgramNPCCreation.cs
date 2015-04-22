@@ -21,6 +21,7 @@ public partial class Program : MonoBehaviour
 		relationSystem.AddUpdateList ("Gang");
 		relationSystem.AddUpdateList ("Køkken");
 		relationSystem.AddUpdateList ("Jail");
+		roomMan.UpdateRoomWindow ();
 	}
 
 
@@ -1290,9 +1291,9 @@ public partial class Program : MonoBehaviour
 		#endregion rolerefs
 
 		#region LINKS
-	    relationSystem.AddLinkToPerson("Bill", TypeMask.interPers, "Partner", "RomanticRelationship", 0);
-		relationSystem.AddLinkToPerson("Bill", TypeMask.interPers, "Enemy", "Rivalry", 0);
-		relationSystem.AddLinkToPerson("Bill", TypeMask.interPers, "Friend", "Friendship",0);
+	    relationSystem.AddLinkToPerson("Bill", TypeMask.interPers, "", "RomanticRelationship", 0);
+		relationSystem.AddLinkToPerson("Bill", TypeMask.interPers, "", "Rivalry", 0);
+		relationSystem.AddLinkToPerson("Bill", TypeMask.interPers, "", "Friendship",0);
 		relationSystem.AddRefToLinkInPerson("Bill",TypeMask.interPers,"partner","romanticrelationship","Therese",0.4f);
 		relationSystem.AddRefToLinkInPerson("Bill", TypeMask.interPers, "Enemy", "Rivalry","John",0.6f);
 	    relationSystem.AddRefToLinkInPerson("Bill", TypeMask.interPers, "Friend", "Friendship", "Heather", 0.3f);
@@ -1302,9 +1303,9 @@ public partial class Program : MonoBehaviour
 		relationSystem.AddRefToLinkInPerson("Bill",TypeMask.culture,"bunce","Bungary","heather",0.3f);
 		relationSystem.AddRefToLinkInPerson("Bill",TypeMask.culture,"bunce","Bungary","player",0.3f);
 	
-	    relationSystem.AddLinkToPerson("Therese", TypeMask.interPers, "Partner", "RomanticRelationship", 0);
-	    relationSystem.AddLinkToPerson("Therese", TypeMask.interPers, "Enemy", "Rivalry", 0);
-	    relationSystem.AddLinkToPerson("Therese", TypeMask.interPers, "Friend", "Friendship", 0);
+	    relationSystem.AddLinkToPerson("Therese", TypeMask.interPers, "", "RomanticRelationship", 0);
+	    relationSystem.AddLinkToPerson("Therese", TypeMask.interPers, "", "Rivalry", 0);
+	    relationSystem.AddLinkToPerson("Therese", TypeMask.interPers, "", "Friendship", 0);
 		relationSystem.AddRefToLinkInPerson("Therese", TypeMask.interPers, "Partner", "RomanticRelationship","Bill",0.5f);
 		relationSystem.AddRefToLinkInPerson("Therese", TypeMask.interPers, "Enemy", "Rivalry", "John", 0.2f);
 		relationSystem.AddRefToLinkInPerson("Therese", TypeMask.interPers, "Friend", "Friendship", "Heather", 0.6f);
@@ -1314,9 +1315,9 @@ public partial class Program : MonoBehaviour
 		relationSystem.AddRefToLinkInPerson("Therese",TypeMask.culture,"buncess","Bungary","heather",0.4f);
 		relationSystem.AddRefToLinkInPerson("Therese",TypeMask.culture,"buncess","Bungary","player",0.2f);
 
-	    relationSystem.AddLinkToPerson("John", TypeMask.interPers, "Enemy", "Rivalry", 0);
-		relationSystem.AddLinkToPerson("John", TypeMask.interPers, "Partner", "Romanticrelationship", 0);
-		relationSystem.AddLinkToPerson("John", TypeMask.interPers, "Friend", "Friendship", 0);
+	    relationSystem.AddLinkToPerson("John", TypeMask.interPers, "", "Rivalry", 0);
+		relationSystem.AddLinkToPerson("John", TypeMask.interPers, "", "Romanticrelationship", 0);
+		relationSystem.AddLinkToPerson("John", TypeMask.interPers, "", "Friendship", 0);
 		relationSystem.AddRefToLinkInPerson("John", TypeMask.interPers, "Enemy", "Rivalry", "Bill", 0.7f);
 		relationSystem.AddRefToLinkInPerson("John", TypeMask.interPers, "Enemy", "Rivalry", "Therese", 0.4f);
 		relationSystem.AddRefToLinkInPerson("John", TypeMask.interPers, "Partner", "Romanticrelationship", "Heather", 0.8f);
@@ -1326,8 +1327,8 @@ public partial class Program : MonoBehaviour
 		relationSystem.AddRefToLinkInPerson("John",TypeMask.culture,"bunsant","Bungary","heather",0.4f);
 		relationSystem.AddRefToLinkInPerson("John",TypeMask.culture,"bunsant","Bungary","player",0.1f);
 	
-	    relationSystem.AddLinkToPerson("Heather", TypeMask.interPers, "Friend", "Friendship", 0);
-		relationSystem.AddLinkToPerson("Heather", TypeMask.interPers, "Partner", "RomanticRelationship", 0);
+	    relationSystem.AddLinkToPerson("Heather", TypeMask.interPers, "", "Friendship", 0);
+		relationSystem.AddLinkToPerson("Heather", TypeMask.interPers, "", "RomanticRelationship", 0);
 		relationSystem.AddRefToLinkInPerson("Heather", TypeMask.interPers, "Friend", "Friendship", "Bill", 0f);
 		relationSystem.AddRefToLinkInPerson("Heather", TypeMask.interPers, "Friend", "Friendship", "Therese", 0.7f);
 		relationSystem.AddRefToLinkInPerson("Heather", TypeMask.interPers, "Partner", "RomanticRelationship", "John", 0.5f);
@@ -1337,9 +1338,9 @@ public partial class Program : MonoBehaviour
 		relationSystem.AddRefToLinkInPerson("Heather",TypeMask.culture,"bunsant","Bungary","john",0.6f);
 		relationSystem.AddRefToLinkInPerson("Heather",TypeMask.culture,"bunsant","Bungary","player",0.4f);
 	
-	    relationSystem.AddLinkToPerson("Player", TypeMask.interPers, "Enemy", "Rivalry", 0);
-		relationSystem.AddLinkToPerson("Player", TypeMask.interPers, "Friend", "Friendship", 0);
-		relationSystem.AddLinkToPerson("Player", TypeMask.interPers, "Partner", "RomanticRelationship", 0);
+	    relationSystem.AddLinkToPerson("Player", TypeMask.interPers, "", "Rivalry", 0);
+		relationSystem.AddLinkToPerson("Player", TypeMask.interPers, "", "Friendship", 0);
+		relationSystem.AddLinkToPerson("Player", TypeMask.interPers, "", "RomanticRelationship", 0);
 		relationSystem.AddRefToLinkInPerson("Player", TypeMask.interPers, "Enemy", "Rivalry", "Bill", 0.5f);
 		relationSystem.AddRefToLinkInPerson("Player", TypeMask.interPers, "Enemy", "Rivalry", "Therese", 0.3f);
 		relationSystem.AddRefToLinkInPerson("Player", TypeMask.interPers, "Friend", "Friendship", "John", 0.5f);

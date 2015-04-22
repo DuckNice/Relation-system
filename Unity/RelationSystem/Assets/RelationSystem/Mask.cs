@@ -97,7 +97,7 @@ namespace NRelationSystem
                             }
                         }
                     }
-                    else
+                   /* else
                     {
                         if (!roleRef[empty].ContainsKey(rule.role)){
                             reaction = true;
@@ -108,7 +108,7 @@ namespace NRelationSystem
                                 }
                             }
                         }
-                    }
+                    }*/
                 }
                 else
                 {
