@@ -100,7 +100,7 @@ public class Being
                 if (_rule.actionToTrigger.name.ToLower() != "empty")
                 {
                     currentRule = _rule;
-                    actionStartTime = Time.time;
+                    actionStartTime = time;
 
                     _rule.DoAction(self, _rule.selfOther[self].person, _rule, misc: possessions.ToArray());
                 }
