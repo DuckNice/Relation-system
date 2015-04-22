@@ -51,6 +51,9 @@ namespace NRelationSystem
             
             List<Person> people = MAction.relationSystem.createActiveListsList();
 
+            if(people.Contains(self))
+                people.Remove(self);
+
             if (reacters != null && reacters.Count > 0)
             {
                 for (int i = 0; i < people.Count; i++)
