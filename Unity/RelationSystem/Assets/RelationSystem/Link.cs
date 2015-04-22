@@ -120,18 +120,20 @@ namespace NRelationSystem
 
 		public bool AddToLvlOfInfl(float inp, string roleName, Person roleRef = null)
         {
-            if (roleRef == null)
+            if(_roleRefs[roleRef].ContainsKey(roleName))
             {
-                roleRef = empty;
-            }
-            else if (_roleRefs.ContainsKey(roleRef) && _roleRefs[roleRef].ContainsKey(roleName))
-            {
+                if (roleRef == null)
+                {
+                    roleRef = empty;
+                }
+                else if (!_roleRefs.ContainsKey(roleRef))
+                {
+                    debug.Write("Warning: Person " + roleRef.name + " does not exist in link. Not setting lvlOfInfl.");
+                    return false;
+                }
+
                 _roleRefs[roleRef][roleName] += Calculator.UnboundAdd(inp, _roleRefs[roleRef][roleName]);
-            }
-            else
-            {
-                debug.Write("Warning: Person " + roleRef.name + " does not exist in link. Not setting lvlOfInfl.");
-                return false;
+
             }
 
             return true;

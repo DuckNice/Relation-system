@@ -70,10 +70,10 @@ public class RoomManager {
             }
         }
 
-        foreach(Link link in self.culture)
+        foreach(Link link in new List<Link>(self.culture))
         {
-            foreach(Person person in link.GetRoleRefPpl()){
-                foreach (string role in link._roleRefs[person].Keys)
+            foreach(Person person in new List<Person>(link.GetRoleRefPpl())){
+                foreach (string role in new List<string>(link._roleRefs[person].Keys))
                 {
                     if (cultureMasks.Exists(x => x == link._roleMask))
                         link.AddToLvlOfInfl(changeValue, role, person);
@@ -83,11 +83,11 @@ public class RoomManager {
             }
         }
 
-        foreach (Link link in self.interPersonal)
+        foreach (Link link in new List<Link>(self.interPersonal))
         {
-            foreach (Person person in link.GetRoleRefPpl())
+            foreach (Person person in new List<Person>(link.GetRoleRefPpl()))
             {
-                foreach (string role in link._roleRefs[person].Keys)
+                foreach (string role in new List<string>(link._roleRefs[person].Keys))
                 {
                     if (personRoom.Contains(person))
                         link.AddToLvlOfInfl(changeValue, role, person);

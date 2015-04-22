@@ -40,7 +40,7 @@ public partial class Program : MonoBehaviour
                     if (people.Exists(x => x.name == being.name) && (being.name != "player" || debug.inst.playerActive))
                     {
                         being.NPCAction(time);
-						//roomMan.UpdateLvlOfInfl(relationSystem.pplAndMasks.GetPerson(being.name),0.01f);
+						roomMan.UpdateLvlOfInfl(relationSystem.pplAndMasks.GetPerson(being.name),0.01f);
                     }
                 }
             }
