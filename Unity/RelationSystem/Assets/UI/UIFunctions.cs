@@ -12,6 +12,8 @@ public class UIFunctions : MonoBehaviour {
 	public Scrollbar GameScrollbar;
 	public Scrollbar PlayerScrollbar;
 	public Text StatText;
+	public Text RoomText;
+	public Scrollbar RoomScrollbar;
     public Toggle pauseToggle;
     public GameObject graphicActionPanel;
     public DynamicActionsUI graphicActionPanelScript;
@@ -153,4 +155,10 @@ public class UIFunctions : MonoBehaviour {
 		instance.StatText.text = input;
 
 	}
+
+	public static void WriteRoomsInWindow(string input){
+		instance.RoomText.text = input;
+		
+	}
+
 }

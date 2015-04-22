@@ -100,14 +100,14 @@ namespace NRelationSystem
                                 posPeople.RemoveAt(i);
                         }
                     }
-                    else
+                   /* else
                     {
                         foreach (Person person in roleRef.Keys)
                         {
                             if (roleRef[person].ContainsKey(rule.role))
                                 posPeople.Add(person);
                         }
-                    }
+                    }*/
                 }
                 else
                 {
