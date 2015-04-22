@@ -101,7 +101,7 @@ public class RoomManager {
     }
 
 	public void UpdateRoomWindow(){
-		roomWindowString = "\n <b>Rooms:</b> \n\n";
+		roomWindowString = "\n\n<b>Rooms:</b> \n\n";
 		foreach (string s in relSys.updateLists.Keys) {
 			roomWindowString += s+": \n";
 			foreach(Person p in relSys.updateLists[s]){
@@ -109,8 +109,6 @@ public class RoomManager {
 			}
 			roomWindowString += "\n\n";
 		}
-		
-		roomWindowString += "\n";
 		UIFunctions.WriteRoomsInWindow (roomWindowString);
 	}
 

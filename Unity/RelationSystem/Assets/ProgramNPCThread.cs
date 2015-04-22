@@ -148,9 +148,6 @@ public partial class Program : MonoBehaviour
 			}
 			*/
 
-
-
-		statsString += "CONVICT "+HowLongAgo(relationSystem.historyBook.Find(x=>x.GetAction()==relationSystem.posActions["convict"]).GetTime());
 	}
 
 

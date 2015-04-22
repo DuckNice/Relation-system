@@ -117,7 +117,7 @@ namespace NRelationSystem
                     break;
                 }
 
-			//	debug.Write("Checking condition "+rule.ruleName+"  "+self.name+" "+self.CheckRoleName("buncess"));
+				//debug.Write("Checking condition "+rule.ruleName+"  "+self.name+" "+self.CheckRoleName("buncess"));
 				
                 if(rule.Condition(self, posPeople, reaction))
 				{
