@@ -150,15 +150,10 @@ public partial class Program : MonoBehaviour
 
 	}
 
-
-
 	public float HowLongAgo(float eventTime){
 		if (eventTime == 0) {
 			return Mathf.Infinity;
 		}
 		return time - eventTime;
 	}
-
-
-
 }

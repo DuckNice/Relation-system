@@ -145,5 +145,11 @@ namespace NRelationSystem
 				throw new ArgumentException("ARGH!");
 			return s.First().ToString().ToUpper() + s.Substring(1);
 		}
+
+
+        public Person GetPerson(string name)
+        {
+            return pplAndMasks.GetPerson(name);
+        }
     }
 }

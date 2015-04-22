@@ -41,7 +41,7 @@ namespace NRelationSystem
         }
 
 
-		public float calculateRelation(Person person)
+		public float CalculateRelation(Person person)
 		{
 			return 0;
 		}
@@ -262,22 +262,32 @@ namespace NRelationSystem
 			return 0.0f;
 		}
 
-		public void SetOpinionValue(TraitTypes traittype, Person pers, float valToAdd){
-			foreach (Opinion o in opinions) {
-				if (o.pers == pers && o.trait == traittype) {
-					o.value = valToAdd;
-					return;
-				}
-			}
+		public void SetOpinionValue(TraitTypes traitType, Person pers, float valToAdd){
+            if (opinions.Exists(x => x.trait == traitType)){
+                foreach (Opinion o in opinions){
+                    if (o.pers == pers && o.trait == traitType){
+                        o.value = valToAdd;
+                        return;
+                    }
+                }
+            }
+            else{
+                opinions.Add(new Opinion(traitType, pers, valToAdd));
+            }
 		}
 
-		public void AddToOpinionValue(TraitTypes traittype, Person pers, float valToAdd){
-			foreach (Opinion o in opinions) {
-				if (o.pers == pers && o.trait == traittype) {
-					o.value += Calculator.UnboundAdd (valToAdd, o.value);
-					return;
-				}
-			}
+		public void AddToOpinionValue(TraitTypes traitType, Person pers, float valToAdd){
+            if (opinions.Exists(x => x.trait == traitType)){
+                foreach (Opinion o in opinions){
+                    if (o.pers == pers && o.trait == traitType){
+                        o.value += Calculator.UnboundAdd(valToAdd, o.value);
+                        return;
+                    }
+                }
+            }
+            else{
+                opinions.Add(new Opinion(traitType, pers, valToAdd));
+            }
 		}
 
 	/*	public void AddToInterPersonalLvlOfInfl(Person p,float val){
