@@ -78,8 +78,8 @@ namespace NRelationSystem
                 List<Person> posPeople = new List<Person>();
 
                 bool reaction = false;
-                if(possibleActions != null && possibleActions.Count > 0)
-                {
+                
+                if(possibleActions != null && possibleActions.Count > 0){
                     int index = possibleActions.FindIndex(x => x.action == rule.actionToTrigger);
                     reaction = true;
 
@@ -89,42 +89,51 @@ namespace NRelationSystem
                         continue;
                 }
 
-
-                if (roleRef != null && roleRef.Count > 0)
-                {
-                    if (reaction)
-                    {
-                        for (int i = posPeople.Count - 1; i >= 0; i--)
-                        {
-                            if (!roleRef.ContainsKey(posPeople[i]) || !roleRef[posPeople[i]].ContainsKey(rule.role))
+                if (roleRef != null && roleRef.Count > 0){
+                    if (reaction){
+                        for (int i = posPeople.Count - 1; i >= 0; i--){
+                            if (!roleRef.ContainsKey(posPeople[i]) || !roleRef[posPeople[i]].ContainsKey(rule.role)){
                                 posPeople.RemoveAt(i);
+                            }
                         }
                     }
                     else
                     {
-                        foreach (Person person in roleRef.Keys)
-                        {
-                            if (roleRef[person].ContainsKey(rule.role))
-                                posPeople.Add(person);
+                        if (!roleRef[empty].ContainsKey(rule.role)){
+                            reaction = true;
+
+                            foreach (Person person in roleRef.Keys){
+                                if (roleRef[person].ContainsKey(rule.role) && person != empty){
+                                    posPeople.Add(person);
+                                }
+                            }
                         }
                     }
                 }
                 else
                 {
                     debug.Write("Warning: No roleRefs were passed to mask '" + maskName + "'.");
+                    
                     break;
                 }
 
 				debug.Write("Checking condition "+rule.ruleName+"  "+self.name+" "+self.CheckRoleName("buncess"));
-				if(rule.Condition(self, posPeople, reaction))
+				
+                if(rule.Condition(self, posPeople, reaction))
 				{
                     float maskCalculation = -99999999999f;
 
-					if (roleRef != null && roleRef.ContainsKey(rule.selfOther[self].person) && roleRef[rule.selfOther[self].person].ContainsKey(rule.role)){
-						maskCalculation = Calculator.CalculateRule(rat, mor, imp, abi, rule, rule.rulesThatMightHappen, roleRef[rule.selfOther[self].person][rule.role]);
+					if (    roleRef != null && 
+                            roleRef.ContainsKey(rule.selfOther[self].person) && 
+                            roleRef[rule.selfOther[self].person].ContainsKey(rule.role)){
+						maskCalculation = Calculator.CalculateRule(rat, mor, imp, abi, rule, rule.rulesThatMightHappen, 
+                                                                    roleRef[rule.selfOther[self].person][rule.role]);
 					} 
-					else if (roleRef != null && roleRef.ContainsKey(empty) && roleRef[empty].ContainsKey(rule.role)){
-						maskCalculation = Calculator.CalculateRule(rat, mor, imp, abi, rule, rule.rulesThatMightHappen, roleRef[empty][rule.role]);
+					else if (roleRef != null && 
+                            roleRef.ContainsKey(empty) && 
+                            roleRef[empty].ContainsKey(rule.role)){
+						maskCalculation = Calculator.CalculateRule(rat, mor, imp, abi, rule, rule.rulesThatMightHappen, 
+                                                                    roleRef[empty][rule.role]);
 					}
 					else{
 						debug.Write("Did not calculate "+rule.ruleName+". Maybe rolerefs did not contain person to check for: "+rule.selfOther[self].person.name);
@@ -133,9 +142,12 @@ namespace NRelationSystem
                         
 
 					debug.Write("Calculating "+rule.actionToTrigger.name+" to "+rule.selfOther[self].person.name+" in "+maskName);
-					float newActionStrength = maskCalculation + Calculator.UnboundAdd(rule.selfOther[self].pref, maskCalculation);
-					debug.Write(maskCalculation+"  (+)  "+rule.selfOther[self].pref+"  =  "+newActionStrength);
-					if (newActionStrength > chosenRule.strOfAct)
+					
+                    float newActionStrength = maskCalculation + Calculator.UnboundAdd(rule.selfOther[self].pref, maskCalculation);
+					
+                    debug.Write(maskCalculation+"  (+)  "+rule.selfOther[self].pref+"  =  "+newActionStrength);
+					
+                    if (newActionStrength > chosenRule.strOfAct)
 					{
 						chosenRule.strOfAct = newActionStrength;
 						chosenRule.chosenRule = rule;
