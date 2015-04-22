@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 using NRelationSystem;
 
-public class Program: MonoBehaviour {
+public partial class Program: MonoBehaviour {
 
 	public Person GetPerson(string name){
         return relationSystem.GetPerson(name);
