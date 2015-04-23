@@ -78,7 +78,7 @@ public partial class Program : MonoBehaviour
             time += Time.deltaTime;
 
 			if(!UIFunctions.instance.exitButtonActive){
-				if(time > 10){
+				if(time > 180){
 					UIFunctions.ActivateExitButton();
 				}
 			}

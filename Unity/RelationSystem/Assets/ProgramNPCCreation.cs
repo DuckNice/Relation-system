@@ -139,7 +139,7 @@ public partial class Program : MonoBehaviour
 			}
 
 			if( self != other){
-				if((relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["staywithpartner"] && x.GetSubject() == other && x.GetDirect() != self)
+				if((relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["stayaspartner"] && x.GetSubject() == other && x.GetDirect() != self)
 				    && (self.CheckRoleName("partner",other)))
 				   && roomMan.IsPersonInSameRoomAsMe(self, other))
 				{  return true; }
@@ -182,7 +182,11 @@ public partial class Program : MonoBehaviour
         };
 
 		RuleConditioner stayAsPartnerCondition = (self, other, indPpl) =>
-		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["askaboutpartnerstatus"] && x.GetSubject() == other && x.GetDirect() == self && HowLongAgo(x.GetTime()) < 10f)){
+		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["stayaspartner"] && x.GetSubject() == self && HowLongAgo(x.GetTime()) > 10f)){
+				return false;
+			}
+
+			if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["askaboutpartnerstatus"] && x.GetSubject() == other && x.GetDirect() == self && HowLongAgo(x.GetTime()) < 10f)){
 				if(self != other && roomMan.IsPersonInSameRoomAsMe(self, other))
 					{ return true; }
 			}
