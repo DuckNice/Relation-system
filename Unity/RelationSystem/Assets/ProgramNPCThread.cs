@@ -76,6 +76,12 @@ public partial class Program : MonoBehaviour
         if (shouldPlay)
         {
             time += Time.deltaTime;
+
+			if(!UIFunctions.instance.exitButtonActive){
+				if(time > 10){
+					UIFunctions.ActivateExitButton();
+				}
+			}
         }
     }
 

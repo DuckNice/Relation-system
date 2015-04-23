@@ -15,7 +15,7 @@ public partial class Program : MonoBehaviour
         //Threading work.
 	public void Start()
     {
-		UIFunctions.WriteGameLine ("Welcome to Mask\n\n");
+		UIFunctions.WriteGameLine ("Welcome. Press play toggle to start\n\n");
         RelationSystem.program = this;
         MAction.relationSystem = relationSystem;
 		CreateFirstRooms ();
@@ -64,12 +64,12 @@ public partial class Program : MonoBehaviour
                 }
                 else
                 {
-                    UIFunctions.WritePlayerLine("Error: Action does not support no intended target. Not doing action.");
+                    UIFunctions.WritePlayerLine("Action needs a target person. Not doing action.");
                 }
             }
             else
             {
-                UIFunctions.WritePlayerLine("Error: Attempting to make new action when action: " + playerAction.name + " for target: " + playerTarget.name + " has already been selected. Write 'cancel' to cancel current action selection.");
+                UIFunctions.WritePlayerLine("Already doing action: " + playerAction.name + " for target: " + playerTarget.name + ". Write 'cancel' to cancel current action selection.");
             }
         }
         else if(sepInput[0] == "cancel")

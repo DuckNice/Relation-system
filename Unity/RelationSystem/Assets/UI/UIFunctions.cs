@@ -19,6 +19,8 @@ public class UIFunctions : MonoBehaviour {
     public DynamicActionsUI graphicActionPanelScript;
 	public Program program;
     public bool pauseThroughTextEnter = false;
+	public bool exitButtonActive;
+	public GameObject exitButtonObject;
 
 
 	public void Awake()
@@ -27,12 +29,14 @@ public class UIFunctions : MonoBehaviour {
 	}
 	public void Start()
 	{
+		exitButtonActive = false;
 		if (debug.Toggle) {
 			StatText.transform.parent.gameObject.SetActive (true);
 		} else {
 			StatText.transform.parent.gameObject.SetActive (false);
 		}
 	}
+
 
     
     public void ActivateGraphicActions()
@@ -159,6 +163,18 @@ public class UIFunctions : MonoBehaviour {
 	public static void WriteRoomsInWindow(string input){
 		instance.RoomText.text = input;
 		
+	}
+
+	public static void ActivateExitButton(){
+		instance.exitButtonActive = true;
+		instance.exitButtonObject.SetActive(true);
+	}
+
+	public static void ExitGameAndEnterQuestionnaire(){
+	
+		//ENTER QUESTIONNAIRE
+
+		Application.Quit();
 	}
 
 }
