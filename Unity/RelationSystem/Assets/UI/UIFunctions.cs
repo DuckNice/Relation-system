@@ -150,15 +150,12 @@ public class UIFunctions : MonoBehaviour {
 	}
 
 
-
 	public static void WriteGameStatsInWindow(string input){
 		instance.StatText.text = input;
-
 	}
+
 
 	public static void WriteRoomsInWindow(string input){
 		instance.RoomText.text = input;
-		
 	}
-
 }

@@ -49,4 +49,11 @@ public partial class Program: MonoBehaviour {
     public void AddAction(MAction action){
         relationSystem.AddAction(action);
     }
+
+
+    public Being GetBeing(string name)
+    {
+        int index = beings.FindIndex(x => x.name == name);
+        return (index == -1) ? null: beings[index];
+    }
 }

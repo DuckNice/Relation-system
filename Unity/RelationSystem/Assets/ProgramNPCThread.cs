@@ -33,14 +33,14 @@ public partial class Program : MonoBehaviour
                     actionStored = false;
                 }
 
-                List<Person> people = relationSystem.createActiveListsList();
+                List<Person> people = relationSystem.CreateActiveListsList();
 
                 foreach (Being being in beings)
                 {
                     if (people.Exists(x => x.name == being.name) && (being.name != "player" || debug.inst.playerActive))
                     {
                         being.NPCAction(time);
-						roomMan.UpdateLvlOfInfl(relationSystem.pplAndMasks.GetPerson(being.name),0.01f);
+						roomMan.UpdateLvlOfInfl(GetPerson(being.name),0.01f);
                     }
                 }
             }
@@ -61,12 +61,12 @@ public partial class Program : MonoBehaviour
         if (currentPlayerAction == null || actionStartTime + currentPlayerAction.duration < time)
         {
             currentPlayerAction = action;
-            actionStartTime = Time.time;
-            action.DoAction(relationSystem.pplAndMasks.GetPerson("Player"), target, new Rule("Empty", new MAction("Empty", 0.0f, 0.0f), null, null));
+            actionStartTime = time;
+            action.DoAction(GetPerson("Player"), target, new Rule("Empty", new MAction("Empty", 0.0f, 0.0f), null, null));
         }
         else
         {
-            UIFunctions.WritePlayerLine("Warning: You are currently " + currentPlayerAction.name + "ing. Please wait for your action do finish.");
+            UIFunctions.WritePlayerLine("Warning: You are currently " + currentPlayerAction.name + "ing. Please wait another " + Decimal.Round((decimal)(currentPlayerAction.duration - (time - actionStartTime)),1) + " seconds for your action do finish.");
         }
     }
 
@@ -112,7 +112,7 @@ public partial class Program : MonoBehaviour
 		statsString += "\nMoney: \n";
 		
 		foreach (Being b in beings) {
-			statsString +=  b.name+"  "+ b.possessions.Find(x=>x.Name == "money").value+"\n";
+			statsString +=  b.name+"  "+ b.GetPosses("money").value+"\n";
 		}
 
 

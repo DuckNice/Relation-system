@@ -15,7 +15,13 @@ namespace NRelationSystem
         public static Program program;
 
 
-        public List<Person> createActiveListsList()
+        public bool HistoryBookContains(MAction action) 
+        {
+            return historyBook.Exists(x => x.GetAction() == action);
+        }
+
+
+        public List<Person> CreateActiveListsList()
         {
             List<Person> list = new List<Person>();
 

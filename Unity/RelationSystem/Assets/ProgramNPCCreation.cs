@@ -291,7 +291,7 @@ public partial class Program : MonoBehaviour
         };
 
 		RuleConditioner praiseCondition = (self, other, indPpl) =>
-		{	if((self.interPersonal.Exists(x=>x.GetRoleRefPpl().Exists(y=>y.name == other.name))) && self.moods[MoodTypes.hapSad] > 0.0f && self.moods[MoodTypes.energTired] > -0.5f && roomMan.IsPersonInSameRoomAsMe(self, other)) 
+		{	if((self.interPersonal.Exists(x=>x.RoleRefPersExists(other.name))) && self.moods[MoodTypes.hapSad] > 0.0f && self.moods[MoodTypes.energTired] > -0.5f && roomMan.IsPersonInSameRoomAsMe(self, other)) 
 				{ return true; }
 			return false; 
         };
