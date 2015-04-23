@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using UnityEngine;
 
@@ -122,30 +123,51 @@ public partial class Program : MonoBehaviour
 		}
 
 
-		//statsString += "\n\n\nMask Links: \n";
+	/*	statsString += "\n\n\nMask Links: \n";
 
-	/*	foreach (Person p in relationSystem.pplAndMasks.people.Values) {
+		foreach (Person p in relationSystem.pplAndMasks.people.Values) {
 			statsString += p.name+"\n";
-			statsString += ""+p.selfPerception.roleName+" "+p.selfPerception.GetlvlOfInfl()+"\n";
+			//statsString += ""+p.selfPerception._roleMask.GetMaskName()+"\n";
 
 			foreach(Link l in p.culture){
-				statsString += l.roleName;
-				if(l._roleRef.Count == 0){ statsString += " "+l.GetlvlOfInfl()+"\n"; }
-				foreach(Person rr in l.GetRoleRefPpl()){
-					statsString += " "+l.GetlvlOfInfl(rr)+" "+rr.name+"\n";
+				statsString += l._roleRefs.Count+"\n";
+				if(l._roleRefs.Count == 0){ statsString += "\n"; }
+				if(l._roleRefs.ContainsKey(p))
+					foreach(KeyValuePair<string,float> kvp in l._roleRefs[p]){
+						statsString += kvp.Key+" \n"; //
+					}
+
+				if(l._roleRefs.ContainsKey(p)){
+					foreach(string s in l._roleRefs[p].Keys){
+						statsString += s+" \n"; //
+					}
 				}
 			}
+
 			foreach(Link l in p.interPersonal){
-				statsString += l.roleName;
-				if(l._roleRef.Count == 0){ statsString += "\n"; }
-				foreach(Person rr in l.GetRoleRefPpl()){
-					statsString += " "+l.GetlvlOfInfl(rr)+" "+rr.name+"\n";
+				statsString += l._roleRefs.Count+"\n";
+				if(l._roleRefs.Count == 0){ statsString += "\n"; }
+		
+				if(l._roleRefs.ContainsKey(p)){
+					foreach(string s in l._roleRefs[p].Keys){
+						statsString += s+" \n"; //
+					}
 				}
+
 			}
+				//		foreach(KeyValuePair<string,float> dic in l._roleRefs[p]){
+			//		foreach(char s in dic){
+				//		statsString += s+" "+dic[s]+"\n";
+			//		}
+				//}
+			//
+				//foreach(Person rr in l.GetRoleRefPpl()){
+				//	statsString += " "+rr.name+"\n";
+				//}
+			*/
 			statsString += "\n";
 		}
-		statsString += "\nSpaces\n";
-*/
+
 
 		/*foreach(Link l in interPersonal){
 				if(l.roleRef_LvlOfInfl.ContainsKey(p)){
@@ -154,7 +176,7 @@ public partial class Program : MonoBehaviour
 			}
 			*/
 
-	}
+	//
 
 	public float HowLongAgo(float eventTime){
 		if (eventTime == 0) {

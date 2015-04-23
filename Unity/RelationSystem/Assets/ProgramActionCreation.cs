@@ -89,8 +89,18 @@ public partial class Program : MonoBehaviour {
 			//direct.AddToInterPersonalLvlOfInfl(subject,0.2f);
 			//subject.AddToInterPersonalLvlOfInfl(direct,0.2f);
 
-//            relationSystem.AddLinkToPerson(CapitalizeName(subject.name), TypeMask.interPers, "partner", "RomanticRelationship", 0, CapitalizeName(direct.name), 0.5f);
-//            relationSystem.AddLinkToPerson(CapitalizeName(direct.name), TypeMask.interPers, "partner", "RomanticRelationship", 0, CapitalizeName(subject.name), 0.5f);
+			if(!subject.CheckRoleName("partner",direct)){
+				if(!subject.CheckRoleName("partner")){
+					relationSystem.AddLinkToPerson(subject.name,TypeMask.interPers,"partner","romanticrelationship",0.0f);
+				}
+				relationSystem.AddRefToLinkInPerson(subject.name,TypeMask.interPers,"partner","romanticrelationship",direct.name,0.5f);
+			}
+			if(!direct.CheckRoleName("partner",subject)){
+				if(!direct.CheckRoleName("partner")){
+					relationSystem.AddLinkToPerson(direct.name,TypeMask.interPers,"partner","romanticrelationship",0.0f);
+				}
+				relationSystem.AddRefToLinkInPerson(direct.name,TypeMask.interPers,"partner","romanticrelationship",subject.name,0.5f);
+			}
         };
         AddAction(new MAction("chooseAnotherAsPartner", 0.4f, 0.6f, relationSystem, chooseAnotherAsPartner, 5f));
 
@@ -108,10 +118,11 @@ public partial class Program : MonoBehaviour {
             direct.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(-0.7f, direct.moods[MoodTypes.hapSad]);
             subject.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(-0.2f, subject.moods[MoodTypes.hapSad]);
 
-          //  subject.RemoveLink(TypeMask.interPers, subject.interPersonal.Find(x => x.roleName == "partner" && x.GetRoleRefPpl().Exists(y => y.name == direct.name)));
-          //  direct.RemoveLink(TypeMask.interPers, direct.interPersonal.Find(x => x.roleName == "partner" && x.GetRoleRefPpl().Exists(y => y.name == subject.name)));
-			//relationSystem.AddLinkToPerson (CapitalizeName(subject.name),TypeMask.interPers,"enemy","Rivalry",0,direct.name,0.3f);
-			//relationSystem.AddLinkToPerson (CapitalizeName(direct.name),TypeMask.interPers,"enemy","Rivalry",0,subject.name,0.5f);
+			subject.RemoveRoleRef(TypeMask.interPers,relationSystem.pplAndMasks.GetMask("romanticrelationship"),direct,"partner");
+			direct.RemoveRoleRef(TypeMask.interPers,relationSystem.pplAndMasks.GetMask("romanticrelationship"),direct,"partner");
+
+			relationSystem.AddRefToLinkInPerson(subject.name,TypeMask.interPers,"enemy","rivalry",direct.name,0.5f);
+			relationSystem.AddRefToLinkInPerson(direct.name,TypeMask.interPers,"enemy","rivalry",subject.name,0.5f);
         };
         AddAction(new MAction("LeavePartner", -0.3f, -0.7f, relationSystem, LeavePartner, 5f));
 
@@ -609,7 +620,8 @@ public partial class Program : MonoBehaviour {
 			subject.AddToOpinionValue(TraitTypes.NiceNasty, direct, -0.1f);
 			direct.moods[MoodTypes.angryFear] += Calculator.UnboundAdd(0.3f, direct.moods[MoodTypes.angryFear]);
 
-		//	direct.RemoveLink(TypeMask.culture,subject.culture.Find(x => x.droleMask.GetMaskName() == "merchantguild"));
+			direct.RemoveLink(TypeMask.culture,subject.culture.Find(x => x._roleMask.GetMaskName() == "merchantguild"));
+
         };
         AddAction(new MAction("DemandtoLeaveGuild", 0.4f, -0.5f, relationSystem, DemandtoLeaveGuild, 4f));
 
