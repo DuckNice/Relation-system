@@ -263,7 +263,7 @@ namespace NRelationSystem
 		}
 
 		public void SetOpinionValue(TraitTypes traitType, Person pers, float valToAdd){
-            if (opinions.Exists(x => x.trait == traitType)){
+			if (opinions.Exists(x => x.trait == traitType && x.pers == pers)){
                 foreach (Opinion o in opinions){
                     if (o.pers == pers && o.trait == traitType){
                         o.value = valToAdd;

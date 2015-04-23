@@ -20,7 +20,7 @@ public partial class Program : MonoBehaviour
 		AddUpdateList ("Køkken");
 		AddUpdateList ("Jail");
 
-		roomMan.UpdateRoomWindow ();
+
 	}
 
 
@@ -32,15 +32,15 @@ public partial class Program : MonoBehaviour
 		Being Heather = new Being ("Heather", relationSystem);
 		Being Player = new Being ("Player", relationSystem);
 
+		relationSystem.AddListToActives("Indgang");
+		relationSystem.AddListToActives("Stue");
+		relationSystem.AddListToActives("Køkken");
+
 		roomMan.EnterRoom("Indgang", GetPerson("Bill"));
         roomMan.EnterRoom("Indgang", GetPerson("Therese"));
         roomMan.EnterRoom("Indgang", GetPerson("John"));
 		roomMan.EnterRoom("Indgang", GetPerson("Heather"));
         roomMan.EnterRoom("Indgang", GetPerson("Player"));
-
-        relationSystem.AddListToActives("Indgang");
-		relationSystem.AddListToActives("Stue");
-		relationSystem.AddListToActives("Køkken");
 
 		beings.Add (Bill);
 		beings.Add (Therese);
@@ -329,9 +329,9 @@ public partial class Program : MonoBehaviour
 // --------------------------------- CULTURAL CONDITIONS
 		
 		RuleConditioner convictCondition = (self, other, indPpl) =>
-		{	if((relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["steal"] && (x.GetSubject()==other)) ||
-			  relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["fight"] && (x.GetSubject()==other)) ||
-			  relationSystem.historyBook.Exists(x=>x.GetRule().GetRuleStrength() < -0.4f && HowLongAgo(x.GetTime()) < 10f)) && roomMan.IsPersonInSameRoomAsMe(self, other) && self != other)
+		{	if((relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["steal"] && x.GetSubject()==other) ||
+			  relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["fight"] && x.GetSubject()==other) ||
+			  relationSystem.historyBook.Exists(x=>x.GetRule().GetRuleStrength() < -0.5f && HowLongAgo(x.GetTime()) < 10f)) && roomMan.IsPersonInSameRoomAsMe(self, other) && self != other)
 				{ return true; }
 			return false; 
         };
@@ -1390,66 +1390,66 @@ public partial class Program : MonoBehaviour
 
 		#region Opinions
 		        //BILL OPINIONS
-            GetPerson("bill").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("therese"), 0.6f);
-		    GetPerson("bill").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("therese"), 0.3f);
-		    GetPerson("bill").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("therese"), -0.2f);
-		    GetPerson("bill").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("john"), -0.4f);
-		    GetPerson("bill").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("john"), -0.6f);
-		    GetPerson("bill").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("john"), 0.3f);
-		    GetPerson("bill").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("heather"), 0.4f);
-		    GetPerson("bill").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("heather"), 0.6f);
-		    GetPerson("bill").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("heather"), -0.1f);
-		    GetPerson("bill").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("player"), -0.2f);
-		    GetPerson("bill").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("player"), -0.1f);
-		    GetPerson("bill").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("player"), 0.1f);
-		    GetPerson("therese").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("bill"), 0.7f);
-		    GetPerson("therese").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("bill"), 0.5f);
-		    GetPerson("therese").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("bill"), 0.3f);
-		    GetPerson("therese").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("john"), -0.4f);
-		    GetPerson("therese").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("john"), -0.7f);
-		    GetPerson("therese").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("john"), -0.3f);
-		    GetPerson("therese").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("heather"), 0.5f);
-		    GetPerson("therese").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("heather"), -0.1f);
-		    GetPerson("therese").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("heather"), 0.2f);
-		    GetPerson("therese").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("player"), -0.3f);
-		    GetPerson("therese").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("player"), 0.1f);
-		    GetPerson("therese").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("player"), 0.1f);
-		    GetPerson("john").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("bill"), -0.5f);
-		    GetPerson("john").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("bill"), -0.5f);
-		    GetPerson("john").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("bill"), -0.4f);
-		    GetPerson("john").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("therese"), -0.3f);
-		    GetPerson("john").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("therese"), 0.2f);
-		    GetPerson("john").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("therese"), 0.3f);
-		    GetPerson("john").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("heather"), 0.6f);
-		    GetPerson("john").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("heather"), 0.4f);
-		    GetPerson("john").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("heather"), 0.4f);
-		    GetPerson("john").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("player"), 0.5f);
-		    GetPerson("john").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("player"), 0.5f);
-		    GetPerson("john").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("player"), -0.1f);
-		    GetPerson("heather").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("bill"), 0.4f);
-		    GetPerson("heather").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("bill"), -0.1f);
-		    GetPerson("heather").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("bill"), -0.2f);
-		    GetPerson("heather").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("therese"), 0.6f);
-		    GetPerson("heather").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("therese"), 0.4f);
-		    GetPerson("heather").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("therese"), 0.2f);
-		    GetPerson("heather").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("john"), 0.4f);
-		    GetPerson("heather").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("john"), -0.4f);
-		    GetPerson("heather").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("john"), 0.2f);
-		    GetPerson("heather").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("player"), 0.7f);
-		    GetPerson("heather").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("player"), 0.3f);
-		    GetPerson("heather").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("player"), 0.1f);
-		    GetPerson("player").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("bill"), -0.4f);
-		    GetPerson("player").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("bill"), -0.2f);
-		    GetPerson("player").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("bill"), -0.7f);
-		    GetPerson("player").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("therese"), 0.3f);
-		    GetPerson("player").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("therese"), 0.1f);
-		    GetPerson("player").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("therese"), 0.2f);
-		    GetPerson("player").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("john"), 0.4f);
-		    GetPerson("player").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("john"), -0.1f);
-		    GetPerson("player").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("john"), -0.2f);
-		    GetPerson("player").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("heather"), 0.6f);
-		    GetPerson("player").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("heather"), 0.4f);
-		    GetPerson("player").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("heather"), 0.5f);
+		GetPerson("bill").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("therese"), 0.6f);
+	    GetPerson("bill").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("therese"), 0.3f);
+	    GetPerson("bill").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("therese"), -0.2f);
+		GetPerson("bill").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("john"), -0.4f);
+	    GetPerson("bill").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("john"), -0.6f);
+	    GetPerson("bill").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("john"), 0.3f);
+	    GetPerson("bill").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("heather"), 0.4f);
+	    GetPerson("bill").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("heather"), 0.6f);
+	    GetPerson("bill").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("heather"), -0.1f);
+	    GetPerson("bill").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("player"), -0.2f);
+	    GetPerson("bill").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("player"), -0.1f);
+	    GetPerson("bill").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("player"), 0.1f);
+	    GetPerson("therese").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("bill"), 0.7f);
+	    GetPerson("therese").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("bill"), 0.5f);
+	    GetPerson("therese").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("bill"), 0.3f);
+	    GetPerson("therese").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("john"), -0.4f);
+	    GetPerson("therese").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("john"), -0.7f);
+	    GetPerson("therese").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("john"), -0.3f);
+	    GetPerson("therese").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("heather"), 0.5f);
+	    GetPerson("therese").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("heather"), -0.1f);
+	    GetPerson("therese").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("heather"), 0.2f);
+	    GetPerson("therese").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("player"), -0.3f);
+	    GetPerson("therese").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("player"), 0.1f);
+	    GetPerson("therese").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("player"), 0.1f);
+	    GetPerson("john").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("bill"), -0.5f);
+	    GetPerson("john").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("bill"), -0.5f);
+	    GetPerson("john").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("bill"), -0.4f);
+	    GetPerson("john").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("therese"), -0.3f);
+	    GetPerson("john").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("therese"), 0.2f);
+	    GetPerson("john").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("therese"), 0.3f);
+	    GetPerson("john").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("heather"), 0.6f);
+	    GetPerson("john").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("heather"), 0.4f);
+	    GetPerson("john").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("heather"), 0.4f);
+	    GetPerson("john").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("player"), 0.5f);
+	    GetPerson("john").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("player"), 0.5f);
+	    GetPerson("john").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("player"), -0.1f);
+	    GetPerson("heather").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("bill"), 0.4f);
+	    GetPerson("heather").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("bill"), -0.1f);
+	    GetPerson("heather").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("bill"), -0.2f);
+	    GetPerson("heather").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("therese"), 0.6f);
+	    GetPerson("heather").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("therese"), 0.4f);
+	    GetPerson("heather").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("therese"), 0.2f);
+	    GetPerson("heather").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("john"), 0.4f);
+	    GetPerson("heather").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("john"), -0.4f);
+	    GetPerson("heather").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("john"), 0.2f);
+	    GetPerson("heather").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("player"), 0.7f);
+	    GetPerson("heather").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("player"), 0.3f);
+	    GetPerson("heather").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("player"), 0.1f);
+	    GetPerson("player").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("bill"), -0.4f);
+	    GetPerson("player").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("bill"), -0.2f);
+	    GetPerson("player").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("bill"), -0.7f);
+	    GetPerson("player").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("therese"), 0.3f);
+	    GetPerson("player").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("therese"), 0.1f);
+	    GetPerson("player").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("therese"), 0.2f);
+	    GetPerson("player").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("john"), 0.4f);
+	    GetPerson("player").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("john"), -0.1f);
+	    GetPerson("player").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("john"), -0.2f);
+	    GetPerson("player").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("heather"), 0.6f);
+	    GetPerson("player").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("heather"), 0.4f);
+	    GetPerson("player").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("heather"), 0.5f);
 		#endregion Opinions
 	}
 }

@@ -37,7 +37,7 @@ public partial class Program: MonoBehaviour {
 
 
     public void AddUpdateList(string name){
-        relationSystem.AddUpdateList("Indgang");
+        relationSystem.AddUpdateList(name);
     }
 
 
