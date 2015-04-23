@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Diagnostics;
 
 public class UIFunctions : MonoBehaviour {
 	public static UIFunctions instance;
 
+    public string questionaireTest = "http://www.google.com";
 	string text;
 	public InputField input;
 	public Text GameBox;
@@ -27,6 +29,8 @@ public class UIFunctions : MonoBehaviour {
 	{
 		instance = this;
 	}
+
+
 	public void Start()
 	{
 		exitButtonActive = false;
@@ -36,7 +40,6 @@ public class UIFunctions : MonoBehaviour {
 			StatText.transform.parent.gameObject.SetActive (false);
 		}
 	}
-
 
     
     public void ActivateGraphicActions()
@@ -62,7 +65,6 @@ public class UIFunctions : MonoBehaviour {
             pauseToggle.isOn = true;
         }
     }
-        
 
 
 	public void enteredCommand()
@@ -163,15 +165,16 @@ public class UIFunctions : MonoBehaviour {
 		instance.RoomText.text = input;
 	}
 
+
 	public static void ActivateExitButton(){
 		instance.exitButtonActive = true;
 		instance.exitButtonObject.SetActive(true);
 	}
 
-	public static void ExitGameAndEnterQuestionnaire(){
-	
-		//ENTER QUESTIONNAIRE
 
+	public void ExitGameAndEnterQuestionnaire(){
+		    //ENTER QUESTIONNAIRE
+        Process.Start(questionaireTest);
 		Application.Quit();
 	}
 }
