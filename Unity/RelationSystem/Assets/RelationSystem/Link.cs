@@ -51,6 +51,32 @@ namespace NRelationSystem
         }
 
 
+        public void RemoveRoleRef(string roleName, Person roleRef = null)
+        {
+            if (roleRef != null)
+            {
+                if (_roleRefs.Keys.ToList().Exists(x => x.name == roleRef.name))
+                {
+                    if (!string.IsNullOrEmpty(roleName))
+                        _roleRefs[roleRef].Remove(roleName);
+                    else
+                        _roleRefs.Remove(roleRef);
+                }
+                else
+                {
+                    debug.Write("Warning: roleName not associated with this character in link. Not removing role reference.");
+                }
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(roleName))
+                    _roleRefs[empty].Remove(roleName);
+                else
+                    debug.Write("Warning: roleName not associated with general in link. Not removing role reference.");
+            }
+        }
+
+
         public RuleAndStr actionForLink(List<MAction> notPosActions, List<PosActionItem> possibleActions, Person self, float rat, float mor, float imp, float abi) 
         {
             RuleAndStr actionToSend;
@@ -79,6 +105,12 @@ namespace NRelationSystem
             roleRefs.Remove(empty);
 
             return roleRefs;
+        }
+
+
+        public bool RoleRefPersExists(string name)
+        {
+            return GetRoleRefPpl().Exists(y => y.name == name);
         }
 
 

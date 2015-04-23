@@ -123,9 +123,30 @@ namespace NRelationSystem
 
 
         //TODO: make this function take in mask and remove people and/or roles associated.
-        public void RemoveRoleRef()
-        { 
+        public void RemoveRoleRef(TypeMask type, Mask maskRef, Person _ref = null, string role = "")
+        {
+            if (type == TypeMask.selfPerc)
+            {
+                debug.Write("Error: selfPersonMask does not contain roleRefs. Not removing RoleRef.");
+            }
+            else if (type == TypeMask.interPers)
+            {
+                int index = interPersonal.FindIndex(x => x._roleMask == maskRef);
 
+                if (index < 0)
+                    interPersonal[index].RemoveRoleRef(role, _ref);
+                else
+                    debug.Write("Warning: link doesn't exist. Not Adding roleref.");
+            }
+            else
+            {
+                int index = culture.FindIndex(x => x._roleMask == maskRef);
+
+                if (index < 0)
+                    debug.Write("Warning: link doesn't exist. Not Adding roleref.");
+                else
+                    culture[index].RemoveRoleRef(role, _ref);
+            }
         }
 
 
@@ -227,7 +248,7 @@ namespace NRelationSystem
         {
             float baseVal = absTraits.traits[traitType].GetTraitValue();
 
-            List<Person> activePeople = relationSystem.createActiveListsList();
+            List<Person> activePeople = relationSystem.CreateActiveListsList();
 
             foreach(Link link in interPersonal)
             {

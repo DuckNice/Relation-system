@@ -12,6 +12,18 @@ public class Being
 	public string name;
 	public RelationSystem maskSystem;
 	public List<Possession> possessions = new List<Possession>();
+
+    public Possession GetPosses(string name)
+    {
+        int index = possessions.FindIndex(x => x.Name == name);
+        return (index == -1) ?  null :  possessions[index];
+    }
+    public bool PossesExists(string name)
+    {
+        int index = possessions.FindIndex(x => x.Name == name);
+        return (index == -1) ? false : true;
+    }
+
 	List<MAction> notPossibleActions;
     public float reactMemory = 10f;
 
