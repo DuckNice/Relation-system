@@ -79,11 +79,14 @@ public partial class Program : MonoBehaviour
             time += Time.deltaTime;
 
 			if(!UIFunctions.instance.exitButtonActive){
-				if(time > 180){
+				if(time > 120){
 					UIFunctions.ActivateExitButton();
 				}
 			}
         }
+		if(Input.GetKeyDown(KeyCode.Escape)){
+			UIFunctions.ActivateExitButton();
+		}
     }
 
 
