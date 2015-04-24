@@ -17,6 +17,7 @@ public class DynamicActionsUI : MonoBehaviour
     public UIFunctions uiFunctions;
     public string chosenAction = "";
     public string chosenPerson = "";
+    public Text playText;
     int marginTop = 10;
     int sideMargin = 20;
     int middleMargin = 20;
@@ -192,6 +193,7 @@ public class DynamicActionsUI : MonoBehaviour
         {
             program.shouldPlay = true;
             uiFunctions.pauseThroughTextEnter = false;
+            playText.text = "Playing";
             uiFunctions.pauseToggle.isOn = false;
         }
 
@@ -208,6 +210,7 @@ public class DynamicActionsUI : MonoBehaviour
         {
             program.shouldPlay = true;
             uiFunctions.pauseThroughTextEnter = false;
+            playText.text = "Playing";
             uiFunctions.pauseToggle.isOn = false;
         }
 

@@ -14,13 +14,11 @@ public partial class Program : MonoBehaviour
 	{
 		roomMan = new RoomManager(relationSystem);
 
-		AddUpdateList ("Indgang");
-		AddUpdateList ("Stue");
-		AddUpdateList ("Gang");
-		AddUpdateList ("Køkken");
+		AddUpdateList ("Entrance");
+		AddUpdateList ("Living Room");
+		AddUpdateList ("Hallway");
+		AddUpdateList ("Kitchen");
 		AddUpdateList ("Jail");
-
-
 	}
 
 
@@ -32,15 +30,15 @@ public partial class Program : MonoBehaviour
 		Being Heather = new Being ("Heather", relationSystem);
 		Being Player = new Being ("Player", relationSystem);
 
-		relationSystem.AddListToActives("Indgang");
-		relationSystem.AddListToActives("Stue");
-		relationSystem.AddListToActives("Køkken");
+		relationSystem.AddListToActives("Entrance");
+		relationSystem.AddListToActives("Living Room");
+		relationSystem.AddListToActives("Kitchen");
 
-		roomMan.EnterRoom("Indgang", GetPerson("Bill"));
-        roomMan.EnterRoom("Indgang", GetPerson("Therese"));
-        roomMan.EnterRoom("Indgang", GetPerson("John"));
-		roomMan.EnterRoom("Indgang", GetPerson("Heather"));
-        roomMan.EnterRoom("Indgang", GetPerson("Player"));
+		roomMan.EnterRoom("Entrance", GetPerson("Bill"));
+        roomMan.EnterRoom("Entrance", GetPerson("Therese"));
+        roomMan.EnterRoom("Entrance", GetPerson("John"));
+		roomMan.EnterRoom("Entrance", GetPerson("Heather"));
+        roomMan.EnterRoom("Entrance", GetPerson("Player"));
 
 		beings.Add (Bill);
 		beings.Add (Therese);
@@ -518,13 +516,13 @@ public partial class Program : MonoBehaviour
 			//	debug.Write("FALSE");
 				return false;
 			}
-			if(self != null && !(roomMan.GetRoomIAmIn(self) == "Stue")){
+			if(self != null && !(roomMan.GetRoomIAmIn(self) == "Living Room")){
 				//if((self.moods[MoodTypes.energTired] < -0.2f)){
 					return true;
 				//}
 			}
 
-			if(roomMan.GetRoomIAmIn(other) == "Stue" && self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.0f){
+			if(roomMan.GetRoomIAmIn(other) == "Living Room" && self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.0f){
 				return true;
 			}
 			return false; 
@@ -536,14 +534,14 @@ public partial class Program : MonoBehaviour
 			if(HowLongAgo(relationSystem.historyBook.Find(x=> (x.GetAction()==relationSystem.posActions["movetolivingroom"] || x.GetAction()==relationSystem.posActions["movetokitchen"] || x.GetAction()==relationSystem.posActions["movetoentryhall"]) && x.GetSubject()==self).GetTime()) < 10f){
 				return false;
 			}
-			if (self != null && (roomMan.GetRoomIAmIn(self) == "Stue")) { 
+			if (self != null && (roomMan.GetRoomIAmIn(self) == "Living Room")) { 
 				//if((self.moods[MoodTypes.energTired] < -0.2f)){
 					return true;
 				//}
 			}
-			if (self != null && (roomMan.GetRoomIAmIn(self) == "Stue")) { 
+			if (self != null && (roomMan.GetRoomIAmIn(self) == "Living Room")) { 
 
-				if(roomMan.GetRoomIAmIn(other) == "Indgang" && self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.0f){
+				if(roomMan.GetRoomIAmIn(other) == "Entrance" && self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.0f){
 					return true;
 				}
 			}
@@ -555,11 +553,11 @@ public partial class Program : MonoBehaviour
 			if(HowLongAgo(relationSystem.historyBook.Find(x=> (x.GetAction()==relationSystem.posActions["movetolivingroom"] || x.GetAction()==relationSystem.posActions["movetokitchen"] || x.GetAction()==relationSystem.posActions["movetoentryhall"]) && x.GetSubject()==self).GetTime()) < 10f){
 				return false;
 			}
-            if (self != null && (roomMan.GetRoomIAmIn(self) == "Stue")) { 
+            if (self != null && (roomMan.GetRoomIAmIn(self) == "Living Room")) { 
 				//if((self.moods[MoodTypes.energTired] < -0.2f)){
 					return true;
 				//}
-				if(roomMan.GetRoomIAmIn(other) == "Køkken" && self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.0f){
+				if(roomMan.GetRoomIAmIn(other) == "Kitchen" && self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.0f){
 					return true;
 				}
 			}
@@ -843,7 +841,7 @@ public partial class Program : MonoBehaviour
 			    r += Calculator.UnboundAdd(-self.moods[MoodTypes.hapSad],r);
 			    r += Calculator.UnboundAdd(Mathf.Abs(self.moods[MoodTypes.angryFear]),r);
 
-			    if(roomMan.GetRoomIAmIn(other) == "Stue"){
+			    if(roomMan.GetRoomIAmIn(other) == "Living Room"){
 				    r += Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),r);
 			    }
 
@@ -855,7 +853,7 @@ public partial class Program : MonoBehaviour
 			    r += Calculator.UnboundAdd(-self.moods[MoodTypes.hapSad],r);
 			    r += Calculator.UnboundAdd(-self.moods[MoodTypes.angryFear],r);
 
-			    if(roomMan.GetRoomIAmIn(other) == "Køkken"){
+			    if(roomMan.GetRoomIAmIn(other) == "Kitchen"){
 				    r += Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),r);
 			    }
 			    return r;
@@ -866,7 +864,7 @@ public partial class Program : MonoBehaviour
 			    r += Calculator.UnboundAdd(-self.moods[MoodTypes.hapSad],r);
 			    r += Calculator.UnboundAdd(-self.moods[MoodTypes.angryFear],r);
 
-			    if(roomMan.GetRoomIAmIn(other) == "Indgang"){
+			    if(roomMan.GetRoomIAmIn(other) == "Entrance"){
 				    r += Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),r);
 			    }
 			    return r;

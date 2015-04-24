@@ -23,7 +23,7 @@ public class UIFunctions : MonoBehaviour {
     public bool pauseThroughTextEnter = false;
 	public bool exitButtonActive;
 	public GameObject exitButtonObject;
-
+    public Text playText;
 
 	public void Awake()
 	{
@@ -48,6 +48,7 @@ public class UIFunctions : MonoBehaviour {
         {
             program.shouldPlay = false;
             pauseThroughTextEnter = true;
+            playText.text = "Paused";
             pauseToggle.isOn = true;
         }
 
@@ -62,10 +63,30 @@ public class UIFunctions : MonoBehaviour {
         {
             program.shouldPlay = false;
             pauseThroughTextEnter = true;
+            playText.text = "Paused";
             pauseToggle.isOn = true;
         }
     }
 
+
+    public void PressedPlay()
+    {
+        if (!pauseThroughTextEnter)
+        {
+            if (program.shouldPlay)
+            {
+                program.shouldPlay = false;
+                playText.text = "Paused";
+                pauseToggle.isOn = true;
+            }
+            else
+            {
+                program.shouldPlay = true;
+                playText.text = "Playing";
+                pauseToggle.isOn = false;
+            }
+        }
+    }
 
 	public void enteredCommand()
 	{
@@ -83,6 +104,7 @@ public class UIFunctions : MonoBehaviour {
         {
             program.shouldPlay = true;
             pauseThroughTextEnter = false;
+            playText.text = "Playing";
             pauseToggle.isOn = false;
         }
 	}

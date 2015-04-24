@@ -656,7 +656,7 @@ public partial class Program : MonoBehaviour {
         {
             UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " goes into the Living Room.");
 			subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(0.2f, subject.moods[MoodTypes.energTired]);
-            roomMan.EnterRoom("Stue", relationSystem.pplAndMasks.GetPerson(subject.name));
+            roomMan.EnterRoom("Living Room", relationSystem.pplAndMasks.GetPerson(subject.name));
         };
 		AddAction(new MAction("moveToLivingRoom", 0.4f, 0.0f, relationSystem, moveToLivingRoom, 5f, _needsDirect: false));
 
@@ -664,7 +664,7 @@ public partial class Program : MonoBehaviour {
         {
             UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " goes into the Kitchen.");
 			subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(0.2f, subject.moods[MoodTypes.energTired]);
-            roomMan.EnterRoom("Køkken",  relationSystem.pplAndMasks.GetPerson(subject.name));
+            roomMan.EnterRoom("Kitchen",  relationSystem.pplAndMasks.GetPerson(subject.name));
         };
 		AddAction(new MAction("moveToKitchen", 0.2f, 0.0f, relationSystem, moveToKitchen, 5f, _needsDirect: false));
 
@@ -672,7 +672,7 @@ public partial class Program : MonoBehaviour {
         {
             UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " goes into the Entry Hallway.");
 			subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(0.2f, subject.moods[MoodTypes.energTired]);
-            roomMan.EnterRoom("Indgang", relationSystem.pplAndMasks.GetPerson(subject.name));
+            roomMan.EnterRoom("Entrance", relationSystem.pplAndMasks.GetPerson(subject.name));
         };
 		AddAction(new MAction("moveToEntryHall", 0.1f, 0.0f, relationSystem, moveToEntryHall, 5f, _needsDirect:false));
     }
