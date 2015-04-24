@@ -81,9 +81,10 @@ public class UIFunctions : MonoBehaviour {
         }
     }
 
+
     public void ChangeGameSpeed()
     {
-
+        program.timePace = gameSpeedSlider.maxValue - gameSpeedSlider.value;
     }
 
 

@@ -11,15 +11,22 @@ using NRelationSystem;
 public partial class Program : MonoBehaviour
 {
 	public UnityEngine.UI.Toggle playToggle;
+    [HideInInspector]
     List<Being> beings = new List<Being>();
+    [HideInInspector]
 	public bool shouldPlay = false;
+    [HideInInspector]
 	public RoomManager roomMan;
 	public float timePace;
+    [HideInInspector]
     public float time = 0.0f;
+    [HideInInspector]
     public bool actionStored = false;
+    [HideInInspector]
     public MAction playerAction;
     Person playerTarget;
     public MAction currentPlayerAction;
+    [HideInInspector]
     public float actionStartTime = 0.0f;
 
     IEnumerator NPCUpdate()
@@ -44,12 +51,28 @@ public partial class Program : MonoBehaviour
 						roomMan.UpdateLvlOfInfl(GetPerson(being.name),0.01f);
                     }
                 }
+
+                time += Time.deltaTime;
+
+                if (!UIFunctions.instance.exitButtonActive)
+                {
+                    if (time > 120)
+                    {
+                        UIFunctions.ActivateExitButton();
+                    }
+                }
             }
 
 			if(debug.Toggle){
 				UpdateStats();
 				UIFunctions.WriteGameStatsInWindow(statsString);
 			}
+
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                UIFunctions.ActivateExitButton();
+            }
 
 
             yield return new WaitForSeconds(timePace);
@@ -74,19 +97,7 @@ public partial class Program : MonoBehaviour
 
     public void Update()
     {
-        if (shouldPlay)
-        {
-            time += Time.deltaTime;
-
-			if(!UIFunctions.instance.exitButtonActive){
-				if(time > 120){
-					UIFunctions.ActivateExitButton();
-				}
-			}
-        }
-		if(Input.GetKeyDown(KeyCode.Escape)){
-			UIFunctions.ActivateExitButton();
-		}
+        
     }
 
 
