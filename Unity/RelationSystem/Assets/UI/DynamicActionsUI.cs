@@ -143,7 +143,7 @@ public class DynamicActionsUI : MonoBehaviour
             RectTransform buttonTrans = button.GetComponent<RectTransform>();
             Button buttonButton = button.GetComponent<Button>();
 
-            if (person != "player")
+            if (person != RelationSystem.playerName)
                 button.name = person;
             else
                 button.name = "";

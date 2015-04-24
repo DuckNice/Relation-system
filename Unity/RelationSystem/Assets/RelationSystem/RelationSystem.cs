@@ -13,6 +13,7 @@ namespace NRelationSystem
         public Dictionary<string, List<Person>> activeLists = new Dictionary<string, List<Person>>();
         public List<HistoryItem> historyBook = new List<HistoryItem>();
         public static Program program;
+        public static string playerName = "you";
 
 
         public bool HistoryBookContains(MAction action) 

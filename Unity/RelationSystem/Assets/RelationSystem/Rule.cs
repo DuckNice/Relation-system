@@ -49,7 +49,7 @@ namespace NRelationSystem
             if (selfOther.ContainsKey(self)) 
                 selfOther.Remove(self);
             
-            List<Person> people = MAction.relationSystem.CreateActiveListsList();
+            List<Person> people = MAction.relationSystem.pplAndMasks.people.Values.ToList();
 
             if(people.Contains(self))
                 people.Remove(self);

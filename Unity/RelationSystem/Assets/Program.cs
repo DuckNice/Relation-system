@@ -11,6 +11,7 @@ using NRelationSystem;
 public partial class Program : MonoBehaviour
 {       
     public RelationSystem relationSystem = new RelationSystem ();
+    public static string playerName { get { return RelationSystem.playerName; } }
  
         //Threading work.
 	public void Start()
@@ -40,38 +41,41 @@ public partial class Program : MonoBehaviour
         {
             if (relationSystem.posActions.ContainsKey(sepInput[0]))
             {
-                if (!actionStored)
+                if(roomMan.GetRoomIAmIn(GetPerson(playerName)) != "Jail")
                 {
-                    MAction actionToDo = relationSystem.posActions[sepInput[0]];
-
-                    if (sepInput.Length > 1)
+                    if (!actionStored)
                     {
-                        Person target = relationSystem.pplAndMasks.GetPerson(sepInput[1]);
+                        MAction actionToDo = relationSystem.posActions[sepInput[0]];
 
-                        if (target != null)
+                        if (sepInput.Length > 1)
+                        {
+                            Person target = relationSystem.pplAndMasks.GetPerson(sepInput[1]);
+
+                            if (target != null)
+                            {
+                                playerAction = actionToDo;
+                                playerTarget = target;
+                                actionStored = true;
+                            }
+                            else
+                            {
+                                UIFunctions.WritePlayerLine("Error: didn't recognize '" + sepInput[1] + "' as valid target. Not doing action.");
+                            }
+                        }
+                        else if (!actionToDo.NeedsDirect)
                         {
                             playerAction = actionToDo;
-                            playerTarget = target;
                             actionStored = true;
                         }
                         else
                         {
-                            UIFunctions.WritePlayerLine("Error: didn't recognize '" + sepInput[1] + "' as valid target. Not doing action.");
+                            UIFunctions.WritePlayerLine("Action needs a target person. Not doing action.");
                         }
-                    }
-                    else if (!actionToDo.NeedsDirect)
-                    {
-                        playerAction = actionToDo;
-                        actionStored = true;
                     }
                     else
                     {
-                        UIFunctions.WritePlayerLine("Action needs a target person. Not doing action.");
+                        UIFunctions.WritePlayerLine("Already doing action: " + playerAction.name + " for target: " + playerTarget.name + ". Write 'cancel' to cancel current action selection.");
                     }
-                }
-                else
-                {
-                    UIFunctions.WritePlayerLine("Already doing action: " + playerAction.name + " for target: " + playerTarget.name + ". Write 'cancel' to cancel current action selection.");
                 }
             }
             else if (sepInput[0] == "cancel")

@@ -45,7 +45,7 @@ public partial class Program : MonoBehaviour
 
                 foreach (Being being in beings)
                 {
-                    if (people.Exists(x => x.name == being.name) && (being.name != "player" || debug.inst.playerActive))
+                    if (people.Exists(x => x.name == being.name) && (being.name != playerName || debug.inst.playerActive))
                     {
                         being.NPCAction(time);
 						roomMan.UpdateLvlOfInfl(GetPerson(being.name),0.01f);
@@ -86,7 +86,7 @@ public partial class Program : MonoBehaviour
         {
             currentPlayerAction = action;
             actionStartTime = time;
-            action.DoAction(GetPerson("Player"), target, new Rule("Empty", new MAction("Empty", 0.0f, 0.0f), null, null));
+            action.DoAction(GetPerson(playerName), target, new Rule("Empty", new MAction("Empty", 0.0f, 0.0f), null, null));
         }
         else
         {

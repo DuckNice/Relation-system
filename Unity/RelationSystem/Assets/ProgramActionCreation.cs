@@ -354,8 +354,8 @@ public partial class Program : MonoBehaviour {
 			subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.2f, subject.moods[MoodTypes.energTired]);
 
 			roomMan.EnterRoom("Jail",direct);
-			if(direct.name == "player"){
-				UIFunctions.WriteGameLine("Player is in Jail! Game Over!");
+			if(direct.name == playerName){
+				UIFunctions.WriteGameLine("You are in Jail! Game Over!");
 			}
         };
         AddAction(new MAction("convict", 1.0f, -0.5f, relationSystem, convict, 6f));

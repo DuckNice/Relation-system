@@ -28,7 +28,7 @@ public partial class Program : MonoBehaviour
 		Being Therese = new Being ("Therese", relationSystem);
 		Being John = new Being ("John", relationSystem);
 		Being Heather = new Being ("Heather", relationSystem);
-		Being Player = new Being ("Player", relationSystem);
+		Being Player = new Being (playerName, relationSystem);
 
 		relationSystem.AddListToActives("Entrance");
 		relationSystem.AddListToActives("Living Room");
@@ -38,7 +38,7 @@ public partial class Program : MonoBehaviour
         roomMan.EnterRoom("Entrance", GetPerson("Therese"));
         roomMan.EnterRoom("Entrance", GetPerson("John"));
 		roomMan.EnterRoom("Entrance", GetPerson("Heather"));
-        roomMan.EnterRoom("Entrance", GetPerson("Player"));
+        roomMan.EnterRoom("Entrance", GetPerson(playerName));
 
 		beings.Add (Bill);
 		beings.Add (Therese);
@@ -66,7 +66,7 @@ public partial class Program : MonoBehaviour
 
 	public void CreateFirstMasks()
 	{
-		CreateNewMask("Player", new float[]{}, TypeMask.selfPerc, new string[]{});
+		CreateNewMask(playerName, new float[]{}, TypeMask.selfPerc, new string[]{});
 
 		CreateNewMask("Bungary", new float[] { 0.0f, 0.0f, 0.0f }, TypeMask.culture, new string[] { "Bunce", "Buncess", "Bunsant" });
 		CreateNewMask("Cult", new float[] { 0.0f, -0.2f, 0.1f }, TypeMask.culture, new string[] { "Leader", "Follower", "Skeptic" });
@@ -1159,17 +1159,17 @@ public partial class Program : MonoBehaviour
 		    AddRuleToMask("Therese", "Self", "doNothing", -1.0f);
 		    AddRuleToMask("Bill", "Self", "doNothing", -1.0f);
 		    AddRuleToMask("Heather", "Self", "doNothing", -1.0f);
-		    AddRuleToMask("Player", "Self", "doNothing", -1.0f);
+		    AddRuleToMask(playerName, "Self", "doNothing", -1.0f);
 
 		    AddRuleToMask("John", "Self", "flee", 0.2f);
 		    AddRuleToMask("Heather", "Self", "flee", -0.1f);
-		    AddRuleToMask("Player", "Self", "flee", -0.1f);
+		    AddRuleToMask(playerName, "Self", "flee", -0.1f);
 
 		    AddRuleToMask("John", "Self", "chooseAnotherAsPartner", -0.2f);
 		    AddRuleToMask("Therese", "Self", "chooseAnotherAsPartner", -0.2f);
 		    AddRuleToMask("Bill", "Self", "chooseAnotherAsPartner", 0.4f);
 		    AddRuleToMask("Heather", "Self", "chooseAnotherAsPartner", 0.5f);
-		    AddRuleToMask("Player", "Self", "chooseAnotherAsPartner", -0.4f);
+		    AddRuleToMask(playerName, "Self", "chooseAnotherAsPartner", -0.4f);
 		
 	    // INTERPERSONAL
 		    AddRuleToMask("RomanticRelationship", "Partner", "kiss", 0.4f);
@@ -1290,7 +1290,7 @@ public partial class Program : MonoBehaviour
 
 		
 		#region AddingPlayer
-		    MaskAdds selfPersMask = new MaskAdds("Self", "Player", 0.0f);
+		    MaskAdds selfPersMask = new MaskAdds("Self", playerName, 0.0f);
 	
 		    List<MaskAdds>  culture = new List<MaskAdds>();
 		    culture.Add(new MaskAdds("Bunsant", "Bungary", 0.6f));
@@ -1347,11 +1347,11 @@ public partial class Program : MonoBehaviour
 		    relationSystem.AddRefToLinkInPerson("Bill",TypeMask.interPers,"partner","romanticrelationship","Therese",0.4f);
 		    relationSystem.AddRefToLinkInPerson("Bill", TypeMask.interPers, "Enemy", "Rivalry","John",0.6f);
 	        relationSystem.AddRefToLinkInPerson("Bill", TypeMask.interPers, "Friend", "Friendship", "Heather", 0.3f);
-		    relationSystem.AddRefToLinkInPerson("Bill", TypeMask.interPers, "Enemy", "Rivalry","player",0.5f);
+		    relationSystem.AddRefToLinkInPerson("Bill", TypeMask.interPers, "Enemy", "Rivalry",playerName,0.5f);
 		    relationSystem.AddRefToLinkInPerson("Bill",TypeMask.culture,"bunce","Bungary","john",0.3f);
 		    relationSystem.AddRefToLinkInPerson("Bill",TypeMask.culture,"bunce","Bungary","therese",0.5f);
 		    relationSystem.AddRefToLinkInPerson("Bill",TypeMask.culture,"bunce","Bungary","heather",0.3f);
-		    relationSystem.AddRefToLinkInPerson("Bill",TypeMask.culture,"bunce","Bungary","player",0.3f);
+		    relationSystem.AddRefToLinkInPerson("Bill",TypeMask.culture,"bunce","Bungary",playerName,0.3f);
 	
 	        relationSystem.AddLinkToPerson("Therese", TypeMask.interPers, "", "RomanticRelationship", 0);
 	        relationSystem.AddLinkToPerson("Therese", TypeMask.interPers, "", "Rivalry", 0);
@@ -1359,11 +1359,11 @@ public partial class Program : MonoBehaviour
 		    relationSystem.AddRefToLinkInPerson("Therese", TypeMask.interPers, "Partner", "RomanticRelationship","Bill",0.5f);
 		    relationSystem.AddRefToLinkInPerson("Therese", TypeMask.interPers, "Enemy", "Rivalry", "John", 0.2f);
 		    relationSystem.AddRefToLinkInPerson("Therese", TypeMask.interPers, "Friend", "Friendship", "Heather", 0.6f);
-		    relationSystem.AddRefToLinkInPerson("Therese", TypeMask.interPers, "Enemy", "Rivalry", "Player", 0.3f);
+		    relationSystem.AddRefToLinkInPerson("Therese", TypeMask.interPers, "Enemy", "Rivalry", playerName, 0.3f);
 		    relationSystem.AddRefToLinkInPerson("Therese",TypeMask.culture,"buncess","Bungary","john",0.2f);
 		    relationSystem.AddRefToLinkInPerson("Therese",TypeMask.culture,"buncess","Bungary","bill",0.6f);
 		    relationSystem.AddRefToLinkInPerson("Therese",TypeMask.culture,"buncess","Bungary","heather",0.4f);
-		    relationSystem.AddRefToLinkInPerson("Therese",TypeMask.culture,"buncess","Bungary","player",0.2f);
+		    relationSystem.AddRefToLinkInPerson("Therese",TypeMask.culture,"buncess","Bungary",playerName,0.2f);
 
 	        relationSystem.AddLinkToPerson("John", TypeMask.interPers, "", "Rivalry", 0);
 		    relationSystem.AddLinkToPerson("John", TypeMask.interPers, "", "Romanticrelationship", 0);
@@ -1371,34 +1371,34 @@ public partial class Program : MonoBehaviour
 		    relationSystem.AddRefToLinkInPerson("John", TypeMask.interPers, "Enemy", "Rivalry", "Bill", 0.7f);
 		    relationSystem.AddRefToLinkInPerson("John", TypeMask.interPers, "Enemy", "Rivalry", "Therese", 0.4f);
 		    relationSystem.AddRefToLinkInPerson("John", TypeMask.interPers, "Partner", "Romanticrelationship", "Heather", 0.8f);
-		    relationSystem.AddRefToLinkInPerson("John", TypeMask.interPers, "Friend", "Friendship", "Player", 0.5f);	    
+		    relationSystem.AddRefToLinkInPerson("John", TypeMask.interPers, "Friend", "Friendship", playerName, 0.5f);	    
 		    relationSystem.AddRefToLinkInPerson("John",TypeMask.culture,"bunsant","Bungary","bill",0.6f);
 		    relationSystem.AddRefToLinkInPerson("John",TypeMask.culture,"bunsant","Bungary","therese",0.2f);
 		    relationSystem.AddRefToLinkInPerson("John",TypeMask.culture,"bunsant","Bungary","heather",0.4f);
-		    relationSystem.AddRefToLinkInPerson("John",TypeMask.culture,"bunsant","Bungary","player",0.1f);
+		    relationSystem.AddRefToLinkInPerson("John",TypeMask.culture,"bunsant","Bungary",playerName,0.1f);
 	
 	        relationSystem.AddLinkToPerson("Heather", TypeMask.interPers, "", "Friendship", 0);
 		    relationSystem.AddLinkToPerson("Heather", TypeMask.interPers, "", "RomanticRelationship", 0);
 		    relationSystem.AddRefToLinkInPerson("Heather", TypeMask.interPers, "Friend", "Friendship", "Bill", 0f);
 		    relationSystem.AddRefToLinkInPerson("Heather", TypeMask.interPers, "Friend", "Friendship", "Therese", 0.7f);
 		    relationSystem.AddRefToLinkInPerson("Heather", TypeMask.interPers, "Partner", "RomanticRelationship", "John", 0.5f);
-		    relationSystem.AddRefToLinkInPerson("Heather", TypeMask.interPers, "Partner", "RomanticRelationship", "Player", 0.5f);
+		    relationSystem.AddRefToLinkInPerson("Heather", TypeMask.interPers, "Partner", "RomanticRelationship", playerName, 0.5f);
 		    relationSystem.AddRefToLinkInPerson("Heather",TypeMask.culture,"bunsant","Bungary","bill",0.3f);
 		    relationSystem.AddRefToLinkInPerson("Heather",TypeMask.culture,"bunsant","Bungary","therese",0.5f);
 		    relationSystem.AddRefToLinkInPerson("Heather",TypeMask.culture,"bunsant","Bungary","john",0.6f);
-		    relationSystem.AddRefToLinkInPerson("Heather",TypeMask.culture,"bunsant","Bungary","player",0.4f);
+		    relationSystem.AddRefToLinkInPerson("Heather",TypeMask.culture,"bunsant","Bungary",playerName,0.4f);
 	
-	        relationSystem.AddLinkToPerson("Player", TypeMask.interPers, "", "Rivalry", 0);
-		    relationSystem.AddLinkToPerson("Player", TypeMask.interPers, "", "Friendship", 0);
-		    relationSystem.AddLinkToPerson("Player", TypeMask.interPers, "", "RomanticRelationship", 0);
-		    relationSystem.AddRefToLinkInPerson("Player", TypeMask.interPers, "Enemy", "Rivalry", "Bill", 0.5f);
-		    relationSystem.AddRefToLinkInPerson("Player", TypeMask.interPers, "Enemy", "Rivalry", "Therese", 0.3f);
-		    relationSystem.AddRefToLinkInPerson("Player", TypeMask.interPers, "Friend", "Friendship", "John", 0.5f);
-		    relationSystem.AddRefToLinkInPerson("Player", TypeMask.interPers, "Partner", "RomanticRelationship", "Heather", 0.6f);
-		    relationSystem.AddRefToLinkInPerson("Player",TypeMask.culture,"bunsant","Bungary","bill",0.5f);
-		    relationSystem.AddRefToLinkInPerson("Player",TypeMask.culture,"bunsant","Bungary","therese",0.4f);
-		    relationSystem.AddRefToLinkInPerson("Player",TypeMask.culture,"bunsant","Bungary","john",0.6f);
-		    relationSystem.AddRefToLinkInPerson("Player",TypeMask.culture,"bunsant","Bungary","heather",0.5f);
+	        relationSystem.AddLinkToPerson(playerName, TypeMask.interPers, "", "Rivalry", 0);
+		    relationSystem.AddLinkToPerson(playerName, TypeMask.interPers, "", "Friendship", 0);
+		    relationSystem.AddLinkToPerson(playerName, TypeMask.interPers, "", "RomanticRelationship", 0);
+		    relationSystem.AddRefToLinkInPerson(playerName, TypeMask.interPers, "Enemy", "Rivalry", "Bill", 0.5f);
+		    relationSystem.AddRefToLinkInPerson(playerName, TypeMask.interPers, "Enemy", "Rivalry", "Therese", 0.3f);
+		    relationSystem.AddRefToLinkInPerson(playerName, TypeMask.interPers, "Friend", "Friendship", "John", 0.5f);
+		    relationSystem.AddRefToLinkInPerson(playerName, TypeMask.interPers, "Partner", "RomanticRelationship", "Heather", 0.6f);
+		    relationSystem.AddRefToLinkInPerson(playerName,TypeMask.culture,"bunsant","Bungary","bill",0.5f);
+		    relationSystem.AddRefToLinkInPerson(playerName,TypeMask.culture,"bunsant","Bungary","therese",0.4f);
+		    relationSystem.AddRefToLinkInPerson(playerName,TypeMask.culture,"bunsant","Bungary","john",0.6f);
+		    relationSystem.AddRefToLinkInPerson(playerName,TypeMask.culture,"bunsant","Bungary","heather",0.5f);
 		#endregion LINKS 
 
 		#region Opinions
@@ -1412,9 +1412,9 @@ public partial class Program : MonoBehaviour
 	    GetPerson("bill").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("heather"), 0.4f);
 	    GetPerson("bill").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("heather"), 0.6f);
 	    GetPerson("bill").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("heather"), -0.1f);
-	    GetPerson("bill").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("player"), -0.2f);
-	    GetPerson("bill").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("player"), -0.1f);
-	    GetPerson("bill").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("player"), 0.1f);
+	    GetPerson("bill").SetOpinionValue(TraitTypes.NiceNasty, GetPerson(playerName), -0.2f);
+	    GetPerson("bill").SetOpinionValue(TraitTypes.HonestFalse, GetPerson(playerName), -0.1f);
+	    GetPerson("bill").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson(playerName), 0.1f);
 	    GetPerson("therese").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("bill"), 0.7f);
 	    GetPerson("therese").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("bill"), 0.5f);
 	    GetPerson("therese").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("bill"), 0.3f);
@@ -1424,9 +1424,9 @@ public partial class Program : MonoBehaviour
 	    GetPerson("therese").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("heather"), 0.5f);
 	    GetPerson("therese").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("heather"), -0.1f);
 	    GetPerson("therese").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("heather"), 0.2f);
-	    GetPerson("therese").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("player"), -0.3f);
-	    GetPerson("therese").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("player"), 0.1f);
-	    GetPerson("therese").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("player"), 0.1f);
+	    GetPerson("therese").SetOpinionValue(TraitTypes.NiceNasty, GetPerson(playerName), -0.3f);
+	    GetPerson("therese").SetOpinionValue(TraitTypes.HonestFalse, GetPerson(playerName), 0.1f);
+	    GetPerson("therese").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson(playerName), 0.1f);
 	    GetPerson("john").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("bill"), -0.5f);
 	    GetPerson("john").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("bill"), -0.5f);
 	    GetPerson("john").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("bill"), -0.4f);
@@ -1436,9 +1436,9 @@ public partial class Program : MonoBehaviour
 	    GetPerson("john").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("heather"), 0.6f);
 	    GetPerson("john").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("heather"), 0.4f);
 	    GetPerson("john").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("heather"), 0.4f);
-	    GetPerson("john").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("player"), 0.5f);
-	    GetPerson("john").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("player"), 0.5f);
-	    GetPerson("john").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("player"), -0.1f);
+	    GetPerson("john").SetOpinionValue(TraitTypes.NiceNasty, GetPerson(playerName), 0.5f);
+	    GetPerson("john").SetOpinionValue(TraitTypes.HonestFalse, GetPerson(playerName), 0.5f);
+	    GetPerson("john").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson(playerName), -0.1f);
 	    GetPerson("heather").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("bill"), 0.4f);
 	    GetPerson("heather").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("bill"), -0.1f);
 	    GetPerson("heather").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("bill"), -0.2f);
@@ -1448,21 +1448,21 @@ public partial class Program : MonoBehaviour
 	    GetPerson("heather").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("john"), 0.4f);
 	    GetPerson("heather").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("john"), -0.4f);
 	    GetPerson("heather").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("john"), 0.2f);
-	    GetPerson("heather").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("player"), 0.7f);
-	    GetPerson("heather").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("player"), 0.3f);
-	    GetPerson("heather").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("player"), 0.1f);
-	    GetPerson("player").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("bill"), -0.4f);
-	    GetPerson("player").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("bill"), -0.2f);
-	    GetPerson("player").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("bill"), -0.7f);
-	    GetPerson("player").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("therese"), 0.3f);
-	    GetPerson("player").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("therese"), 0.1f);
-	    GetPerson("player").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("therese"), 0.2f);
-	    GetPerson("player").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("john"), 0.4f);
-	    GetPerson("player").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("john"), -0.1f);
-	    GetPerson("player").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("john"), -0.2f);
-	    GetPerson("player").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("heather"), 0.6f);
-	    GetPerson("player").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("heather"), 0.4f);
-	    GetPerson("player").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("heather"), 0.5f);
+	    GetPerson("heather").SetOpinionValue(TraitTypes.NiceNasty, GetPerson(playerName), 0.7f);
+	    GetPerson("heather").SetOpinionValue(TraitTypes.HonestFalse, GetPerson(playerName), 0.3f);
+	    GetPerson("heather").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson(playerName), 0.1f);
+	    GetPerson(playerName).SetOpinionValue(TraitTypes.NiceNasty, GetPerson("bill"), -0.4f);
+	    GetPerson(playerName).SetOpinionValue(TraitTypes.HonestFalse, GetPerson("bill"), -0.2f);
+	    GetPerson(playerName).SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("bill"), -0.7f);
+	    GetPerson(playerName).SetOpinionValue(TraitTypes.NiceNasty, GetPerson("therese"), 0.3f);
+	    GetPerson(playerName).SetOpinionValue(TraitTypes.HonestFalse, GetPerson("therese"), 0.1f);
+	    GetPerson(playerName).SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("therese"), 0.2f);
+	    GetPerson(playerName).SetOpinionValue(TraitTypes.NiceNasty, GetPerson("john"), 0.4f);
+	    GetPerson(playerName).SetOpinionValue(TraitTypes.HonestFalse, GetPerson("john"), -0.1f);
+	    GetPerson(playerName).SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("john"), -0.2f);
+	    GetPerson(playerName).SetOpinionValue(TraitTypes.NiceNasty, GetPerson("heather"), 0.6f);
+	    GetPerson(playerName).SetOpinionValue(TraitTypes.HonestFalse, GetPerson("heather"), 0.4f);
+	    GetPerson(playerName).SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("heather"), 0.5f);
 		#endregion Opinions
 	}
 }
