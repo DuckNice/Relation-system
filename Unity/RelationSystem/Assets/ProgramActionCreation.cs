@@ -31,7 +31,7 @@ public partial class Program : MonoBehaviour {
         {
             UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " greets " + CapitalizeName(direct.name));
         };
-        AddAction(new MAction("Greet", 0.7f, 0.5f, relationSystem, greet, 2f));
+        AddAction(new MAction("greet", 0.7f, 0.5f, relationSystem, greet, 2f));
 
         ActionInvoker kiss = (subject, direct, indPpl, misc) =>
         {
@@ -124,7 +124,7 @@ public partial class Program : MonoBehaviour {
 			relationSystem.AddRefToLinkInPerson(subject.name,TypeMask.interPers,"enemy","rivalry",direct.name,0.5f);
 			relationSystem.AddRefToLinkInPerson(direct.name,TypeMask.interPers,"enemy","rivalry",subject.name,0.5f);
         };
-        AddAction(new MAction("LeavePartner", -0.3f, -0.7f, relationSystem, LeavePartner, 5f));
+        AddAction(new MAction("leavePartner", -0.3f, -0.7f, relationSystem, LeavePartner, 5f));
 
         ActionInvoker flirt = (subject, direct, indPpl, misc) =>
         {
@@ -456,7 +456,7 @@ public partial class Program : MonoBehaviour {
 			}
             subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.2f, subject.moods[MoodTypes.energTired]);
         };
-        AddAction(new MAction("makefunof", 0.4f, -0.6f, relationSystem, makefunof, 4f));
+        AddAction(new MAction("makeFunOf", 0.4f, -0.6f, relationSystem, makefunof, 4f));
 
         ActionInvoker telljoke = (subject, direct, indPpl, misc) =>
         {
@@ -470,7 +470,7 @@ public partial class Program : MonoBehaviour {
 			direct.AddToOpinionValue(TraitTypes.NiceNasty,subject,0.2f);
 
         };
-        AddAction(new MAction("telljoke", 0.1f, 0.1f, relationSystem, telljoke, 5f));
+        AddAction(new MAction("tellJoke", 0.1f, 0.1f, relationSystem, telljoke, 5f));
 
         ActionInvoker harass = (subject, direct, indPpl, misc) =>
         {
@@ -511,7 +511,7 @@ public partial class Program : MonoBehaviour {
             direct.AddToOpinionValue(TraitTypes.NiceNasty, subject, 0.1f);
             direct.AddToOpinionValue(TraitTypes.HonestFalse, subject, 0.1f);
         };
-        AddAction(new MAction("playgame", 0.3f, 0.3f, relationSystem, playgame, 10f));
+        AddAction(new MAction("playGame", 0.3f, 0.3f, relationSystem, playgame, 10f));
 
         ActionInvoker order = (subject, direct, indPpl, misc) =>
         {
@@ -623,7 +623,7 @@ public partial class Program : MonoBehaviour {
 			direct.RemoveLink(TypeMask.culture,subject.culture.Find(x => x._roleMask.GetMaskName() == "merchantguild"));
 
         };
-        AddAction(new MAction("DemandtoLeaveGuild", 0.4f, -0.5f, relationSystem, DemandtoLeaveGuild, 4f));
+        AddAction(new MAction("demandToLeaveGuild", 0.4f, -0.5f, relationSystem, DemandtoLeaveGuild, 4f));
 
 		ActionInvoker buyGoods = (subject, direct, indPpl, misc) =>
         {

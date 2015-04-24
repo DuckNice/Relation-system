@@ -137,7 +137,7 @@ public partial class Program : MonoBehaviour
 			}
 
 			if( self != other){
-				if((relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["stayaspartner"] && x.GetSubject() == other && x.GetDirect() != self)
+				if((relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["stayAsPartner"] && x.GetSubject() == other && x.GetDirect() != self)
 				    && (self.CheckRoleName("partner",other)))
 				   && roomMan.IsPersonInSameRoomAsMe(self, other))
 				{  return true; }
@@ -161,7 +161,7 @@ public partial class Program : MonoBehaviour
 				}
 			}
 
-			if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["askaboutpartnerstatus"] && x.GetSubject() == other && x.GetDirect() == self && HowLongAgo(x.GetTime()) < 10f)){
+			if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["askAboutPartnerStatus"] && x.GetSubject() == other && x.GetDirect() == self && HowLongAgo(x.GetTime()) < 10f)){
 				if(self != other  && roomMan.IsPersonInSameRoomAsMe(self, other)){ //LVLOFINFL0.3
 					if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.4f)
 						{  return true; }
@@ -180,11 +180,11 @@ public partial class Program : MonoBehaviour
         };
 
 		RuleConditioner stayAsPartnerCondition = (self, other, indPpl) =>
-		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["stayaspartner"] && x.GetSubject() == self && HowLongAgo(x.GetTime()) > 10f)){
+		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["stayAsPartner"] && x.GetSubject() == self && HowLongAgo(x.GetTime()) > 10f)){
 				return false;
 			}
 
-			if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["askaboutpartnerstatus"] && x.GetSubject() == other && x.GetDirect() == self && HowLongAgo(x.GetTime()) < 10f)){
+			if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["askAboutPartnerStatus"] && x.GetSubject() == other && x.GetDirect() == self && HowLongAgo(x.GetTime()) < 10f)){
 				if(self != other && roomMan.IsPersonInSameRoomAsMe(self, other))
 					{ return true; }
 			}
@@ -512,7 +512,7 @@ public partial class Program : MonoBehaviour
 		RuleConditioner movetolivingroomCondition = (self, other, indPpl) =>
 		{	
 			//debug.Write("CHECKING MOVE "+roomMan.GetRoomIAmIn(self)+" "+self.name);
-			if(HowLongAgo(relationSystem.historyBook.Find(x=> (x.GetAction()==relationSystem.posActions["movetolivingroom"] || x.GetAction()==relationSystem.posActions["movetokitchen"] || x.GetAction()==relationSystem.posActions["movetoentryhall"]) && x.GetSubject()==self).GetTime()) < 10f){
+			if(HowLongAgo(relationSystem.historyBook.Find(x=> (x.GetAction()==relationSystem.posActions["moveToLivingRoom"] || x.GetAction()==relationSystem.posActions["moveToKitchen"] || x.GetAction()==relationSystem.posActions["moveToEntryHall"]) && x.GetSubject()==self).GetTime()) < 10f){
 			//	debug.Write("FALSE");
 				return false;
 			}
@@ -531,7 +531,7 @@ public partial class Program : MonoBehaviour
 		RuleConditioner movetoentryhallCondition = (self, other, indPpl) =>
         {
 
-			if(HowLongAgo(relationSystem.historyBook.Find(x=> (x.GetAction()==relationSystem.posActions["movetolivingroom"] || x.GetAction()==relationSystem.posActions["movetokitchen"] || x.GetAction()==relationSystem.posActions["movetoentryhall"]) && x.GetSubject()==self).GetTime()) < 10f){
+			if(HowLongAgo(relationSystem.historyBook.Find(x=> (x.GetAction()==relationSystem.posActions["moveToLivingRoom"] || x.GetAction()==relationSystem.posActions["moveToKitchen"] || x.GetAction()==relationSystem.posActions["moveToEntryHall"]) && x.GetSubject()==self).GetTime()) < 10f){
 				return false;
 			}
 			if (self != null && (roomMan.GetRoomIAmIn(self) == "Living Room")) { 
@@ -550,7 +550,7 @@ public partial class Program : MonoBehaviour
 
 		RuleConditioner movetokitchenCondition = (self, other, indPpl) =>
         {
-			if(HowLongAgo(relationSystem.historyBook.Find(x=> (x.GetAction()==relationSystem.posActions["movetolivingroom"] || x.GetAction()==relationSystem.posActions["movetokitchen"] || x.GetAction()==relationSystem.posActions["movetoentryhall"]) && x.GetSubject()==self).GetTime()) < 10f){
+			if(HowLongAgo(relationSystem.historyBook.Find(x=> (x.GetAction()==relationSystem.posActions["moveToLivingRoom"] || x.GetAction()==relationSystem.posActions["moveToKitchen"] || x.GetAction()==relationSystem.posActions["moveToEntryHall"]) && x.GetSubject()==self).GetTime()) < 10f){
 				return false;
 			}
             if (self != null && (roomMan.GetRoomIAmIn(self) == "Living Room")) { 
@@ -877,22 +877,22 @@ public partial class Program : MonoBehaviour
 		#region Rules
 		    // INTERPERSONAL RULES
 		    CreateNewRule("kiss", "kiss", kissCondition,kissPreference);
-		    CreateNewRule("chooseanotheraspartner", "chooseanotheraspartner", chooseAnotherAsPartnerCondition,chooseAnotherAsPartnerPreference);
-		    CreateNewRule("stayaspartner", "stayaspartner", stayAsPartnerCondition,StayAsPartnerPreference);
-		    CreateNewRule("leavepartner", "leavepartner", LeavePartnerCondition,LeavePartnerPreference);
+		    CreateNewRule("chooseAnotherAsPartner", "chooseAnotherAsPartner", chooseAnotherAsPartnerCondition,chooseAnotherAsPartnerPreference);
+		    CreateNewRule("stayAsPartner", "stayAsPartner", stayAsPartnerCondition,StayAsPartnerPreference);
+		    CreateNewRule("leavePartner", "leavePartner", LeavePartnerCondition,LeavePartnerPreference);
 		    CreateNewRule("askAboutPartnerStatus", "askAboutPartnerStatus", askAboutPartnerStatusCondition,askAboutPartnerStatusPreference);
 
 		    CreateNewRule("flirt", "flirt", flirtCondition,flirtPreference);
 		    CreateNewRule("chat", "chat", chatCondition,chatPreference);
-		    CreateNewRule("givegift", "givegift", giveGiftCondition,giveGiftPreference);
+		    CreateNewRule("giveGift", "giveGift", giveGiftCondition,giveGiftPreference);
 		    CreateNewRule("gossip", "gossip", gossipCondition,gossipPreference);
 		    CreateNewRule("argue", "argue", argueCondition,arguePreference);
 		    CreateNewRule("deny", "deny", denyCondition,denyPreference);
-		    CreateNewRule("makedistraction", "makedistraction", makeDistractionCondition,makeDistractionPreference);
+		    CreateNewRule("makeDistraction", "makeDistraction", makeDistractionCondition,makeDistractionPreference);
 		    CreateNewRule("reminisce", "reminisce", reminisceCondition,reminiscePreference);
 		    CreateNewRule("praise", "praise", praiseCondition,praisePreference);
-		    CreateNewRule("makefunof", "makefunof", makefunofCondition,makeFunOfPreference);
-		    CreateNewRule("telljoke", "telljoke", telljokeCondition,telljokePreference);
+		    CreateNewRule("makeFunOf", "makeFunOf", makefunofCondition,makeFunOfPreference);
+		    CreateNewRule("tellJoke", "tellJoke", telljokeCondition,telljokePreference);
 		    CreateNewRule("prank", "prank", prankCondition,prankPreference);
 		    CreateNewRule("harass", "harass", harassCondition,harassPreference);
 		    CreateNewRule("cry", "cry", cryCondition,cryPreference);
@@ -911,12 +911,12 @@ public partial class Program : MonoBehaviour
 		    CreateNewRule("bribefbunce", "bribe", bribeCondition,bribePreference);
 		    CreateNewRule("bribefcess", "bribe", bribeCondition,bribePreference);
 		    CreateNewRule("bribefbunsant", "bribe", bribeCondition,bribePreference);
-		    CreateNewRule("argueinnocence", "argueinnocence", argueInnocenceCondition,argueInnocencePreference);
-		    CreateNewRule("argueinnocencefbunce", "argueinnocence", argueInnocenceCondition,argueInnocencePreference);
-		    CreateNewRule("argueinnocencefcess", "argueinnocence", argueInnocenceCondition,argueInnocencePreference);
-		    CreateNewRule("argueguiltiness", "argueguiltiness", argueGuiltinessCondition,argueGuiltinessPreference);
-		    CreateNewRule("argueguiltinessfbunce", "argueguiltiness", argueGuiltinessCondition,argueGuiltinessPreference);
-		    CreateNewRule("argueguiltinessfcess", "argueguiltiness", argueGuiltinessCondition,argueGuiltinessPreference);
+		    CreateNewRule("argueInnocence", "argueInnocence", argueInnocenceCondition,argueInnocencePreference);
+		    CreateNewRule("argueinnocencefbunce", "argueInnocence", argueInnocenceCondition,argueInnocencePreference);
+		    CreateNewRule("argueinnocencefcess", "argueInnocence", argueInnocenceCondition,argueInnocencePreference);
+		    CreateNewRule("argueGuiltiness", "argueGuiltiness", argueGuiltinessCondition,argueGuiltinessPreference);
+		    CreateNewRule("argueguiltinessfbunce", "argueGuiltiness", argueGuiltinessCondition,argueGuiltinessPreference);
+		    CreateNewRule("argueguiltinessfcess", "argueGuiltiness", argueGuiltinessCondition,argueGuiltinessPreference);
 		    CreateNewRule("steal", "steal", stealCondition,stealPreference);
 		    CreateNewRule("kill", "kill",killCondition,killPreference);
 		    CreateNewRule("killfbunsant", "kill",killCondition,killPreference);
@@ -926,37 +926,37 @@ public partial class Program : MonoBehaviour
 		    CreateNewRule("poisonfbunce", "poison", poisonCondition,poisonPreference);
 		    CreateNewRule("poisonfcess", "poison", poisonCondition,poisonPreference);
 		    CreateNewRule("poisonfbunsant", "poison", poisonCondition,poisonPreference);
-		    CreateNewRule("playgame", "playgame", playgameCondition,playgamePreference);
-		    CreateNewRule("playgamefbunce", "playgame", playgameCondition,playgamePreference);
-		    CreateNewRule("playgamefcess", "playgame", playgameCondition,playgamePreference);
-		    CreateNewRule("playgamefbunsant", "playgame", playgameCondition,playgamePreference);
+		    CreateNewRule("playGame", "playGame", playgameCondition,playgamePreference);
+		    CreateNewRule("playgamefbunce", "playGame", playgameCondition,playgamePreference);
+		    CreateNewRule("playgamefcess", "playGame", playgameCondition,playgamePreference);
+		    CreateNewRule("playgamefbunsant", "playGame", playgameCondition,playgamePreference);
 		    CreateNewRule("order", "order", orderCondition,orderPreference);
 		    CreateNewRule("orderfbunce", "order", orderCondition,orderPreference);
 		    CreateNewRule("orderfcess", "order", orderCondition,orderPreference);
 		    CreateNewRule("orderfbunsant", "order", orderCondition,orderPreference);
 
-			CreateNewRule("movetolivingroom", "movetolivingroom", movetolivingroomCondition,moveToLivingRoomPreference);
-		    CreateNewRule("movetolivingroomfbunce", "movetolivingroom", movetolivingroomCondition,moveToLivingRoomPreference);
-		    CreateNewRule("movetolivingroomfcess", "movetolivingroom", movetolivingroomCondition,moveToLivingRoomPreference);
-		    CreateNewRule("movetolivingroomfbunsant", "movetolivingroom", movetolivingroomCondition,moveToLivingRoomPreference);
-			CreateNewRule("movetokitchen", "movetokitchen", movetokitchenCondition,moveToKitchenPreference);
-		    CreateNewRule("movetokitchenfbunce", "movetokitchen", movetokitchenCondition,moveToKitchenPreference);
-		    CreateNewRule("movetokitchenfcess", "movetokitchen", movetokitchenCondition,moveToKitchenPreference);
-		    CreateNewRule("movetokitchenfbunsant", "movetokitchen", movetokitchenCondition,moveToKitchenPreference);
-			CreateNewRule("movetoentryhall", "movetoentryhall", movetoentryhallCondition,moveToEntryHallPreference);
-		    CreateNewRule("movetoentryhallfbunce", "movetoentryhall", movetoentryhallCondition,moveToEntryHallPreference);
-		    CreateNewRule("movetoentryhallfcess", "movetoentryhall", movetoentryhallCondition,moveToEntryHallPreference);
-		    CreateNewRule("movetoentryhallfbunsant", "movetoentryhall", movetoentryhallCondition,moveToEntryHallPreference);
-		    CreateNewRule("buycompany", "buycompany", buyCompanyCondition,buyCompanyPreference);
+			CreateNewRule("moveToLivingRoom", "moveToLivingRoom", movetolivingroomCondition,moveToLivingRoomPreference);
+		    CreateNewRule("movetolivingroomfbunce", "moveToLivingRoom", movetolivingroomCondition,moveToLivingRoomPreference);
+		    CreateNewRule("movetolivingroomfcess", "moveToLivingRoom", movetolivingroomCondition,moveToLivingRoomPreference);
+		    CreateNewRule("movetolivingroomfbunsant", "moveToLivingRoom", movetolivingroomCondition,moveToLivingRoomPreference);
+			CreateNewRule("moveToKitchen", "moveToKitchen", movetokitchenCondition,moveToKitchenPreference);
+		    CreateNewRule("movetokitchenfbunce", "moveToKitchen", movetokitchenCondition,moveToKitchenPreference);
+		    CreateNewRule("movetokitchenfcess", "moveToKitchen", movetokitchenCondition,moveToKitchenPreference);
+		    CreateNewRule("movetokitchenfbunsant", "moveToKitchen", movetokitchenCondition,moveToKitchenPreference);
+			CreateNewRule("moveToEntryHall", "moveToEntryHall", movetoentryhallCondition,moveToEntryHallPreference);
+		    CreateNewRule("movetoentryhallfbunce", "moveToEntryHall", movetoentryhallCondition,moveToEntryHallPreference);
+		    CreateNewRule("movetoentryhallfcess", "moveToEntryHall", movetoentryhallCondition,moveToEntryHallPreference);
+		    CreateNewRule("movetoentryhallfbunsant", "moveToEntryHall", movetoentryhallCondition,moveToEntryHallPreference);
+		    CreateNewRule("buyCompany", "buyCompany", buyCompanyCondition,buyCompanyPreference);
 		    CreateNewRule("sabotage", "sabotage", sabotageCondition,sabotagePreference);
 		    CreateNewRule("advertise", "advertise", advertiseCondition,advertisePreference);
-		    CreateNewRule("demandtoleaveguild", "demandtoleaveguild", DemandtoLeaveGuildCondition,demandoLeaveGuildPreference);
-		    CreateNewRule("sellcompany", "sellcompany", sellCompanyCondition,sellCompanyPreference);
-		    CreateNewRule("buygoods", "buygoods", buyGoodsCondition,buyCompanyPreference);
-		    CreateNewRule("sellgoods", "sellgoods", sellGoodsCondition,sellGoodsPreference);
+		    CreateNewRule("demandToLeaveGuild", "demandToLeaveGuild", DemandtoLeaveGuildCondition,demandoLeaveGuildPreference);
+		    CreateNewRule("sellCompany", "sellCompany", sellCompanyCondition,sellCompanyPreference);
+		    CreateNewRule("buyGoods", "buyGoods", buyGoodsCondition,buyCompanyPreference);
+		    CreateNewRule("sellGoods", "sellGoods", sellGoodsCondition,sellGoodsPreference);
 
 		    //SELF RULES
-		    CreateNewRule("donothing", "donothing", emptyCondition, doNothingPreference);
+		    CreateNewRule("doNothing", "doNothing", emptyCondition, doNothingPreference);
 		    CreateNewRule("flee", "flee", fleeCondition,fleePreference);
 
 		#endregion Rules
@@ -965,24 +965,24 @@ public partial class Program : MonoBehaviour
 
 		#region RulesToTrigger
 		    // ------------- INTERPERSONAL
-		    List<Rule> kissRulesToTrigger = new List<Rule>(); kissRulesToTrigger.Add(GetRule("givegift"));
+		    List<Rule> kissRulesToTrigger = new List<Rule>(); kissRulesToTrigger.Add(GetRule("giveGift"));
 		    AddPossibleRulesToRule("kiss",kissRulesToTrigger); AddPossibleRulesToRule("deny",kissRulesToTrigger); 
 		    AddPossibleRulesToRule("deny",kissRulesToTrigger);
 
-		    List<Rule> askAboutPartnerStatusRulesToTrigger = new List<Rule>(); askAboutPartnerStatusRulesToTrigger.Add(GetRule("chooseanotheraspartner"));
-		    askAboutPartnerStatusRulesToTrigger.Add(GetRule("stayaspartner")); askAboutPartnerStatusRulesToTrigger.Add(GetRule("leavepartner"));
+		    List<Rule> askAboutPartnerStatusRulesToTrigger = new List<Rule>(); askAboutPartnerStatusRulesToTrigger.Add(GetRule("chooseAnotherAsPartner"));
+		    askAboutPartnerStatusRulesToTrigger.Add(GetRule("stayAsPartner")); askAboutPartnerStatusRulesToTrigger.Add(GetRule("leavePartner"));
 		    AddPossibleRulesToRule("askAboutPartnerStatus",askAboutPartnerStatusRulesToTrigger);
 
 		    List<Rule> chooseanotheraspartnerRulesToTrigger = new List<Rule>(); chooseanotheraspartnerRulesToTrigger.Add(GetRule("kiss")); chooseanotheraspartnerRulesToTrigger.Add(GetRule("flirt")); 
 		    chooseanotheraspartnerRulesToTrigger.Add(GetRule("deny")); chooseanotheraspartnerRulesToTrigger.Add(GetRule("fight"));
-		    AddPossibleRulesToRule("chooseanotheraspartner",chooseanotheraspartnerRulesToTrigger);
+		    AddPossibleRulesToRule("chooseAnotherAsPartner",chooseanotheraspartnerRulesToTrigger);
 
 		    List<Rule> stayaspartnerRulesToTrigger = new List<Rule>(); stayaspartnerRulesToTrigger.Add(GetRule("kiss")); stayaspartnerRulesToTrigger.Add(GetRule("flirt")); 
-		    AddPossibleRulesToRule("stayaspartner",stayaspartnerRulesToTrigger);
+		    AddPossibleRulesToRule("stayAsPartner",stayaspartnerRulesToTrigger);
 
 		    List<Rule> leavepartnerRulesToTrigger = new List<Rule>(); leavepartnerRulesToTrigger.Add(GetRule("deny")); leavepartnerRulesToTrigger.Add(GetRule("poison"));
 		    leavepartnerRulesToTrigger.Add(GetRule("fight"));
-		    AddPossibleRulesToRule("leavepartner",leavepartnerRulesToTrigger);
+		    AddPossibleRulesToRule("leavePartner",leavepartnerRulesToTrigger);
 
 		    List<Rule> flirtRulesToTrigger = new List<Rule>(); flirtRulesToTrigger.Add(GetRule("deny")); flirtRulesToTrigger.Add(GetRule("flirt"));
 		    flirtRulesToTrigger.Add(GetRule("kiss")); flirtRulesToTrigger.Add(GetRule("fight"));
@@ -995,7 +995,7 @@ public partial class Program : MonoBehaviour
 
 		    List<Rule> giveGiftRulesToTrigger = new List<Rule>(); giveGiftRulesToTrigger.Add(GetRule("reminisce")); giveGiftRulesToTrigger.Add(GetRule("flirt"));
 		    giveGiftRulesToTrigger.Add(GetRule("deny")); giveGiftRulesToTrigger.Add(GetRule("askAboutPartnerStatus"));
-		    AddPossibleRulesToRule("givegift",giveGiftRulesToTrigger);
+		    AddPossibleRulesToRule("giveGift",giveGiftRulesToTrigger);
 
 		    List<Rule> gossipRulesToTrigger = new List<Rule>(); gossipRulesToTrigger.Add(GetRule("reminisce")); gossipRulesToTrigger.Add(GetRule("flirt"));
 		    gossipRulesToTrigger.Add(GetRule("deny")); gossipRulesToTrigger.Add(GetRule("argue"));
@@ -1012,7 +1012,7 @@ public partial class Program : MonoBehaviour
 
 		    List<Rule> makedistractionRulesToTrigger = new List<Rule>(); makedistractionRulesToTrigger.Add(GetRule("argue")); makedistractionRulesToTrigger.Add(GetRule("poison")); 
 		    makedistractionRulesToTrigger.Add(GetRule("steal")); makedistractionRulesToTrigger.Add(GetRule("deny")); makedistractionRulesToTrigger.Add(GetRule("sabotage"));
-		    AddPossibleRulesToRule("makedistraction",makedistractionRulesToTrigger);
+		    AddPossibleRulesToRule("makeDistraction",makedistractionRulesToTrigger);
 
 		    List<Rule> reminisceRulesToTrigger = new List<Rule>(); reminisceRulesToTrigger.Add(GetRule("chat")); reminisceRulesToTrigger.Add(GetRule("gossip"));
 		    reminisceRulesToTrigger.Add(GetRule("flirt"));
@@ -1022,25 +1022,25 @@ public partial class Program : MonoBehaviour
 		    praiseRulesToTrigger.Add(GetRule("flirt")); praiseRulesToTrigger.Add(GetRule("fight"));
 		    AddPossibleRulesToRule("praise",praiseRulesToTrigger);
 
-		    List<Rule> makefunofRulesToTrigger = new List<Rule>(); makefunofRulesToTrigger.Add(GetRule("makefunof")); makefunofRulesToTrigger.Add(GetRule("argue"));
+		    List<Rule> makefunofRulesToTrigger = new List<Rule>(); makefunofRulesToTrigger.Add(GetRule("makeFunOf")); makefunofRulesToTrigger.Add(GetRule("argue"));
 		    makefunofRulesToTrigger.Add(GetRule("harass")); makefunofRulesToTrigger.Add(GetRule("deny"));
-		    makefunofRulesToTrigger.Add(GetRule("telljoke"));
-		    AddPossibleRulesToRule("makefunof",makefunofRulesToTrigger);
+		    makefunofRulesToTrigger.Add(GetRule("tellJoke"));
+		    AddPossibleRulesToRule("makeFunOf",makefunofRulesToTrigger);
 
-		    List<Rule> telljokeRulesToTrigger = new List<Rule>(); telljokeRulesToTrigger.Add(GetRule("makefunof")); telljokeRulesToTrigger.Add(GetRule("telljoke")); 
+		    List<Rule> telljokeRulesToTrigger = new List<Rule>(); telljokeRulesToTrigger.Add(GetRule("makeFunOf")); telljokeRulesToTrigger.Add(GetRule("tellJoke")); 
 		    telljokeRulesToTrigger.Add(GetRule("chat")); telljokeRulesToTrigger.Add(GetRule("praise")); 
-		    AddPossibleRulesToRule("telljoke",telljokeRulesToTrigger);
+		    AddPossibleRulesToRule("tellJoke",telljokeRulesToTrigger);
 
-		    List<Rule> prankRulesToTrigger = new List<Rule>(); prankRulesToTrigger.Add(GetRule("makefunof")); prankRulesToTrigger.Add(GetRule("deny"));
+		    List<Rule> prankRulesToTrigger = new List<Rule>(); prankRulesToTrigger.Add(GetRule("makeFunOf")); prankRulesToTrigger.Add(GetRule("deny"));
 		    prankRulesToTrigger.Add(GetRule("convict")); prankRulesToTrigger.Add(GetRule("argue")); prankRulesToTrigger.Add(GetRule("order"));
 		    AddPossibleRulesToRule("prank",prankRulesToTrigger);
 
-		    List<Rule> harassRulesToTrigger = new List<Rule>(); harassRulesToTrigger.Add(GetRule("telljoke")); harassRulesToTrigger.Add(GetRule("deny"));
+		    List<Rule> harassRulesToTrigger = new List<Rule>(); harassRulesToTrigger.Add(GetRule("tellJoke")); harassRulesToTrigger.Add(GetRule("deny"));
 		    harassRulesToTrigger.Add(GetRule("argue")); harassRulesToTrigger.Add(GetRule("fight")); harassRulesToTrigger.Add(GetRule("order"));
 		    AddPossibleRulesToRule("harass",harassRulesToTrigger);
 
 		    List<Rule> cryRulesToTrigger = new List<Rule>(); cryRulesToTrigger.Add(GetRule("cry")); cryRulesToTrigger.Add(GetRule("reminisce"));
-		    cryRulesToTrigger.Add(GetRule("givegift")); cryRulesToTrigger.Add(GetRule("kiss")); cryRulesToTrigger.Add(GetRule("console")); 
+		    cryRulesToTrigger.Add(GetRule("giveGift")); cryRulesToTrigger.Add(GetRule("kiss")); cryRulesToTrigger.Add(GetRule("console")); 
 		    AddPossibleRulesToRule("cry",cryRulesToTrigger);
 
 		    List<Rule> consoleRulesToTrigger = new List<Rule>(); consoleRulesToTrigger.Add(GetRule("chat")); consoleRulesToTrigger.Add(GetRule("reminisce"));
@@ -1074,19 +1074,19 @@ public partial class Program : MonoBehaviour
 
 		    List<Rule> argueinnocenceRulesToTrigger = new List<Rule>(); argueinnocenceRulesToTrigger.Add(GetRule("chat")); argueinnocenceRulesToTrigger.Add(GetRule("argue"));
 		    argueinnocenceRulesToTrigger.Add(GetRule("deny"));
-		    AddPossibleRulesToRule("argueinnocence",argueinnocenceRulesToTrigger);
+		    AddPossibleRulesToRule("argueInnocence",argueinnocenceRulesToTrigger);
 		    AddPossibleRulesToRule("argueinnocencefbunce",argueinnocenceRulesToTrigger);
 		    AddPossibleRulesToRule("argueinnocencefcess",argueinnocenceRulesToTrigger);
 
 		    List<Rule> argueguiltinessRulesToTrigger = new List<Rule>(); argueinnocenceRulesToTrigger.Add(GetRule("chat")); argueinnocenceRulesToTrigger.Add(GetRule("argue"));
 		    argueinnocenceRulesToTrigger.Add(GetRule("deny"));
-		    AddPossibleRulesToRule("argueguiltiness",argueguiltinessRulesToTrigger);
+		    AddPossibleRulesToRule("argueGuiltiness",argueguiltinessRulesToTrigger);
 		    AddPossibleRulesToRule("argueguiltinessfbunce",argueguiltinessRulesToTrigger);
 		    AddPossibleRulesToRule("argueguiltinessfcess",argueguiltinessRulesToTrigger);
 
 		    List<Rule> stealRulesToTrigger = new List<Rule>();  stealRulesToTrigger.Add(GetRule("poison")); 
 		    stealRulesToTrigger.Add(GetRule("fight")); stealRulesToTrigger.Add(GetRule("convict"));
-		    AddPossibleRulesToRule("steal",stealRulesToTrigger); AddPossibleRulesToRule("buygoods",stealRulesToTrigger);
+		    AddPossibleRulesToRule("steal",stealRulesToTrigger); AddPossibleRulesToRule("buyGoods",stealRulesToTrigger);
 
 		    List<Rule> poisonRulesToTrigger = new List<Rule>(); poisonRulesToTrigger.Add(GetRule("fight")); poisonRulesToTrigger.Add(GetRule("argue"));
 		    poisonRulesToTrigger.Add(GetRule("sabotage"));
@@ -1095,16 +1095,16 @@ public partial class Program : MonoBehaviour
 		    AddPossibleRulesToRule("poisonfcess",poisonRulesToTrigger);
 		    AddPossibleRulesToRule("poisonfbunsant",poisonRulesToTrigger);
 
-		    List<Rule> playgameRulesToTriger = new List<Rule>(); playgameRulesToTriger.Add(GetRule("telljoke")); playgameRulesToTriger.Add(GetRule("chat")); 
+		    List<Rule> playgameRulesToTriger = new List<Rule>(); playgameRulesToTriger.Add(GetRule("tellJoke")); playgameRulesToTriger.Add(GetRule("chat")); 
 		    playgameRulesToTriger.Add(GetRule("reminisce")); 
-		    AddPossibleRulesToRule("playgame",playgameRulesToTriger);
+		    AddPossibleRulesToRule("playGame",playgameRulesToTriger);
 		    AddPossibleRulesToRule("playgamefbunce",playgameRulesToTriger);
 		    AddPossibleRulesToRule("playgamefbunsant",playgameRulesToTriger);
 		    AddPossibleRulesToRule("playgamefcess",playgameRulesToTriger);
 
 		    List<Rule> orderRulesToTriger = new List<Rule>(); orderRulesToTriger.Add(GetRule("deny")); orderRulesToTriger.Add(GetRule("fight"));
 		orderRulesToTriger.Add(GetRule("flee")); 
-	//	orderRulesToTriger.Add(GetRule("movetolivingroom")); orderRulesToTriger.Add(GetRule("movetokitchen")); orderRulesToTriger.Add(GetRule("movetoentryhall"));
+	//	orderRulesToTriger.Add(GetRule("moveToLivingRoom")); orderRulesToTriger.Add(GetRule("moveToKitchen")); orderRulesToTriger.Add(GetRule("moveToEntryHall"));
 		    AddPossibleRulesToRule("order",orderRulesToTriger);
 		    AddPossibleRulesToRule("orderfbunce",orderRulesToTriger);
 		    AddPossibleRulesToRule("orderfcess",orderRulesToTriger);
@@ -1121,13 +1121,13 @@ public partial class Program : MonoBehaviour
 
 		    List<Rule> buycompanyRulesToTrigger = new List<Rule>();
 		    buycompanyRulesToTrigger.Add(GetRule("argue"));
-		    buycompanyRulesToTrigger.Add(GetRule("sabotage")); buycompanyRulesToTrigger.Add(GetRule("demandtoleaveguild"));
-		    AddPossibleRulesToRule("buycompany",buycompanyRulesToTrigger);
+		    buycompanyRulesToTrigger.Add(GetRule("sabotage")); buycompanyRulesToTrigger.Add(GetRule("demandToLeaveGuild"));
+		    AddPossibleRulesToRule("buyCompany",buycompanyRulesToTrigger);
 
 		    List<Rule> sellcompanyRulesToTrigger = new List<Rule>();
 		    sellcompanyRulesToTrigger.Add(GetRule("argue"));
-		    sellcompanyRulesToTrigger.Add(GetRule("sabotage")); sellcompanyRulesToTrigger.Add(GetRule("demandtoleaveguild"));
-		    AddPossibleRulesToRule("sellcompany",sellcompanyRulesToTrigger);
+		    sellcompanyRulesToTrigger.Add(GetRule("sabotage")); sellcompanyRulesToTrigger.Add(GetRule("demandToLeaveGuild"));
+		    AddPossibleRulesToRule("sellCompany",sellcompanyRulesToTrigger);
 
 		    List<Rule> advertiseRulesToTrigger = new List<Rule>();
 		    sellcompanyRulesToTrigger.Add(GetRule("argue")); sellcompanyRulesToTrigger.Add(GetRule("chat"));
@@ -1138,16 +1138,16 @@ public partial class Program : MonoBehaviour
 		    demandtoleaveguildRulesToTrigger.Add(GetRule("argue")); demandtoleaveguildRulesToTrigger.Add(GetRule("poison")); 
 		    demandtoleaveguildRulesToTrigger.Add(GetRule("fight")); demandtoleaveguildRulesToTrigger.Add(GetRule("deny")); 
 		    demandtoleaveguildRulesToTrigger.Add(GetRule("order")); 
-		    AddPossibleRulesToRule("demandtoleaveguild",demandtoleaveguildRulesToTrigger);
+		    AddPossibleRulesToRule("demandToLeaveGuild",demandtoleaveguildRulesToTrigger);
 
 		    List<Rule> buygoodsRulesToTrigger = new List<Rule>(); 
 		    buygoodsRulesToTrigger.Add(GetRule("chat"));
 		    buygoodsRulesToTrigger.Add(GetRule("advertise"));
-		    AddPossibleRulesToRule("buygoods",buygoodsRulesToTrigger);
+		    AddPossibleRulesToRule("buyGoods",buygoodsRulesToTrigger);
 
 		    List<Rule> sellgoodsRulesToTrigger = new List<Rule>(); 
 		    buygoodsRulesToTrigger.Add(GetRule("chat")); buygoodsRulesToTrigger.Add(GetRule("argue")); buygoodsRulesToTrigger.Add(GetRule("sabotage"));
-		    AddPossibleRulesToRule("sellgoods",sellgoodsRulesToTrigger);
+		    AddPossibleRulesToRule("sellGoods",sellgoodsRulesToTrigger);
 
 		#endregion RulesToTrigger
 
@@ -1155,28 +1155,28 @@ public partial class Program : MonoBehaviour
 	
 		#region addingRulesToMask
 	    // SElF
-		    AddRuleToMask("John", "Self", "donothing", -1.0f);
-		    AddRuleToMask("Therese", "Self", "donothing", -1.0f);
-		    AddRuleToMask("Bill", "Self", "donothing", -1.0f);
-		    AddRuleToMask("Heather", "Self", "donothing", -1.0f);
-		    AddRuleToMask("Player", "Self", "donothing", -1.0f);
+		    AddRuleToMask("John", "Self", "doNothing", -1.0f);
+		    AddRuleToMask("Therese", "Self", "doNothing", -1.0f);
+		    AddRuleToMask("Bill", "Self", "doNothing", -1.0f);
+		    AddRuleToMask("Heather", "Self", "doNothing", -1.0f);
+		    AddRuleToMask("Player", "Self", "doNothing", -1.0f);
 
 		    AddRuleToMask("John", "Self", "flee", 0.2f);
 		    AddRuleToMask("Heather", "Self", "flee", -0.1f);
 		    AddRuleToMask("Player", "Self", "flee", -0.1f);
 
-		    AddRuleToMask("John", "Self", "chooseanotheraspartner", -0.2f);
-		    AddRuleToMask("Therese", "Self", "chooseanotheraspartner", -0.2f);
-		    AddRuleToMask("Bill", "Self", "chooseanotheraspartner", 0.4f);
-		    AddRuleToMask("Heather", "Self", "chooseanotheraspartner", 0.5f);
-		    AddRuleToMask("Player", "Self", "chooseanotheraspartner", -0.4f);
+		    AddRuleToMask("John", "Self", "chooseAnotherAsPartner", -0.2f);
+		    AddRuleToMask("Therese", "Self", "chooseAnotherAsPartner", -0.2f);
+		    AddRuleToMask("Bill", "Self", "chooseAnotherAsPartner", 0.4f);
+		    AddRuleToMask("Heather", "Self", "chooseAnotherAsPartner", 0.5f);
+		    AddRuleToMask("Player", "Self", "chooseAnotherAsPartner", -0.4f);
 		
 	    // INTERPERSONAL
 		    AddRuleToMask("RomanticRelationship", "Partner", "kiss", 0.4f);
 		
 		    AddRuleToMask("RomanticRelationship", "Partner", "askAboutPartnerStatus", 0.5f);
-		    AddRuleToMask("RomanticRelationship", "Partner", "stayaspartner", 0.2f);
-		    AddRuleToMask("RomanticRelationship", "Partner", "leavepartner", 0.0f);
+		    AddRuleToMask("RomanticRelationship", "Partner", "stayAsPartner", 0.2f);
+		    AddRuleToMask("RomanticRelationship", "Partner", "leavePartner", 0.0f);
 
 		    AddRuleToMask("RomanticRelationship", "Partner", "flirt", 0.4f);
 		    AddRuleToMask("Friendship", "Friend", "flirt", -0.4f);
@@ -1185,9 +1185,9 @@ public partial class Program : MonoBehaviour
 		    AddRuleToMask("Friendship", "Friend", "chat", 0.0f);
 		    AddRuleToMask("Rivalry", "Enemy", "chat", -0.2f);
 
-		    AddRuleToMask("RomanticRelationship", "Partner", "givegift", 0.4f);
-		    AddRuleToMask("Rivalry", "Enemy", "givegift", 0.2f);
-		    AddRuleToMask("Friendship", "Friend", "givegift", -0.3f);
+		    AddRuleToMask("RomanticRelationship", "Partner", "giveGift", 0.4f);
+		    AddRuleToMask("Rivalry", "Enemy", "giveGift", 0.2f);
+		    AddRuleToMask("Friendship", "Friend", "giveGift", -0.3f);
 
 		    AddRuleToMask("Rivalry", "Enemy", "gossip", -0.2f);
 		    AddRuleToMask("Friendship", "Friend", "gossip", 0.1f);
@@ -1201,17 +1201,17 @@ public partial class Program : MonoBehaviour
 		    AddRuleToMask("Friendship", "Friend", "deny", -0.1f);
 		    AddRuleToMask("RomanticRelationship", "Partner", "deny", -0.2f);
 
-		    AddRuleToMask("Rivalry", "Enemy", "makedistraction", -0.1f);
-		    AddRuleToMask("Friendship", "Friend", "makedistraction", -0.3f);
-		    AddRuleToMask("RomanticRelationship", "Partner", "makedistraction", -0.5f);
+		    AddRuleToMask("Rivalry", "Enemy", "makeDistraction", -0.1f);
+		    AddRuleToMask("Friendship", "Friend", "makeDistraction", -0.3f);
+		    AddRuleToMask("RomanticRelationship", "Partner", "makeDistraction", -0.5f);
 
-		    AddRuleToMask("Rivalry", "Enemy", "makefunof", 0.3f);
-		    AddRuleToMask("Friendship", "Friend", "makefunof", -0.1f);
-		    AddRuleToMask("RomanticRelationship", "Partner", "makefunof", -0.4f);
+		    AddRuleToMask("Rivalry", "Enemy", "makeFunOf", 0.3f);
+		    AddRuleToMask("Friendship", "Friend", "makeFunOf", -0.1f);
+		    AddRuleToMask("RomanticRelationship", "Partner", "makeFunOf", -0.4f);
 
-		    AddRuleToMask("Rivalry", "Enemy", "telljoke", -0.2f);
-		    AddRuleToMask("Friendship", "Friend", "telljoke", 0.4f);
-		    AddRuleToMask("RomanticRelationship", "Partner", "telljoke", 0.2f);
+		    AddRuleToMask("Rivalry", "Enemy", "tellJoke", -0.2f);
+		    AddRuleToMask("Friendship", "Friend", "tellJoke", 0.4f);
+		    AddRuleToMask("RomanticRelationship", "Partner", "tellJoke", 0.2f);
 
 		    AddRuleToMask("Rivalry", "Enemy", "prank", 0.2f);
 		    AddRuleToMask("Friendship", "Friend", "prank", 0.0f);
@@ -1275,13 +1275,13 @@ public partial class Program : MonoBehaviour
 		    AddRuleToMask("Bungary", "Buncess", "movetoentryhallfcess", 0.3f);
 		    AddRuleToMask("Bungary", "Buncess", "killfcess", -0.9f);
 
-		    AddRuleToMask("MerchantGuild", "Member", "buycompany", 0.2f);
+		    AddRuleToMask("MerchantGuild", "Member", "buyCompany", 0.2f);
 		    AddRuleToMask("MerchantGuild", "Member", "sabotage", -0.5f);
 		    AddRuleToMask("MerchantGuild", "Member", "advertise", 0.5f);
-		    AddRuleToMask("MerchantGuild", "Member", "demandtoleaveguild", -0.3f);
-		    AddRuleToMask("MerchantGuild", "Member", "sellcompany", -0.5f);
-		    AddRuleToMask("MerchantGuild", "Member", "buygoods", 0.5f);
-		    AddRuleToMask("MerchantGuild", "Member", "sellgoods", 0.7f);
+		    AddRuleToMask("MerchantGuild", "Member", "demandToLeaveGuild", -0.3f);
+		    AddRuleToMask("MerchantGuild", "Member", "sellCompany", -0.5f);
+		    AddRuleToMask("MerchantGuild", "Member", "buyGoods", 0.5f);
+		    AddRuleToMask("MerchantGuild", "Member", "sellGoods", 0.7f);
 
 		#endregion addingRulesToMask
 

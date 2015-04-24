@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 using NRelationSystem;
 
@@ -92,7 +93,15 @@ public class DynamicActionsUI : MonoBehaviour
             targets.RemoveAt(q);
         }
 
-        List<string> actions = program.relationSystem.posActions.Keys.ToList();
+        List<string> actions = new List<string>();
+
+        foreach (MAction action in program.relationSystem.posActions.Values)
+        {
+            string actionName = AddSpacesToSentence(action.name, false);
+
+            actions.Add(actionName.ToLower());
+        }
+
         List<string> people = program.relationSystem.pplAndMasks.people.Keys.ToList();
         
         int actionArrays = (int) (actions.Count + maxActionsInArray - 1) / maxActionsInArray;
@@ -162,6 +171,26 @@ public class DynamicActionsUI : MonoBehaviour
     }
 
 
+    string AddSpacesToSentence(string text, bool preserveAcronyms)
+    {
+        if (string.IsNullOrEmpty(text))
+            return string.Empty;
+        StringBuilder newText = new StringBuilder(text.Length * 2);
+        newText.Append(text[0]);
+        for (int i = 1; i < text.Length; i++)
+        {
+            if (char.IsUpper(text[i]))
+                if ((text[i - 1] != ' ' && !char.IsUpper(text[i - 1])) ||
+                    (preserveAcronyms && char.IsUpper(text[i - 1]) &&
+                     i < text.Length - 1 && !char.IsUpper(text[i + 1])))
+                    newText.Append(' ');
+            newText.Append(text[i]);
+        }
+        return newText.ToString();
+    }
+
+
+
     public void ActionButtonPressed(string actionName)
     {
         chosenAction = actionName;
@@ -197,8 +226,11 @@ public class DynamicActionsUI : MonoBehaviour
             uiFunctions.pauseToggle.isOn = false;
         }
 
-        this.gameObject.SetActive(false);
+        chosenAction = "";
+        chosenPerson = "";
+        outputText.text = "";
 
+        this.gameObject.SetActive(false);
     }
 
 
@@ -213,6 +245,10 @@ public class DynamicActionsUI : MonoBehaviour
             playText.text = "Playing";
             uiFunctions.pauseToggle.isOn = false;
         }
+
+        chosenAction = "";
+        chosenPerson = "";
+        outputText.text = "";
 
         this.gameObject.SetActive(false);
     }

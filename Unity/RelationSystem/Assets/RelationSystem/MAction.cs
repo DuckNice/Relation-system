@@ -8,8 +8,7 @@ namespace NRelationSystem
     {
         float selfGain;
         float againstGain;
-        private string Name;
-        public string name { get { return Name; } set { Name = value.ToLower(); } }
+        public string name = "";
         ActionInvoker actionInvoker;
         ActionInvoker sustainActionInvoker;
         public static RelationSystem relationSystem;

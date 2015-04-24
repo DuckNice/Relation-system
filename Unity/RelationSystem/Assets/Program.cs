@@ -36,83 +36,86 @@ public partial class Program : MonoBehaviour
 
         string[] sepInput = input.Split(seps, StringSplitOptions.RemoveEmptyEntries);
 
-        if (relationSystem.posActions.ContainsKey(sepInput[0]))
+        if (sepInput != null && sepInput.Length > 0)
         {
-            if(!actionStored)
+            if (relationSystem.posActions.ContainsKey(sepInput[0]))
             {
-                MAction actionToDo = relationSystem.posActions[sepInput[0]];
-                
-                if(sepInput.Length > 1)
+                if (!actionStored)
                 {
-                    Person target = relationSystem.pplAndMasks.GetPerson(sepInput[1]);
+                    MAction actionToDo = relationSystem.posActions[sepInput[0]];
 
-                    if (target != null)
+                    if (sepInput.Length > 1)
+                    {
+                        Person target = relationSystem.pplAndMasks.GetPerson(sepInput[1]);
+
+                        if (target != null)
+                        {
+                            playerAction = actionToDo;
+                            playerTarget = target;
+                            actionStored = true;
+                        }
+                        else
+                        {
+                            UIFunctions.WritePlayerLine("Error: didn't recognize '" + sepInput[1] + "' as valid target. Not doing action.");
+                        }
+                    }
+                    else if (!actionToDo.NeedsDirect)
                     {
                         playerAction = actionToDo;
-                        playerTarget = target;
                         actionStored = true;
                     }
                     else
                     {
-                        UIFunctions.WritePlayerLine("Error: didn't recognize '" + sepInput[1] + "' as valid target. Not doing action.");
+                        UIFunctions.WritePlayerLine("Action needs a target person. Not doing action.");
                     }
-                }
-                else if(!actionToDo.NeedsDirect)
-                {
-                    playerAction = actionToDo;
-                    actionStored = true;
                 }
                 else
                 {
-                    UIFunctions.WritePlayerLine("Action needs a target person. Not doing action.");
+                    UIFunctions.WritePlayerLine("Already doing action: " + playerAction.name + " for target: " + playerTarget.name + ". Write 'cancel' to cancel current action selection.");
                 }
             }
-            else
+            else if (sepInput[0] == "cancel")
             {
-                UIFunctions.WritePlayerLine("Already doing action: " + playerAction.name + " for target: " + playerTarget.name + ". Write 'cancel' to cancel current action selection.");
+                actionStored = false;
+                UIFunctions.WritePlayerLine("Removed current action selection. Ready to assign new action to player.");
             }
-        }
-        else if(sepInput[0] == "cancel")
-        {
-            actionStored = false;
-            UIFunctions.WritePlayerLine("Removed current action selection. Ready to assign new action to player.");
-        }
-        else if(sepInput[0] == "help")
-        {
-            if(sepInput.Length > 1)
+            else if (sepInput[0] == "help")
             {
-                switch(sepInput[1])
+                if (sepInput.Length > 1)
                 {
-                    case "people":
-						UIFunctions.WritePlayerLine("List of actions:\n");
+                    switch (sepInput[1])
+                    {
+                        case "people":
+                            UIFunctions.WritePlayerLine("List of actions:\n");
 
-                        foreach(string personName in relationSystem.pplAndMasks.people.Keys)
-							UIFunctions.WritePlayerLine("  " + personName + ".");
+                            foreach (string personName in relationSystem.pplAndMasks.people.Keys)
+                                UIFunctions.WritePlayerLine("  " + personName + ".");
 
-						break;
-                    case "actions":
-						UIFunctions.WritePlayerLine("List of actions:\n");
+                            break;
+                        case "actions":
+                            UIFunctions.WritePlayerLine("List of actions:\n");
 
-                        foreach(string actionNames in relationSystem.posActions.Keys)
-							UIFunctions.WritePlayerLine("  " + actionNames + ".");
+                            foreach (string actionNames in relationSystem.posActions.Keys)
+                                UIFunctions.WritePlayerLine("  " + actionNames + ".");
 
-                        break;
+                            break;
+                    }
                 }
+                else
+                {
+                    UIFunctions.WritePlayerLine("'display <person>': Get information about character.");
+                    UIFunctions.WritePlayerLine("'<action> <person>': Perform the mentioned <action> interacting with the stated <person>");
+                    UIFunctions.WritePlayerLine("'history': Show the history log.");
+                }
+            }
+            else if (sepInput[0] == "history")
+            {
+                UIFunctions.WritePlayerLine("");
             }
             else
             {
-				UIFunctions.WritePlayerLine("'display <person>': Get information about character.");
-                UIFunctions.WritePlayerLine("'<action> <person>': Perform the mentioned <action> interacting with the stated <person>");
-				UIFunctions.WritePlayerLine("'history': Show the history log.");
+                UIFunctions.WritePlayerLine("Error: No command '" + sepInput[0] + "' recognized.\nWrite 'help' for list of commands.");
             }
-        }
-        else if(sepInput[0] == "history")
-        {
-            UIFunctions.WritePlayerLine("");
-        }
-        else
-        {
-			UIFunctions.WritePlayerLine("Error: No command '" + sepInput[0] + "' recognized.\nWrite 'help' for list of commands.");
         }
     }
 }

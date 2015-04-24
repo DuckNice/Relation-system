@@ -216,7 +216,7 @@ namespace NRelationSystem
 		public Rule GetRule(string ruleName) 
 		{ 
 			foreach(Rule r in selfPerception._roleMask.rules.Values){
-				if(r.actionToTrigger.name == ruleName){
+				if(r.actionToTrigger.name.ToLower() == ruleName){
 					return r;
 				}
 			}
@@ -224,7 +224,7 @@ namespace NRelationSystem
 			foreach(Link curLink in interPersonal)
 			{
 				foreach(Rule r in curLink._roleMask.rules.Values){
-					if(r.actionToTrigger.name == ruleName){
+					if(r.actionToTrigger.name.ToLower() == ruleName){
 						return r;
 					}
 				}
@@ -233,7 +233,7 @@ namespace NRelationSystem
 			foreach (Link curLink in culture)
 			{
 				foreach(Rule r in curLink._roleMask.rules.Values){
-					if(r.actionToTrigger.name == ruleName){
+					if(r.actionToTrigger.name.ToLower() == ruleName){
 						return r;
 					}
 				}

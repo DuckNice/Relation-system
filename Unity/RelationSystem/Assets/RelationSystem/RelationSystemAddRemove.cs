@@ -129,9 +129,9 @@ namespace NRelationSystem
 
         public void AddAction(MAction action)
         {
-            if(!posActions.ContainsKey(action.name))
+            if(!posActions.ContainsKey(action.name.ToLower()))
             {
-                posActions.Add(action.name, action);
+                posActions.Add(action.name.ToLower(), action);
             }
             else
             {
