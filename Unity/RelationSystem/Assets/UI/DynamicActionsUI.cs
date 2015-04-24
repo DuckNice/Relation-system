@@ -213,6 +213,8 @@ public class DynamicActionsUI : MonoBehaviour
 
     public void SubmitPressed()
     {
+        chosenAction = chosenAction.Replace(" ", "");
+
         if (chosenPerson != "")
             program.playerInput(chosenAction + " " + chosenPerson);
         else
