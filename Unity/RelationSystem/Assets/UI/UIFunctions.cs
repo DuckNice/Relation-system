@@ -24,10 +24,15 @@ public class UIFunctions : MonoBehaviour {
 	public bool exitButtonActive;
 	public GameObject exitButtonObject;
     public Text playText;
+    public GameObject tutorialPanel;
+    public GameObject dynamicUITut;
+    public bool firstTimeOpenActionsMenu = true;
+
 
 	public void Awake()
 	{
 		instance = this;
+        tutorialPanel.SetActive(true);
 	}
 
 
@@ -50,6 +55,13 @@ public class UIFunctions : MonoBehaviour {
             pauseThroughTextEnter = true;
             playText.text = "Paused";
             pauseToggle.isOn = true;
+        }
+
+        if(firstTimeOpenActionsMenu)
+        {
+            tutorialPanel.SetActive(true);
+            dynamicUITut.SetActive(true);
+            firstTimeOpenActionsMenu = false;
         }
 
         graphicActionPanel.SetActive(true);
