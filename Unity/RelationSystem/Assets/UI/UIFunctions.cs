@@ -26,6 +26,7 @@ public class UIFunctions : MonoBehaviour {
     public Text playText;
     public GameObject tutorialPanel;
     public GameObject dynamicUITut;
+    public Slider gameSpeedSlider;
     public bool firstTimeOpenActionsMenu = true;
 
 
@@ -78,6 +79,11 @@ public class UIFunctions : MonoBehaviour {
             playText.text = "Paused";
             pauseToggle.isOn = true;
         }
+    }
+
+    public ChangeGameSpeed()
+    {
+
     }
 
 
