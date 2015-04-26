@@ -26,14 +26,17 @@ public class UIFunctions : MonoBehaviour {
     public Text playText;
     public GameObject tutorialPanel;
     public GameObject dynamicUITut;
+	public Text RecentActionsText;
     public Slider gameSpeedSlider;
     public bool firstTimeOpenActionsMenu = true;
+	bool ShouldShowTutorial;
+	public Image playingBack;
 
 
 	public void Awake()
 	{
 		instance = this;
-        tutorialPanel.SetActive(true);
+
 	}
 
 
@@ -45,6 +48,9 @@ public class UIFunctions : MonoBehaviour {
 		} else {
 			StatText.transform.parent.gameObject.SetActive (false);
 		}
+
+		if(debug.ShouldShowTutorial)
+			tutorialPanel.SetActive(true);
 	}
 
     
@@ -58,15 +64,24 @@ public class UIFunctions : MonoBehaviour {
             pauseToggle.isOn = true;
         }
 
-        if(firstTimeOpenActionsMenu)
+		if(firstTimeOpenActionsMenu && debug.ShouldShowTutorial)
         {
             tutorialPanel.SetActive(true);
             dynamicUITut.SetActive(true);
+
             firstTimeOpenActionsMenu = false;
         }
 
         graphicActionPanel.SetActive(true);
         graphicActionPanelScript.UpdateButtons();
+
+
+		/*RecentActionsText.text = instance.GameBox.text;
+		debug.Write (""+RecentActionsText.text.Length);
+		if (RecentActionsText.text.Length > 200) {
+			RecentActionsText.text.Remove (0,20);
+			debug.Write ("TRUE, REMOVING, "+RecentActionsText.text.Length);
+		}*/
     }
 
 
@@ -96,12 +111,16 @@ public class UIFunctions : MonoBehaviour {
             {
                 program.shouldPlay = false;
                 playText.text = "Paused";
+				//playText.color = Color.red;
+				playingBack.color = Color.red;
                 pauseToggle.isOn = true;
             }
             else
             {
                 program.shouldPlay = true;
                 playText.text = "Playing";
+				//playText.color = Color.green;
+				playingBack.color = Color.green;
                 pauseToggle.isOn = false;
             }
         }
@@ -190,12 +209,10 @@ public class UIFunctions : MonoBehaviour {
 		instance.GameScrollbar.value = 0;
 	}
 
-
 	public static void WriteGameLine(string input)
 	{
 		WriteGame (input + "\n");
 	}
-
 
 	public static void WriteGameStatsInWindow(string input){
 		instance.StatText.text = input;

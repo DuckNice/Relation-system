@@ -144,7 +144,7 @@ public partial class Program : MonoBehaviour {
 
         ActionInvoker chat = (subject, direct, indPpl, misc) =>
         {
-            UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " chats with " + CapitalizeName(direct.name) + ".");
+            UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " chats with " + CapitalizeName(direct.name));
             direct.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.1f, direct.moods[MoodTypes.energTired]);
             subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.1f, subject.moods[MoodTypes.energTired]);
 			//subject.AddToInterPersonalLvlOfInfl(direct,0.05f);
@@ -302,10 +302,9 @@ public partial class Program : MonoBehaviour {
 
         ActionInvoker praise = (subject, direct, indPpl, misc) =>
         {
-            UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " praises " + CapitalizeName(direct.name) + ".");
+            UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " praises " + CapitalizeName(direct.name));
             direct.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(0.3f, direct.moods[MoodTypes.hapSad]);
             subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.2f, subject.moods[MoodTypes.energTired]);
-            direct.moods[MoodTypes.energTired] += Calculator.UnboundAdd(0.1f, direct.moods[MoodTypes.energTired]);
             direct.AddToOpinionValue(TraitTypes.NiceNasty, subject, 0.1f);
 
             // subject.GetRule("enthuseaboutgreatnessofperson").SetRuleStrength(-1.0f);
@@ -324,7 +323,7 @@ public partial class Program : MonoBehaviour {
 			subject.GetRule("cry").AddToRuleStrength(-0.2f);
 			// subject.GetRule("enthuseaboutgreatnessofperson").SetRuleStrength(-1.0f);
 		};
-		AddAction(new MAction("cry", 0.7f, -0.5f, relationSystem, cry, 5f));
+		AddAction(new MAction("cry", 0.7f, -0.5f, relationSystem, cry, 5f, _needsDirect: false));
 
 		ActionInvoker console = (subject, direct, indPpl, misc) =>
 		{

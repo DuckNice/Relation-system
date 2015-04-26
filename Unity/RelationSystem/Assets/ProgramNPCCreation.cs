@@ -108,9 +108,13 @@ public partial class Program : MonoBehaviour
         };
 
 		RuleConditioner fleeCondition = (self, other, indPpl) =>
-		{	if(self.moods[MoodTypes.angryFear] < -0.8f){
+		{	if(relationSystem.historyBook.Exists(x=>(x.GetAction()==relationSystem.posActions["fight"] || x.GetAction()==relationSystem.posActions["poison"]) && x.GetDirect() == self && HowLongAgo(x.GetTime()) < 10f)){
 					return true; 
-				}
+			}
+
+			if(self.moods[MoodTypes.angryFear] < -0.8f){
+					return true; 
+			}
 			return false; 
         };
 
@@ -123,7 +127,7 @@ public partial class Program : MonoBehaviour
 				}
 			}
 			if (self != other  && self.moods[MoodTypes.energTired] > -0.1f){ 
-				if(self.moods[MoodTypes.arousDisgus] > 0.5f  && roomMan.IsPersonInSameRoomAsMe(self, other) )
+				if(self.moods[MoodTypes.arousDisgus] > 0.5f  && self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.5f && roomMan.IsPersonInSameRoomAsMe(self, other) )
 					{ return true; }}
 			return false;
 		};
@@ -160,7 +164,7 @@ public partial class Program : MonoBehaviour
 					return false;
 				}
 			}
-
+			debug.Write(""+relationSystem.posActions["askAboutPartnerStatus"].name);
 			if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["askAboutPartnerStatus"] && x.GetSubject() == other && x.GetDirect() == self && HowLongAgo(x.GetTime()) < 10f)){
 				if(self != other  && roomMan.IsPersonInSameRoomAsMe(self, other)){ //LVLOFINFL0.3
 					if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.4f)
@@ -337,9 +341,11 @@ public partial class Program : MonoBehaviour
 // --------------------------------- CULTURAL CONDITIONS
 		
 		RuleConditioner convictCondition = (self, other, indPpl) =>
-		{	if((relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["steal"] && x.GetSubject()==other) ||
-			  relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["fight"] && x.GetSubject()==other) ||
-			  relationSystem.historyBook.Exists(x=>x.GetRule().GetRuleStrength() < -0.5f && HowLongAgo(x.GetTime()) < 10f)) && roomMan.IsPersonInSameRoomAsMe(self, other) && self != other)
+		{	if((relationSystem.historyBook.Exists(x=>(x.GetAction()==relationSystem.posActions["steal"] ||
+                                                      x.GetAction()==relationSystem.posActions["fight"] || x.GetAction()==relationSystem.posActions["kill"] ||
+                                                      x.GetAction()==relationSystem.posActions["poison"]  || x.GetAction()==relationSystem.posActions["sabotage"] ||
+                                                      x.GetRule().GetRuleStrength() < -0.5f) 
+			&& x.GetSubject()==other && HowLongAgo(x.GetTime()) < 10f && x.GetAction()!=relationSystem.posActions["doNothing"])) && roomMan.IsPersonInSameRoomAsMe(self, other) && self != other)
 				{ return true; }
 			return false; 
         };
@@ -471,7 +477,7 @@ public partial class Program : MonoBehaviour
 		{	if(beings.Find(x=>x.name == other.name).possessions.Exists(y=>y.Name=="company")){
 				if(beings.Find(x=>x.name == other.name).possessions.Find(y=>y.Name=="company").value > 0f){
 					if(self.CalculateTraitType(TraitTypes.NiceNasty) < -0.1f && self != other  &&
-					   self.moods[MoodTypes.energTired] > -0.4f){
+					   self.moods[MoodTypes.energTired] > -0.4f && !roomMan.IsPersonInSameRoomAsMe(self, other)){
 						{ return true; }
 					}
 				}
@@ -587,7 +593,7 @@ public partial class Program : MonoBehaviour
 					    return Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),self.moods[MoodTypes.arousDisgus]);
 				    }
 			    }
-			    float ret = 0 + Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),(0.5f*self.GetOpinionValue(TraitTypes.CharitableGreedy,other)));
+			    float ret = 0 + Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),self.CalculateTraitType(TraitTypes.CharitableGreedy));
 			    ret += Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.HonestFalse,other),ret);
 			    ret += Calculator.UnboundAdd(self.moods[MoodTypes.arousDisgus],ret);
 			    return ret;
@@ -650,9 +656,13 @@ public partial class Program : MonoBehaviour
 
 		    RulePreference praisePreference = (self, other) => { 
 			    float r = Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),self.GetOpinionValue(TraitTypes.HonestFalse,other));
-			    r += Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.CharitableGreedy,other),r);
+				r += Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.CharitableGreedy,other),r);
+				r += Calculator.UnboundAdd(self.moods[MoodTypes.energTired],r);
 			    r += Calculator.UnboundAdd(self.moods[MoodTypes.hapSad],r);
 			    r += Calculator.UnboundAdd(self.CalculateTraitType(TraitTypes.NiceNasty),r);
+
+				r += Calculator.UnboundAdd(-self.CalculateTraitType(TraitTypes.NiceNasty),r);
+				r += Calculator.UnboundAdd(-self.CalculateTraitType(TraitTypes.CharitableGreedy),r);
 			    return r;
 		    };
 
@@ -718,7 +728,12 @@ public partial class Program : MonoBehaviour
 		    };
 
 		    RulePreference convictPreference = (self, other) => { 
-			    float r = Calculator.UnboundAdd(-0.5f,((Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),(self.moods[MoodTypes.hapSad]))*0.5f)));
+				float r = -(relationSystem.historyBook.Find(x=>(x.GetAction()==relationSystem.posActions["steal"] ||
+			       		    x.GetAction()==relationSystem.posActions["fight"] || x.GetAction()==relationSystem.posActions["kill"] ||
+			       		    x.GetAction()==relationSystem.posActions["poison"]  || x.GetAction()==relationSystem.posActions["sabotage"] ||
+			                x.GetRule().GetRuleStrength() < -0.5f) && x.GetSubject()==other).GetRule().GetRuleStrength());
+				
+				r += Calculator.UnboundAdd(-(self.GetOpinionValue(TraitTypes.NiceNasty,other)),r);
 			    r += Calculator.UnboundAdd(Mathf.Abs(self.moods[MoodTypes.angryFear]),r);
 			    return r;
 		    };
@@ -790,6 +805,7 @@ public partial class Program : MonoBehaviour
 
 		    RulePreference orderPreference = (self, other) => { 
 			    float r = Calculator.UnboundAdd(-self.GetOpinionValue(TraitTypes.NiceNasty,other),-self.CalculateTraitType(TraitTypes.NiceNasty));
+				r += Calculator.UnboundAdd(self.CalculateTraitType(TraitTypes.CharitableGreedy),r);
 			    r += Calculator.UnboundAdd(-(self.moods[MoodTypes.energTired]),r);
 			    return r;
 		    };
@@ -907,6 +923,9 @@ public partial class Program : MonoBehaviour
 		    CreateNewRule("convictfcess", "convict",  convictCondition,convictPreference);
 		    CreateNewRule("convictfbunce", "convict",  convictCondition,convictPreference);
 		    CreateNewRule("fight", "fight", fightCondition,fightPreference);
+			CreateNewRule("fightfbunce", "fight", fightCondition,fightPreference);
+			CreateNewRule("fightfcess", "fight", fightCondition,fightPreference);
+			CreateNewRule("fightfbunsant", "fight", fightCondition,fightPreference);
 		    CreateNewRule("bribe", "bribe", bribeCondition,bribePreference);
 		    CreateNewRule("bribefbunce", "bribe", bribeCondition,bribePreference);
 		    CreateNewRule("bribefcess", "bribe", bribeCondition,bribePreference);
@@ -1003,7 +1022,8 @@ public partial class Program : MonoBehaviour
 
 		    List<Rule> argueRulesToTrigger = new List<Rule>(); argueRulesToTrigger.Add(GetRule("argue")); argueRulesToTrigger.Add(GetRule("fight"));
 		    argueRulesToTrigger.Add(GetRule("sabotage")); argueRulesToTrigger.Add(GetRule("order")); 
-		    argueRulesToTrigger.Add(GetRule("deny")); argueRulesToTrigger.Add(GetRule("harass"));
+			argueRulesToTrigger.Add(GetRule("deny")); argueRulesToTrigger.Add(GetRule("harass")); argueRulesToTrigger.Add(GetRule("kill")); argueRulesToTrigger.Add(GetRule("flee"));
+			argueRulesToTrigger.Add(GetRule("flee"));
 		    AddPossibleRulesToRule("argue",argueRulesToTrigger);
 
 		    List<Rule> denyRulesToTrigger = new List<Rule>(); denyRulesToTrigger.Add(GetRule("argue")); denyRulesToTrigger.Add(GetRule("poison")); 
@@ -1055,8 +1075,8 @@ public partial class Program : MonoBehaviour
 		    AddPossibleRulesToRule("greetfbunce",greetRulesToTrigger);
 		    AddPossibleRulesToRule("greetfbunsant",greetRulesToTrigger);
 
-		    List<Rule> convictRulesToTrigger = new List<Rule>(); convictRulesToTrigger.Add(GetRule("bribe")); convictRulesToTrigger.Add(GetRule("poison")); 
-		    convictRulesToTrigger.Add(GetRule("fight")); convictRulesToTrigger.Add(GetRule("flee")); 
+		    List<Rule> convictRulesToTrigger = new List<Rule>(); //convictRulesToTrigger.Add(GetRule("bribe")); convictRulesToTrigger.Add(GetRule("poison")); 
+		   // convictRulesToTrigger.Add(GetRule("fight")); convictRulesToTrigger.Add(GetRule("flee")); 
 		    AddPossibleRulesToRule("convict",convictRulesToTrigger);
 		    AddPossibleRulesToRule("convictfcess",convictRulesToTrigger);
 		    AddPossibleRulesToRule("convictfbunce",convictRulesToTrigger);
@@ -1064,6 +1084,10 @@ public partial class Program : MonoBehaviour
 		    List<Rule> fightRulesToTrigger = new List<Rule>(); fightRulesToTrigger.Add(GetRule("fight")); fightRulesToTrigger.Add(GetRule("convict"));
 		    fightRulesToTrigger.Add(GetRule("poison")); fightRulesToTrigger.Add(GetRule("sabotage")); fightRulesToTrigger.Add(GetRule("argue"));
 		    AddPossibleRulesToRule("fight",fightRulesToTrigger);
+			AddPossibleRulesToRule("fightfbunce",fightRulesToTrigger);
+			AddPossibleRulesToRule("fightfbunsant",fightRulesToTrigger);
+			AddPossibleRulesToRule("fightfcess",fightRulesToTrigger);
+
 
 		    List<Rule> bribeRulesToTrigger = new List<Rule>(); bribeRulesToTrigger.Add(GetRule("fight")); bribeRulesToTrigger.Add(GetRule("convict"));
 		    bribeRulesToTrigger.Add(GetRule("gossip")); bribeRulesToTrigger.Add(GetRule("deny")); bribeRulesToTrigger.Add(GetRule("deny"));
@@ -1172,18 +1196,20 @@ public partial class Program : MonoBehaviour
 		    AddRuleToMask(playerName, "Self", "chooseAnotherAsPartner", -0.4f);
 		
 	    // INTERPERSONAL
-		    AddRuleToMask("RomanticRelationship", "Partner", "kiss", 0.4f);
-		
+		    AddRuleToMask("RomanticRelationship", "Partner", "kiss", 0.1f);
+			AddRuleToMask("Friendship", "Friend", "kiss", -0.4f);
+			AddRuleToMask("Rivalry", "Enemy", "kiss", -0.4f);
+
 		    AddRuleToMask("RomanticRelationship", "Partner", "askAboutPartnerStatus", 0.5f);
 		    AddRuleToMask("RomanticRelationship", "Partner", "stayAsPartner", 0.2f);
 		    AddRuleToMask("RomanticRelationship", "Partner", "leavePartner", 0.0f);
 
-		    AddRuleToMask("RomanticRelationship", "Partner", "flirt", 0.4f);
-		    AddRuleToMask("Friendship", "Friend", "flirt", -0.4f);
+		    AddRuleToMask("RomanticRelationship", "Partner", "flirt", 0.2f);
+		    AddRuleToMask("Friendship", "Friend", "flirt", -0.2f);
 
-		    AddRuleToMask("RomanticRelationship", "Partner", "chat", 0.0f);
-		    AddRuleToMask("Friendship", "Friend", "chat", 0.0f);
-		    AddRuleToMask("Rivalry", "Enemy", "chat", -0.2f);
+		    AddRuleToMask("RomanticRelationship", "Partner", "chat", 0.5f);
+		    AddRuleToMask("Friendship", "Friend", "chat", 0.5f);
+		    AddRuleToMask("Rivalry", "Enemy", "chat", 0.4f);
 
 		    AddRuleToMask("RomanticRelationship", "Partner", "giveGift", 0.4f);
 		    AddRuleToMask("Rivalry", "Enemy", "giveGift", 0.2f);
@@ -1235,13 +1261,17 @@ public partial class Program : MonoBehaviour
 		    AddRuleToMask("RomanticRelationship", "Partner", "console", 1.0f);
 		    AddRuleToMask("Rivalry", "Enemy", "console", -0.4f);
 
+			AddRuleToMask("Friendship", "Friend", "greet", 0.8f);
+			AddRuleToMask("RomanticRelationship", "Partner", "greet", 0.7f);
+			AddRuleToMask("Rivalry", "Enemy", "greet", -0.4f);
+
 	    // CULTURE
-		    AddRuleToMask("Bungary", "Bunsant", "fight", -0.5f);
+		    AddRuleToMask("Bungary", "Bunsant", "fightfbunsant", -0.5f);
 		    AddRuleToMask("Bungary", "Bunsant", "bribefbunsant", -0.1f);
 		    AddRuleToMask("Bungary", "Bunsant", "steal", -0.5f);
 		    AddRuleToMask("Bungary", "Bunsant", "askforhelpinillicitactivity", -0.1f);
 		    AddRuleToMask("Bungary", "Bunsant", "poisonfbunsant", -0.8f);
-		    AddRuleToMask("Bungary", "Bunsant", "greetfbunsant", 0.5f);
+		    //AddRuleToMask("Bungary", "Bunsant", "greetfbunsant", 0.5f);
 		    AddRuleToMask("Bungary", "Bunsant", "playgamefbunsant", 0.2f);
 		    AddRuleToMask("Bungary", "Bunsant", "orderfbunsant", -0.5f);
 		    AddRuleToMask("Bungary", "Bunsant", "movetolivingroomfbunsant", 0.0f);
@@ -1249,27 +1279,29 @@ public partial class Program : MonoBehaviour
 		    AddRuleToMask("Bungary", "Bunsant", "movetoentryhallfbunsant", 0.0f);
 		    AddRuleToMask("Bungary", "Bunsant", "killfbunsant", -0.9f);
 
+			AddRuleToMask("Bungary", "Bunsant", "fightfbunce", -0.4f);
 		    AddRuleToMask("Bungary", "Bunce", "bribefbunce", 0.3f);
 		    AddRuleToMask("Bungary", "Bunce", "convictfbunce", 1.0f);
 		    AddRuleToMask("Bungary", "Bunce", "argueinnocencefbunce", 0.0f);
 		    AddRuleToMask("Bungary", "Bunce", "argueguiltinessfbunce", 0.0f);
 		    AddRuleToMask("Bungary", "Bunce", "poisonfbunce", -0.8f);
-		    AddRuleToMask("Bungary", "Bunce", "greetfbunce", 1.0f);
+		   // AddRuleToMask("Bungary", "Bunce", "greetfbunce", 1.0f);
 		    AddRuleToMask("Bungary", "Bunce", "playgamefbunce", 0.2f);
-		    AddRuleToMask("Bungary", "Bunce", "orderfbunce", 0.5f);
+		    AddRuleToMask("Bungary", "Bunce", "orderfbunce", 0.3f);
 		    AddRuleToMask("Bungary", "Bunce", "movetolivingroomfbunce", 0.5f);
 		    AddRuleToMask("Bungary", "Bunce", "movetokitchenfbunce", 0.1f);
 		    AddRuleToMask("Bungary", "Bunce", "movetoentryhallfbunce", 0.3f);
 		    AddRuleToMask("Bungary", "Bunce", "killfbunce", -0.8f);
 
+			AddRuleToMask("Bungary", "Bunsant", "fightfcess", -0.7f);
 		    AddRuleToMask("Bungary", "Buncess", "bribefcess", 0.3f);
 		    AddRuleToMask("Bungary", "Buncess", "convictfcess", 0.8f);
 		    AddRuleToMask("Bungary", "Buncess", "argueinnocencefcess", 0.2f);
 		    AddRuleToMask("Bungary", "Buncess", "argueguiltinessfcess", -0.1f);
 		    AddRuleToMask("Bungary", "Buncess", "poisonfcess", -0.8f);
-		    AddRuleToMask("Bungary", "Buncess", "greetfcess", 1.0f);
+		    //AddRuleToMask("Bungary", "Buncess", "greetfcess", 1.0f);
 		    AddRuleToMask("Bungary", "Buncess", "playgamefbuncess", 0.2f);
-		    AddRuleToMask("Bungary", "Buncess", "orderfcess", 0.5f);
+		    AddRuleToMask("Bungary", "Buncess", "orderfcess", 0.3f);
 		    AddRuleToMask("Bungary", "Buncess", "movetolivingroomfcess", 0.6f);
 		    AddRuleToMask("Bungary", "Buncess", "movetokitchenfcess", 0.2f);
 		    AddRuleToMask("Bungary", "Buncess", "movetoentryhallfcess", 0.3f);
@@ -1303,9 +1335,9 @@ public partial class Program : MonoBehaviour
 		    selfPersMask = new MaskAdds("Self", "Bill", 0.0f);
 		
 		    culture = new List<MaskAdds>();
-		    culture.Add(new MaskAdds("Bunce", "Bungary", 0.4f));
+		    culture.Add(new MaskAdds("Bunce", "Bungary", 0.7f));
 		    //culture.Add(new MaskAdds("Follower", "Cult", 0.4f,new List<Person>()));
-		    culture.Add(new MaskAdds("Member", "MerchantGuild", 0.5f));
+		    culture.Add(new MaskAdds("Member", "MerchantGuild", 0.4f));
 		
 		    relationSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.6f, 0.4f, 0.7f, new float[] { -0.4f, -0.5f, -0.1f },new float[]{0.0f,0.0f,0.0f});
 		#endregion AddingBill
@@ -1409,8 +1441,8 @@ public partial class Program : MonoBehaviour
 		GetPerson("bill").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("john"), -0.4f);
 	    GetPerson("bill").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("john"), -0.6f);
 	    GetPerson("bill").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("john"), 0.3f);
-	    GetPerson("bill").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("heather"), 0.4f);
-	    GetPerson("bill").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("heather"), 0.6f);
+	    GetPerson("bill").SetOpinionValue(TraitTypes.NiceNasty, GetPerson("heather"), 0.3f);
+	    GetPerson("bill").SetOpinionValue(TraitTypes.HonestFalse, GetPerson("heather"), 0.4f);
 	    GetPerson("bill").SetOpinionValue(TraitTypes.CharitableGreedy, GetPerson("heather"), -0.1f);
 	    GetPerson("bill").SetOpinionValue(TraitTypes.NiceNasty, GetPerson(playerName), -0.2f);
 	    GetPerson("bill").SetOpinionValue(TraitTypes.HonestFalse, GetPerson(playerName), -0.1f);

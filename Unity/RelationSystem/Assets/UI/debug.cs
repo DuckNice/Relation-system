@@ -8,6 +8,9 @@ public class debug : MonoBehaviour {
 	public static bool Toggle { get { return inst.toggle; } }
 	public bool playerActive = false;
 	public static bool PlayerActive { get { return inst.playerActive; } }
+	public bool shouldShowTutorial = false;
+	public static bool ShouldShowTutorial { get { return inst.shouldShowTutorial; } }
+
 
 	// Use this for initialization
 	void Awake () {

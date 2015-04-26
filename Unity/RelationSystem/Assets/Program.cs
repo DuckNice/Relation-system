@@ -77,6 +77,9 @@ public partial class Program : MonoBehaviour
                         UIFunctions.WritePlayerLine("Already doing action: " + playerAction.name + " for target: " + playerTarget.name + ". Write 'cancel' to cancel current action selection.");
                     }
                 }
+				else{
+					UIFunctions.WritePlayerLine("You are in Jail! You can't do anything! Now think about what you've done.");
+				}
             }
             else if (sepInput[0] == "cancel")
             {
