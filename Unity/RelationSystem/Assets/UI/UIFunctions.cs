@@ -29,8 +29,11 @@ public class UIFunctions : MonoBehaviour {
 	public Text RecentActionsText;
     public Slider gameSpeedSlider;
     public bool firstTimeOpenActionsMenu = true;
+	public GameObject ActionTutPanel;
 	bool ShouldShowTutorial;
 	public Image playingBack;
+
+	public ActionText acText;
 
 
 	public void Awake()
@@ -66,9 +69,9 @@ public class UIFunctions : MonoBehaviour {
 
 		if(firstTimeOpenActionsMenu && debug.ShouldShowTutorial)
         {
-            tutorialPanel.SetActive(true);
+           // tutorialPanel.SetActive(true);
             dynamicUITut.SetActive(true);
-
+			ActionTutPanel.SetActive(true);
             firstTimeOpenActionsMenu = false;
         }
 
@@ -207,6 +210,10 @@ public class UIFunctions : MonoBehaviour {
 
 		instance.GameBox.text += input;
 		instance.GameScrollbar.value = 0;
+
+		if(input != "Welcome. Press play toggle to start\n\n\n")
+			instance.acText.NewActionText(input);
+
 	}
 
 	public static void WriteGameLine(string input)
@@ -235,4 +242,12 @@ public class UIFunctions : MonoBehaviour {
         Process.Start(questionaireTest);
 		Application.Quit();
 	}
+
+
+
+
+
+
+
+
 }

@@ -47,7 +47,7 @@ public class Goods : Possession
 {
 	public Goods(float amount = 0.0f){
 		name = "goods";
-		objectName = "a good";
+		objectName = "goods";
 		value = amount;
 		parameters.Add (value);
 	}

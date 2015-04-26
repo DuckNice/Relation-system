@@ -159,20 +159,25 @@ public partial class Program : MonoBehaviour {
 				List<Possession> gifts = ((Possession[])misc).ToList();
 				giftToGive = gifts.Find(x => x.Name == "game" || x.Name == "company");
 			}
-            UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " gives the gift of " + giftToGive.objectName + " to " + CapitalizeName(direct.name) + ".");
+			if(giftToGive != null)
+           		UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " gives the gift of " + giftToGive.objectName + " to " + CapitalizeName(direct.name) + ".");
+			else
+				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " gives a gift to " + CapitalizeName(direct.name) + ".");
 
 			if (GetBeing(direct.name).PossesExists(giftToGive.Name)){
-				GetBeing(direct.name).GetPosses(giftToGive.Name).value -= 1f;
+				GetBeing(direct.name).ChangePossesAmount(giftToGive.Name,-1f);
 	
 				if (GetBeing(direct.name).PossesExists(giftToGive.Name))
 		        {
-		            GetBeing(subject.name).GetPosses(giftToGive.Name).value += 1f;
+					GetBeing(subject.name).ChangePossesAmount(giftToGive.Name,-1f);
 		        }
 		        else
 		        {
 		            GetBeing(direct.name).possessions.Add(giftToGive);
 		        }
 			}
+
+			debug.Write(""+GetBeing(subject.name).possessions.Count+" "+GetBeing(subject.name).GetPosses(giftToGive.Name));
 
             direct.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(0.3f, direct.moods[MoodTypes.hapSad]);
             direct.AddToOpinionValue(TraitTypes.NiceNasty, subject, 0.1f);
@@ -320,10 +325,11 @@ public partial class Program : MonoBehaviour {
 			subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.2f, subject.moods[MoodTypes.energTired]);
 			direct.AddToOpinionValue(TraitTypes.NiceNasty,subject,0.2f);
 
-			subject.GetRule("cry").AddToRuleStrength(-0.2f);
+			//subject.GetRule("cry").AddToRuleStrength(-0.2f);
+			//debug.Write(""+subject.GetRule("cry").GetRuleStrength());
 			// subject.GetRule("enthuseaboutgreatnessofperson").SetRuleStrength(-1.0f);
 		};
-		AddAction(new MAction("cry", 0.7f, -0.5f, relationSystem, cry, 5f, _needsDirect: false));
+		AddAction(new MAction("cry", 0.8f, -0.5f, relationSystem, cry, 5f, _needsDirect: false));
 
 		ActionInvoker console = (subject, direct, indPpl, misc) =>
 		{
@@ -357,7 +363,7 @@ public partial class Program : MonoBehaviour {
 				UIFunctions.WriteGameLine("You are in Jail! Game Over!");
 			}
         };
-        AddAction(new MAction("convict", 1.0f, -0.5f, relationSystem, convict, 6f));
+        AddAction(new MAction("convict", 1.0f, -0.9f, relationSystem, convict, 6f));
 
         ActionInvoker fight = (subject, direct, indPpl, misc) =>
         {
@@ -389,8 +395,8 @@ public partial class Program : MonoBehaviour {
 			subject.AddToOpinionValue(TraitTypes.NiceNasty, direct, -0.1f);
 			subject.AddToOpinionValue(TraitTypes.CharitableGreedy, direct, -0.1f);
 
-            GetBeing(subject.name).GetPosses("money").value -= 30f;
-            GetBeing(direct.name).GetPosses("money").value += 30f;
+			GetBeing(subject.name).ChangePossesAmount("money",-30f);
+			GetBeing(direct.name).ChangePossesAmount("money",30f);
 			//direct.AddToInterPersonalLvlOfInfl(subject,-0.1f);
         };
         AddAction(new MAction("bribe", 0.2f, 0.6f, relationSystem, bribe, 5f));
@@ -427,11 +433,11 @@ public partial class Program : MonoBehaviour {
 			float stealAmount = UnityEngine.Random.Range(1,20);
 			stealAmount += subject.GetAbility()*30f;
 			UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " steals "+stealAmount+" bungarian rupees from " + CapitalizeName(direct.name) + ".");
-            GetBeing(subject.name).GetPosses("money").value += stealAmount;
-            GetBeing(direct.name).GetPosses("money").value -= stealAmount;
+			GetBeing(subject.name).ChangePossesAmount("money",stealAmount);
+			GetBeing(direct.name).ChangePossesAmount("money",-stealAmount);
 			//direct.AddToInterPersonalLvlOfInfl(subject,0.2f); 
         };
-        AddAction(new MAction("steal", 0.7f, -0.5f, relationSystem, steal, 10f));
+        AddAction(new MAction("steal", 0.9f, -0.5f, relationSystem, steal, 10f));
 
         ActionInvoker makefunof = (subject, direct, indPpl, misc) =>
         {
@@ -552,13 +558,13 @@ public partial class Program : MonoBehaviour {
         {
             UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " makes a deal to buy " + CapitalizeName(direct.name) + "'s company");
             subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.1f, subject.moods[MoodTypes.energTired]);
-            GetBeing(subject.name).GetPosses("money").value -= 100f;
-            GetBeing(direct.name).GetPosses("money").value += 100f;
+			GetBeing(subject.name).ChangePossesAmount("money",-100f);
+   			GetBeing(direct.name).ChangePossesAmount("money",100f);
 			if(GetBeing(direct.name).PossesExists("company")){
-				GetBeing(direct.name).GetPosses("company").value -= 1f;
+				GetBeing(direct.name).ChangePossesAmount("company",-1f);
 			}
 			if(GetBeing(subject.name).PossesExists("company")){
-					GetBeing(subject.name).GetPosses("company").value += 1f;
+				GetBeing(subject.name).ChangePossesAmount("company",1f);
 			}
             direct.AddToOpinionValue(TraitTypes.NiceNasty, subject, -0.4f);
 			direct.AddToOpinionValue(TraitTypes.CharitableGreedy, subject, -0.2f);
@@ -569,13 +575,13 @@ public partial class Program : MonoBehaviour {
         {
             UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " makes a deal to sell a company to " + CapitalizeName(direct.name));
             subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.1f, subject.moods[MoodTypes.energTired]);
-            GetBeing(subject.name).GetPosses("money").value += 100f;
-            GetBeing(direct.name).GetPosses("money").value -= 100f;
+			GetBeing(subject.name).ChangePossesAmount("money",100f);
+			GetBeing(direct.name).ChangePossesAmount("money",-100f);
 			if(GetBeing(direct.name).PossesExists("company")){
-            GetBeing(direct.name).GetPosses("company").value += 1f;
+				GetBeing(direct.name).ChangePossesAmount("company",1f);
 			}
 			if(GetBeing(subject.name).PossesExists("company")){
-				GetBeing(subject.name).GetPosses("company").value -= 1f;
+				GetBeing(subject.name).ChangePossesAmount("company",-1f);
 			}
 			direct.AddToOpinionValue(TraitTypes.CharitableGreedy, subject, -0.2f);
         };
@@ -593,7 +599,7 @@ public partial class Program : MonoBehaviour {
 
 			//direct.AddToInterPersonalLvlOfInfl(direct,0.4f);
 			if(GetBeing(subject.name).PossesExists("company")){
-				GetBeing(direct.name).GetPosses("company").value -= 1f;
+				GetBeing(direct.name).ChangePossesAmount("company",-1f);
 			}
         };
         AddAction(new MAction("sabotage", 0.5f, -0.5f, relationSystem, sabotage, 10f));
@@ -627,8 +633,8 @@ public partial class Program : MonoBehaviour {
 		ActionInvoker buyGoods = (subject, direct, indPpl, misc) =>
         {
             UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " buys goods from " + CapitalizeName(direct.name));
-            GetBeing(CapitalizeName(subject.name)).GetPosses("money").value -= 30f;
-            GetBeing(CapitalizeName(subject.name)).GetPosses("goods").value += 1f;
+			GetBeing(subject.name).ChangePossesAmount("money",-30f); 
+			GetBeing(subject.name).ChangePossesAmount("goods",1f);
             subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.1f, subject.moods[MoodTypes.energTired]);
 			subject.AddToOpinionValue(TraitTypes.CharitableGreedy,direct,0.1f);
 			direct.AddToOpinionValue(TraitTypes.CharitableGreedy,subject,0.1f);
@@ -638,9 +644,9 @@ public partial class Program : MonoBehaviour {
         ActionInvoker sellGoods = (subject, direct, indPpl, misc) =>
         {
             UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " sells goods to " + CapitalizeName(direct.name));
-            GetBeing(subject.name).GetPosses("money").value += 30f;
+			GetBeing(subject.name).ChangePossesAmount("money",30f);
 			if(GetBeing(direct.name).PossesExists("goods")){
-            	GetBeing(subject.name).GetPosses("goods").value -= 1f;
+				GetBeing(subject.name).ChangePossesAmount("goods",1f);
 			}
             subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.1f, subject.moods[MoodTypes.energTired]);
 			subject.AddToOpinionValue(TraitTypes.CharitableGreedy,direct,0.1f);

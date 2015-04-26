@@ -143,7 +143,7 @@ namespace NRelationSystem
 
 					debug.Write("Calculating "+rule.actionToTrigger.name+" to "+rule.selfOther[self].person.name+" in "+maskName);
 					
-                    float newActionStrength = maskCalculation + Calculator.UnboundAdd(rule.selfOther[self].pref, maskCalculation);
+                    float newActionStrength = maskCalculation + rule.selfOther[self].pref;
 					
                     debug.Write(maskCalculation+"  (+)  "+rule.selfOther[self].pref+"  =  "+newActionStrength);
 					

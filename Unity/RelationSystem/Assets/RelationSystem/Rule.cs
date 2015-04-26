@@ -121,7 +121,7 @@ namespace NRelationSystem
 		}
 
         public float GetRuleStrength() { return strength; }
-		public void SetRuleStrength(float inp){ strength = inp; }
-		public void AddToRuleStrength(float inp){ strength += Calculator.UnboundAdd (inp, strength); }
+		public void SetRuleStrength(float inp){ strength = inp;  }
+		public void AddToRuleStrength(float inp){ strength += Calculator.UnboundAdd(inp,strength);  }
     }
 }

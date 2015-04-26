@@ -18,6 +18,12 @@ public class Being
         int index = possessions.FindIndex(x => x.Name == name);
         return (index == -1) ?  null :  possessions[index];
     }
+	public void ChangePossesAmount(string name, float am)
+	{
+		possessions.Find (x => x.Name == name).value += am;
+
+	}
+
     public bool PossesExists(string name)
     {
         int index = possessions.FindIndex(x => x.Name == name);
