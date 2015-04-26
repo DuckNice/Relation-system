@@ -54,7 +54,7 @@ public partial class Program : MonoBehaviour {
         };
         AddAction(new MAction("kiss", 0.4f, 0.4f, relationSystem, kiss, 5f));
 
-        ActionInvoker askAboutPartnerStatus = (subject, direct, indPpl, misc) =>
+		ActionInvoker askIfShouldBePartner = (subject, direct, indPpl, misc) =>
         {
 			if (subject.CheckRoleName("partner",direct))
             {
@@ -74,7 +74,7 @@ public partial class Program : MonoBehaviour {
 				subject.moods[MoodTypes.arousDisgus] += Calculator.UnboundAdd(0.6f, subject.moods[MoodTypes.arousDisgus]);
             }
         };
-        AddAction(new MAction("askAboutPartnerStatus", 1.0f, 0.5f, relationSystem, askAboutPartnerStatus, 5f));
+		AddAction(new MAction("askIfShouldBePartner", 1.0f, 0.5f, relationSystem, askIfShouldBePartner, 5f));
 
         ActionInvoker chooseAnotherAsPartner = (subject, direct, indPpl, misc) =>
         {
@@ -177,9 +177,7 @@ public partial class Program : MonoBehaviour {
 		        }
 			}
 
-			debug.Write(""+GetBeing(subject.name).possessions.Count+" "+GetBeing(subject.name).GetPosses(giftToGive.Name));
-
-            direct.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(0.3f, direct.moods[MoodTypes.hapSad]);
+			direct.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(0.3f, direct.moods[MoodTypes.hapSad]);
             direct.AddToOpinionValue(TraitTypes.NiceNasty, subject, 0.1f);
 			direct.AddToOpinionValue(TraitTypes.CharitableGreedy, subject, 0.2f);
         };

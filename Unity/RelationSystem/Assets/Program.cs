@@ -69,12 +69,12 @@ public partial class Program : MonoBehaviour
                         }
                         else
                         {
-                            UIFunctions.WritePlayerLine("Action needs a target person. Not doing action.");
+                            UIFunctions.WritePlayerLine("Action needs a target person.");
                         }
                     }
                     else
                     {
-                        UIFunctions.WritePlayerLine("Already doing action: " + playerAction.name + " for target: " + playerTarget.name + ". Write 'cancel' to cancel current action selection.");
+                        UIFunctions.WritePlayerLine("Already doing action: " + playerAction.name + " to " + playerTarget.name + ". Write 'cancel' to cancel current action selection.");
                     }
                 }
 				else{

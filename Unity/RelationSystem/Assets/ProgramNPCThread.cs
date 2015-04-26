@@ -90,7 +90,7 @@ public partial class Program : MonoBehaviour
         }
         else
         {
-            UIFunctions.WritePlayerLine("Warning: You are currently " + currentPlayerAction.name + "ing. Please wait another " + Decimal.Round((decimal)(currentPlayerAction.duration - (time - actionStartTime)),1) + " seconds for your action do finish.");
+            UIFunctions.WritePlayerLine("You are currently " + currentPlayerAction.name + "ing. Wait another " + Decimal.Round((decimal)(currentPlayerAction.duration - (time - actionStartTime)),1) + " seconds for your action do finish.");
         }
     }
 

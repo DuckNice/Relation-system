@@ -79,12 +79,10 @@ public class UIFunctions : MonoBehaviour {
         graphicActionPanelScript.UpdateButtons();
 
 
-		/*RecentActionsText.text = instance.GameBox.text;
-		debug.Write (""+RecentActionsText.text.Length);
-		if (RecentActionsText.text.Length > 200) {
-			RecentActionsText.text.Remove (0,20);
-			debug.Write ("TRUE, REMOVING, "+RecentActionsText.text.Length);
-		}*/
+		RecentActionsText.text += instance.GameBox.text;
+		if (RecentActionsText.text.Length > 275) {
+			RecentActionsText.text = RecentActionsText.text.Substring(RecentActionsText.text.Length-276,275);
+		}
     }
 
 
@@ -174,8 +172,10 @@ public class UIFunctions : MonoBehaviour {
             instance.PlayerBox.text = instance.PlayerBox.text.Remove(0, 1000);
         }
 
-		instance.PlayerBox.text += input;
+		instance.PlayerBox.text = input;
 		instance.PlayerScrollbar.value = 0;
+		instance.PlayerBox.color = Color.red;
+		instance.StartCoroutine (ChangeTextCol (instance.PlayerBox));
 	}
 
 
@@ -244,7 +244,14 @@ public class UIFunctions : MonoBehaviour {
 	}
 
 
-
+	static IEnumerator ChangeTextCol(Text s){
+		float t = 4f;
+		while(t>0){
+			t -= Time.deltaTime;
+			yield return 0;
+		}
+		s.color = Color.black;
+	}
 
 
 

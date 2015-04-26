@@ -34,17 +34,37 @@ public partial class Program : MonoBehaviour
 		relationSystem.AddListToActives("Living Room");
 		relationSystem.AddListToActives("Kitchen");
 
-		roomMan.EnterRoom("Entrance", GetPerson("Bill"));
-        roomMan.EnterRoom("Entrance", GetPerson("Therese"));
-        roomMan.EnterRoom("Entrance", GetPerson("John"));
-		roomMan.EnterRoom("Entrance", GetPerson("Heather"));
-        roomMan.EnterRoom("Entrance", GetPerson(playerName));
-
 		beings.Add (Bill);
 		beings.Add (Therese);
 		beings.Add (John);
 		beings.Add (Heather);
 		beings.Add (Player);
+
+		foreach (Being b in beings) {
+			int r = UnityEngine.Random.Range (0,3);
+			debug.Write(""+r);
+			switch(r){
+			case 0:
+				roomMan.EnterRoom("Entrance", GetPerson(b.name));
+				break;
+			case 1:
+				roomMan.EnterRoom("Living Room", GetPerson(b.name));
+				break;
+			case 2:
+				roomMan.EnterRoom("Kitchen", GetPerson(b.name));
+				break;
+			}
+
+		}
+
+		/*
+		roomMan.EnterRoom("Entrance", GetPerson("Bill"));
+        roomMan.EnterRoom("Entrance", GetPerson("Therese"));
+        roomMan.EnterRoom("Entrance", GetPerson("John"));
+		roomMan.EnterRoom("Entrance", GetPerson("Heather"));
+        roomMan.EnterRoom("Entrance", GetPerson(playerName));
+		*/
+
 
 		Bill.possessions.Add (new Money (100f));
 		Bill.possessions.Add (new Goods (5f));
@@ -132,7 +152,7 @@ public partial class Program : MonoBehaviour
 			return false;
 		};
 
-		RuleConditioner askAboutPartnerStatusCondition = (self, other, indPpl) =>
+		RuleConditioner askIfShouldBePartnerCondition = (self, other, indPpl) =>
 		{	if( self != other){
 				if((relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["kiss"] && x.GetSubject() == other && x.GetDirect() != self)
 				    && (self.CheckRoleName("partner",other)))
@@ -141,7 +161,7 @@ public partial class Program : MonoBehaviour
 			}
 
 			if( self != other){
-				if((relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["stayAsPartner"] && x.GetSubject() == other && x.GetDirect() != self)
+				if((relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["stayaspartner"] && x.GetSubject() == other && x.GetDirect() != self)
 				    && (self.CheckRoleName("partner",other)))
 				   && roomMan.IsPersonInSameRoomAsMe(self, other))
 				{  return true; }
@@ -164,8 +184,8 @@ public partial class Program : MonoBehaviour
 					return false;
 				}
 			}
-			debug.Write(""+relationSystem.posActions["askAboutPartnerStatus"].name);
-			if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["askAboutPartnerStatus"] && x.GetSubject() == other && x.GetDirect() == self && HowLongAgo(x.GetTime()) < 10f)){
+			debug.Write(""+relationSystem.posActions["askifshouldbepartner"].name);
+			if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["askifshouldbepartner"] && x.GetSubject() == other && x.GetDirect() == self && HowLongAgo(x.GetTime()) < 10f)){
 				if(self != other  && roomMan.IsPersonInSameRoomAsMe(self, other)){ //LVLOFINFL0.3
 					if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.4f)
 						{  return true; }
@@ -184,11 +204,11 @@ public partial class Program : MonoBehaviour
         };
 
 		RuleConditioner stayAsPartnerCondition = (self, other, indPpl) =>
-		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["stayAsPartner"] && x.GetSubject() == self && HowLongAgo(x.GetTime()) > 10f)){
+		{	if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["stayaspartner"] && x.GetSubject() == self && HowLongAgo(x.GetTime()) > 10f)){
 				return false;
 			}
 
-			if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["askAboutPartnerStatus"] && x.GetSubject() == other && x.GetDirect() == self && HowLongAgo(x.GetTime()) < 10f)){
+			if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["askifshouldbepartner"] && x.GetSubject() == other && x.GetDirect() == self && HowLongAgo(x.GetTime()) < 10f)){
 				if(self != other && roomMan.IsPersonInSameRoomAsMe(self, other))
 					{ return true; }
 			}
@@ -516,7 +536,7 @@ public partial class Program : MonoBehaviour
 		RuleConditioner movetolivingroomCondition = (self, other, indPpl) =>
 		{	
 			//debug.Write("CHECKING MOVE "+roomMan.GetRoomIAmIn(self)+" "+self.name);
-			if(HowLongAgo(relationSystem.historyBook.Find(x=> (x.GetAction()==relationSystem.posActions["moveToLivingRoom"] || x.GetAction()==relationSystem.posActions["moveToKitchen"] || x.GetAction()==relationSystem.posActions["moveToEntryHall"]) && x.GetSubject()==self).GetTime()) < 10f){
+			if(HowLongAgo(relationSystem.historyBook.Find(x=> (x.GetAction()==relationSystem.posActions["movetolivingroom"] || x.GetAction()==relationSystem.posActions["movetolivingroom"] || x.GetAction()==relationSystem.posActions["movetolivingroom"]) && x.GetSubject()==self).GetTime()) < 10f){
 			//	debug.Write("FALSE");
 				return false;
 			}
@@ -535,7 +555,7 @@ public partial class Program : MonoBehaviour
 		RuleConditioner movetoentryhallCondition = (self, other, indPpl) =>
         {
 
-			if(HowLongAgo(relationSystem.historyBook.Find(x=> (x.GetAction()==relationSystem.posActions["moveToLivingRoom"] || x.GetAction()==relationSystem.posActions["moveToKitchen"] || x.GetAction()==relationSystem.posActions["moveToEntryHall"]) && x.GetSubject()==self).GetTime()) < 10f){
+			if(HowLongAgo(relationSystem.historyBook.Find(x=> (x.GetAction()==relationSystem.posActions["movetolivingroom"] || x.GetAction()==relationSystem.posActions["movetolivingroom"] || x.GetAction()==relationSystem.posActions["movetolivingroom"]) && x.GetSubject()==self).GetTime()) < 10f){
 				return false;
 			}
 			if (self != null && (roomMan.GetRoomIAmIn(self) == "Living Room")) { 
@@ -554,7 +574,7 @@ public partial class Program : MonoBehaviour
 
 		RuleConditioner movetokitchenCondition = (self, other, indPpl) =>
         {
-			if(HowLongAgo(relationSystem.historyBook.Find(x=> (x.GetAction()==relationSystem.posActions["moveToLivingRoom"] || x.GetAction()==relationSystem.posActions["moveToKitchen"] || x.GetAction()==relationSystem.posActions["moveToEntryHall"]) && x.GetSubject()==self).GetTime()) < 10f){
+			if(HowLongAgo(relationSystem.historyBook.Find(x=> (x.GetAction()==relationSystem.posActions["movetolivingroom"] || x.GetAction()==relationSystem.posActions["movetolivingroom"] || x.GetAction()==relationSystem.posActions["movetolivingroom"]) && x.GetSubject()==self).GetTime()) < 10f){
 				return false;
 			}
             if (self != null && (roomMan.GetRoomIAmIn(self) == "Living Room")) { 
@@ -696,7 +716,7 @@ public partial class Program : MonoBehaviour
 			    return r;
 		    };
 
-		    RulePreference askAboutPartnerStatusPreference = (self, other) => {
+		    RulePreference askIfShouldBePartnerPreference = (self, other) => {
 			    if(self != other){
 				    if(self.CheckRoleName("partner",other)){
 					    return Calculator.UnboundAdd(self.GetOpinionValue(TraitTypes.NiceNasty,other),0);//Calculator.NegPosTransform(self.GetLvlOfInflToPerson(other))
@@ -897,7 +917,7 @@ public partial class Program : MonoBehaviour
 		    CreateNewRule("chooseAnotherAsPartner", "chooseAnotherAsPartner", chooseAnotherAsPartnerCondition,chooseAnotherAsPartnerPreference);
 		    CreateNewRule("stayAsPartner", "stayAsPartner", stayAsPartnerCondition,StayAsPartnerPreference);
 		    CreateNewRule("leavePartner", "leavePartner", LeavePartnerCondition,LeavePartnerPreference);
-		    CreateNewRule("askAboutPartnerStatus", "askAboutPartnerStatus", askAboutPartnerStatusCondition,askAboutPartnerStatusPreference);
+		    CreateNewRule("askIfShouldBePartner", "askIfShouldBePartner", askIfShouldBePartnerCondition,askIfShouldBePartnerPreference);
 
 		    CreateNewRule("flirt", "flirt", flirtCondition,flirtPreference);
 		    CreateNewRule("chat", "chat", chatCondition,chatPreference);
@@ -987,12 +1007,12 @@ public partial class Program : MonoBehaviour
 		    // ------------- INTERPERSONAL
 		    List<Rule> kissRulesToTrigger = new List<Rule>(); kissRulesToTrigger.Add(GetRule("giveGift"));
 			AddPossibleRulesToRule("kiss",kissRulesToTrigger); AddPossibleRulesToRule("deny",kissRulesToTrigger); AddPossibleRulesToRule("chat",kissRulesToTrigger); AddPossibleRulesToRule("flirt",kissRulesToTrigger); 
-		AddPossibleRulesToRule("askAboutPartnerStatus",kissRulesToTrigger); 
+		AddPossibleRulesToRule("askIfShouldBePartner",kissRulesToTrigger); 
 			AddPossibleRulesToRule("gossip",kissRulesToTrigger); AddPossibleRulesToRule("deny",kissRulesToTrigger);
 
-		    List<Rule> askAboutPartnerStatusRulesToTrigger = new List<Rule>(); askAboutPartnerStatusRulesToTrigger.Add(GetRule("chooseAnotherAsPartner"));
-		    askAboutPartnerStatusRulesToTrigger.Add(GetRule("stayAsPartner")); askAboutPartnerStatusRulesToTrigger.Add(GetRule("leavePartner"));
-		    AddPossibleRulesToRule("askAboutPartnerStatus",askAboutPartnerStatusRulesToTrigger);
+		    List<Rule> askIfShouldBePartnerRulesToTrigger = new List<Rule>(); askIfShouldBePartnerRulesToTrigger.Add(GetRule("chooseAnotherAsPartner"));
+		    askIfShouldBePartnerRulesToTrigger.Add(GetRule("stayAsPartner")); askIfShouldBePartnerRulesToTrigger.Add(GetRule("leavePartner"));
+		    AddPossibleRulesToRule("askIfShouldBePartner",askIfShouldBePartnerRulesToTrigger);
 
 		    List<Rule> chooseanotheraspartnerRulesToTrigger = new List<Rule>(); chooseanotheraspartnerRulesToTrigger.Add(GetRule("kiss")); chooseanotheraspartnerRulesToTrigger.Add(GetRule("flirt")); 
 			chooseanotheraspartnerRulesToTrigger.Add(GetRule("deny")); chooseanotheraspartnerRulesToTrigger.Add(GetRule("fight")); chooseanotheraspartnerRulesToTrigger.Add(GetRule("argue"));
@@ -1016,7 +1036,7 @@ public partial class Program : MonoBehaviour
 		    AddPossibleRulesToRule("chat",chatRulesToTrigger);
 
 		    List<Rule> giveGiftRulesToTrigger = new List<Rule>(); giveGiftRulesToTrigger.Add(GetRule("reminisce")); giveGiftRulesToTrigger.Add(GetRule("flirt"));
-		giveGiftRulesToTrigger.Add(GetRule("deny")); giveGiftRulesToTrigger.Add(GetRule("askAboutPartnerStatus")); giveGiftRulesToTrigger.Add(GetRule("praise"));
+		giveGiftRulesToTrigger.Add(GetRule("deny")); giveGiftRulesToTrigger.Add(GetRule("askIfShouldBePartner")); giveGiftRulesToTrigger.Add(GetRule("praise"));
 		    AddPossibleRulesToRule("giveGift",giveGiftRulesToTrigger);
 
 		    List<Rule> gossipRulesToTrigger = new List<Rule>(); gossipRulesToTrigger.Add(GetRule("reminisce")); gossipRulesToTrigger.Add(GetRule("flirt"));
@@ -1063,7 +1083,7 @@ public partial class Program : MonoBehaviour
 
 		    List<Rule> harassRulesToTrigger = new List<Rule>(); harassRulesToTrigger.Add(GetRule("tellJoke")); harassRulesToTrigger.Add(GetRule("deny"));
 		harassRulesToTrigger.Add(GetRule("argue")); harassRulesToTrigger.Add(GetRule("fight")); harassRulesToTrigger.Add(GetRule("order")); harassRulesToTrigger.Add(GetRule("poison")); 
-		harassRulesToTrigger.Add(GetRule("askAboutPartnerStatus"));
+		harassRulesToTrigger.Add(GetRule("askIfShouldBePartner"));
 		    AddPossibleRulesToRule("harass",harassRulesToTrigger);
 
 		    List<Rule> cryRulesToTrigger = new List<Rule>(); cryRulesToTrigger.Add(GetRule("cry")); cryRulesToTrigger.Add(GetRule("reminisce"));
@@ -1211,7 +1231,7 @@ public partial class Program : MonoBehaviour
 			AddRuleToMask("Friendship", "Friend", "kiss", -0.4f);
 			AddRuleToMask("Rivalry", "Enemy", "kiss", -0.4f);
 
-		    AddRuleToMask("RomanticRelationship", "Partner", "askAboutPartnerStatus", 0.6f);
+		    AddRuleToMask("RomanticRelationship", "Partner", "askIfShouldBePartner", 0.6f);
 		    AddRuleToMask("RomanticRelationship", "Partner", "stayAsPartner", 0.3f);
 		    AddRuleToMask("RomanticRelationship", "Partner", "leavePartner", -0.1f);
 
