@@ -102,8 +102,8 @@ public class DynamicActionsUI : MonoBehaviour
             actions.Add(actionName.ToLower());
         }
 
-        List<string> people = program.relationSystem.pplAndMasks.people.Keys.ToList();
-        
+        List<string> people = program.relationSystem.CreateActiveListsListNames();
+
         int actionArrays = (int) (actions.Count + maxActionsInArray - 1) / maxActionsInArray;
         int peopleArrays = (int) (people.Count + maxActionsInArray - 1) / maxActionsInArray;
         int buttonWidth = (Screen.width - middleMargin - (2 * sideMargin)) / (actionArrays + peopleArrays);

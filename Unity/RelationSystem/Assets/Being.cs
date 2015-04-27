@@ -20,8 +20,10 @@ public class Being
     }
 	public void ChangePossesAmount(string name, float am)
 	{
-		possessions.Find (x => x.Name == name).value += am;
-
+        if (possessions.Exists(x => x.Name == name))
+        {
+		    possessions.Find (x => x.Name == name).value += am;
+        }
 	}
 
     public bool PossesExists(string name)

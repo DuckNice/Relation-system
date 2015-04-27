@@ -41,6 +41,24 @@ namespace NRelationSystem
         }
 
 
+        public List<string> CreateActiveListsListNames()
+        {
+            List<string> list = new List<string>();
+
+            foreach (List<Person> people in activeLists.Values)
+            {
+                foreach (Person person in people)
+                {
+                    if (!list.Contains(person.name))
+                    {
+                        list.Add(person.name);
+                    }
+                }
+            }
+
+            return list;
+        }
+
 
         public void CreateNewMask(string nameOfMask, float[] _traits = null, TypeMask maskType = TypeMask.interPers, string[] roles = null) 
         {
