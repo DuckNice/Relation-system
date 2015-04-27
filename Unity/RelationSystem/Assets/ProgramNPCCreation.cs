@@ -42,7 +42,6 @@ public partial class Program : MonoBehaviour
 
 		foreach (Being b in beings) {
 			int r = UnityEngine.Random.Range (0,3);
-			debug.Write(""+r);
 			switch(r){
 			case 0:
 				roomMan.EnterRoom("Entrance", GetPerson(b.name));
@@ -54,7 +53,6 @@ public partial class Program : MonoBehaviour
 				roomMan.EnterRoom("Kitchen", GetPerson(b.name));
 				break;
 			}
-
 		}
 
 		/*
@@ -180,11 +178,10 @@ public partial class Program : MonoBehaviour
 
 		RuleConditioner chooseAnotherAsPartnerCondition = (self, other, indPpl) =>
 		{	if(self != other){
-				if(self.CheckRoleName("partner")){
+				if(self.CheckRoleName("partner",other)){
 					return false;
 				}
 			}
-			debug.Write(""+relationSystem.posActions["askifshouldbepartner"].name);
 			if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["askifshouldbepartner"] && x.GetSubject() == other && x.GetDirect() == self && HowLongAgo(x.GetTime()) < 10f)){
 				if(self != other  && roomMan.IsPersonInSameRoomAsMe(self, other)){ //LVLOFINFL0.3
 					if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.4f)
@@ -495,7 +492,7 @@ public partial class Program : MonoBehaviour
 		{	if(beings.Find(x=>x.name == other.name).possessions.Exists(y=>y.Name=="company")){
 				if(beings.Find(x=>x.name == other.name).possessions.Find(y=>y.Name=="company").value > 0f){
 					if(self.CalculateTraitType(TraitTypes.NiceNasty) < -0.1f && self != other  &&
-					   self.moods[MoodTypes.energTired] > -0.4f && !roomMan.IsPersonInSameRoomAsMe(self, other)){
+					   self.moods[MoodTypes.energTired] > -0.4f && roomMan.IsPersonInSameRoomAsMe(self, other)){
 						{ return true; }
 					}
 				}
@@ -535,12 +532,16 @@ public partial class Program : MonoBehaviour
 
 		RuleConditioner movetolivingroomCondition = (self, other, indPpl) =>
 		{	
+			if(roomMan.GetRoomIAmIn(self) == "Living Room"){
+				return false;
+			}
+
 			//debug.Write("CHECKING MOVE "+roomMan.GetRoomIAmIn(self)+" "+self.name);
 			if(HowLongAgo(relationSystem.historyBook.Find(x=> (x.GetAction()==relationSystem.posActions["movetolivingroom"] || x.GetAction()==relationSystem.posActions["movetolivingroom"] || x.GetAction()==relationSystem.posActions["movetolivingroom"]) && x.GetSubject()==self).GetTime()) < 10f){
 			//	debug.Write("FALSE");
 				return false;
 			}
-			if(self != null && !(roomMan.GetRoomIAmIn(self) == "Living Room")){
+			if(!(roomMan.GetRoomIAmIn(self) == "Living Room")){
 				//if((self.moods[MoodTypes.energTired] < -0.2f)){
 					return true;
 				//}
@@ -554,6 +555,9 @@ public partial class Program : MonoBehaviour
 
 		RuleConditioner movetoentryhallCondition = (self, other, indPpl) =>
         {
+			if(roomMan.GetRoomIAmIn(self) == "Entry Hall"){
+				return false;
+			}
 
 			if(HowLongAgo(relationSystem.historyBook.Find(x=> (x.GetAction()==relationSystem.posActions["movetolivingroom"] || x.GetAction()==relationSystem.posActions["movetolivingroom"] || x.GetAction()==relationSystem.posActions["movetolivingroom"]) && x.GetSubject()==self).GetTime()) < 10f){
 				return false;
@@ -574,6 +578,10 @@ public partial class Program : MonoBehaviour
 
 		RuleConditioner movetokitchenCondition = (self, other, indPpl) =>
         {
+			if(roomMan.GetRoomIAmIn(self) == "Kitchen"){
+				return false;
+			}
+
 			if(HowLongAgo(relationSystem.historyBook.Find(x=> (x.GetAction()==relationSystem.posActions["movetolivingroom"] || x.GetAction()==relationSystem.posActions["movetolivingroom"] || x.GetAction()==relationSystem.posActions["movetolivingroom"]) && x.GetSubject()==self).GetTime()) < 10f){
 				return false;
 			}

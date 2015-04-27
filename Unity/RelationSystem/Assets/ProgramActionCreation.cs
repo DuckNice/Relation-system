@@ -348,7 +348,7 @@ public partial class Program : MonoBehaviour {
 
         ActionInvoker convict = (subject, direct, indPpl, misc) =>
         {
-            UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " convicts " + CapitalizeName(direct.name) + " of commiting a crime. To Jail with him!");
+            UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " convicts " + CapitalizeName(direct.name) + " of commiting a crime. To Jail with them!");
             direct.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(-0.8f, direct.moods[MoodTypes.hapSad]);
             direct.moods[MoodTypes.angryFear] += Calculator.UnboundAdd(0.6f, direct.moods[MoodTypes.angryFear]);
             direct.AddToOpinionValue(TraitTypes.NiceNasty, subject, -0.4f);
@@ -359,6 +359,7 @@ public partial class Program : MonoBehaviour {
 			roomMan.EnterRoom("Jail",direct);
 			if(direct.name == playerName){
 				UIFunctions.WriteGameLine("You are in Jail! Game Over!");
+				UIFunctions.ActivateRetryButton();
 			}
         };
         AddAction(new MAction("convict", 1.0f, -0.9f, relationSystem, convict, 6f));

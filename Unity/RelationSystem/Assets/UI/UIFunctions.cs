@@ -34,7 +34,7 @@ public class UIFunctions : MonoBehaviour {
 	public Image playingBack;
 
 	public ActionText acText;
-
+	public GameObject RetryButton;
 
 	public void Awake()
 	{
@@ -251,6 +251,14 @@ public class UIFunctions : MonoBehaviour {
 			yield return 0;
 		}
 		s.color = Color.black;
+	}
+
+	public static void ActivateRetryButton(){
+		instance.RetryButton.SetActive(true);
+	}
+
+	public static void ResetGame(){
+		Application.LoadLevel(Application.loadedLevel);
 	}
 
 
