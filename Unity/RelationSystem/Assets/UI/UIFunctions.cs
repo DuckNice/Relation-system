@@ -86,11 +86,12 @@ public class UIFunctions : MonoBehaviour {
         graphicActionPanelScript.UpdateButtons();
 
 
-		RecentActionsText.text += instance.GameBox.text;
-        if (RecentActionsText.text.Length > 150)
+		RecentActionsText.text = instance.GameBox.text;
+        if (RecentActionsText.text.Length > 275)
         {
-            int lastNewline = RecentActionsText.text.IndexOf("\n");
-            RecentActionsText.text = RecentActionsText.text.Remove(0, lastNewline + 1);
+            RecentActionsText.text = RecentActionsText.text.Remove(0, RecentActionsText.text.Length - 275);
+            int lastNewline = RecentActionsText.text.IndexOf("</color>");
+            RecentActionsText.text = RecentActionsText.text.Remove(0, lastNewline + 8);
         }
     }
 
