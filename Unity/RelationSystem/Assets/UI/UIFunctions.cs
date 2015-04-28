@@ -88,9 +88,11 @@ public class UIFunctions : MonoBehaviour {
 
 
 		RecentActionsText.text += instance.GameBox.text;
-		if (RecentActionsText.text.Length > 275) {
-			RecentActionsText.text = RecentActionsText.text.Substring(RecentActionsText.text.Length-276,275);
-		}
+        if (RecentActionsText.text.Length > 150)
+        {
+            int lastNewline = RecentActionsText.text.IndexOf("\n");
+            RecentActionsText.text = RecentActionsText.text.Remove(0, lastNewline + 1);
+        }
     }
 
 
