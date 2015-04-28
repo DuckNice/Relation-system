@@ -16,7 +16,6 @@ public partial class Program : MonoBehaviour
 
 		AddUpdateList ("Entrance");
 		AddUpdateList ("Living Room");
-		AddUpdateList ("Hallway");
 		AddUpdateList ("Kitchen");
 		AddUpdateList ("Jail");
 	}

@@ -102,12 +102,26 @@ public class RoomManager {
 
 	public void UpdateRoomWindow(){
 		roomWindowString = "\n\n<b>Rooms:</b> \n\n";
+		int i = 0;
 		foreach (string s in relSys.updateLists.Keys) {
-			roomWindowString += s+": \n";
+			if(i==0){
+				roomWindowString += "<color=#00ff00ff>"+s+"</color>: \n";
+			}
+			else if(i==1){
+				roomWindowString += "<color=#008080ff>"+s+"</color>: \n";
+			}
+			else if(i==2){
+				roomWindowString += "<color=#00ffffff>"+s+"</color>: \n";
+			}
+			else if(i==3){
+				roomWindowString += "<color=#ff0000ff>"+s+"</color>: \n";
+			}
+
 			foreach(Person p in relSys.updateLists[s]){
-				roomWindowString += "<i>"+p.name+"</i> ";
+				roomWindowString += "<i>"+p.name+",</i> ";
 			}
 			roomWindowString += "\n\n";
+			i++;
 		}
 		UIFunctions.WriteRoomsInWindow (roomWindowString);
 	}

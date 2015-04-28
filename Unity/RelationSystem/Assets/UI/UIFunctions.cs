@@ -35,7 +35,6 @@ public class UIFunctions : MonoBehaviour {
 	public Image playingBack;
 	public GameObject actionsButton;
 
-	public ActionText acText;
 	public GameObject RetryButton;
 
 
@@ -241,7 +240,7 @@ public class UIFunctions : MonoBehaviour {
 				instance.GameBox.text += "<color=#0000ffff>"+input+"</color>";
 			}
 			else if(first[0] == 'H'){
-				instance.GameBox.text += "<color=#ffa500ff>"+input+"</color>";
+				instance.GameBox.text += "<color=#ff6600ff>"+input+"</color>";
 			}
 			else if(first[0] == 'Y'){
 				instance.GameBox.text += "<color=#000000ff>"+input+"</color>";
@@ -255,9 +254,7 @@ public class UIFunctions : MonoBehaviour {
 		}
 		instance.GameScrollbar.value = 0;
 
-		if(input != "Welcome. Press play toggle to start\n\n\n")
-			instance.acText.NewActionText(input);
-
+	
 	}
 
 
