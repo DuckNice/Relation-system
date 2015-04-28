@@ -50,7 +50,7 @@ public class Being
     
 	public void NPCAction(float time)
 	{
-		if (name.ToLower() != RelationSystem.playerName || debug.inst.playerActive)
+		if (name.ToLower() != RelationSystem.playerName || debug.PlayerActive)
         {
             Person self = maskSystem.pplAndMasks.GetPerson(name);
 			//UIFunctions.WritePlayerLine(""+debug.inst.playerActive);

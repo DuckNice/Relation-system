@@ -45,7 +45,7 @@ public partial class Program : MonoBehaviour
 
                 foreach (Being being in beings)
                 {
-                    if (people.Exists(x => x.name == being.name) && (being.name != playerName || debug.inst.playerActive))
+                    if (people.Exists(x => x.name == being.name) && (being.name != playerName || debug.PlayerActive))
                     {
                         being.NPCAction(time);
 						roomMan.UpdateLvlOfInfl(GetPerson(being.name),0.01f);

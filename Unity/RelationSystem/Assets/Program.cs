@@ -23,6 +23,7 @@ public partial class Program : MonoBehaviour
         RelationSystem.program = this;
         MAction.relationSystem = relationSystem;
 
+
 		CreateFirstRooms ();
 		SetupActions ();
 		CreateFirstMasks ();
