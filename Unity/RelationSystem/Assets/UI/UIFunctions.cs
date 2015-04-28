@@ -7,7 +7,7 @@ public class UIFunctions : MonoBehaviour {
 	public static UIFunctions instance;
 
     public string questionnaireWatcher = "http://www.google.com";
-	public string questionnairePlayer = "http://www.google,com";
+	public string questionnairePlayer = "http://www.google.com";
 	string text;
 	public InputField input;
 	public Text GameBox;
@@ -37,6 +37,7 @@ public class UIFunctions : MonoBehaviour {
 
 	public ActionText acText;
 	public GameObject RetryButton;
+
 
 	public void Awake()
 	{
@@ -134,6 +135,7 @@ public class UIFunctions : MonoBehaviour {
         }
     }
 
+
 	public void enteredCommand()
 	{
 		text = input.text;
@@ -225,10 +227,12 @@ public class UIFunctions : MonoBehaviour {
 
 	}
 
+
 	public static void WriteGameLine(string input)
 	{
 		WriteGame (input + "\n");
 	}
+
 
 	public static void WriteGameStatsInWindow(string input){
 		instance.StatText.text = input;
@@ -249,10 +253,10 @@ public class UIFunctions : MonoBehaviour {
 	public void ExitGameAndEnterQuestionnaire(){
 		    //ENTER QUESTIONNAIRE
 		if(debug.PlayerActive){
-//			Process.Start(instance.questionnaireWatcher);
+			Process.Start(instance.questionnaireWatcher);
 		}
 		else{
-//			Process.Start(instance.questionnairePlayer);
+			Process.Start(instance.questionnairePlayer);
 		}
 		Application.Quit();
 	}
@@ -267,16 +271,13 @@ public class UIFunctions : MonoBehaviour {
 		s.color = Color.black;
 	}
 
+
 	public static void ActivateRetryButton(){
 		instance.RetryButton.SetActive(true);
 	}
 
+
 	public static void ResetGame(){
 		Application.LoadLevel(Application.loadedLevel);
 	}
-
-
-
-
-
 }
