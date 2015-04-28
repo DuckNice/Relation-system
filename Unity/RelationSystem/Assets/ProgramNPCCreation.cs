@@ -24,6 +24,8 @@ public partial class Program : MonoBehaviour
 
 	public void CreateFirstBeings()
 	{
+
+
 		Being Bill = new Being ("Bill", relationSystem);
 		Being Therese = new Being ("Therese", relationSystem);
 		Being John = new Being ("John", relationSystem);
@@ -39,7 +41,6 @@ public partial class Program : MonoBehaviour
 		beings.Add (John);
 		beings.Add (Heather);
 		beings.Add (Player);
-
 		foreach (Being b in beings) {
 			int r = UnityEngine.Random.Range (0,3);
 			switch(r){
@@ -55,13 +56,13 @@ public partial class Program : MonoBehaviour
 			}
 		}
 
-		/*
-		roomMan.EnterRoom("Entrance", GetPerson("Bill"));
+
+		/*roomMan.EnterRoom("Living Room", GetPerson("Bill"));
         roomMan.EnterRoom("Entrance", GetPerson("Therese"));
         roomMan.EnterRoom("Entrance", GetPerson("John"));
 		roomMan.EnterRoom("Entrance", GetPerson("Heather"));
         roomMan.EnterRoom("Entrance", GetPerson(playerName));
-		*/
+*/
 
 
 		Bill.possessions.Add (new Money (100f));
@@ -178,8 +179,13 @@ public partial class Program : MonoBehaviour
 
 		RuleConditioner chooseAnotherAsPartnerCondition = (self, other, indPpl) =>
 		{	if(self != other){
-				if(self.CheckRoleName("partner",other)){
-					return false;
+				if(self.CalculateTraitType(TraitTypes.CharitableGreedy) < -0.4f){}
+				else{
+					foreach(Person p in relationSystem.pplAndMasks.people.Values){
+						if(self.CheckRoleName("partner",p)){
+							return false;
+						}
+					}
 				}
 			}
 			if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["askifshouldbepartner"] && x.GetSubject() == other && x.GetDirect() == self && HowLongAgo(x.GetTime()) < 10f)){
@@ -235,7 +241,7 @@ public partial class Program : MonoBehaviour
 				}
 			}
 			if(self != other){
-				if(!self.CheckRoleName("partner") && other.CheckRoleName ("partner")){
+				if(!self.CheckRoleName("partner",other) && other.CheckRoleName ("partner",self)){
 					if(self.moods[MoodTypes.arousDisgus] > 0.3f  && self != other && roomMan.IsPersonInSameRoomAsMe(self, other)){
 						if(self.GetOpinionValue(TraitTypes.NiceNasty,other) > 0.4f){
 							return true;
@@ -252,7 +258,9 @@ public partial class Program : MonoBehaviour
 
 		RuleConditioner chatCondition = (self, other, indPpl) =>
 		{	if(self != other && roomMan.IsPersonInSameRoomAsMe(self, other)){ //LvlOfInfl0.2
+				if(self.moods[MoodTypes.energTired] > -0.5){
 					return true;
+				}
 			}
 			return false; 
         };
@@ -794,7 +802,7 @@ public partial class Program : MonoBehaviour
 
 		    RulePreference stealPreference = (self, other) => { 
 			    float r = Calculator.UnboundAdd(-self.GetOpinionValue(TraitTypes.NiceNasty,other),-self.CalculateTraitType(TraitTypes.NiceNasty));
-			    r += Calculator.UnboundAdd(self.CalculateTraitType(TraitTypes.CharitableGreedy),r);
+			    r += Calculator.UnboundAdd(-self.CalculateTraitType(TraitTypes.CharitableGreedy),r);
 			    return r;
 		    };
 
@@ -1367,7 +1375,7 @@ public partial class Program : MonoBehaviour
 		    culture.Add(new MaskAdds("Bunsant", "Bungary", 0.6f));
 		    culture.Add(new MaskAdds("Member", "MerchantGuild", 0.4f));
 
-		    relationSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.4f, 0.6f, 0.5f, new float[] { 0.4f, 0.2f, 0.5f },new float[]{0.0f,0.0f,0.0f});
+		    relationSystem.CreateNewPerson(selfPersMask, culture, new List<MaskAdds>(), 0.4f, 0.6f, 0.5f, new float[] { 0.4f, 0.3f, 0.5f },new float[]{0.0f,0.0f,0.0f});
 		#endregion AddingPlayer
 		
 		#region AddingBill

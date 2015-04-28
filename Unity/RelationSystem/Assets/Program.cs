@@ -21,6 +21,7 @@ public partial class Program : MonoBehaviour
 		UIFunctions.WriteGameLine ("Welcome. Press play toggle to start\n\n");
         RelationSystem.program = this;
         MAction.relationSystem = relationSystem;
+
 		CreateFirstRooms ();
 		SetupActions ();
 		CreateFirstMasks ();
@@ -74,9 +75,15 @@ public partial class Program : MonoBehaviour
 
                             if (target != null)
                             {
-                                playerAction = actionToDo;
-                                playerTarget = target;
-                                actionStored = true;
+								if(roomMan.IsPersonInSameRoomAsMe(GetPerson(playerName),GetPerson(sepInput[1]))){
+									playerAction = actionToDo;
+									playerTarget = target;
+									actionStored = true;
+									UIFunctions.WritePlayerLine("You did action: "+sepInput[0],false);
+								}
+								else{
+									UIFunctions.WritePlayerLine(""+CapitalizeName(sepInput[1])+" is in another room. You can't do actions to them here.");
+								}
                             }
                             else
                             {
@@ -87,6 +94,7 @@ public partial class Program : MonoBehaviour
                         {
                             playerAction = actionToDo;
                             actionStored = true;
+							UIFunctions.WritePlayerLine("You did action: "+sepInput[0],false);
                         }
                         else
                         {

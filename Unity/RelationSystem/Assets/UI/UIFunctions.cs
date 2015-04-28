@@ -6,7 +6,8 @@ using System.Diagnostics;
 public class UIFunctions : MonoBehaviour {
 	public static UIFunctions instance;
 
-    public string questionaireTest = "http://www.google.com";
+    public string questionnaireWatcher = "http://www.google.com";
+	public string questionnairePlayer = "http://www.google,com";
 	string text;
 	public InputField input;
 	public Text GameBox;
@@ -32,6 +33,7 @@ public class UIFunctions : MonoBehaviour {
 	public GameObject ActionTutPanel;
 	bool ShouldShowTutorial;
 	public Image playingBack;
+	public GameObject actionsButton;
 
 	public ActionText acText;
 	public GameObject RetryButton;
@@ -54,6 +56,11 @@ public class UIFunctions : MonoBehaviour {
 
 		if(debug.ShouldShowTutorial)
 			tutorialPanel.SetActive(true);
+
+		if(debug.PlayerActive){
+			actionsButton.SetActive(false);
+		}
+
 	}
 
     
@@ -149,7 +156,7 @@ public class UIFunctions : MonoBehaviour {
 	}
 
 
-	public static void WritePlayer(string input)
+	public static void WritePlayer(string input, bool shouldGoRed=true)
 	{
 		if(debug.Toggle)
 		{
@@ -174,14 +181,16 @@ public class UIFunctions : MonoBehaviour {
 
 		instance.PlayerBox.text = input;
 		instance.PlayerScrollbar.value = 0;
-		instance.PlayerBox.color = Color.red;
-		instance.StartCoroutine (ChangeTextCol (instance.PlayerBox));
+		if(shouldGoRed){
+			instance.PlayerBox.color = Color.red;
+			instance.StartCoroutine (ChangeTextCol (instance.PlayerBox));
+		}
 	}
 
 
-	public static void WritePlayerLine(string input)
+	public static void WritePlayerLine(string input,bool shouldGoRed=true)
 	{
-		WritePlayer (input + "\n");
+		WritePlayer (input + "\n",shouldGoRed);
 	}
 
 
@@ -239,7 +248,12 @@ public class UIFunctions : MonoBehaviour {
 
 	public void ExitGameAndEnterQuestionnaire(){
 		    //ENTER QUESTIONNAIRE
-        Process.Start(questionaireTest);
+		if(debug.PlayerActive){
+//			Process.Start(instance.questionnaireWatcher);
+		}
+		else{
+//			Process.Start(instance.questionnairePlayer);
+		}
 		Application.Quit();
 	}
 
