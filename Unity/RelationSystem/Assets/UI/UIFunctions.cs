@@ -178,7 +178,8 @@ public class UIFunctions : MonoBehaviour {
 
         if (instance.PlayerBox.text.Length > 10000)
         {
-            instance.PlayerBox.text = instance.PlayerBox.text.Remove(0, 1000);
+            int lastNewline = instance.PlayerBox.text.IndexOf("\n", 1000);
+            instance.PlayerBox.text = instance.PlayerBox.text.Remove(0, lastNewline + 1);
         }
 
 		instance.PlayerBox.text = input;
@@ -216,7 +217,9 @@ public class UIFunctions : MonoBehaviour {
 
         if(instance.GameBox.text.Length > 10000)
         {
-            instance.GameBox.text = instance.GameBox.text.Remove(0, 1000);
+            int lastNewline = instance.GameBox.text.IndexOf("\n", 1000);
+            instance.GameBox.text = instance.GameBox.text.Remove(0, lastNewline + 1);
+            //instance.GameBox.text = instance.GameBox.text.Remove(0, 1000);
         }
 
 		instance.GameBox.text += input;
