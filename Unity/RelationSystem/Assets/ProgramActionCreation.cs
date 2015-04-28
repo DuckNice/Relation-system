@@ -32,9 +32,9 @@ public partial class Program : MonoBehaviour {
         ActionInvoker doNothing = (subject, direct, indPpl, misc) =>
         {
 			if(subject.name==playerName)
-            	UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " is doing nothing. What a bore.");
+            	UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " are doing nothing. What a bore.");
             else
-				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " are doing nothing. What a bore.");
+				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " is doing nothing. What a bore.");
 
 			subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(0.2f, subject.moods[MoodTypes.energTired]);
         };
