@@ -42,7 +42,11 @@ public partial class Program : MonoBehaviour {
         // ---------- INTERPERSONAL ACTIONS
         ActionInvoker greet = (subject, direct, indPpl, misc) =>
         {
-            UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " greets " + CapitalizeName(direct.name));
+			if(subject.name==playerName)
+            	UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " greet " + CapitalizeName(direct.name));
+			else
+				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " greets " + CapitalizeName(direct.name));
+
         };
         AddAction(new MAction("greet", 0.7f, 0.5f, relationSystem, greet, 2f));
 
@@ -223,19 +227,22 @@ public partial class Program : MonoBehaviour {
 					UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " gives a gift to " + CapitalizeName(direct.name) + ".");
 			}
 
-
-			if (GetBeing(direct.name).PossesExists(giftToGive.Name)){
-				GetBeing(direct.name).ChangePossesAmount(giftToGive.Name,-1f);
+			debug.Write(""+GetBeing(subject.name).GetPosses(giftToGive.Name).value);
+			if (GetBeing(subject.name).PossesExists(giftToGive.Name)){
+				GetBeing(subject.name).ChangePossesAmount(giftToGive.Name,-1f);
 	
 				if (GetBeing(direct.name).PossesExists(giftToGive.Name))
 		        {
-					GetBeing(subject.name).ChangePossesAmount(giftToGive.Name,-1f);
+					GetBeing(direct.name).ChangePossesAmount(giftToGive.Name,+1f);
 		        }
 		        else
 		        {
 		            GetBeing(direct.name).possessions.Add(giftToGive);
 		        }
+
 			}
+			debug.Write(""+GetBeing(subject.name).GetPosses(giftToGive.Name).value);
+
 
 			direct.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(0.3f, direct.moods[MoodTypes.hapSad]);
             direct.AddToOpinionValue(TraitTypes.NiceNasty, subject, 0.1f);
@@ -473,7 +480,7 @@ public partial class Program : MonoBehaviour {
 			subject.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(0.2f, subject.moods[MoodTypes.hapSad]);
 			subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.2f, subject.moods[MoodTypes.energTired]);
 
-			if(subject.CheckRoleName("bunce") || subject.CheckRoleName("buncess")){
+			if(subject.CheckRoleName("bunce",direct) || subject.CheckRoleName("buncess",direct)){
 				roomMan.EnterRoom("Jail",direct);
 
 				if(direct.name == playerName){
@@ -491,9 +498,9 @@ public partial class Program : MonoBehaviour {
 				}
 				else{
 					if(direct.name==playerName)
-						UIFunctions.WriteGameLine(" But they aren't a noble, so they won't go to jail.");
-					else
 						UIFunctions.WriteGameLine(" But they aren't a noble, so you won't go to jail.");
+					else
+						UIFunctions.WriteGameLine(" But they aren't a noble, so they won't go to jail.");
 				}
 			}
 
@@ -657,9 +664,9 @@ public partial class Program : MonoBehaviour {
         ActionInvoker harass = (subject, direct, indPpl, misc) =>
         {
 			if(subject.name==playerName)
-            	UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " harasses " + CapitalizeName(direct.name) + ". Ugh, how annoying.");
+            	UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " harass " + CapitalizeName(direct.name) + ". Ugh, how annoying.");
 			else
-				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " harass " + CapitalizeName(direct.name) + ". Ugh, how annoying.");
+				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " harasses " + CapitalizeName(direct.name) + ". Ugh, how annoying.");
 			subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.2f, subject.moods[MoodTypes.energTired]);
             subject.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(0.2f, subject.moods[MoodTypes.hapSad]);
             direct.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(-0.4f, direct.moods[MoodTypes.hapSad]);
@@ -713,7 +720,7 @@ public partial class Program : MonoBehaviour {
 			else
 				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " orders " + CapitalizeName(direct.name) + " to do something! How dare they?");
 
-			if(direct.CheckRoleName("bunce") || direct.CheckRoleName("buncess")){
+			if(direct.CheckRoleName("bunce",direct) || direct.CheckRoleName("buncess",direct)){
 				subject.moods[MoodTypes.arousDisgus] += Calculator.UnboundAdd(0.3f, subject.moods[MoodTypes.arousDisgus]);
 				subject.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(0.3f, subject.moods[MoodTypes.hapSad]);
 				direct.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(-0.5f, direct.moods[MoodTypes.hapSad]);
