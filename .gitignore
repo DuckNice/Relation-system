@@ -16,3 +16,7 @@ Unity/RelationSystem/obj/Debug/UnityVS.RelationSystem.CSharp.csprojResolveAssemb
 Unity/People/Library/
 Unity/RelationSystem/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
 Unity/RelationSystem/UnityVS.RelationSystem.CSharp.csproj
+
+*.pdb
+
+*.pdb

@@ -23,7 +23,8 @@ public partial class Program : MonoBehaviour {
 			roomMan.EnterRoom("Jail",subject);
 			if(subject.name == playerName){
 				UIFunctions.WriteGameLine("You fled! Game Over!");
-				UIFunctions.ActivateRetryButton();
+				if(!debug.PlayerActive)
+					UIFunctions.ActivateRetryButton();
 			}
         };
         AddAction(new MAction("flee", 1.0f, -0.5f, relationSystem, flee, 10f, _needsDirect:false));
@@ -227,7 +228,6 @@ public partial class Program : MonoBehaviour {
 					UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " gives a gift to " + CapitalizeName(direct.name) + ".");
 			}
 
-			debug.Write(""+GetBeing(subject.name).GetPosses(giftToGive.Name).value);
 			if (GetBeing(subject.name).PossesExists(giftToGive.Name)){
 				GetBeing(subject.name).ChangePossesAmount(giftToGive.Name,-1f);
 	
@@ -241,9 +241,7 @@ public partial class Program : MonoBehaviour {
 		        }
 
 			}
-			debug.Write(""+GetBeing(subject.name).GetPosses(giftToGive.Name).value);
-
-
+		
 			direct.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(0.3f, direct.moods[MoodTypes.hapSad]);
             direct.AddToOpinionValue(TraitTypes.NiceNasty, subject, 0.1f);
 			direct.AddToOpinionValue(TraitTypes.CharitableGreedy, subject, 0.2f);

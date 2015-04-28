@@ -219,7 +219,35 @@ public class UIFunctions : MonoBehaviour {
             instance.GameBox.text = instance.GameBox.text.Remove(0, 1000);
         }
 
-		instance.GameBox.text += input;
+
+	//	if (RecentActionsText.text.Length > 275) {
+	//		RecentActionsText.text = RecentActionsText.text.
+	//	}
+		if(instance.GameBox.text.Length > 0){
+			string first = input;
+			if(first[0] == 'B'){
+				instance.GameBox.text += "<color=#008000ff>"+input+"</color>";
+
+			}
+			else if(first[0] == 'T'){
+				instance.GameBox.text += "<color=#800080ff>"+input+"</color>";
+			}
+			else if(first[0] == 'J'){
+				instance.GameBox.text += "<color=#0000ffff>"+input+"</color>";
+			}
+			else if(first[0] == 'H'){
+				instance.GameBox.text += "<color=#ffa500ff>"+input+"</color>";
+			}
+			else if(first[0] == 'Y'){
+				instance.GameBox.text += "<color=#000000ff>"+input+"</color>";
+			}
+			else{
+				instance.GameBox.text += "<color=#000000ff>"+input+"</color>";
+			}
+		}
+		else{
+			instance.GameBox.text += input;
+		}
 		instance.GameScrollbar.value = 0;
 
 		if(input != "Welcome. Press play toggle to start\n\n\n")
@@ -252,6 +280,9 @@ public class UIFunctions : MonoBehaviour {
 
 	public void ExitGameAndEnterQuestionnaire(){
 		    //ENTER QUESTIONNAIRE
+		
+		//Process blarg = new Process();
+		
 		if(debug.PlayerActive){
 			Process.Start(instance.questionnaireWatcher);
 		}
