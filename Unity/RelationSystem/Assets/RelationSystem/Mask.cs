@@ -84,15 +84,17 @@ namespace NRelationSystem
                     reaction = true;
 
                     if (index >= 0)
-                        posPeople = possibleActions[index].reactToPeople;
+                        foreach (Person person in possibleActions[index].reactToPeople)
+                            posPeople.Add(person);
                     else
                         continue;
                 }
 
-                if (roleRef != null && roleRef.Count > 0){
+                if (roleRef != null && roleRef.Count > 0)
+                {
                     if (reaction){
                         for (int i = posPeople.Count - 1; i >= 0; i--){
-                            if (!roleRef.ContainsKey(posPeople[i]) || !roleRef[posPeople[i]].ContainsKey(rule.role)){
+                            if (!roleRef[empty].ContainsKey(rule.role) && (!roleRef.ContainsKey(posPeople[i]) || !roleRef[posPeople[i]].ContainsKey(rule.role))){
                                 posPeople.RemoveAt(i);
                             }
                         }
