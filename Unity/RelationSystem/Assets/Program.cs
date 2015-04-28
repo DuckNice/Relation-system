@@ -53,10 +53,15 @@ public partial class Program : MonoBehaviour
 
                             if (target != null)
                             {
-                                playerAction = actionToDo;
-                                playerTarget = target;
-                                actionStored = true;
-								UIFunctions.WritePlayerLine("You did action: "+sepInput[0],false);
+								if(roomMan.IsPersonInSameRoomAsMe(GetPerson(playerName),GetPerson(sepInput[1]))){
+									playerAction = actionToDo;
+									playerTarget = target;
+									actionStored = true;
+									UIFunctions.WritePlayerLine("You did action: "+sepInput[0],false);
+								}
+								else{
+									UIFunctions.WritePlayerLine(""+sepInput[1]+" is in another room. You can't do actions to them here.");
+								}
                             }
                             else
                             {

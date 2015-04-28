@@ -55,13 +55,13 @@ public partial class Program : MonoBehaviour
 			}
 		}
 
-		/*
-		roomMan.EnterRoom("Entrance", GetPerson("Bill"));
+
+		/*roomMan.EnterRoom("Living Room", GetPerson("Bill"));
         roomMan.EnterRoom("Entrance", GetPerson("Therese"));
         roomMan.EnterRoom("Entrance", GetPerson("John"));
 		roomMan.EnterRoom("Entrance", GetPerson("Heather"));
         roomMan.EnterRoom("Entrance", GetPerson(playerName));
-		*/
+*/
 
 
 		Bill.possessions.Add (new Money (100f));
@@ -178,8 +178,13 @@ public partial class Program : MonoBehaviour
 
 		RuleConditioner chooseAnotherAsPartnerCondition = (self, other, indPpl) =>
 		{	if(self != other){
-				if(self.CheckRoleName("partner",other)){
-					return false;
+				if(self.CalculateTraitType(TraitTypes.CharitableGreedy) < -0.4f){}
+				else{
+					foreach(Person p in relationSystem.pplAndMasks.people.Values){
+						if(self.CheckRoleName("partner",p)){
+							return false;
+						}
+					}
 				}
 			}
 			if(relationSystem.historyBook.Exists(x=>x.GetAction()==relationSystem.posActions["askifshouldbepartner"] && x.GetSubject() == other && x.GetDirect() == self && HowLongAgo(x.GetTime()) < 10f)){
