@@ -16,6 +16,8 @@ public partial class Program : MonoBehaviour
         //Threading work.
 	public void Start()
     {
+        SystemVersionManager.program = this;
+
 		UIFunctions.WriteGameLine ("Welcome. Press play toggle to start\n\n");
         RelationSystem.program = this;
         MAction.relationSystem = relationSystem;
@@ -25,8 +27,27 @@ public partial class Program : MonoBehaviour
 		CreateFirstPeople ();
 		CreateFirstBeings ();
 
-        StartCoroutine("NPCUpdate");
+        Thread thread = new Thread(SystemVersionManager.PlayingVersion);
+        thread.IsBackground = true;
+        thread.Start();
 	}
+
+
+    public volatile bool shouldStart = false;
+    public volatile bool playerActive;
+    bool isStarted = false;
+
+
+    void Update()
+    {
+        if(!isStarted && shouldStart)
+        {
+            debug.inst.playerActive = playerActive;
+            StartCoroutine("NPCUpdate");
+            isStarted = true;
+            print("Started");
+        }
+    }
 
 
     public void playerInput(string input)
@@ -37,7 +58,7 @@ public partial class Program : MonoBehaviour
 
         string[] sepInput = input.Split(seps, StringSplitOptions.RemoveEmptyEntries);
 
-        if (sepInput != null && sepInput.Length > 0)
+        if (isStarted && sepInput != null && sepInput.Length > 0)
         {
             if (relationSystem.posActions.ContainsKey(sepInput[0]))
             {
