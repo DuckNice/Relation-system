@@ -181,7 +181,7 @@ public partial class Program : MonoBehaviour
 
     private void WriteToRecentActionsPanel(string input)
     {
-        UIFunctions.instance.RecentActionsText.text += ("<color=#ff0000>" + input + "</color>\n");
+        UIFunctions.instance.RecentActionsText.text = ("<color=#ff0000>" + input + "</color>\n");
 
         if (UIFunctions.instance.RecentActionsText.text.Length > 150)
         {

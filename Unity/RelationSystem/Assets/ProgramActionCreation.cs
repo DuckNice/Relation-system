@@ -44,9 +44,9 @@ public partial class Program : MonoBehaviour {
         ActionInvoker greet = (subject, direct, indPpl, misc) =>
         {
 			if(subject.name==playerName)
-            	UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " greet " + CapitalizeName(direct.name));
+            	UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " greet " + CapitalizeName(direct.name)+".");
 			else
-				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " greets " + CapitalizeName(direct.name));
+				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " greets " + CapitalizeName(direct.name)+".");
 
         };
         AddAction(new MAction("greet", 0.7f, 0.5f, relationSystem, greet, 2f));
@@ -59,7 +59,7 @@ public partial class Program : MonoBehaviour {
 			if(subject.name==playerName){
 				if (subject.CheckRoleName("partner",direct))
 				{
-					UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " kiss " + CapitalizeName(direct.name));
+					UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " kiss " + CapitalizeName(direct.name)+".");
 				}
 				else
 				{
@@ -69,7 +69,7 @@ public partial class Program : MonoBehaviour {
 			else{
 				if (subject.CheckRoleName("partner",direct))
 				{
-					UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " kisses " + CapitalizeName(direct.name));
+					UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " kisses " + CapitalizeName(direct.name)+".");
 				}
 				else
 				{
@@ -177,9 +177,9 @@ public partial class Program : MonoBehaviour {
         ActionInvoker flirt = (subject, direct, indPpl, misc) =>
         {
 			if(subject.name==playerName)
-            	UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " flirt with " + CapitalizeName(direct.name));
+				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " flirt with " + CapitalizeName(direct.name)+".");
 			else
-				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " flirts with " + CapitalizeName(direct.name));
+				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " flirts with " + CapitalizeName(direct.name)+".");
 
 			direct.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(0.2f, direct.moods[MoodTypes.hapSad]);
             direct.moods[MoodTypes.arousDisgus] += Calculator.UnboundAdd(0.2f, direct.moods[MoodTypes.arousDisgus]);
@@ -197,9 +197,9 @@ public partial class Program : MonoBehaviour {
         ActionInvoker chat = (subject, direct, indPpl, misc) =>
         {
 			if(subject.name==playerName)
-            	UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " chat with " + CapitalizeName(direct.name));
+				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " chat with " + CapitalizeName(direct.name)+".");
 			else
-				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " chats with " + CapitalizeName(direct.name));
+				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " chats with " + CapitalizeName(direct.name)+".");
 
 			direct.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.1f, direct.moods[MoodTypes.energTired]);
             subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.1f, subject.moods[MoodTypes.energTired]);
@@ -217,9 +217,9 @@ public partial class Program : MonoBehaviour {
 			}
 			if(subject.name==playerName){
 				if(giftToGive != null)
-					UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " give the gift of " + giftToGive.objectName + " to " + CapitalizeName(direct.name));
+					UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " give the gift of " + giftToGive.objectName + " to " + CapitalizeName(direct.name)+".");
 				else
-					UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " give a gift to " + CapitalizeName(direct.name));
+					UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " give a gift to " + CapitalizeName(direct.name)+".");
 			}
 			else{
 				if(giftToGive != null)
@@ -282,9 +282,9 @@ public partial class Program : MonoBehaviour {
         ActionInvoker gossip = (subject, direct, indPpl, misc) =>
         {
 			if(subject.name==playerName)
-            	UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " gossip with " + CapitalizeName(direct.name));
+				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " gossip with " + CapitalizeName(direct.name)+".");
 			else
-				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " gossips with " + CapitalizeName(direct.name));
+				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " gossips with " + CapitalizeName(direct.name)+".");
 
 			direct.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.1f, direct.moods[MoodTypes.energTired]);
             subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.1f, subject.moods[MoodTypes.energTired]);
@@ -347,9 +347,9 @@ public partial class Program : MonoBehaviour {
             if (rand > 1f)
             {
 				if(direct.name==playerName)
-                	UIFunctions.WriteGameLine("It's a success! You are very distracted");
+					UIFunctions.WriteGameLine("It's a success! You are very distracted"+".");
                 else
-					UIFunctions.WriteGameLine("It's a success! They are very distracted");
+					UIFunctions.WriteGameLine("It's a success! They are very distracted"+".");
 
 				direct.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.5f, direct.moods[MoodTypes.energTired]);
                 subject.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(0.3f, subject.moods[MoodTypes.hapSad]);
@@ -376,10 +376,10 @@ public partial class Program : MonoBehaviour {
         ActionInvoker reminisce = (subject, direct, indPpl, misc) =>
         {
 			if(subject.name==playerName)
-            	UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " reminisce about old times with " + CapitalizeName(direct.name));
+				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " reminisce about old times with " + CapitalizeName(direct.name)+".");
             else
-				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " reminisces about old times with " + CapitalizeName(direct.name));
-
+				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " reminisces about old times with " + CapitalizeName(direct.name)+".");
+				
 			direct.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(0.2f, direct.moods[MoodTypes.hapSad]);
             subject.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(0.2f, subject.moods[MoodTypes.hapSad]);
             subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.1f, subject.moods[MoodTypes.energTired]);
@@ -414,9 +414,9 @@ public partial class Program : MonoBehaviour {
         ActionInvoker praise = (subject, direct, indPpl, misc) =>
         {
 			if(subject.name==playerName)
-            	UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " praise " + CapitalizeName(direct.name));
+				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " praise " + CapitalizeName(direct.name)+".");
 			else
-				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " praises " + CapitalizeName(direct.name));
+				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " praises " + CapitalizeName(direct.name)+".");
 			direct.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(0.3f, direct.moods[MoodTypes.hapSad]);
             subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.2f, subject.moods[MoodTypes.energTired]);
             direct.AddToOpinionValue(TraitTypes.NiceNasty, subject, 0.1f);
@@ -540,9 +540,9 @@ public partial class Program : MonoBehaviour {
         ActionInvoker bribe = (subject, direct, indPpl, misc) =>
         {
 			if(subject.name==playerName)
-            	UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " bribe " + CapitalizeName(direct.name));
+				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " bribe " + CapitalizeName(direct.name)+".");
 			else
-				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " bribes " + CapitalizeName(direct.name));
+				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " bribes " + CapitalizeName(direct.name)+".");
 
 			direct.moods[MoodTypes.angryFear] += Calculator.UnboundAdd(-0.4f, direct.moods[MoodTypes.angryFear]);
             direct.AddToOpinionValue(TraitTypes.HonestFalse, subject, -0.3f);
@@ -619,9 +619,9 @@ public partial class Program : MonoBehaviour {
         ActionInvoker makefunof = (subject, direct, indPpl, misc) =>
         {
 			if(subject.name==playerName)
-            	UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " make fun of " + CapitalizeName(direct.name));
+				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " make fun of " + CapitalizeName(direct.name)+".");
 			else
-				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " makes fun of " + CapitalizeName(direct.name));
+				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " makes fun of " + CapitalizeName(direct.name)+".");
 
 			if(direct.GetOpinionValue(TraitTypes.NiceNasty,subject) > 0.4f){
 				subject.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(0.2f, subject.moods[MoodTypes.hapSad]);
@@ -677,9 +677,9 @@ public partial class Program : MonoBehaviour {
         ActionInvoker prank = (subject, direct, indPpl, misc) =>
         {
 			if(subject.name==playerName)
-            	UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " pull a prank on " + CapitalizeName(direct.name));
+				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " pull a prank on " + CapitalizeName(direct.name)+".");
             else
-				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " pulls a prank on " + CapitalizeName(direct.name));
+				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " pulls a prank on " + CapitalizeName(direct.name)+".");
 
 			subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.1f, subject.moods[MoodTypes.energTired]);
             subject.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(0.3f, subject.moods[MoodTypes.hapSad]);
@@ -698,9 +698,9 @@ public partial class Program : MonoBehaviour {
 			List<Possession> games = ((Possession[])misc).ToList();
 			gameToPlay = games.Find(x => x.Name == "game");
 			if(subject.name==playerName)
-				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " play a game of "+gameToPlay.objectName+" with " + CapitalizeName(direct.name));
+				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " play a game of "+gameToPlay.objectName+" with " + CapitalizeName(direct.name)+".");
             else
-				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " plays a game of "+gameToPlay.objectName+" with " + CapitalizeName(direct.name));
+				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " plays a game of "+gameToPlay.objectName+" with " + CapitalizeName(direct.name)+".");
 
 			subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.2f, subject.moods[MoodTypes.energTired]);
             subject.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(0.3f, subject.moods[MoodTypes.hapSad]);
@@ -761,12 +761,12 @@ public partial class Program : MonoBehaviour {
         ActionInvoker buyCompany = (subject, direct, indPpl, misc) =>
         {
 			if(subject.name==playerName)
-            	UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " make a deal to buy " + CapitalizeName(direct.name) + "'s company");
+				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " make a deal to buy " + CapitalizeName(direct.name) + "'s company"+".");
 			else{
 				if(direct.name==playerName)
-					UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " makes a deal to buy your company");
+					UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " makes a deal to buy your company"+".");
 				else
-					UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " makes a deal to buy " + CapitalizeName(direct.name) + "'s company");
+					UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " makes a deal to buy " + CapitalizeName(direct.name) + "'s company"+".");
 			}
 
 			subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.1f, subject.moods[MoodTypes.energTired]);
@@ -786,9 +786,9 @@ public partial class Program : MonoBehaviour {
         ActionInvoker sellCompany = (subject, direct, indPpl, misc) =>
         {
 			if(subject.name==playerName)
-            	UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " make a deal to sell a company to " + CapitalizeName(direct.name));
+				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " make a deal to sell a company to " + CapitalizeName(direct.name)+".");
            	else
-				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " makes a deal to sell a company to " + CapitalizeName(direct.name));
+				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " makes a deal to sell a company to " + CapitalizeName(direct.name)+".");
 
 			subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.1f, subject.moods[MoodTypes.energTired]);
 			GetBeing(subject.name).ChangePossesAmount("money",100f);
@@ -806,9 +806,9 @@ public partial class Program : MonoBehaviour {
         ActionInvoker sabotage = (subject, direct, indPpl, misc) =>
         {
 			if(subject.name==playerName)
-            	UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " sabotage " + CapitalizeName(direct.name));
+				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " sabotage " + CapitalizeName(direct.name)+".");
             else
-				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " sabotages " + CapitalizeName(direct.name));
+				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " sabotages " + CapitalizeName(direct.name)+".");
 
 			direct.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(-0.6f, direct.moods[MoodTypes.hapSad]);
             direct.moods[MoodTypes.angryFear] += Calculator.UnboundAdd(0.4f, direct.moods[MoodTypes.angryFear]);
@@ -827,9 +827,9 @@ public partial class Program : MonoBehaviour {
         ActionInvoker advertise = (subject, direct, indPpl, misc) =>
         {
 			if(subject.name==playerName)
-            	UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " advertise your wares to "+CapitalizeName(direct.name));
+				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " advertise your wares to "+CapitalizeName(direct.name)+".");
             else
-				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " advertises their wares to "+CapitalizeName(direct.name));
+				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " advertises their wares to "+CapitalizeName(direct.name)+".");
 
 			subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.1f, subject.moods[MoodTypes.energTired]);
             direct.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.1f, direct.moods[MoodTypes.energTired]);
@@ -860,9 +860,9 @@ public partial class Program : MonoBehaviour {
 		ActionInvoker buyGoods = (subject, direct, indPpl, misc) =>
         {
 			if(subject.name==playerName)
-            	UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " buy goods from " + CapitalizeName(direct.name));
+				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " buy goods from " + CapitalizeName(direct.name)+".");
 			else
-				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " buys goods from " + CapitalizeName(direct.name));
+				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " buys goods from " + CapitalizeName(direct.name)+".");
 
 			GetBeing(subject.name).ChangePossesAmount("money",-30f); 
 			GetBeing(subject.name).ChangePossesAmount("goods",1f);
@@ -875,9 +875,9 @@ public partial class Program : MonoBehaviour {
         ActionInvoker sellGoods = (subject, direct, indPpl, misc) =>
         {
 			if(subject.name==playerName)
-           		UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " sell goods to " + CapitalizeName(direct.name));
+				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " sell goods to " + CapitalizeName(direct.name)+".");
 			else
-				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " sells goods to " + CapitalizeName(direct.name));
+				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " sells goods to " + CapitalizeName(direct.name)+".");
 			GetBeing(subject.name).ChangePossesAmount("money",30f);
 			if(GetBeing(direct.name).PossesExists("goods")){
 				GetBeing(subject.name).ChangePossesAmount("goods",1f);
