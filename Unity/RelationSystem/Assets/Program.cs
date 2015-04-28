@@ -19,6 +19,7 @@ public partial class Program : MonoBehaviour
 		UIFunctions.WriteGameLine ("Welcome. Press play toggle to start\n\n");
         RelationSystem.program = this;
         MAction.relationSystem = relationSystem;
+
 		CreateFirstRooms ();
 		SetupActions ();
 		CreateFirstMasks ();
@@ -60,7 +61,7 @@ public partial class Program : MonoBehaviour
 									UIFunctions.WritePlayerLine("You did action: "+sepInput[0],false);
 								}
 								else{
-									UIFunctions.WritePlayerLine(""+sepInput[1]+" is in another room. You can't do actions to them here.");
+									UIFunctions.WritePlayerLine(""+CapitalizeName(sepInput[1])+" is in another room. You can't do actions to them here.");
 								}
                             }
                             else

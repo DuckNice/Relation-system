@@ -24,6 +24,8 @@ public partial class Program : MonoBehaviour
 
 	public void CreateFirstBeings()
 	{
+
+
 		Being Bill = new Being ("Bill", relationSystem);
 		Being Therese = new Being ("Therese", relationSystem);
 		Being John = new Being ("John", relationSystem);
@@ -39,7 +41,6 @@ public partial class Program : MonoBehaviour
 		beings.Add (John);
 		beings.Add (Heather);
 		beings.Add (Player);
-
 		foreach (Being b in beings) {
 			int r = UnityEngine.Random.Range (0,3);
 			switch(r){
@@ -257,7 +258,9 @@ public partial class Program : MonoBehaviour
 
 		RuleConditioner chatCondition = (self, other, indPpl) =>
 		{	if(self != other && roomMan.IsPersonInSameRoomAsMe(self, other)){ //LvlOfInfl0.2
+				if(self.moods[MoodTypes.energTired] > -0.5){
 					return true;
+				}
 			}
 			return false; 
         };
