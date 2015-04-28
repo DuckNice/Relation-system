@@ -105,7 +105,7 @@ public class RoomManager {
 		foreach (string s in relSys.updateLists.Keys) {
 			roomWindowString += s+": \n";
 			foreach(Person p in relSys.updateLists[s]){
-				roomWindowString += p.name+" ";
+				roomWindowString += "<i>"+p.name+"</i> ";
 			}
 			roomWindowString += "\n\n";
 		}

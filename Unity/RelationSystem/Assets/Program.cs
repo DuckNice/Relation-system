@@ -56,6 +56,7 @@ public partial class Program : MonoBehaviour
                                 playerAction = actionToDo;
                                 playerTarget = target;
                                 actionStored = true;
+								UIFunctions.WritePlayerLine("You did action: "+sepInput[0],false);
                             }
                             else
                             {
@@ -66,6 +67,7 @@ public partial class Program : MonoBehaviour
                         {
                             playerAction = actionToDo;
                             actionStored = true;
+							UIFunctions.WritePlayerLine("You did action: "+sepInput[0],false);
                         }
                         else
                         {

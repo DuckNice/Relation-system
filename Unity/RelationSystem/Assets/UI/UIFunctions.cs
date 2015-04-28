@@ -149,7 +149,7 @@ public class UIFunctions : MonoBehaviour {
 	}
 
 
-	public static void WritePlayer(string input)
+	public static void WritePlayer(string input, bool shouldGoRed=true)
 	{
 		if(debug.Toggle)
 		{
@@ -174,14 +174,16 @@ public class UIFunctions : MonoBehaviour {
 
 		instance.PlayerBox.text = input;
 		instance.PlayerScrollbar.value = 0;
-		instance.PlayerBox.color = Color.red;
-		instance.StartCoroutine (ChangeTextCol (instance.PlayerBox));
+		if(shouldGoRed){
+			instance.PlayerBox.color = Color.red;
+			instance.StartCoroutine (ChangeTextCol (instance.PlayerBox));
+		}
 	}
 
 
-	public static void WritePlayerLine(string input)
+	public static void WritePlayerLine(string input,bool shouldGoRed=true)
 	{
-		WritePlayer (input + "\n");
+		WritePlayer (input + "\n",shouldGoRed);
 	}
 
 
