@@ -86,7 +86,10 @@ public partial class Program : MonoBehaviour
         {
             currentPlayerAction = action;
             actionStartTime = time;
-            action.DoAction(GetPerson(playerName), target, new Rule("Empty", new MAction("Empty", 0.0f, 0.0f), null, null));
+
+            Person self = GetPerson(playerName);
+            
+            action.DoAction(self, target, self.GetRule(action.name));
         }
         else
         {

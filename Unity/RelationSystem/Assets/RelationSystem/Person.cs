@@ -213,10 +213,10 @@ namespace NRelationSystem
 		public void AddToAbility(float inp){ ability += inp; }
 
 
-		public Rule GetRule(string ruleName) 
+        public Rule GetRule(string actionName) 
 		{ 
 			foreach(Rule r in selfPerception._roleMask.rules.Values){
-				if(r.actionToTrigger.name.ToLower() == ruleName){
+				if(r.actionToTrigger.name.ToLower() == actionName){
 					return r;
 				}
 			}
@@ -224,7 +224,7 @@ namespace NRelationSystem
 			foreach(Link curLink in interPersonal)
 			{
 				foreach(Rule r in curLink._roleMask.rules.Values){
-					if(r.actionToTrigger.name.ToLower() == ruleName){
+					if(r.actionToTrigger.name.ToLower() == actionName){
 						return r;
 					}
 				}
@@ -233,7 +233,7 @@ namespace NRelationSystem
 			foreach (Link curLink in culture)
 			{
 				foreach(Rule r in curLink._roleMask.rules.Values){
-					if(r.actionToTrigger.name.ToLower() == ruleName){
+					if(r.actionToTrigger.name.ToLower() == actionName){
 						return r;
 					}
 				}
