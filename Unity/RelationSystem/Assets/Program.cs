@@ -14,6 +14,7 @@ public partial class Program : MonoBehaviour
     public static string playerName { get { return RelationSystem.playerName; } }
     public GameObject dataFetchingPanel;
 	public GameObject errorPanel;
+    public GameObject dynamicActionsUI;
         //Threading work.
 	public void Start()
     {
@@ -91,6 +92,7 @@ public partial class Program : MonoBehaviour
 									playerAction = actionToDo;
 									playerTarget = target;
 									actionStored = true;
+                                    dynamicActionsUI.SetActive(false);
 									UIFunctions.WritePlayerLine("You did action: "+sepInput[0],false);
 								}
 								else{

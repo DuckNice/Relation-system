@@ -231,8 +231,6 @@ public class DynamicActionsUI : MonoBehaviour
         chosenAction = "";
         chosenPerson = "";
         outputText.text = "";
-
-        this.gameObject.SetActive(false);
     }
 
 
