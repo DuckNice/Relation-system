@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using UnityEngine.UI;
 
     //Namespaces
 using NRelationSystem;
@@ -11,10 +12,10 @@ using NRelationSystem;
 public partial class Program : MonoBehaviour
 {       
     public RelationSystem relationSystem = new RelationSystem ();
-    public static string playerName { get { return RelationSystem.playerName; } }
     public GameObject dataFetchingPanel;
 	public GameObject errorPanel;
     public GameObject dynamicActionsUI;
+
         //Threading work.
 	public void Start()
     {
@@ -97,32 +98,40 @@ public partial class Program : MonoBehaviour
 								}
 								else{
 									UIFunctions.WritePlayerLine(""+CapitalizeName(sepInput[1])+" is in another room. You can't do actions to them here.");
-								}
+
+                                    WriteToRecentActionsPanel("" + CapitalizeName(sepInput[1]) + " is in another room. You can't do actions to them here.");
+                                }
                             }
                             else
                             {
                                 UIFunctions.WritePlayerLine("Error: didn't recognize '" + sepInput[1] + "' as valid target. Not doing action.");
+                                WriteToRecentActionsPanel("Error: didn't recognize '" + sepInput[1] + "' as valid target. Not doing action.");
+
                             }
                         }
                         else if (!actionToDo.NeedsDirect)
                         {
                             playerAction = actionToDo;
                             actionStored = true;
+                            dynamicActionsUI.SetActive(false);
 							UIFunctions.WritePlayerLine("You did action: "+sepInput[0],false);
                         }
                         else
                         {
                             UIFunctions.WritePlayerLine("Action needs a target person.");
+                            WriteToRecentActionsPanel("Action needs a target person.");
                         }
                     }
                     else
                     {
                         UIFunctions.WritePlayerLine("Already doing action: " + playerAction.name + " to " + playerTarget.name + ". Write 'cancel' to cancel current action selection.");
+                        WriteToRecentActionsPanel("Already doing action: " + playerAction.name + " to " + playerTarget.name + ". Write 'cancel' to cancel current action selection.");
                     }
                 }
 				else{
 					UIFunctions.WritePlayerLine("You are in Jail! You can't do anything! Now think about what you've done.");
-				}
+                    WriteToRecentActionsPanel("You are in Jail! You can't do anything! Now think about what you've done.");
+                }
             }
             else if (sepInput[0] == "cancel")
             {
@@ -166,6 +175,16 @@ public partial class Program : MonoBehaviour
             {
                 UIFunctions.WritePlayerLine("Error: No command '" + sepInput[0] + "' recognized.\nWrite 'help' for list of commands.");
             }
+        }
+    }
+
+
+    private void WriteToRecentActionsPanel(string input)
+    {
+        UIFunctions.instance.RecentActionsText.text = ("<color=#ff0000>" + input + "</color>\n");
+        if (UIFunctions.instance.RecentActionsText.text.Length > 275)
+        {
+            UIFunctions.instance.RecentActionsText.text = UIFunctions.instance.RecentActionsText.text.Substring(UIFunctions.instance.RecentActionsText.text.Length - 276, 275);
         }
     }
 }

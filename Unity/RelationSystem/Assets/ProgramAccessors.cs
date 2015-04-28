@@ -6,6 +6,8 @@ using NRelationSystem;
 
 public partial class Program: MonoBehaviour {
 
+    public static string playerName { get { return RelationSystem.playerName; } }
+
 	public Person GetPerson(string name){
         return relationSystem.GetPerson(name);
     }
