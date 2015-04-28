@@ -13,7 +13,7 @@ public partial class Program : MonoBehaviour
     public RelationSystem relationSystem = new RelationSystem ();
     public static string playerName { get { return RelationSystem.playerName; } }
     public GameObject dataFetchingPanel;
-
+	public GameObject errorPanel;
         //Threading work.
 	public void Start()
     {
@@ -45,6 +45,12 @@ public partial class Program : MonoBehaviour
 
     void Update()
     {
+		if(couldntStart){
+			dataFetchingPanel.SetActive(false);
+			errorPanel.SetActive(true);
+			Time.timeScale = 0;
+		}
+
         if(!isStarted && shouldStart)
         {
             debug.inst.playerActive = playerActive;
