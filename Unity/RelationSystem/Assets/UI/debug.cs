@@ -32,7 +32,6 @@ public class debug : MonoBehaviour {
 
 
 	public static void SetPlayerActiveness(){
-
 		if(PlayerActive){
 			UIFunctions.instance.actionsButton.SetActive(false);
 		}

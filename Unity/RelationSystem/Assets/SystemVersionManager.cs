@@ -137,6 +137,7 @@ public class SystemVersionManager : MonoBehaviour {
                 bool satCell = SetCell(1,1, (Convert.ToInt32(go) == 2 ? 1:2).ToString());
 
 				if(satCell){
+                    program.playerActive = Convert.ToInt32(go) == 1 ? true : false;
 					program.shouldStart = true;
 					return;
 				}
@@ -148,7 +149,6 @@ public class SystemVersionManager : MonoBehaviour {
                 print("Warning, couldn't make connection at get cell.");
             }
             
-            program.playerActive = Convert.ToInt32(go) == 1 ? true:false;
         }
         else
         {
