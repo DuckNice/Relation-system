@@ -12,7 +12,8 @@ public partial class Program : MonoBehaviour
 {       
     public RelationSystem relationSystem = new RelationSystem ();
     public static string playerName { get { return RelationSystem.playerName; } }
- 
+    public GameObject dataFetchingPanel;
+
         //Threading work.
 	public void Start()
     {
@@ -28,6 +29,7 @@ public partial class Program : MonoBehaviour
 		CreateFirstPeople ();
 		CreateFirstBeings ();
 
+        dataFetchingPanel.SetActive(true);
         Thread thread = new Thread(SystemVersionManager.PlayingVersion);
         thread.IsBackground = true;
         thread.Start();
@@ -44,6 +46,7 @@ public partial class Program : MonoBehaviour
         if(!isStarted && shouldStart)
         {
             debug.inst.playerActive = playerActive;
+            dataFetchingPanel.SetActive(false);
             StartCoroutine("NPCUpdate");
             isStarted = true;
             print("Started");
