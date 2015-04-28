@@ -32,7 +32,7 @@ public class SystemVersionManager : MonoBehaviour {
     static WorksheetEntry sheet = null;
     public static Program program = null;
  
-    private static void SetCell(int x, int y, string stringValue)
+    private static bool SetCell(int x, int y, string stringValue)
     {
         // Create a query for the requested cell.
         CellQuery cellQuery = new CellQuery(sheet.CellFeedLink);
@@ -51,6 +51,7 @@ public class SystemVersionManager : MonoBehaviour {
         catch (Exception e)
         {
             print(e);
+			return false;
         }
 
         if(cellFeed != null)
@@ -60,6 +61,8 @@ public class SystemVersionManager : MonoBehaviour {
                 cellEntry.InputValue = stringValue;
                 cellEntry.Update();
             }
+
+		return true;
     }
 
 
@@ -131,7 +134,14 @@ public class SystemVersionManager : MonoBehaviour {
 
             if(!string.IsNullOrEmpty(go)){
 
-                SetCell(1,1, (Convert.ToInt32(go) == 2 ? 1:2).ToString());
+                bool satCell = SetCell(1,1, (Convert.ToInt32(go) == 2 ? 1:2).ToString());
+
+				if(satCell){
+					program.shouldStart = true;
+					return;
+				}
+				else
+					print("Warning, couldn't make connection at set cell.");
             }
             else
             {
@@ -145,6 +155,7 @@ public class SystemVersionManager : MonoBehaviour {
             print("Warning, couldn't make connection.");
         }
 
-        program.shouldStart = true;
+		program.couldntStart = true;
+
     }
 }

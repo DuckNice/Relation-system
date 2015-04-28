@@ -39,6 +39,7 @@ public partial class Program : MonoBehaviour
 
     public volatile bool shouldStart = false;
     public volatile bool playerActive;
+	public volatile bool couldntStart = false;
     bool isStarted = false;
 
 
@@ -48,6 +49,7 @@ public partial class Program : MonoBehaviour
         {
             debug.inst.playerActive = playerActive;
             dataFetchingPanel.SetActive(false);
+			debug.SetPlayerActiveness();
             StartCoroutine("NPCUpdate");
             isStarted = true;
             print("Started");

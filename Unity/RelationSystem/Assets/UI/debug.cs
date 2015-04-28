@@ -6,8 +6,7 @@ public class debug : MonoBehaviour {
 	public static debug inst;
 	public bool toggle = false;
 	public static bool Toggle { get { return inst.toggle; } }
-	[SerializeField]
-	bool playerActive = false;
+	public bool playerActive = false;
 	public static bool PlayerActive { get { return inst.playerActive; } }
 	public bool shouldShowTutorial = false;
 	public static bool ShouldShowTutorial { get { return inst.shouldShowTutorial; } }
@@ -32,15 +31,12 @@ public class debug : MonoBehaviour {
 	}
 
 
-	public static void SetPlayerActiveness(bool b){
-		inst.playerActive = b;
-		
-		if(b){
+	public static void SetPlayerActiveness(){
+
+		if(PlayerActive){
 			UIFunctions.instance.actionsButton.SetActive(false);
 		}
-		inst.pwt.SetTextForPlayer(b);
+		inst.pwt.SetTextForPlayer();
 	}
-
-
 
 }

@@ -4,17 +4,14 @@ using UnityEngine.UI;
 
 public class playerWatcherText : MonoBehaviour {
 
-	Text text;
+	public Text text;
 	string st;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 
-		text = this.GetComponent<Text>();
-
-
-
-
+	//	text = this.GetComponent<Text>();
+	//	print(text);
 	}
 	
 	// Update is called once per frame
@@ -23,8 +20,8 @@ public class playerWatcherText : MonoBehaviour {
 	}
 
 
-	public void SetTextForPlayer(bool b){
-		if(b){
+	public void SetTextForPlayer(){
+		if(debug.PlayerActive){
 			text.text = "TUTORIAL\n\nUse \"Playing\" toggle in the bottom to start and pause.\n\n" +
 				"When playing, the characters will be doing actions in the window to the right.\n\n" +
 					"This is the non-interactive version, so your interaction is limited to controlling when the story is developing, and how fast (with the speed slider).\n" +
