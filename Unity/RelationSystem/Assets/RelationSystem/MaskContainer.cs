@@ -7,9 +7,9 @@ namespace NRelationSystem
 {
     public class MaskCont
     {
-        protected Dictionary<string, Mask> instMasks = new Dictionary<string, Mask>();
+        public Dictionary<string, Mask> instMasks = new Dictionary<string, Mask>();
 
-        protected Dictionary<string, Rule> instRules = new Dictionary<string, Rule>();
+        public Dictionary<string, Rule> instRules = new Dictionary<string, Rule>();
 
         public void CreateNewMask(string name, TypeMask _maskType, Overlay _maskOverlay) 
         {

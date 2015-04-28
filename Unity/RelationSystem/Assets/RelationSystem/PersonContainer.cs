@@ -7,7 +7,7 @@ namespace NRelationSystem
     public class PersCont:MaskCont
     {
         public Dictionary<string, Person> people = new Dictionary<string, Person>();
-        protected List<string> peopleNames = new List<string>();
+        public List<string> peopleNames = new List<string>();
 
         public void CreateNewPerson(string personName, Person person)
         {

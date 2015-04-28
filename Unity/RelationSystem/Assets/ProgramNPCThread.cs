@@ -12,7 +12,7 @@ public partial class Program : MonoBehaviour
 {
 	public UnityEngine.UI.Toggle playToggle;
     [HideInInspector]
-    List<Being> beings = new List<Being>();
+    public List<Being> beings = new List<Being>();
     [HideInInspector]
 	public bool shouldPlay = false;
     [HideInInspector]

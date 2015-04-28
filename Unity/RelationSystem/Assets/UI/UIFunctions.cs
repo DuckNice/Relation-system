@@ -311,7 +311,23 @@ public class UIFunctions : MonoBehaviour {
 	}
 
 
-	public static void ResetGame(){
-		Application.LoadLevel(Application.loadedLevel);
+	public void ResetGame(){
+        GameBox.text = "Welcome. Press play toggle to start.";
+        PlayerBox.text = "";
+        program.actionStored = false;
+        program.currentPlayerAction = null;
+        program.relationSystem.pplAndMasks.people.Clear();
+        program.relationSystem.historyBook.Clear();
+        program.time = 0.0f;
+        program.relationSystem.posActions.Clear();
+        program.relationSystem.pplAndMasks.peopleNames.Clear();
+        program.relationSystem.pplAndMasks.instMasks.Clear();
+        program.relationSystem.pplAndMasks.instRules.Clear();
+        program.relationSystem.updateLists.Clear();
+        program.relationSystem.activeLists.Clear();
+        program.beings.Clear();
+
+        program.SetupGame();
+        //Application.LoadLevel(Application.loadedLevel);
 	}
 }

@@ -26,17 +26,23 @@ public partial class Program : MonoBehaviour
         MAction.relationSystem = relationSystem;
 
 
-		CreateFirstRooms ();
-		SetupActions ();
-		CreateFirstMasks ();
-		CreateFirstPeople ();
-		CreateFirstBeings ();
+        SetupGame();
 
         dataFetchingPanel.SetActive(true);
         Thread thread = new Thread(SystemVersionManager.PlayingVersion);
         thread.IsBackground = true;
         thread.Start();
 	}
+
+
+    public void SetupGame()
+    {
+        CreateFirstRooms();
+        SetupActions();
+        CreateFirstMasks();
+        CreateFirstPeople();
+        CreateFirstBeings();
+    }
 
 
     public volatile bool shouldStart = false;
