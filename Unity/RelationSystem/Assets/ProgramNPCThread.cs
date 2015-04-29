@@ -71,7 +71,7 @@ public partial class Program : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                UIFunctions.ActivateExitButton();
+				Application.Quit();
             }
 
 
