@@ -328,6 +328,7 @@ public class UIFunctions : MonoBehaviour {
         program.beings.Clear();
 
         program.SetupGame();
-        //Application.LoadLevel(Application.loadedLevel);
+
+		instance.RetryButton.SetActive (false);
 	}
 }

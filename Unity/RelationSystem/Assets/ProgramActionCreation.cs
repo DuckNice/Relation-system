@@ -22,7 +22,10 @@ public partial class Program : MonoBehaviour {
 
 			roomMan.EnterRoom("Jail",subject);
 			if(subject.name == playerName){
-				UIFunctions.WriteGameLine("You fled! Game Over!");
+				UIFunctions.WriteGameLine("You fled!");
+				if(debug.PlayerActive){
+					UIFunctions.WriteGameLine("Game Over!");
+				}
 				if(!debug.PlayerActive)
 					UIFunctions.ActivateRetryButton();
 			}
@@ -333,7 +336,7 @@ public partial class Program : MonoBehaviour {
 				//direct.AddToInterPersonalLvlOfInfl(subject,0.3f);
 			}
         };
-        AddAction(new MAction("argue", -0.2f, -0.4f, relationSystem, argue, 8f));
+        AddAction(new MAction("argue", 0.0f, -0.4f, relationSystem, argue, 8f));
 
 		ActionInvoker makeDistraction = (subject, direct, indPpl, misc) =>
         {
@@ -433,9 +436,16 @@ public partial class Program : MonoBehaviour {
 				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " cry!");
 			else
 				UIFunctions.WriteGameLine(CapitalizeName(subject.name) + " cries!");
-			subject.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(-0.3f, subject.moods[MoodTypes.hapSad]);
+
+			if(relationSystem.historyBook.Exists(x=> (x.GetAction()==relationSystem.posActions["cry"] && x.GetSubject()==subject))){
+				subject.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(0.1f, subject.moods[MoodTypes.hapSad]);
+			}
+			else{
+				subject.moods[MoodTypes.hapSad] += Calculator.UnboundAdd(-0.3f, subject.moods[MoodTypes.hapSad]);
+			}
+
 			subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.2f, subject.moods[MoodTypes.energTired]);
-			direct.AddToOpinionValue(TraitTypes.NiceNasty,subject,0.2f);
+			//direct.AddToOpinionValue(TraitTypes.NiceNasty,subject,0.1f);
 
 			//subject.GetRule("cry").AddToRuleStrength(-0.2f);
 			//debug.Write(""+subject.GetRule("cry").GetRuleStrength());
@@ -483,7 +493,10 @@ public partial class Program : MonoBehaviour {
 
 				if(direct.name == playerName){
 					UIFunctions.WriteGameLine(" To Jail with you!");
-					UIFunctions.WriteGameLine("You are in Jail! Game Over!");
+					UIFunctions.WriteGameLine("You are in Jail!");
+					if(debug.PlayerActive){
+						UIFunctions.WriteGameLine("Game Over!");
+					}
 					UIFunctions.ActivateRetryButton();
 				}
 				else{
@@ -690,7 +703,7 @@ public partial class Program : MonoBehaviour {
             direct.AddToOpinionValue(TraitTypes.NiceNasty, subject, -0.3f);
             direct.AddToOpinionValue(TraitTypes.HonestFalse, subject, -0.3f);
         };
-        AddAction(new MAction("prank", 0.3f, -0.4f, relationSystem, prank, 5f));
+        AddAction(new MAction("prank", 0.4f, -0.4f, relationSystem, prank, 5f));
 
         ActionInvoker playgame = (subject, direct, indPpl, misc) =>
         {
@@ -735,7 +748,7 @@ public partial class Program : MonoBehaviour {
 				direct.AddToOpinionValue(TraitTypes.CharitableGreedy, subject, -0.3f);
 			}
         };
-        AddAction(new MAction("order", 0.5f, -0.5f, relationSystem, order, 5f));
+        AddAction(new MAction("order", 0.6f, -0.5f, relationSystem, order, 5f));
 
 
 		ActionInvoker kill = (subject, direct, indPpl, misc) =>
@@ -750,7 +763,10 @@ public partial class Program : MonoBehaviour {
 			subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.5f, subject.moods[MoodTypes.hapSad]);
 			roomMan.EnterRoom("Jail",direct);
 			if(direct.name == playerName){
-				UIFunctions.WriteGameLine("You died! Game Over!");
+				UIFunctions.WriteGameLine("You died!");
+				if(debug.PlayerActive){
+					UIFunctions.WriteGameLine("Game Over!");
+				}
 				UIFunctions.ActivateRetryButton();
 			}
 		};
@@ -822,7 +838,7 @@ public partial class Program : MonoBehaviour {
 				GetBeing(direct.name).ChangePossesAmount("company",-1f);
 			}
         };
-        AddAction(new MAction("sabotage", 0.5f, -0.5f, relationSystem, sabotage, 10f));
+        AddAction(new MAction("sabotage", 0.4f, -0.5f, relationSystem, sabotage, 10f));
 
         ActionInvoker advertise = (subject, direct, indPpl, misc) =>
         {

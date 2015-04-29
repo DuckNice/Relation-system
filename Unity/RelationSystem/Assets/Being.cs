@@ -78,7 +78,7 @@ public class Being
 						continue;
                     }
 
-                    Person subject = item.GetSubject();
+				    Person subject = item.GetSubject();
                     if (subject.name != name)
                     {
                         foreach (Rule rule in item.GetRule().rulesThatMightHappen)
@@ -87,11 +87,11 @@ public class Being
 						
                             if (index < 0)
                             {
-                                possibleActions.Add(new PosActionItem(rule.actionToTrigger, subject));
+								possibleActions.Add(new PosActionItem(rule.actionToTrigger, subject));
                             }
                             else if (!possibleActions[index].reactToPeople.Contains(subject))
                             {
-                                possibleActions[index].reactToPeople.Add(subject);
+								possibleActions[index].reactToPeople.Add(subject);
                             }
                         }
                     }

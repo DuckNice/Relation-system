@@ -119,7 +119,7 @@ namespace NRelationSystem
                     break;
                 }
 
-				debug.Write("Checking condition "+rule.ruleName+"  "+self.name);
+				//debug.Write("Checking condition "+rule.ruleName+"  "+self.name);
 				
                 if(rule.Condition(self, posPeople, reaction))
 				{
@@ -143,7 +143,7 @@ namespace NRelationSystem
 					}
                         
 
-					//debug.Write("Calculating "+rule.actionToTrigger.name+" to "+rule.selfOther[self].person.name+" in "+maskName);
+					debug.Write("Calculating "+rule.actionToTrigger.name+" to "+rule.selfOther[self].person.name+" in "+maskName);
 					
                     float newActionStrength = maskCalculation + rule.selfOther[self].pref;
 					
