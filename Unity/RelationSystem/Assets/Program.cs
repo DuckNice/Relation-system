@@ -29,9 +29,10 @@ public partial class Program : MonoBehaviour
         SetupGame();
 
         dataFetchingPanel.SetActive(true);
-        Thread thread = new Thread(SystemVersionManager.PlayingVersion);
-        thread.IsBackground = true;
-        thread.Start();
+        //Thread thread = new Thread(SystemVersionManager.PlayingVersion);
+        //thread.IsBackground = true;
+        //thread.Start();
+        shouldStart = true;
 	}
 
 
@@ -45,8 +46,8 @@ public partial class Program : MonoBehaviour
     }
 
 
-    public volatile bool shouldStart = false;
-    public volatile bool playerActive;
+    public volatile bool shouldStart = true;
+    public volatile bool playerActive = false;
 	public volatile bool couldntStart = false;
     bool isStarted = false;
 
