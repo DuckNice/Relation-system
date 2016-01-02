@@ -28,6 +28,8 @@ public partial class Program : MonoBehaviour
     public MAction currentPlayerAction;
     [HideInInspector]
     public float actionStartTime = 0.0f;
+    [SerializeField]
+    private float _gameDuration = 120.0f;
 
     IEnumerator NPCUpdate()
 	{
@@ -56,7 +58,7 @@ public partial class Program : MonoBehaviour
 
                 if (!UIFunctions.instance.exitButtonActive)
                 {
-                    if (time > 120)
+                    if (time > _gameDuration)
                     {
                         UIFunctions.ActivateExitButton();
                     }
