@@ -191,9 +191,6 @@ public partial class Program : MonoBehaviour {
 			subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.1f, subject.moods[MoodTypes.energTired]);
             direct.AddToOpinionValue(TraitTypes.NiceNasty, subject, 0.1f);
 			subject.AddToOpinionValue(TraitTypes.NiceNasty, direct, 0.1f);
-
-			//subject.AddToInterPersonalLvlOfInfl(direct,0.05f);
-			//direct.AddToInterPersonalLvlOfInfl(subject,0.05f);
         };
         AddAction(new MAction("flirt", 0.1f, 0.1f, relationSystem, flirt, 4f));
 
@@ -206,8 +203,6 @@ public partial class Program : MonoBehaviour {
 
 			direct.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.1f, direct.moods[MoodTypes.energTired]);
             subject.moods[MoodTypes.energTired] += Calculator.UnboundAdd(-0.1f, subject.moods[MoodTypes.energTired]);
-			//subject.AddToInterPersonalLvlOfInfl(direct,0.05f);
-			//direct.AddToInterPersonalLvlOfInfl(subject,0.05f);
         };
         AddAction(new MAction("chat", 0.0f, 0.0f, relationSystem, chat, 10f));
 
