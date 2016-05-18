@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Diagnostics;
@@ -287,10 +287,10 @@ public class UIFunctions : MonoBehaviour {
 		//Process blarg = new Process();
 		
 		if(debug.PlayerActive){
-			Process.Start(instance.questionnaireWatcher);
+		//	Process.Start(instance.questionnaireWatcher);
 		}
 		else{
-			Process.Start(instance.questionnairePlayer);
+		//	Process.Start(instance.questionnairePlayer);
 		}
 		Application.Quit();
 	}
@@ -316,15 +316,15 @@ public class UIFunctions : MonoBehaviour {
         PlayerBox.text = "";
         program.actionStored = false;
         program.currentPlayerAction = null;
-        program.relationSystem.pplAndMasks.people.Clear();
-        program.relationSystem.historyBook.Clear();
+        Program.relationSystem.pplAndMasks.people.Clear();
+        Program.relationSystem.historyBook.Clear();
         program.time = 0.0f;
-        program.relationSystem.posActions.Clear();
-        program.relationSystem.pplAndMasks.peopleNames.Clear();
-        program.relationSystem.pplAndMasks.instMasks.Clear();
-        program.relationSystem.pplAndMasks.instRules.Clear();
-        program.relationSystem.updateLists.Clear();
-        program.relationSystem.activeLists.Clear();
+        Program.relationSystem.posActions.Clear();
+        Program.relationSystem.pplAndMasks.peopleNames.Clear();
+        Program.relationSystem.pplAndMasks.instMasks.Clear();
+        Program.relationSystem.pplAndMasks.instRules.Clear();
+        Program.relationSystem.updateLists.Clear();
+        Program.relationSystem.activeLists.Clear();
         program.beings.Clear();
 
         program.SetupGame();

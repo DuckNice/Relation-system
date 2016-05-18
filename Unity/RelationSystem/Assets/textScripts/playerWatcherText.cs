@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 
@@ -30,7 +30,7 @@ public class playerWatcherText : MonoBehaviour {
 		else{
 			text.text = "TUTORIAL\n\nUse the \"Play\" toggle in the bottom to start and pause.\n\n" +
 				"When playing, the characters will be doing actions in the middle window. (You can control the speed with the speed slider)\n\n" +
-					"This is the interactive version. At any point, you can select an action to do with the \"Select actions\" button.\n" +
+					" At any point, you can select an action to do with the \"Select actions\" button.\n" +
 					"For most actions you need to select a person to do the action against, as well.";
 		}
 	}

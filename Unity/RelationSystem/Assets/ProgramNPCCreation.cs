@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -608,7 +608,6 @@ public partial class Program : MonoBehaviour
         };
 
 		#endregion adding Conditions
-
 
 
         #region Make RulePreferences

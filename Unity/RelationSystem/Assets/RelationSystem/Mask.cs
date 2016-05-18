@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -64,7 +64,7 @@ namespace NRelationSystem
         }
         
 
-        public RuleAndStr CalculateActionToUse(List<MAction> notPosActions, List<PosActionItem> possibleActions, Person self, float rat, float mor, float imp, float abi, Person empty, Dictionary<Person, Dictionary<string, float>> roleRef)
+        public RuleAndStr CalculateActionToUse(List<MAction> notPosActions, List<PosActionItem> possibleActions, Person self, float rat, float mor, float imp, float abi, Person empty, Dictionary<Person, Dictionary<string, float>> roleRef, Dictionary<MAction, float> actionPreferenceModifiers)
         {
             RuleAndStr chosenRule = new RuleAndStr();
 			chosenRule.chosenRule = new Rule("Empty", new MAction("Empty", 0.0f, 0.0f), null, null);
@@ -121,7 +121,7 @@ namespace NRelationSystem
 
 				//debug.Write("Checking condition "+rule.ruleName+"  "+self.name);
 				
-                if(rule.Condition(self, posPeople, reaction))
+                if(rule.Condition(self, ((actionPreferenceModifiers.ContainsKey(rule.actionToTrigger)) ? actionPreferenceModifiers[rule.actionToTrigger] : 0), posPeople, reaction))
 				{
                     float maskCalculation = -99999999999f;
 

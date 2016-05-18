@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -77,13 +77,13 @@ namespace NRelationSystem
         }
 
 
-        public RuleAndStr actionForLink(List<MAction> notPosActions, List<PosActionItem> possibleActions, Person self, float rat, float mor, float imp, float abi) 
+        public RuleAndStr actionForLink(List<MAction> notPosActions, List<PosActionItem> possibleActions, Person self, float rat, float mor, float imp, float abi, Dictionary<MAction, float> actionPreferenceModifiers = null) 
         {
             RuleAndStr actionToSend;
 
             try
             {
-				actionToSend = _roleMask.CalculateActionToUse(notPosActions, possibleActions, self, rat, mor, imp, abi, empty, _roleRefs);
+				actionToSend = _roleMask.CalculateActionToUse(notPosActions, possibleActions, self, rat, mor, imp, abi, empty, _roleRefs, actionPreferenceModifiers);
 					//debug.Write ("Trying from link "+self.name+" Maskname: "+ roleMask.GetMaskName() +" Rolename: "+roleName);
             }
             catch(Exception e)

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +11,8 @@ using NRelationSystem;
 
 public partial class Program : MonoBehaviour
 {       
-    public RelationSystem relationSystem = new RelationSystem ();
+    public static RelationSystem relationSystem = new RelationSystem ();
+    public static CentralStoryManager storyManager;
     public GameObject dataFetchingPanel;
 	public GameObject errorPanel;
     public GameObject dynamicActionsUI;
@@ -24,7 +25,6 @@ public partial class Program : MonoBehaviour
 		UIFunctions.WriteGameLine ("Welcome. Press play toggle to start\n\n");
         RelationSystem.program = this;
         MAction.relationSystem = relationSystem;
-
 
         SetupGame();
 
@@ -43,6 +43,9 @@ public partial class Program : MonoBehaviour
         CreateFirstMasks();
         CreateFirstPeople();
         CreateFirstBeings();
+
+        storyManager = gameObject.AddComponent<CentralStoryManager>();
+        storyManager.beings = beings;
     }
 
 

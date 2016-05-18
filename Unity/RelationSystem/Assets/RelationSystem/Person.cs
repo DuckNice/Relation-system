@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 
@@ -167,14 +167,14 @@ namespace NRelationSystem
         }
 
 
-        public Rule GetAction(List<MAction> notPosActions, List<PosActionItem> posAction) 
+        public Rule GetAction(List<MAction> notPosActions, List<PosActionItem> posAction, Dictionary<MAction, float> rulePreferenceModifiers) 
         {					
 
-            RuleAndStr chosenAction = selfPerception.actionForLink(notPosActions, posAction, this, rationality, morality, impulsivity, ability);
+            RuleAndStr chosenAction = selfPerception.actionForLink(notPosActions, posAction, this, rationality, morality, impulsivity, ability, rulePreferenceModifiers);
 
             foreach(Link curLink in interPersonal)
             {
-				RuleAndStr curAction = curLink.actionForLink(notPosActions, posAction, this, rationality, morality, impulsivity, ability);
+				RuleAndStr curAction = curLink.actionForLink(notPosActions, posAction, this, rationality, morality, impulsivity, ability, rulePreferenceModifiers);
 
                 if(curAction.strOfAct > chosenAction.strOfAct)
                 {
@@ -184,7 +184,7 @@ namespace NRelationSystem
 
             foreach (Link curLink in culture)
             {
-				RuleAndStr curAction = curLink.actionForLink(notPosActions, posAction, this, rationality, morality, impulsivity, ability);
+				RuleAndStr curAction = curLink.actionForLink(notPosActions, posAction, this, rationality, morality, impulsivity, ability, rulePreferenceModifiers);
 
                 if (curAction.strOfAct > chosenAction.strOfAct)
                 {

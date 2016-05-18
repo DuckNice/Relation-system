@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using System;
 using System.Collections;
@@ -95,14 +95,14 @@ public class DynamicActionsUI : MonoBehaviour
 
         List<string> actions = new List<string>();
 
-        foreach (MAction action in program.relationSystem.posActions.Values)
+        foreach (MAction action in Program.relationSystem.posActions.Values)
         {
             string actionName = AddSpacesToSentence(action.name, false);
 
             actions.Add(actionName.ToLower());
         }
 
-        List<string> people = program.relationSystem.CreateActiveListsListNames();
+        List<string> people = Program.relationSystem.CreateActiveListsListNames();
 
         int actionArrays = (int) (actions.Count + maxActionsInArray - 1) / maxActionsInArray;
         int peopleArrays = (int) (people.Count + maxActionsInArray - 1) / maxActionsInArray;

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,6 +15,10 @@ namespace NRelationSystem
         public static Program program;
         public static string playerName = "you";
 
+        public List<Person> GetAllPeople()
+        {
+            return pplAndMasks.people.Values.ToList();
+        }
 
         public bool HistoryBookContains(MAction action) 
         {

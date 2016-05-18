@@ -47,8 +47,10 @@ public class Being
 		possessions.Add (new Axe(1.0f, "Lead", 10.0f, 0.5f));
 	}
 
-    
-	public void NPCAction(float time)
+    public static Dictionary<MAction, float> actionPreferenceModifiers = new Dictionary<MAction, float>();
+
+
+    public void NPCAction(float time)
 	{
 		if (name.ToLower() != RelationSystem.playerName || debug.PlayerActive)
         {
@@ -99,11 +101,11 @@ public class Being
 
                 debug.Write("--------------------------------------------------------------------------------------------------------------------------- " + self.name + "'s TURN.");
 
-                Rule _rule = self.GetAction(notPossibleActions, possibleActions);
+                Rule _rule = self.GetAction(notPossibleActions, possibleActions, actionPreferenceModifiers);
 				//debug.Write("ACTION FROM "+name+" "+possibleActions.Count);
 				if(_rule == null || _rule.ruleName.ToLower() == "empty"){
 					debug.Write("COULD NOT DO REACTION "+name+" ");
-					_rule = self.GetAction(notPossibleActions, null);
+					_rule = self.GetAction(notPossibleActions, null, actionPreferenceModifiers);
 				}else{
                     if (possibleActions.Count > 0)
                     {

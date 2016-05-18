@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -44,7 +44,7 @@ namespace NRelationSystem
         }
 
 
-        public bool Condition(Person self, List<Person> reacters = null, bool reaction = false)
+        public bool Condition(Person self, float preferenceModifier, List<Person> reacters = null, bool reaction = false)
         {
             if (selfOther.ContainsKey(self)) 
                 selfOther.Remove(self);
@@ -82,7 +82,9 @@ namespace NRelationSystem
                         if(rulePreference != null)
                         {
                             float _strength = rulePreference(self, other);
-                        
+
+                            _strength += Calculator.UnboundAdd(preferenceModifier, _strength);
+
                             if(_strength > strength)
                             {
                                 strength = _strength;
